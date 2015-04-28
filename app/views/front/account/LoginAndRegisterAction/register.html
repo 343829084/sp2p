@@ -1,0 +1,456 @@
+ #{extends 'common/frontMain.html' /}
+ %{
+	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}% 
+ #{set title:currBackstageSet.seoTitle + '--注册' /}
+<head>
+  <script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
+</head>
+<div class="xf_login_centent clr">
+	<div class="xf_login_centent_l">
+		<div class="xf_login_centent_rightbj"></div>
+		<div class="xf_login_title">
+			<span class="xf_login_title_yhdl">免费注册</span>
+			<a href="@{front.account.loginAndRegisterAction.login()}"
+				class="xf_login_title_zcxyh">直接登录</a>
+		</div>
+		<div class="xf_login_inputsr">
+			#{form @front.account.loginAndRegisterAction.registering(), id:'submit'}
+			<ul class="xf_login_inputsrul xf_register_inputsrul">
+				<li>
+					<div class="xf_register_inputsrul_l">
+						<span class="xf_register_hx">*</span>手机号：
+					</div>
+					<div class="xf_login_inputsrul_r">
+					   
+					    <input type="text" id="userName" name="userName" class="xf_login_shurk" value="${flash?.userName}" />
+						<span class="xf_register_intext" id="s_userName">请输入正确的手机号码</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_register_inputsrul_l">
+						<span class="xf_register_hx">*</span>邮箱：
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="text" id="email" name="email" value="${flash?.email}" class="xf_login_shurk">
+					    <span class="xf_register_intext" id="s_email">不建议使用QQ邮箱注册</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_register_inputsrul_l">
+						<span class="xf_register_hx">*</span>密码：
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="password" id="password" name="password" value="${flash?.password}" class="xf_login_shurk">
+						<span class="xf_register_intext" id="s_password">密码由6-20位字符组成(不含空格)</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_register_inputsrul_l">
+						<span class="xf_register_hx">*</span>确认密码：
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input class="xf_login_shurk" type="password" id="confirmPassword" value="${flash?.confirmPassword}" name="confirmPassword" />
+						<span class="xf_register_intext" id="s_confirmPassword"></span>
+					</div>
+					<br />
+					<span id="s_confimpassword"></span>
+				</li>
+				<li>
+					<div class="xf_register_inputsrul_l">
+						邀请码：
+					</div>
+					<div class="xf_login_inputsrul_r">
+					#{if flash.recommendUserName != null}
+					  <input class="xf_login_shurk" type="text" id="recommended" name="recommended" value="${flash?.recommendUserName}" readonly="readonly"/>
+					#{/if}
+					#{else}
+						<input class="xf_login_shurk" type="text" id="recommended" name="recommended" value="${params?.un}" readonly="readonly"/>
+					#{/else}	
+						<span class="xf_register_intext" id="s_recommended">如无邀请码，可不填写</span>
+					</div>
+					<br />
+					<span id="s_Invitationcode"></span>
+				</li>
+				<li>
+					<div class="xf_register_inputsrul_l">
+						<span class="xf_register_hx">*</span>验证码：
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input class="xf_login_yzm" type="text" id="code" name="code" value="${flash?.code}" />
+						<input type="hidden" name="randomID" id = "randomID" />
+						<img src="" onclick="change()" class="xf_login_yzmimg" id="img" width="75px" height="32px">
+						<a onclick="change()" class="xf_login_inputspan">刷新</a>
+					</div>
+					<br />
+					<span id="s_code" class="xf_register_intext"></span>
+				</li>
+				<li>
+					<div class="xf_register_inputsrul_l">
+						&nbsp;
+					</div>
+					<div class="xf_login_inputsrul_r">
+						<input type="checkbox" class="xf_register_fxk" id="agreement" name="agreement" checked="checked">
+						<span class="xf_register_intext xf_register_intext2">我已阅读并同意</span>
+						<span class="xf_register_inxieyi" onclick="showProtocol()">《${currBackstageSet?.platformName}用户注册协议》</span>
+					</div>
+				</li>
+				<li>
+					<div class="xf_register_inputsrul_l">
+						&nbsp;
+					</div>
+					<div class="xf_login_inputsrul_r">
+					<a onClick="register()" class="xf_con_inputfbjk">注 册</a>
+					</div>
+				</li>
+			</ul>
+			#{/form}
+		</div>
+	</div>
+	<!-- 共享登录 -->
+
+	<div class="xf_login_centent_r">
+		<!-- 
+		<h2 class="xf_register_hzkf">
+			合作账号
+		</h2>
+		<div class="xf_gxlogin_input">
+			<a class="xf_gxlogin_qq  xf_gxregister_qq" href="@{front.quicklogin.qzone.QZoneAPI.login}" ><img src="@{'/public/images/qq.png'}"/></a>
+			<a class="xf_gxlogin_wb  xf_gxregister_wb" href="@{front.quicklogin.weibo.WeiBoAPI.login}" ><img src="@{'/public/images/weibo.png'}"/></a>
+			<div class="clear"></div>
+			<span class="xf_gxregister_title">一键登录，无需注册，与朋友分享你的投资经验！</span>
+		</div>
+		 -->
+		<div class="xf_register_centent_rimg">
+			<img src="@{'/public/images/login.png'}" width="311" height="313">
+		</div>
+	</div>
+
+</div>
+#{include "front/account/LoginAndRegisterAction/register.control"/}
+<script type="text/javascript">
+	$(function(){
+	
+	    var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+			$.post(setCode({}),function(data){
+				var arr=eval(data);
+				var img = arr.img;
+				$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img);	
+				$("#randomID").val(img);
+		});
+		$(".xf_wyjkfb_4_windowClose").click(function(){
+			$(this).parents(".xf_zqzr_znx_window").hide(300);
+		});
+		
+		
+	});
+	
+	function showProtocol() {
+	
+		showDiv($("#xf_mem_zc_xytc"));
+	}
+	
+	function change(){
+		var setCode = #{jsAction @front.account.loginAndRegisterAction.setCode()/}
+		$.post(setCode({}),function(data){
+		var arr=eval(data);
+		var img = arr.img;
+		$("#randomID").val(img);
+		$("#img").attr("src","@{front.account.loginAndRegisterAction.getImg()}?id="+img)	
+		});
+	}
+</script>
+
+<script type="text/javascript">
+       
+       $(function(){
+       		$("#userName").blur();
+	        if($("#userName").val() == ''){
+	             $("#userName").val("手机号码即为用户名");
+	        }
+	        
+			$("#userName").focus(function(){
+				 
+				  if($(this).val() == "手机号码即为用户名"){  
+	                  $(this).val("");           
+				  } 
+			}).blur(function(){
+				 
+				 if ($(this).val() == '') {
+	                $(this).val("手机号码即为用户名");
+	             }
+			});
+			
+		});
+		
+	   var bName = 0;
+       var bEmail = 0;
+       var bRecommended = 0;
+  //     var bCode = 0;
+		
+       $(document).ready(function(){
+		   $("form :input").blur(function(){ 
+		   
+		   if($(this).attr("id") == "userName"){
+		   
+		    if(this.value=="" ||　this.value== "手机号码即为用户名"){
+		           $("#s_userName").removeClass("xf_register_intext");
+		           $("#s_userName").removeClass("xf_register_intext3");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("请填写手机号码");
+		     }else if(!/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test(this.value)){
+		           $("#s_userName").removeClass("xf_register_intext");
+		           $("#s_userName").removeClass("xf_register_intext3");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("手机号码不能含有特殊字符");
+		     }else if(!this.value.isMobileNum()){
+		           $("#s_userName").removeClass("xf_register_intext");
+		           $("#s_userName").removeClass("xf_register_intext3");
+				   $("#s_userName").addClass("xf_register_intext1");
+		           $("#s_userName").html("请输入正确的手机号码");
+		     }else{
+		          var name = this.value;
+		          var hasNameExist = #{jsAction @front.account.loginAndRegisterAction.hasNameExist(':name')/}
+				  $.post(hasNameExist({name:encodeURI(name)}),function(data){
+					
+				  var arr=eval(data);
+				  
+				  if(arr.error.code < 0){
+				  	   bName = -1;
+				  	   $("#s_userName").removeClass("xf_register_intext");
+			           $("#s_userName").removeClass("xf_register_intext3");
+					   $("#s_userName").addClass("xf_register_intext1");
+			           $("#s_userName").html(arr.error.msg);
+				    }else{
+				       bName = 0;
+				       $("#s_userName").removeClass("xf_register_intext1");
+				       $("#s_userName").removeClass("xf_register_intext");
+				       $("#s_userName").addClass("xf_register_intext3");
+					   $("#s_userName").html("该手机号码可以使用");
+				    }
+		          });
+		         }
+		         
+		     }
+		   
+		    if($(this).attr("id")=="email"){
+		       var email = this.value;
+		        var result;
+		        
+		        if(this.value == ""){
+		            $("#s_email").removeClass("xf_register_intext");
+		            $("#s_email").removeClass("xf_register_intext3");
+				    $("#s_email").addClass("xf_register_intext1");
+			        $("#s_email").html("请填写邮箱地址");
+		        }else if(!(this.value).isEmail()){
+		            $("#s_email").removeClass("xf_register_intext");
+		            $("#s_email").removeClass("xf_register_intext3");
+				    $("#s_email").addClass("xf_register_intext1");
+			        $("#s_email").html("请填写正确的邮箱地址");
+		        }else if(this.value.isQQEmail()){
+		        	$("#s_email").removeClass("xf_register_intext1");
+		            $("#s_email").removeClass("xf_register_intext3");
+				    $("#s_email").addClass("xf_register_intext");
+			        $("#s_email").html("不建议使用QQ邮箱注册");
+				}else{
+		            var hasEmailExist = #{jsAction @front.account.loginAndRegisterAction.hasEmailExist(':email')/}
+			        $.post(hasEmailExist({email:email}),function(data){
+					    var arr=eval(data);
+					
+					    if(arr.error.code < 0){
+					        bEmail = -1;
+					        $("#s_email").removeClass("xf_register_intext");
+					        $("#s_email").removeClass("xf_register_intext3");
+							$("#s_email").addClass("xf_register_intext1");
+			                $("#s_email").html(arr.error.msg);
+					    }else{
+					    	bEmail = 0;
+					    	$("#s_email").removeClass("xf_register_intext1");
+					    	$("#s_email").removeClass("xf_register_intext");
+				            $("#s_email").addClass("xf_register_intext3"); 
+			                $("#s_email").html("邮箱用来处理账单及找回密码");
+					    }
+				    });
+		       }
+		          
+		    }
+		   
+		   if($(this).attr("id") == "password"){
+		   
+		     if(this.value == ""){
+		          $("#s_password").removeClass("xf_register_intext");
+		          $("#s_password").removeClass("xf_register_intext3");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("请设置您的密码");  
+		     }else if(this.value.length < 6){
+		          $("#s_password").removeClass("xf_register_intext");
+		          $("#s_password").removeClass("xf_register_intext3");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("密码长度为6-20个字符"); 
+		     }else if(this.value.length >20){
+		          $("#s_password").removeClass("xf_register_intext");
+		          $("#s_password").removeClass("xf_register_intext3");
+				  $("#s_password").addClass("xf_register_intext1");
+		          $("#s_password").html("密码长度为6-20个字符"); 
+		     }else if(!/^([^\s'‘’]{6,20})$/.test(this.value)){
+		          $("#s_password").removeClass("xf_register_intext");
+		          $("#s_password").removeClass("xf_register_intext3");
+				  $("#s_password").addClass("xf_register_intext1");
+		     	  $("#s_password").html("密码由6-20位字符组成（不含'）");
+		     }
+		     else{
+		           $("#s_password").removeClass("xf_register_intext1");
+		           $("#s_password").removeClass("xf_register_intext");
+				   $("#s_password").addClass("xf_register_intext3");
+		           $("#s_password").html("密码符合要求"); 
+		     }
+		   }
+
+		   if($(this).attr("id")=="confirmPassword"){
+		   	
+		     if(this.value == ""){
+		           $("#s_confirmPassword").removeClass("xf_register_intext");
+		           $("#s_confirmPassword").removeClass("xf_register_intext3");
+				   $("#s_confirmPassword").addClass("xf_register_intext1");
+		           $("#s_confirmPassword").html("请输入确认密码"); 
+		     }else if(this.value != $("#password").val()){ 
+		           $("#s_confirmPassword").removeClass("xf_register_intext");
+		           $("#s_confirmPassword").removeClass("xf_register_intext3");
+				   $("#s_confirmPassword").addClass("xf_register_intext1");
+		           $("#s_confirmPassword").html("两次输入的密码不一致"); 
+		     }else{
+		           $("#s_confirmPassword").removeClass("xf_register_intext1");
+		           $("#s_confirmPassword").removeClass("xf_register_intext");
+				   $("#s_confirmPassword").addClass("xf_register_intext3");
+		           $("#s_confirmPassword").html("确认密码成功");
+		     }
+		  }	
+		/*  
+		  if($(this).attr("id")=="recommended"){
+		  	if(this.value != ""){
+	          var hasNameExist = #{jsAction @front.account.loginAndRegisterAction.hasNameExist(':name')/}
+			  $.post(hasNameExist({name:encodeURI(this.value)}),function(data){ 
+			  	  var arr=eval(data);
+				  
+				  if(arr.error.code != -2){
+				  	 bRecommended = -1;
+				  	 $("#s_recommended").removeClass("xf_register_intext");
+				     $("#s_recommended").addClass("xf_register_intext1");
+			         $("#s_recommended").html("该用户不存在，不能成为推荐人");
+				  }else{
+				  	 bRecommended = 0;
+				  	 $("#s_recommended").removeClass("xf_register_intext1");
+				     $("#s_recommended").addClass("xf_register_intext");
+				  	 $("#s_recommended").html("推荐人填写正确");
+				  }
+			  });
+		    }
+		  }*/
+		/*  
+		if($(this).attr("id")=="code") {
+		
+		  if(this.value == '') {
+		  	$("#s_code").html("请输入验证码");
+		  }else{	
+		  	
+	   		  var randomId = $("#randomID").val();
+	   		  var checkCode = #{jsAction @checkCode(':randomId',':code')/}
+	      	  $.post(checkCode({randomId:randomId,code:this.value}),function(data){
+		  	  var arr=eval(data);
+			  	  if(arr.error.code<0) {
+					  $("#s_code").html(arr.error.msg);
+					  change()
+					  bCode = -1;
+					  alert("tt");
+			      }else{
+			      	  bCode = 0;
+			      	  $("#s_code").html("验证码正确");
+			      }
+	         });
+         
+         }   
+      }*/
+	 
+		
+
+	   });	 
+	 });
+		 
+     function register(){
+     	 var username = $("#userName").val();
+     	 
+	     if(username =='' ||　username == "建议不用真实姓名作为手机号码"){
+	          alert("请填写手机号码");
+	          return;
+	     }else if(!/^[\u4E00-\u9FA5A-Za-z0-9_]+$/.test(username)){
+	          alert("手机号码不能含有特殊字符");
+	          return;
+	     }else if(bName < 0){
+		      alert("该手机号码已存在");
+		      return;
+	    } else if(!username.isMobileNum()){
+	        alert("请输入正确的手机号码");
+		    return;
+	    }
+		    
+	   var email = $("#email").val();
+		 
+       if(email == ""){
+        	alert("请填写邮箱地址");
+        	return;
+       }else if(!(email).isEmail()){
+        	alert("请填写正确的邮箱地址");
+        	return;
+       }else if(bEmail < 0){
+            alert("对不起，该邮箱已存在");
+            return;
+       }
+       
+       var password = $("#password").val();
+		   
+      if(password == ""){
+          alert("请设置您的密码");
+          return; 
+      }else if(password.length < 6){
+         alert("密码长度为6-20个字符"); 
+         return;
+      }else if(password.length >20){
+          alert("密码长度为6-20个字符"); 
+          return;
+      }else if(!/^([^\s'‘’]{6,20})$/.test(password)){
+     	  alert("密码由6-20位字符组成（不含'）");
+     	  return;
+      }
+      
+      
+ 
+      
+      var confirmPassword = $("#confirmPassword").val();
+      var code = $("#code").val();
+     
+      if(confirmPassword == ""){
+           alert("请输入确认密码"); 
+           return;
+      }else if(confirmPassword != $("#password").val()){ 
+           alert("两次输入的密码不一致"); 
+           return;
+      }
+      
+      if(code == '') {
+   		  alert("请输入验证码");
+   		  return;
+      }
+      
+      if(!$("#agreement").is(":checked")) {
+           alert("注册${currBackstageSet?.platformName}需同意注册协议");
+           return;
+      }
+      
+      if(bRecommended < 0) {
+      	   alert("对不起，该用户不存在，不能成为推荐人");
+      	   return;
+      }
+      
+      $("#submit").submit();
+   }
+</script>

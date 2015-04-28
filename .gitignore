@@ -1,0 +1,8 @@
+/test/
+/lib/
+/test-result/
+/tmp/
+/eclipse/
+/.idea/
+/.settings/
+/.classpath
