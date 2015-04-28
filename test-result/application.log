@@ -1,0 +1,25 @@
+05 二月 2015 14:44:03,824 INFO  ~ Starting D:\Workspaces\MyEclipse\com.shovesoft.sp2p\.
+05 二月 2015 14:44:04,419 WARN  ~ You're running Play! in DEV mode
+05 二月 2015 14:44:09,034 INFO  ~ Connected to jdbc:mysql://113.107.209.132/sp2p?useUnicode=yes&characterEncoding=UTF-8&connectionCollation=utf8_general_ci
+05 二月 2015 14:44:11,114 INFO  ~ Application 'com.shovesoft.sp2p' is now started !
+05 二月 2015 14:44:11,308 DEBUG ~ select t_system_o0_.id as id178_, t_system_o0_._key as column2_178_, t_system_o0_._value as column3_178_, t_system_o0_.description as descript4_178_ from t_system_options t_system_o0_ order by t_system_o0_.id
+05 二月 2015 14:44:11,366 DEBUG ~ select t_content_0_._key as col_0_0_, t_content_0_.title as col_1_0_, t_content_0_.url as col_2_0_, t_content_0_.target as col_3_0_ from t_content_advertisements_links t_content_0_ order by t_content_0_._order
+05 二月 2015 14:44:11,685 DEBUG ~ select t_dict_car0_.id as id198_, t_dict_car0_.code as code198_, t_dict_car0_.description as descript3_198_, t_dict_car0_.is_use as is4_198_, t_dict_car0_.name as name198_ from t_dict_cars t_dict_car0_
+05 二月 2015 14:44:12,591 DEBUG ~ select t_dict_ad_0_.id as id154_, t_dict_ad_0_.name as name154_ from t_dict_ad_provinces t_dict_ad_0_
+05 二月 2015 14:44:12,607 DEBUG ~ select t_dict_ad_0_.id as id230_, t_dict_ad_0_.name as name230_, t_dict_ad_0_.province_id as province3_230_ from t_dict_ad_citys t_dict_ad_0_
+05 二月 2015 14:44:13,005 DEBUG ~ select t_dict_edu0_.id as id222_, t_dict_edu0_.code as code222_, t_dict_edu0_.description as descript3_222_, t_dict_edu0_.is_use as is4_222_, t_dict_edu0_.name as name222_ from t_dict_educations t_dict_edu0_
+05 二月 2015 14:44:13,016 DEBUG ~ select t_dict_hou0_.id as id88_, t_dict_hou0_.code as code88_, t_dict_hou0_.description as descript3_88_, t_dict_hou0_.is_use as is4_88_, t_dict_hou0_.name as name88_ from t_dict_houses t_dict_hou0_
+05 二月 2015 14:44:13,940 DEBUG ~ select t_dict_mar0_.id as id119_, t_dict_mar0_.code as code119_, t_dict_mar0_.description as descript3_119_, t_dict_mar0_.is_use as is4_119_, t_dict_mar0_.name as name119_ from t_dict_maritals t_dict_mar0_
+05 二月 2015 14:44:14,573 DEBUG ~ update t_bills t1,(select c.id from (select a.id from t_bills a where a.`status` = -1 and a.overdue_mark= 0 and a.repayment_time < now() group by a.id) c) t2 set t1.mark_overdue_time = now(), t1.overdue_mark = -1 where t1.id = t2.id
+05 二月 2015 14:44:14,889 DEBUG ~ update t_bills t1,(select c.id, round((c.days * c.amount * c.overdue_rate/100),2) overdue_fee from (select a.id, b.overdue_rate, DATEDIFF(now(), a.repayment_time) days, (a.repayment_corpus + a.repayment_interest) amount from t_bills a join t_bids b ON a.bid_id = b.id where a.`status` in(-1,-2) and a.overdue_mark in(-1,-2,-3) group by a.id) c) t2 set t1.overdue_fine = t2.overdue_fee where t1.id = t2.id
+05 二月 2015 14:44:15,802 DEBUG ~ select bid_id from t_bills where status in(-1,-2) and overdue_mark in (-1, -2, -3) group by bid_id
+05 二月 2015 14:44:15,818 DEBUG ~ select sum(t_bills0_.repayment_interest) as col_0_0_ from t_bills t_bills0_ where t_bills0_.bid_id=? limit ?
+05 二月 2015 14:44:15,830 DEBUG ~ select sum(t_bills0_.overdue_fine) as col_0_0_ from t_bills t_bills0_ where t_bills0_.bid_id=? limit ?
+05 二月 2015 14:44:16,150 DEBUG ~ select sum(t_bills0_.overdue_fine) as col_0_0_ from t_bills t_bills0_ where t_bills0_.bid_id=? and (t_bills0_.status in (-1 , -2)) and (t_bills0_.overdue_mark in (-1 , -2 , -3)) limit ?
+05 二月 2015 14:44:17,064 DEBUG ~ select id, overdue_fine from t_bills where bid_id = ? and status in(-1,-2) and overdue_mark in (-1, -2, -3)
+05 二月 2015 14:44:19,775 DEBUG ~ update t_bills set overdue_fine = overdue_fine - ? where id = ?
+05 二月 2015 14:44:19,784 DEBUG ~ select sum(t_bills0_.repayment_interest) as col_0_0_ from t_bills t_bills0_ where t_bills0_.bid_id=? limit ?
+05 二月 2015 14:44:19,793 DEBUG ~ select sum(t_bills0_.overdue_fine) as col_0_0_ from t_bills t_bills0_ where t_bills0_.bid_id=? limit ?
+05 二月 2015 14:44:19,801 DEBUG ~ select sum(t_bills0_.repayment_interest) as col_0_0_ from t_bills t_bills0_ where t_bills0_.bid_id=? limit ?
+05 二月 2015 14:44:19,810 DEBUG ~ select sum(t_bills0_.overdue_fine) as col_0_0_ from t_bills t_bills0_ where t_bills0_.bid_id=? limit ?
+05 二月 2015 14:44:20,122 DEBUG ~ update t_bill_invests t1,(select t3.id, round((t4.overdue_fine * ifnull(t6.amount,0) / t5.amount), 2) check_fine, t3.periods, t3.bid_id from (select b.bid_id, b.periods, b.overdue_fine from t_bills b where b.overdue_mark in(-1,-2,-3) and b.status in(-1,-2)) t4 left join (select a.invest_id, a.id, a.periods, a.bid_id, a.user_id from t_bill_invests a where a.status in(-1, -2)) t3 on t3.bid_id = t4.bid_id and t3.periods = t4.periods left join (select c.id, c.amount from t_bids c) t5 on t3.bid_id = t5.id left join (select d.id, d.bid_id, d.user_id, d.amount from t_invests d) t6 on t3.bid_id = t6.bid_id and t3.user_id = t6.user_id and t3.invest_id = t6.id) t2 set t1.overdue_fine = check_fine, t1.status = -2 where t1.id = t2.id
