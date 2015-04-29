@@ -13,7 +13,11 @@
 	play-1.2.7\framework\play-1.2.7.jar包
 
 4，配置运行参数
-	eclipse中：	
+	eclipse中：
+		cmd
+		cd project path
+        play eclipsify
+
 		配置java application
 		
 		sp2ponline-dev-v2项目配置
