@@ -1,0 +1,54 @@
+
+/* These code is for header  */
+#header { }
+#header .top{
+    background-color: #FAFAFA;
+}
+
+#header .top .content {
+    width: 1000px;
+    margin: 0 auto;
+    color: #95A0A8;
+}
+
+.content .announcement{
+    margin-left: 20px;
+}
+
+.content .help-center {
+    margin-left: 20px;
+}
+
+.content .contect-us {
+    margin-left: 20px;
+}
+
+#nav-container {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#nav-container .nav {
+    margin-top: 20px;
+}
+
+.nav ul li {
+    font-size: 1.3em;
+    line-height: 2em;
+    float: left;
+    margin-right: 20px;
+}
+
+.nav .highlight-item {
+    color: #FFFFFF;
+    background-color: #af0714;
+    width: 5em;
+    line-height: 2em;
+    border-radius: 8px;
+    text-align: center;
+}
+
+
+
+

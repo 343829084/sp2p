@@ -1,0 +1,420 @@
+/* advertisement banner */
+.adv_banner {
+    height: 360px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+.adv_banner ul {
+    height: 380px;
+    position: absolute;
+    width: 50000px;
+}
+
+.adv_banner .btnBg {
+    background: none repeat scroll 0 0 #000;
+    bottom: 0;
+    height: 20px;
+    left: 0;
+    position: absolute;
+}
+
+.adv_banner .btn {
+    bottom: 10px;
+    height: 10px;
+    padding: 5px 10px;
+    position: absolute;
+    text-align: center;
+}
+
+.adv_banner .btn span {
+    background: url("../../images/index_bg.png") no-repeat scroll -438px -7px rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: inline-block;
+    height: 15px;
+    margin-left: 5px;
+    width: 15px;
+}
+.adv_banner .btn span.active {
+    background: url("../../images/index_bg.png") no-repeat scroll -455px -6px rgba(0, 0, 0, 0);
+    height: 16px;
+    width: 15px;
+}
+
+.scroll-box {
+    height: 356px;
+    overflow: hidden;
+    position: relative;
+    width: 1920px;
+}
+
+.banul li {
+    float: left;
+    height: 362px;
+    width: auto;
+}
+
+.banul {
+    height: 362px;
+    width: auto;
+}
+
+/* form float on the advertisement banner */
+.home-login-container{
+    position: absolute;
+    z-index: 10000;
+    width: 200px;
+    top: 10%;
+    left: 65%;
+    background: #250E0C;
+    background-color: rgba(37,14,12, 0.7);
+    border-radius: 5px;
+    color: #FFFFFF;
+}
+
+.home-login-container .unregister-form {
+    margin: 0 auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.unregister-form p {
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+.unregister-form .register-btn {
+    display: inline-block;
+    width: 80%;
+    text-align: center;
+    margin-top: 20px;
+    color: #FFFFFF;
+    background-color: #07B7C6;
+    opacity: 1;
+    line-height: 2em;
+    border-radius: 2px;
+    font-size: 1.2em;
+    height: 2em;
+}
+
+.unregister-form .login-btn {
+    display: inline-block;
+    color: #ff6600;
+    float: right;
+    font-size: 0.9em;
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.home-login-container form {
+    text-align: center;
+}
+
+.home-login-container form input {
+    display: inline-block;
+    margin: 0 auto;
+    color: #FFFFFF;
+    margin-top: 10px;
+    text-align: left;
+    background: #000000;
+    border-width: 0;
+    opacity: 1;
+    border-radius: 2px;
+    line-height: 2em;
+    font-size: 1.2em;
+    width: 80%;
+    height: 2em;
+}
+
+.home-login-container .submit-btn {
+    width: 80%;
+    display: inline-block;
+    background-color: #ff6600;
+    margin: 0 auto;
+    opacity: 1;
+    margin-top: 10px;
+    color: #FFFFFF;
+    line-height: 1.5em;
+    border-radius: 2px;
+    font-size: 1.2em;
+    height: 2em;
+}
+
+.home-login-container .register {
+    color: #229AA6;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10%;
+    margin-bottom: 10px;
+}
+
+::-webkit-input-placeholder {
+    color: #FFFFFF;
+    font-size: 1.1em;
+}
+
+:-moz-placeholder {
+    color: #FFFFFF;
+    font-size: 1.1em;
+}
+
+::-moz-placeholder {
+    color: #FFFFFF;
+    font-size: 1.1em;
+}
+
+:-ms-input-placeholder{
+    color: #FFFFFF;
+    font-size: 1.1em;
+}
+
+
+/*           main                        */
+#records {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#records table div {
+    display: inline-block;
+}
+
+#records table {
+    width: 100%;
+}
+
+#records table td {
+    border-left: groove;
+    border-right: groove;
+    text-align: center;
+    width: 33%;
+    border-width: 1px;
+    border-color: #dcdcdc;
+}
+
+.user_number_icon{
+    width: 38px;
+    height: 38px;
+    background-image: url("../../images/new/user_number.png");
+    display: inline-block;
+}
+
+.trade_volume_icon {
+    width: 38px;
+    height: 38px;
+    background-image: url("../../images/new/trade_volume.png");
+    display: inline-block;
+}
+
+.risk_fund_icon {
+    width: 38px;
+    height: 38px;
+    background-image: url("../../images/new/risk_fund.png");
+    display: inline-block;
+}
+
+#records .number{
+    color: #ff6600;
+}
+
+
+#announcement {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 15px;
+    border-top-style: groove;
+    border-right-style: groove;
+    border-left-style: groove;
+    border-width: 1px;
+    border-color: #dcdcdc;
+}
+
+#announcement p {
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+    margin-left: 10px;
+    width: 95%;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    line-height: 1em;
+    margin-top: 15px;
+}
+
+#announcement  .more{
+    margin-top: -20px;
+    display: inline-block;
+}
+
+#announcement a{
+    color: #00a8e8;
+}
+
+.main-middle { background-color: #F4F4F4;}
+
+#prodList {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 15px;
+    padding-top: 15px;
+    position: relative;
+}
+
+#prodList  li{
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+#prodList .border-li {
+    margin-right:0;
+}
+
+#prodList .item {
+    width: 240px;
+    border: 1px solid #efefef;
+    background-color: #fff;
+}
+
+.item .top {
+}
+
+.top p {
+    font-size: 16px;
+    font-weight: bold;
+    width: 130px;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.top .income-rate {
+    font-size: 12px;
+    color: #a9a9a9;
+    display: block;
+    text-align: center;
+}
+
+.top .rate {
+    color: red;
+    text-align: center;
+}
+
+.rate span {
+    font-size: 3em;
+}
+
+/*   middle part     */
+.item .middle {
+    background-color: #F7F7F7;
+}
+
+.middle .amount{
+    padding-top: 20px;
+}
+
+.middle p{
+    text-align: center;
+    color: #ABABAB;
+    font-size: 1em ;
+    margin-bottom: 10px;
+}
+
+.middle p span{
+    color: #000;
+    font-weight: bold;
+}
+
+.middle .progress-bar {
+    margin: 0 auto;
+    border-radius: 5px;
+    height: 0.8em;
+    width: 90%;
+    background-color: #E5E5E5;
+}
+
+.progress-bar .progress {
+    background-color: #D7172E;
+    width: 40%;
+    border-radius: 5px;
+    height: 0.8em;
+}
+
+.middle .progress-detail {
+    margin: 0 auto;
+    width: 90%;
+    margin-top: 10px;
+}
+
+.progress-detail p {
+    color: #ABABAB;
+    font-size: 0.8em;
+    display:inline-block;
+}
+
+.middle .item-require {
+    font-size: 1.1em;
+}
+.item-require table {
+    width: 100%;
+}
+
+.item-require td {
+    width: 50%;
+    height: 0.8em;
+}
+
+.item-require td p{
+    margin: 0;
+    padding: 0;
+}
+
+.item-require .cutline{
+    border-width: 3px;
+    border-left-style: solid;
+    border-left-color: #E5E5E5;
+}
+
+.item-require .number {
+    color: #000;
+    font-weight: bold;
+}
+
+.item .bottom {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.bottom .safe-tag {
+    padding: 2px 4px;
+    color: #39CBFF;
+    border: 1px solid #39CBFF;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+.bottom .bids-btn {
+    background-color: #D7172E;
+    color: #FFF;
+    border-radius: 5px;
+    border: solid 1px #D7172E;
+    width: 55%;
+    text-align: center;
+    line-height: 2.5em;
+}
+
+#twoDimensionalCode {
+    position: absolute;
+    top: 0;
+    border: 1px solid #efefef;
+}
