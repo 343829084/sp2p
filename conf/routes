@@ -1979,3 +1979,10 @@ POST    /front/PaymentAction/repaymentNewTradePost			                    front.a
 #*  	/supervisor/{<[\s\S]*>action}         									Application.error2
 #*  	/{<[\s\S]*>action}         												Application.error
 GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
+
+
+
+
+
+
+GET   /mobile/login                                                  mobile.LoginAction.login

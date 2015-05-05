@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>登录</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}" />
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+</head>
+
+<body>
+
+
+
+<div data-role="page" id="index">
+
+
+    <div data-role="header" data-position="fixed">
+        <h1>登录</h1>
+    </div>
+
+    <div role="main" class="ui-content">
+
+        <div class="ui-field-contain">
+            <label>手机号:</label>
+            <input type="tel" id="name" name="name"
+                   value="${flash?.name}" class="xf_login_shurk">
+            <span class="xf_register_intext" id="s_userName"></span>
+        </div>
+        <div class="ui-field-contain">
+            <label>登录密码:</label>
+            <input type="password" id="password" name="password" value="${flash?.password}" class="xf_login_shurk">
+            <span class="xf_register_intext" id="s_password"></span>
+        </div>
+        <div class="ui-field-contain">
+            <button type="submit" id="submit-1" class="ui-shadow ui-btn ui-corner-all">立即登录</button>
+            <a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-b">Outside the grid</a>
+        </div>
+
+        <div class="ui-grid-a">
+            <div class="ui-block-a"><div class="ui-bar ui-bar-a" style="height:60px">Block A</div></div>
+        <div class="ui-block-b"><div class="ui-bar ui-bar-a" style="height:60px">Block B</div></div>
+    </div><!-- /grid-a -->
+
+
+        <div class="ui-grid-b ui-responsive">
+                <div class="ui-block-a"><a href="#" class="ui-btn ui-shadow ui-corner-all">Grid B</a></div>
+                <div class="ui-block-b"><a href="#" class="ui-btn ui-shadow ui-corner-all">Grid B</a></div>
+        </div>
+
+
+        <fieldset class="ui-grid-a">
+                <div class="ui-block-a"><input type="submit" value="Submit" data-theme="a"></div>
+                <div class="ui-block-b"><input type="reset" value="Reset" data-theme="b"></div>
+        </fieldset>
+    </div>
+
+
+
+</div>
+
+
+
+</body>
+</html>
