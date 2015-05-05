@@ -68,8 +68,10 @@ public class HomeAction extends BaseController{
 		List<AdsPartner>  adsPartner = AdsPartner.qureyPartnerForFront(error);//合作伙伴
 		
 		List<NewsType> types = NewsType.queryChildTypes(1, error);
-		
-		render(homeAds, bidList,agencyBids,investBillboard,successStorys,investSkills,loanSkills,news, 
+
+		boolean isNew = true;
+
+		render(isNew, homeAds, bidList,agencyBids,investBillboard,successStorys,investSkills,loanSkills,news,
 				bids, adsEnsure, adsPartner, types ,maps);
 	}
 	

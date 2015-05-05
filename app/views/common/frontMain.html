@@ -19,6 +19,7 @@
         <meta name="description" itemporp="description" content="金豆荚首支理财产品展义宝发售,3个月年化收益在8.5%以上.5月1日前投资10万元以上送APPLEWATCH"/>
         <meta itemprop="name" content="展义宝线上正式发布"/>
 		<meta itemprop="image" content="@{'/public/images/logo300.jpg'}"/>
+		#{if isNew  }
 		<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.ico'}">
 		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/site.css'}" />		
 		<link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
@@ -30,6 +31,7 @@
 		<script charset="utf-8" src="@{'public/javascripts/ajaxfileupload.js'}"></script>
 		<script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
 		<script type="text/javascript" src="@{'/public/javascripts/jquery.lazyload.min.js'}"></script>
+		#{/if}
 		<script>
 			var _hmt = _hmt || [];
 			(function() {

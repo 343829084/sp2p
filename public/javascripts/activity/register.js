@@ -6,14 +6,12 @@ var RESULT_STATUS = {
 
 //var host = "https://api-2.sunlights.me/api";
 var host = (function() {
-	var prdUrl1 = "51jdj.com";
-	var prdUrl2 = "www.51jdj.com";
+	var prdUrl = "www.51jdj.com";
 	var uatUrl = "p2p.sunlights.me";
 	var localhost = "localhost:9000";
 	var fpUrl = "";
 	switch (window.location.host) {
-		case prdUrl1:
-		case prdUrl2:
+		case prdUrl:
 			fpUrl = "https://api.sunlights.me/api";
 			break;
 		case uatUrl:
@@ -121,14 +119,6 @@ var Business = (function ($) {
 
 	var bindEvent = function () {
 		$(".register-btn").on("click", registerBtnHandler);
-		$(".register-new-customer-link").on("click", function () {
-			var url = "http://" + window.location.host + "/front/help/index?typeId=13";
-			window.location.href = url ;
-		});
-		$(".security-link").on("click", function () {
-			var url = "http://" + window.location.host + "/front/principal/principalGuaranteeHome";
-			window.location.href = url ;
-		});
 	};
 
 	var registerBtnHandler = function () {

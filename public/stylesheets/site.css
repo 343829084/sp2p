@@ -169,14 +169,14 @@ input::-ms-clear{display:none;}
 .xf_c_idx_7_cggsMore a{color:#195a9b;font-size:12px;font-weight:normal;}
 
 .xf_c_idx_6_lcfyHUl{height:30px;}
-.xf_c_idx_6_lcfyHUl li{float:left;text-align:center;font:normal 14px Microsoft YaHei;color:#666;margin-right:22px}
+.xf_c_idx_6_lcfyHUl li{float:left;text-align:center;font:normal 14px Microsoft YaHei;color:#666;}
 .xf_c_idx_6_lcfyHpm{width:40px;}
 .xf_c_idx_6_lcfyHyhm{width:45px;}
 .xf_c_idx_6_lcfyHtzje{width:100px;text-align:center !important;}
 .xf_c_idx_6_lcfyHsyl{width:55px;}
 
 
-.xf_c_idx_6_lcfyData li{font-size:13px;font-family:Microsoft YaHei;line-height:30px;clear:both; overflow:hidden;margin-right:22px}
+.xf_c_idx_6_lcfyData li{font-size:13px;font-family:Microsoft YaHei;line-height:30px;clear:both; overflow:hidden;}
 .xf_c_idx_6_lcfyDpm{display:block;width:40px;float:left;text-align:center;}
 .xf_c_idx_6_lcfyDyhm{color:#635072;display:block;width:45px;float:left;margin-left:5px;}
 .xf_c_idx_6_lcfyDtzje{padding-right:10px;color:#fc822b;display:block;width:90px;float:left;text-align:center;}
@@ -325,16 +325,16 @@ input::-ms-clear{display:none;}
 .xf_cp_idx_5_contRight{float:right;margin-top:10px;}
 .xf_cp_idx_5_contLinks{margin-top:10px;}
 .xf_cp_idx_5_contLinks a{display:inline-block;margin-right:12px;}
-.xf_cp_idx_5_contLinks a.pi_tb1{ background:url(../images/images/securityIcon/1.png) no-repeat; width:90px; height:36px; }
-.xf_cp_idx_5_contLinks a.pi_tb1:hover{cursor:default}
-.xf_cp_idx_5_contLinks a.pi_tb2{ background:url(../images/images/securityIcon/2.png) no-repeat; width:90px; height:36px; }
-.xf_cp_idx_5_contLinks a.pi_tb2:hover{cursor:default}
-.xf_cp_idx_5_contLinks a.pi_tb3{ background:url(../images/images/securityIcon/3.png) no-repeat; width:90px; height:36px; }
-.xf_cp_idx_5_contLinks a.pi_tb3:hover{cursor:default}
-.xf_cp_idx_5_contLinks a.pi_tb4{ background:url(../images/images/securityIcon/4.png) no-repeat; width:90px; height:36px; }
-.xf_cp_idx_5_contLinks a.pi_tb4:hover{cursor:default}
-.xf_cp_idx_5_contLinks a.pi_tb5{ background:url(../images/images/securityIcon/5.png) no-repeat; width:90px; height:36px; }
-.xf_cp_idx_5_contLinks a.pi_tb5:hover{cursor:default}
+.xf_cp_idx_5_contLinks a.pi_tb1{ background:url(../images/norton_hover.png) no-repeat; width:90px; height:36px; }
+.xf_cp_idx_5_contLinks a.pi_tb1:hover{ background:url(../images/norton_hover.png) no-repeat;}
+.xf_cp_idx_5_contLinks a.pi_tb2{ background:url(../images/360_hover.png) no-repeat; width:98px; height:36px; }
+.xf_cp_idx_5_contLinks a.pi_tb2:hover{ background:url(../images/360_hover.png) no-repeat;}
+.xf_cp_idx_5_contLinks a.pi_tb3{ background:url(../images/aqlm_hover.png) no-repeat; width:134px; height:36px; }
+.xf_cp_idx_5_contLinks a.pi_tb3:hover{ background:url(../images/aqlm_hover.png) no-repeat;}
+.xf_cp_idx_5_contLinks a.pi_tb4{ background:url(../images/icann_hover.png) no-repeat; width:57px; height:36px; }
+.xf_cp_idx_5_contLinks a.pi_tb4:hover{ background:url(../images/icann_hover.png) no-repeat;}
+.xf_cp_idx_5_contLinks a.pi_tb5{ background:url(../images/kxwz_hover.png) no-repeat; width:100px; height:36px; }
+.xf_cp_idx_5_contLinks a.pi_tb5:hover{ background:url(../images/kxwz_hover.png) no-repeat;}
 .xf_cp_idx_5_erwmAndroid{float:left;text-align:center;margin-right:20px;}
 .xf_cp_idx_5_erwmApple{float:left;text-align:center;}
 
@@ -957,7 +957,7 @@ dd.xf_wylc_tbssisthot:hover{color: #fff;}
 .xf_zjbz_home_top_r{float: left;background: url(../images/bjbzxx.png) no-repeat; width: 221px; height: 101px; margin:26px 0 0px 88px; padding:41px 0 0 87px; color: #323232; font-size: 12px;line-height: 24px;}
 
 .xf_zjbz_home_con{width: 956px; margin:0 auto; background: #fff; border:1px solid #e7eaec; border-top: 2px solid #195a9b; padding:13px 22px 26px 22px; margin-top: 10px; }
-.xf_mem_accout_content{font-size: 14px; color: #666; line-height: 30px;padding:10px 0 0 0;}
+.xf_mem_accout_content{font-size: 14px;line-height: 30px;padding:10px 0 0 0;}
 
 .xf_mem_accout_contwo{font-size: 14px; color: #666;}
 .xf_mem_accout_UL{overflow: hidden;padding:23px 0 0 17px;}
@@ -1612,11 +1612,7 @@ dd.xf_wylc_tbssisthot:hover{color: #fff;}
 
 
 /***--------------------------资金管理-重置---------------------------------**/
-.xf_mem_accout_content{width: 738px; height: 130px;
-    /*
-    background: #f5f5f5;
-    */
-    margin:10px 0;}
+.xf_mem_accout_content{width: 738px; height: 130px; margin:10px 0;}
 .xf_mem_zjgl_cz td{height: 36px;}
 .xf_mem_zjgl_czinput{width: 178px; height: 27px; line-height: 27px; padding:0 0 0 5px; border:1px solid #ddd; color: #666;}
 .xf_mem_accout_titlebox{width: 738px; overflow: hidden;}
@@ -1643,7 +1639,7 @@ dd.xf_wylc_tbssisthot:hover{color: #fff;}
 
 .xf_membill_acc_vtx th,.xf_membill_acc_vtx td{padding:14px 0;}
 .xf_zjgl_tx_page{width: 740px;height: 60px; line-height: 60px;}
-.xf_zjgl_tx_hipe{padding:10px 0 0 0; color: #195a9b;}
+.xf_zjgl_tx_hipe{padding:10px 0 30px 0; color: #195a9b;}
 
 
 /***--------------------------申请提现---------------------------------**/
