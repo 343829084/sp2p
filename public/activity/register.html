@@ -27,17 +27,18 @@
                 {{/each}}
             {{/if}}
         </ul>
-        <ul class="float-right">
-            {{if rewardList.length != 0}}
-                {{each rewardList}}
-                    {{if $index==0 && $value != null}}
-                        ${$value}
-                    {{else $index!=0 && $value != null}}
-                        <li>${$value}</li>
-                    {{/if}}
-                {{/each}}
-            {{/if}}
-        </ul>
+        {{if rewardList.length != 0}}
+            <ul class="float-right">
+                    {{each rewardList}}
+                        {{if $index==0 && $value != null}}
+                            ${$value}
+                        {{else $index!=0 && $value != null}}
+                            <li class="draw">${$value}</li>
+                        {{/if}}
+                    {{/each}}
+            </ul>
+        {{/if}}
+
     </script>
     <script type="text/javascript" src="../javascripts/activity/register.js"></script>
     <!--
@@ -53,7 +54,7 @@
         <a id="registerBtn" class="register-btn" href="javascript:void(0);"><em>我要注册</em></a>
     </div>
     <div class="link-div">
-        <a href="javascript:void(0);" class="register-new-customer-link">如何准备开户</a>
+        <a href="javascript:void(0);" class="register-new-customer-link">如何开户</a>
         <a href="javascript:void(0);" class="security-link">安全保障</a>
     </div>
     <div class="content">
@@ -70,11 +71,11 @@
         <hr>
         <div class="activity-info">
             <p>
-                1、活动期间，完成金豆荚开户（注册并绑卡，仅限PC版）送2000金豆。
+                1、活动期间，新用户在金豆荚完成开户，送500金豆。
             </p>
 
             <p>
-                金豆价值为：100个金豆=1元人民币。您可在“财富”页面“我的金豆荚”中查看您的金豆奖励。金豆在金豆荚网页版和手机app上可以通用。
+                金豆价值为：100个金豆=1元人民币，您可下载金豆荚APP(请到“APPstore，百度手机助手，应用宝，豌豆荚等”应用市场下载金豆荚APP)并在“财富”中查看您的金豆奖励。
             </p>
 
             <p>
@@ -87,6 +88,9 @@
 
             <p>
                 4、金豆荚保留活动最终解释权。
+            </p>
+            <p>
+                5、活动时间：4月27日-5月27日。
             </p>
             <br/>
             <br/>

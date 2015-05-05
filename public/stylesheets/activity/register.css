@@ -14,7 +14,7 @@
     display: inline-block;
     margin: 0 auto;
     background: #FFEF29;
-    width: 25em;
+    width: 20em;
     height: 5em;
     line-height: 5em;
     margin-top: 2%;
@@ -83,6 +83,11 @@ hr {
 .list ul li {
     list-style-type: circle;
     margin-left: 2em;
+}
+
+.list .draw {
+    margin-left: 0;
+    text-align: left;
 }
 
 .float-left {
