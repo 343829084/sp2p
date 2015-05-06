@@ -54,11 +54,11 @@
         <div class="content clearfix">
                 <span class="float-left">
                     <span>移动客户端</span>
-                    <span class="announcement">公告</span>
+                    <span class="announcement"><a href="@{front.wealthinfomation.WealthInfomationAction.newsList(7)}" target="_blank">公告</a></span>
                 </span>
                 <span class="float-right">
-                    <span><a>登入</a>&nbsp;|&nbsp;<a>注册</a></span>
-                    <span class="help-center"><a>帮助中心</a></span>
+                    <span><a href="@{front.account.loginAndRegisterAction.login()}">登入</a>&nbsp;|&nbsp;<a href="@{front.account.LoginAndRegisterAction.register()}">注册</a></span>
+                    <span class="help-center"><a href="@{front.help.HelpCenterAction.index(13)}">帮助中心</a></span>
                     <span class="contect-us"><a>联系我们</a></span>
                 </span>
         </div>
@@ -71,10 +71,10 @@
                 <ul>
                     <li><a href="@{front.home.HomeAction.home()}">首&nbsp;&nbsp;页</a></li>
                     <li>新手引导</li>
-                    <li>安全保障</li>
-                    <li>关于我们</li>
-                    <li class="highlight-item">我要理财</li>
-                    <li class="highlight-item">我的财富</li>
+                    <li><a href="@{front.principal.PrincipalGuaranteeAction.principalGuaranteeHome()}">安全保障</a></li>
+                    <li><a href="@{front.home.HomeAction.aboutUs(-1004)}">关于我们</a></li>
+                    <li class="highlight-item"><a class="a-link" href="@{front.invest.InvestAction.investHome()}">我要理财</a></li>
+                    <li class="highlight-item"><a class="a-link" href="@{front.account.accountHome.home()}">我的财富</a></li>
                 </ul>
             </span>
     </div>
