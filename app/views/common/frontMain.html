@@ -64,10 +64,12 @@
         </div>
     </div>
     <div id="nav-container" class="clearfix">
-        <span class="float-left"><img src="/public/images/new/logo.png" width="150" height="50"></span>
+        <span class="float-left">
+				<a href="@{front.home.HomeAction.home}">#{img src:"${currBackstageSet.platformLogoFilename}",width:"150",height:"50"}#{/img}</a>
+		</span>
             <span class="nav float-right">
                 <ul>
-                    <li>首&nbsp;&nbsp;页</li>
+                    <li><a href="@{front.home.HomeAction.home()}">首&nbsp;&nbsp;页</a></li>
                     <li>新手引导</li>
                     <li>安全保障</li>
                     <li>关于我们</li>

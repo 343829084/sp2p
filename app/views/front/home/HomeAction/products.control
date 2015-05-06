@@ -52,7 +52,8 @@
                             </div>
                             <div class="bottom clearfix">
                                 <span class="safe-tag float-left">本息保障</span>
-                                <span class="bids-btn float-right">立即投标</span>
+                                <a class="bids-btn float-right" onclick="javascript:window.window.open('@{front.invest.InvestAction.invest(bid?.id)}')">  立即投标
+                                </a>
                             </div>
                         </div>
                     </li>
