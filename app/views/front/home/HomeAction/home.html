@@ -1,6 +1,9 @@
 %{
 business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
 }%
+<head>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/new_css/home.css'}" />
+</head>
 #{extends 'common/frontMain.html' /}
 #{set title:currBackstageSet.seoTitle /}
 
