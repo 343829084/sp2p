@@ -34,34 +34,23 @@
         </div>
         <!--banner start-->
         <ul class="banul" id="banul">
+        #{list homeAds}
             <li>
-                <a style="cursor: default;">
-                    <img src="public/images/front_ad_1.png" alt="广告" onerror="this.src='/public/images/default.png'"/>
+                <a style="cursor: default;"
+                    #{if _?.is_link_enabled}
+                        href = "${_?.url}"
+                    #{/if}
+                    #{if _?.target == 1}
+                        target = "_self"
+                    #{/if}
+                    #{else}
+                        target = "_blank"
+                    #{/else}>
+                    #{img src:"${_?.image_filename}",alt:"广告"}#{/img}
                 </a>
             </li>
-            <li>
-                <a style="cursor: default;">
-                    <img src="public/images/front_ad_2.png" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                </a>
-            </li>
+        #{/list}
 
-            <li>
-                <a style="cursor: default;">
-                    <img src="public/images/front_ad_3.png" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                </a>
-            </li>
-
-            <li>
-                <a style="cursor: default;">
-                    <img src="public/images/front_ad_4.png" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                </a>
-            </li>
-
-            <li>
-                <a style="cursor: default;" >
-                    <img src="public/images/front_ad_5.png" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                </a>
-            </li>
         </ul>
         <!--banner end-->
     </div>
