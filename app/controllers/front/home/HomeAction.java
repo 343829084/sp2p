@@ -3,20 +3,10 @@ package controllers.front.home;
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Map;
+
+import business.*;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
-import business.Ads;
-import business.AdsEnsure;
-import business.AdsPartner;
-import business.AuditItem;
-import business.BackstageSet;
-import business.Bid;
-import business.Bill;
-import business.CreditLevel;
-import business.Invest;
-import business.News;
-import business.NewsType;
-import business.Product;
 import business.Bid.Repayment;
 import models.t_content_advertisements;
 import models.t_content_news;
@@ -69,10 +59,12 @@ public class HomeAction extends BaseController{
 		
 		List<NewsType> types = NewsType.queryChildTypes(1, error);
 
+		Long userCount = User.findUserCount(error);  //客户数量
+
 		boolean isNew = true;
 
 		render(isNew, homeAds, bidList,agencyBids,investBillboard,successStorys,investSkills,loanSkills,news,
-				bids, adsEnsure, adsPartner, types ,maps);
+				bids, adsEnsure, adsPartner, types ,maps, userCount);
 	}
 	
 	public static void banner(){

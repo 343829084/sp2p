@@ -2,7 +2,7 @@
                 <table>
                     <tr>
                         <td>
-                            <div><div class="user_number_icon"></div>客户数量：<div class="number">150，000</div></div>
+                            <div><div class="user_number_icon"></div>客户数量：<div class="number">${userCount?.format('###,##0')}</div></div>
                         </td>
                         <td>
                             <div><div class="trade_volume_icon"></div>累计成交量：15，000,000</div>
