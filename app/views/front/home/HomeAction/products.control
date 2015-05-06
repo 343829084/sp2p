@@ -1,0 +1,322 @@
+<ul class="clearfix">
+                    <li>
+                        <div class="item">
+                            <div class="top">
+                                <p>展义宝安逸1号OL004</p>
+                                <span class="income-rate">预期年化</span>
+                                <div class="rate">
+                                    <span>12</span>
+                                    <label>%</label>
+                                </div>
+                            </div>
+                            <div class="middle">
+                                <p class="amount">融资金额：<span>300,000</span>元</p>
+                                <div class="progress-bar">
+                                    <div class="progress">&nbsp;</div>
+                                </div>
+                                <div class="progress-detail clearfix">
+                                    <p class="float-left">已融资<span>50%</span></p>
+                                    <p class="float-right">剩余融资：<span>145,000元</span></p>
+                                </div>
+                                <div class="item-require">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p>起购金额</p>
+                                                <p class="number">1000元</p>
+                                            </td>
+                                            <td class="cutline">
+                                                <p>项目期限</p>
+                                                <p class="number">120天</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="bottom clearfix">
+                                <span class="safe-tag float-left">本息保障</span>
+                                <span class="bids-btn float-right">立即投标</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item">
+                            <div class="top">
+                                <p>展义宝安逸1号OL004</p>
+                                <span class="income-rate">预期年化</span>
+                                <div class="rate">
+                                    <span>12</span>
+                                    <label>%</label>
+                                </div>
+                            </div>
+                            <div class="middle">
+                                <p class="amount">融资金额：<span>300,000</span>元</p>
+                                <div class="progress-bar">
+                                    <div class="progress">&nbsp;</div>
+                                </div>
+                                <div class="progress-detail clearfix">
+                                    <p class="float-left">已融资<span>50%</span></p>
+                                    <p class="float-right">剩余融资：<span>145,000元</span></p>
+                                </div>
+                                <div class="item-require">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p>起购金额</p>
+                                                <p class="number">1000元</p>
+                                            </td>
+                                            <td class="cutline">
+                                                <p>项目期限</p>
+                                                <p class="number">120天</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="bottom clearfix">
+                                <span class="safe-tag float-left">本息保障</span>
+                                <span class="bids-btn float-right">立即投标</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item">
+                            <div class="top">
+                                <p>展义宝安逸1号OL004</p>
+                                <span class="income-rate">预期年化</span>
+                                <div class="rate">
+                                    <span>12</span>
+                                    <label>%</label>
+                                </div>
+                            </div>
+                            <div class="middle">
+                                <p class="amount">融资金额：<span>300,000</span>元</p>
+                                <div class="progress-bar">
+                                    <div class="progress">&nbsp;</div>
+                                </div>
+                                <div class="progress-detail clearfix">
+                                    <p class="float-left">已融资<span>50%</span></p>
+                                    <p class="float-right">剩余融资：<span>145,000元</span></p>
+                                </div>
+                                <div class="item-require">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p>起购金额</p>
+                                                <p class="number">1000元</p>
+                                            </td>
+                                            <td class="cutline">
+                                                <p>项目期限</p>
+                                                <p class="number">120天</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="bottom clearfix">
+                                <span class="safe-tag float-left">本息保障</span>
+                                    <span class="bids-btn float-right">立即投标</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="border-li">
+                        <div class="item">
+                            <div class="top">
+                                <p>展义宝安逸1号OL004</p>
+                                <span class="income-rate">预期年化</span>
+                                <div class="rate">
+                                    <span>12</span>
+                                    <label>%</label>
+                                </div>
+                            </div>
+                            <div class="middle">
+                                <p class="amount">融资金额：<span>300,000</span>元</p>
+                                <div class="progress-bar">
+                                    <div class="progress">&nbsp;</div>
+                                </div>
+                                <div class="progress-detail clearfix">
+                                    <p class="float-left">已融资<span>50%</span></p>
+                                    <p class="float-right">剩余融资：<span>145,000元</span></p>
+                                </div>
+                                <div class="item-require">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p>起购金额</p>
+                                                <p class="number">1000元</p>
+                                            </td>
+                                            <td class="cutline">
+                                                <p>项目期限</p>
+                                                <p class="number">120天</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="bottom clearfix">
+                                <span class="safe-tag float-left">本息保障</span>
+                                <span class="bids-btn float-right">立即投标</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item">
+                            <div class="top">
+                                <p>展义宝安逸1号OL004</p>
+                                <span class="income-rate">预期年化</span>
+                                <div class="rate">
+                                    <span>12</span>
+                                    <label>%</label>
+                                </div>
+                            </div>
+                            <div class="middle">
+                                <p class="amount">融资金额：<span>300,000</span>元</p>
+                                <div class="progress-bar">
+                                    <div class="progress">&nbsp;</div>
+                                </div>
+                                <div class="progress-detail clearfix">
+                                    <p class="float-left">已融资<span>50%</span></p>
+                                    <p class="float-right">剩余融资：<span>145,000元</span></p>
+                                </div>
+                                <div class="item-require">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p>起购金额</p>
+                                                <p class="number">1000元</p>
+                                            </td>
+                                            <td class="cutline">
+                                                <p>项目期限</p>
+                                                <p class="number">120天</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="bottom clearfix">
+                                <span class="safe-tag float-left">本息保障</span>
+                                <span class="bids-btn float-right">立即投标</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item">
+                            <div class="top">
+                                <p>展义宝安逸1号OL004</p>
+                                <span class="income-rate">预期年化</span>
+                                <div class="rate">
+                                    <span>12</span>
+                                    <label>%</label>
+                                </div>
+                            </div>
+                            <div class="middle">
+                                <p class="amount">融资金额：<span>300,000</span>元</p>
+                                <div class="progress-bar">
+                                    <div class="progress">&nbsp;</div>
+                                </div>
+                                <div class="progress-detail clearfix">
+                                    <p class="float-left">已融资<span>50%</span></p>
+                                    <p class="float-right">剩余融资：<span>145,000元</span></p>
+                                </div>
+                                <div class="item-require">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p>起购金额</p>
+                                                <p class="number">1000元</p>
+                                            </td>
+                                            <td class="cutline">
+                                                <p>项目期限</p>
+                                                <p class="number">120天</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="bottom clearfix">
+                                <span class="safe-tag float-left">本息保障</span>
+                                <span class="bids-btn float-right">立即投标</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item">
+                            <div class="top">
+                                <p>展义宝安逸1号OL004</p>
+                                <span class="income-rate">预期年化</span>
+                                <div class="rate">
+                                    <span>12</span>
+                                    <label>%</label>
+                                </div>
+                            </div>
+                            <div class="middle">
+                                <p class="amount">融资金额：<span>300,000</span>元</p>
+                                <div class="progress-bar">
+                                    <div class="progress">&nbsp;</div>
+                                </div>
+                                <div class="progress-detail clearfix">
+                                    <p class="float-left">已融资<span>50%</span></p>
+                                    <p class="float-right">剩余融资：<span>145,000元</span></p>
+                                </div>
+                                <div class="item-require">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p>起购金额</p>
+                                                <p class="number">1000元</p>
+                                            </td>
+                                            <td class="cutline">
+                                                <p>项目期限</p>
+                                                <p class="number">120天</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="bottom clearfix">
+                                <span class="safe-tag float-left">本息保障</span>
+                                <span class="bids-btn float-right">立即投标</span>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="border-li">
+                        <div class="item">
+                            <div class="top">
+                                <p>展义宝安逸1号OL004</p>
+                                <span class="income-rate">预期年化</span>
+                                <div class="rate">
+                                    <span>12</span>
+                                    <label>%</label>
+                                </div>
+                            </div>
+                            <div class="middle">
+                                <p class="amount">融资金额：<span>300,000</span>元</p>
+                                <div class="progress-bar">
+                                    <div class="progress">&nbsp;</div>
+                                </div>
+                                <div class="progress-detail clearfix">
+                                    <p class="float-left">已融资<span>50%</span></p>
+                                    <p class="float-right">剩余融资：<span>145,000元</span></p>
+                                </div>
+                                <div class="item-require">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <p>起购金额</p>
+                                                <p class="number">1000元</p>
+                                            </td>
+                                            <td class="cutline">
+                                                <p>项目期限</p>
+                                                <p class="number">120天</p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="bottom clearfix">
+                                <span class="safe-tag float-left">本息保障</span>
+                                <span class="bids-btn float-right">立即投标</span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
