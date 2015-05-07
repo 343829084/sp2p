@@ -56,7 +56,16 @@
                     <span class="announcement"><a href="@{front.wealthinfomation.WealthInfomationAction.newsList(7)}" target="_blank">公告</a></span>
                 </span>
                 <span class="float-right">
-                    <span><a href="@{front.account.loginAndRegisterAction.login()}">登入</a>&nbsp;|&nbsp;<a href="@{front.account.LoginAndRegisterAction.register()}">注册</a></span>
+                    <span>
+						#{if currUser == null}
+                            <a href="@{front.account.loginAndRegisterAction.login()}">登入</a>&nbsp;|&nbsp;
+							<a href="@{front.account.LoginAndRegisterAction.register()}">注册</a>
+						#{/if}
+						#{else}
+                            <span>您好，【<a href="@{front.account.AccountHome.home()}">${currUser?.name}</a>】，</span>
+							<a href="@{front.account.loginAndRegisterAction.logout()}">退出</a>
+						#{/else}
+					</span>
                     <span class="help-center"><a href="@{front.help.HelpCenterAction.index(13)}">帮助中心</a></span>
                     <span class="contect-us"><a>联系我们</a></span>
                 </span>
@@ -74,6 +83,9 @@
                     <li><a href="@{front.home.HomeAction.aboutUs(-1004)}">关于我们</a></li>
                     <li class="highlight-item"><a class="a-link" href="@{front.invest.InvestAction.investHome()}">我要理财</a></li>
                     <li class="highlight-item"><a class="a-link" href="@{front.account.accountHome.home()}">我的财富</a></li>
+					#{if currUser?.name == mobile}
+						<li id="bid"><a href="@{front.bid.bidAction.index()}" >我要借款</a></li>
+					#{/if}
                 </ul>
             </span>
     </div>
