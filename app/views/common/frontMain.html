@@ -81,12 +81,13 @@
                     <li>新手引导</li>
                     <li><a href="@{front.principal.PrincipalGuaranteeAction.principalGuaranteeHome()}">安全保障</a></li>
                     <li><a href="@{front.home.HomeAction.aboutUs(-1004)}">关于我们</a></li>
+                    #{if currUser?.name == mobile}
+						<li><a href="@{front.bid.bidAction.index()}" >我要借款</a></li>
+					#{/if}
                     <li class="highlight-item"><a class="a-link" href="@{front.invest.InvestAction.investHome()}">我要理财</a></li>
                     <li class="highlight-item"><a class="a-link" href="@{front.account.accountHome.home()}">我的财富</a></li>
-					#{if currUser?.name == mobile}
-						<li id="bid"><a href="@{front.bid.bidAction.index()}" >我要借款</a></li>
-					#{/if}
-                </ul>
+
+				</ul>
             </span>
     </div>
 </div>
