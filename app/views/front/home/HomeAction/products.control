@@ -9,7 +9,7 @@
                     <li>
                         <div class="item">
                             <div class="top">
-                                <a href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank">${bid?.title}</a>
+                                <a href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank"><p>${bid?.title}</p></a>
                                 <span class="income-rate">预期年化</span>
                                 <div class="rate">
                                     <span>${bid?.apr}</span>
