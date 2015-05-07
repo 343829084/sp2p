@@ -61,10 +61,12 @@ public class HomeAction extends BaseController{
 
 		Long userCount = User.findUserCount(error);  //客户数量
 
+		double totalVolume = Bid.findTotalVolumeOfBids(error); //累计成交额
+
 		boolean isNew = true;
 
 		render(isNew, homeAds, bidList,agencyBids,investBillboard,successStorys,investSkills,loanSkills,news,
-				bids, adsEnsure, adsPartner, types ,maps, userCount);
+				bids, adsEnsure, adsPartner, types ,maps, userCount, totalVolume);
 	}
 	
 	public static void banner(){
