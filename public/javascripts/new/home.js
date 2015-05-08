@@ -55,6 +55,8 @@ var initAdvBanner = function() {
 };
 
 
+
+
 $(function () {
 	initAdvBanner();
 

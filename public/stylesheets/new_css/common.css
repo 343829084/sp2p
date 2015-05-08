@@ -1,6 +1,8 @@
 
 /* These code is for header  */
-#header { }
+#header {
+    margin-bottom: 10px;
+}
 #header .top{
     background-color: #FAFAFA;
 }
@@ -49,6 +51,43 @@
     text-align: center;
 }
 
+#main {
+}
+
+
+#footer {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 20px;
+}
+
+#footer .company-detail{
+
+}
+
+#footer .company-detail li {
+    float: left;
+    margin-right: 5px;
+    font-size: 0.9em;
+}
+
+.company-detail .site-info {
+    font-size: 0.6em;
+    margin-top: 50px;
+}
+
+.site-info span {
+    margin-right: 30px;
+}
+
+.company-detail p {
+    font-size: 0.6em;
+}
+
+#footer .customer-service{
+    color :#808080;
+    margin-right: 5px;
+}
 
 
 
