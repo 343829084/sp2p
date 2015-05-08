@@ -37,7 +37,7 @@ public class HomeAction extends BaseController{
 		
 		List<v_front_all_bids> bidList = Invest.queryBids();//首页最新五个借款标
 		
-		List<v_front_all_bids> agencyBids = Invest.queryAgencyBids();//机构借款标
+//		List<v_front_all_bids> agencyBids = Invest.queryAgencyBids();//机构借款标
 		
 		List<v_bill_board> investBillboard = Invest.investBillboard();//理财风云榜
 		
@@ -63,9 +63,7 @@ public class HomeAction extends BaseController{
 
 		double totalVolume = Bid.findTotalVolumeOfBids(error); //累计成交额
 
-		boolean isNew = true;
-
-		render(isNew, homeAds, bidList,agencyBids,investBillboard,successStorys,investSkills,loanSkills,news,
+		render(homeAds, bidList,investBillboard,successStorys,investSkills,loanSkills,news,
 				bids, adsEnsure, adsPartner, types ,maps, userCount, totalVolume);
 	}
 	
