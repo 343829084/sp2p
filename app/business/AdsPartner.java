@@ -346,8 +346,7 @@ public class AdsPartner implements Serializable{
 				+ ") from t_content_advertisements_partner partner order by partner._order";
 
 		try {
-			advertisements = t_content_advertisements_partner.find(sql).fetch(
-					1, 6);
+			advertisements = t_content_advertisements_partner.find(sql).fetch(1, 7);
 		} catch (Exception e) {
 			e.printStackTrace();
 			Logger.info("查找合作伙伴，查找合作伙伴信息时：" + e.getMessage());

@@ -7,7 +7,6 @@ business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackst
 #{extends 'common/frontMain.html' /}
 #{set title:currBackstageSet.seoTitle /}
 
-<!-- 大广告 -->
 #{include "front/home/HomeAction/banner.html"/}
 
 <div id="main">
@@ -20,6 +19,12 @@ business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackst
             #{include "front/home/HomeAction/products.control"/}
             #{include "front/home/HomeAction/twoDimensionalCode.control"/}
         </div>
-        <div id="main-bottom"></div>
+    </div>
+    <div id="main-bottom">
+        <div class="info-panel">
+            #{include "front/home/HomeAction/media.control"/}
+            #{include "front/home/HomeAction/news.control"/}
+        </div>
+        #{include "front/home/HomeAction/partner.control"/}
     </div>
 </div>
