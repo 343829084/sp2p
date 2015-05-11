@@ -434,7 +434,7 @@ public class Constants {
 	public static final int FULL_REMIND_BID_COUNT = 3; // 我的账户提醒满标倒计时数量
 	public static final int RECENTLY_REPAYMENT_BILL_COUNT = 3; // 账单提醒最近还款账单数量
 	public static final int YEAR_PERIOD_LIMIT = 5; // 年借款期限，限制
-	public static final int HOME_BID_COUNT = 4; // 首页借款标限制
+	public static final int HOME_BID_COUNT = 8; // 首页借款标限制
 	public static final int NEW_FUNDRAISEING_BID = 3; // 最新未满标限制数量
 	
 	public static final int SEARCH_ALL = 0; // 全部搜索

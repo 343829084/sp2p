@@ -12340,4 +12340,21 @@ public class User extends UserBase implements Serializable{
 		
 		return user;
 	}
+
+	/**
+	 * 客户数量
+	 * @param error
+	 * @return
+	 */
+	public static Long findUserCount(ErrorInfo error) {
+		error.clear();
+		try {
+			return t_users.count();
+		} catch (Exception e) {
+			e.printStackTrace();
+			error.msg = "对不起！系统异常！请您联系平台管理员！";
+			error.code = -2;
+			return null;
+		}
+	}
 }
