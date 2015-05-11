@@ -1984,5 +1984,13 @@ GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommi
 
 
 
-
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^mobile^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 GET   /mobile/login                                                  mobile.LoginAction.login
+
+GET  /mobile/content/bestProduct                                     mobile.MainContent.bestProduct
+
+GET  /mobile/content/property                                         mobile.MainContent.property
+
+GET  /mobile/content/moneyMatters                                     mobile.MainContent.moneyMatters
+
+GET  /mobile/content/me                                               mobile.MainContent.me

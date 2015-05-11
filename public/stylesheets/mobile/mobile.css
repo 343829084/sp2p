@@ -1,0 +1,261 @@
+body{
+    max-width: 1024px;
+}
+.foot_pos{
+    position: fixed;
+    left: 0;
+    bottom:0;
+    z-index: 999;
+    width: 100%;
+    background-color: #f7f7f7;
+}
+.fm_mgpd{
+  margin-left: 0px!important;
+    margin-right:0px!important;
+    margin-bottom: 0px!important;
+    border-width: 0px!important ;
+    width:100%!important ;
+    padding-left: 0px!important ;
+    padding-right: 0px!important ;
+    font-size: 0.8em!important;
+
+}
+.center{
+    text-align: center;
+}
+.foot_pos > div{
+    width: 25%!important;
+}
+a[id^=menu]{
+    border-color:#FDFDFD!important;
+    display:block!important;
+    border-style: none;
+    border-width: 0px!important;
+    border-collapse: collapse;
+    box-shadow: none;
+}
+a[id^=menu]:visited{
+    /*color:#FDFDFD!important;*/
+    background-color:#FDFDFD!important;
+}
+.fm_bg_01{
+    background-image: url("../../images/h5icon/gold_unselected.png");
+
+}
+.ui-btn-icon-top:after{
+    background-color: rgba(0, 0, 0, 0)!important;
+}
+
+.ui-icon-gold-selected {
+    background: url('../../images/h5icon/gold_selected.png') no-repeat 0 0;
+    background-position: center 5px;
+}
+
+
+.ui-icon-gold-unselected{
+    background: url('../../images/h5icon/gold_unselected.png') no-repeat 0 0;
+    background-position: center 5px;
+}
+
+.ui-icon-home-selected {
+    background: url('../../images/h5icon/home_selected.png') no-repeat 0 0;
+    background-position: center 5px;
+}
+
+
+.ui-icon-home-unselected{
+    background: url('../../images/h5icon/home_unselected.png') no-repeat 0 0;
+    background-position: center 5px;
+}
+
+.ui-icon-list-selected {
+    background: url('../../images/h5icon/list_selected.png') no-repeat 0 0;
+    background-position: center 5px;
+}
+
+
+.ui-icon-list-unselected{
+    background: url('../../images/h5icon/list_unselected.png') no-repeat 0 0;
+    background-position: center 5px;
+}
+
+.ui-icon-more-selected {
+    background: url('../../images/h5icon/more_selected.png') no-repeat 0 0;
+    background-position: center 5px;
+}
+
+
+.ui-icon-more-unselected{
+    background: url('../../images/h5icon/more_unselected.png') no-repeat 0 0;
+    background-position: center 5px;
+}
+/*.fm_foot_mu{*/
+    /*border-top: 1px silver solid!important;*/
+/*}*/
+/***********************************************轮播************************************************************************/
+@charset "utf-8";
+html, body { font-family:"微软雅黑"}
+div.slideBox{ height:300px; overflow:hidden;dislplay:block;}
+div.slideBox ul.items{ position:absolute; float:left; background:none; list-style:none; padding:0px; margin:0px;}
+div.slideBox ul.items li{ float:left; background:none; list-style:none; padding:0px; margin:0px;width: 100%;}
+div.slideBox ul.items li a{ float:left; line-height:normal !important; padding:0px !important; border:none/*For IE.ADD.JENA.201206300844*/;}
+div.slideBox ul.items li a img{ margin:0px !important; padding:0px !important; display:block; border:none/*For IE.ADD.JENA.201206300844*/;}
+div.slideBox div.tips{ position:absolute; width:100%; height:30px; background-color:#000; overflow:hidden;}
+div.slideBox div.tips div.title{ position:absolute; left:0px; top:0px; height:100%;}
+div.slideBox div.tips div.title a{ color:#FFF; font-size:18px; line-height:50px; margin-left:10px; text-decoration:none;}
+div.slideBox div.tips div.title a:hover{ text-decoration:underline !important;}
+div.slideBox div.tips div.nums{ position:absolute; right:0px; top:0px; height:100%;}
+div.slideBox div.tips div.nums a{ display:inline-block; >float:left/*For IE.ADD.JENA.201206300844*/; width:10px; height:10px; background-color:#FFF; text-indent:-99999px; margin:10px 10px 0px 0px;}
+div.slideBox div.tips div.nums a.active{ background-color:#093;}
+
+/*************************************************bestProduct**********************************************************************/
+.bt-pd-padding{
+    padding-bottom: 3em!important;
+    margin-bottom: 2em;
+}
+.bt-pd-padding > h3{
+    text-align: center;
+}
+.banner_image_width{
+    width: 100%;
+}
+.bt-pd-padding *{
+    margin:0px;
+    border: 0px;
+    text-align: center;
+    background-color: rgb(247,247,247);
+}
+
+.bt-pd-padding h3{
+    margin-top: 10px;
+
+}
+.bp_font_apr{
+    font-size: 4rem;
+    color:red;
+    font-weight: bold;
+}
+.bp_productListBox{
+    padding: 0 7px 0 7px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+.bp_productListBox .bp_bp_productList_l{
+    width: 40%;
+    float: left;
+}
+.bp_productListBox .bp_bp_productList_l canvas{
+    margin-top: 0.5rem;
+    margin-left: 5px;
+    float: right;
+}
+.bp_productListBox .bp_bp_productList_r{
+    width: 60%;
+    float: right;
+}
+.bp_ul{
+    margin-top: 16px;
+    text-align: left;
+    padding-left: 0.5rem;
+    height: 50px;
+}
+.bp_btn_pur{
+    margin-top: 0Px!important;
+    padding-top: 0px!important;
+}
+.bp_ul li{
+    text-align: left;
+}
+sub{
+    font-size: 1.5rem;
+}
+.bp_font_p{
+    font-size: 0.9rem;
+    color: rgba(0, 0, 0, 0.6);
+}
+.bp_sec_icon{
+    position: relative;
+  padding-right: 10px;
+    padding-left: 20px;
+    width:200px;
+    margin: auto;
+    height:25px;
+    text-align: center;
+}
+.bp_font_red{
+    color:red;
+}
+.bp_fix_font{
+    font-size: 13px!important;
+    margin-left: 20px;
+    line-height: 25px;
+}
+.bp_sec_icon img{
+    height: 25px !important;
+    width: 25px !important;
+    position: absolute;
+    top: 0px;
+    left: 30px;
+}
+/*************************************************************moneyMatters************************************************/
+.mm_hd_bd{
+    height:22px;
+    width:100%;
+    border-top-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-width: 1px ;
+    border-bottom-color: #666666;
+    margin-top: 10px;
+}
+.mm_all_bg{
+    background-color: #FDFDFD;
+    min-height: 736px;
+}
+.mm_title_cn li{
+    text-align: center;
+    float:left;
+    width:33%;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+@media screen and (min-width: 801px) and (max-width: 1024px) {
+    html,body{
+        font-size:16px!important ;
+    }
+}
+@media screen and (min-width: 701px) and (max-width: 800px) {
+    html,body{
+        font-size:16px!important ;
+    }
+}
+@media screen and (min-width: 601px) and (max-width: 700px) {
+    html,body{
+        font-size:14px!important ;
+    }
+}
+@media screen and (min-width: 501px) and (max-width: 600px) {
+    html,body{
+        font-size:14px!important ;
+    }
+}
+@media  screen and (min-width: 401px) and (max-width: 500px)  {
+    html,body{
+        font-size:15px!important ;
+    }
+}
+@media  screen and (min-width: 361px) and (max-width:400px)  {
+    html,body{
+        font-size:12px!important ;
+    }
+}
+@media  screen and (min-width: 321px) and (max-width: 360px)  {
+    html,body{
+        font-size:11px!important ;
+    }
+}
+@media  screen and (min-width: 200px) and (max-width: 320px)  {
+html,body{
+    font-size:11px!important ;
+}
+}
