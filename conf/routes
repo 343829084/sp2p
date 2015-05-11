@@ -1986,3 +1986,7 @@ GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommi
 
 
 GET   /mobile/login                                                  mobile.LoginAction.login
+POST   /mobile/login                                                  mobile.LoginAction.doLogin
+GET   /mobile/register                                                  mobile.LoginAction.register
+POST   /mobile/register                                                  mobile.LoginAction.doRegister
+GET   /mobile/verifyCode                                                  mobile.CheckAction.sendVerifyCode
