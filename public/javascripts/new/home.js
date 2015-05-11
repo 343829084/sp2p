@@ -54,10 +54,25 @@ var initAdvBanner = function() {
 	});
 };
 
-
+var floatWidget = function (){
+	var floatDiv = $("#twoDimensionalCode");
+	var container = $("#prodList");
+	var upperBoundary = floatDiv.offset().top;
+	$(window).scroll(function () {
+		var scrollTop = +(document.documentElement.scrollTop || document.body.scrollTop);
+		if (scrollTop > upperBoundary) {
+			container.css("position", "static");
+			floatDiv.css({position: "fixed", top :"100px", right:"300px"});
+		}
+		else {
+			container.css("position", "relative");
+			floatDiv.css({position: "absolute", top :"15px", right:"-150px"});
+		}
+	});
+};
 
 
 $(function () {
 	initAdvBanner();
-
+	floatWidget();
 });

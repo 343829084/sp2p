@@ -438,6 +438,7 @@
 
 #twoDimensionalCode {
     position: absolute;
+    z-index: 10000;
     top: 15px;
     right: -150px;
     border: 1px solid #efefef;
