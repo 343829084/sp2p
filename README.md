@@ -13,7 +13,11 @@
 	play-1.2.7\framework\play-1.2.7.jar包
 
 4，配置运行参数
-	eclipse中：	
+	eclipse中：
+		cmd
+		cd project path
+        play eclipsify
+
 		配置java application
 		
 		sp2ponline-dev-v2项目配置
@@ -28,14 +32,14 @@
 		main class:play.server.Server
 		arguments:	-Xdebug  -Dplay.id= -Dapplication.path="${project_loc:p2pspay-dev-v2}" -Djava.endorsed.dirs="C:\Program Files\play-1.2.7/framework/endorsed" -javaagent:"C:\Program Files\play-1.2.7/framework/play-1.2.7.jar"
 	
-	IDEA中	：（佳明完善下）
+	IDEA中	：
 		 Edit configurations
          add Application
             Main Class: play.server.Server
-            VM options:
+            VM options: -Xms512m -Xmx512m -XX:PermSize=512m -XX:MaxPermSize=512m -Xms512m -Xmx512m -XX:PermSize=126m -XX:MaxPermSize=126m -Xdebug -Dplay.debug=yes -Dplay.id= -Dapplication.path="E:\p2pworkspace\sp2ponline" -Djava.endorsed.dirs="C:\play\play-1.2.7\framework/endorsed" -javaagent:"C:\play\play-1.2.7\framework/play-1.2.7.jar"
 		Terminal
         play idealize重新生成本地配置文件
-        play clean 删除tmp文件 若出现版本问题  VerifyError...
+        若出现版本问题  VerifyError...XXX   使用 play clean 删除tmp文件
         
         
 		
