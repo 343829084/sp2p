@@ -1,8 +1,10 @@
 package controllers.mobile;
 
+import business.Invest;
 import constants.Constants;
 import constants.SQLTempletes;
 import controllers.BaseController;
+import models.v_front_all_bids;
 import models.y_front_show_bids;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
@@ -12,6 +14,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
 import play.db.jpa.JPA;
 import utils.ErrorInfo;
+import utils.PageBean;
 
 import javax.persistence.Query;
 import java.io.IOException;
@@ -140,11 +143,19 @@ public class MainContent extends BaseController {
         render();
     }
     /**
-     * 跳转到财富页面
+     * 跳转到理财页面
      */
     public static void moneyMatters() {
-        String loginOrRegister = Constants.LOGIN_AREAL_FLAG;
-        render();
+        ErrorInfo error = new ErrorInfo();
+        int currPage = 1;
+
+        if(params.get("currPage")!=null) {
+            currPage = Integer.parseInt(params.get("currPage"));
+        }
+
+        PageBean<v_front_all_bids> pageBean = new PageBean<v_front_all_bids>();
+        pageBean= Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, 100, null, null, null, null, null, null, null, null, "0", null, error);
+        render(pageBean);
     }
     /**
      * 跳转到me页面
