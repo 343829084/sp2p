@@ -62,7 +62,7 @@ var floatWidget = function (){
 		var scrollTop = +(document.documentElement.scrollTop || document.body.scrollTop);
 		if (scrollTop > upperBoundary) {
 			container.css("position", "static");
-			floatDiv.css({position: "fixed", top :"100px", right:"300px"});
+			floatDiv.css({position: "fixed", top :"0px", right:"300px"});
 		}
 		else {
 			container.css("position", "relative");
