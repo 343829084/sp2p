@@ -241,7 +241,11 @@ public class NewsType implements Serializable{
 			
 			childTypes.add(childType);
 		}
-		
+
+		NewsType latestNewsType = new NewsType();
+		latestNewsType.setParentId(3L);
+		latestNewsType.name = "最新动态";
+		childTypes.add(latestNewsType);
 		error.code = 0;
 		
 		return childTypes;
