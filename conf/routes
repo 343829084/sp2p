@@ -5,6 +5,7 @@ GET     /                             											front.home.HomeAction.home
 GET     /front/home/getStart              										front.home.HomeAction.getStart
 #关于我们
 GET     /front/home/aboutUs              										front.home.HomeAction.aboutUs
+GET     /front/home/newsDetail              									front.home.HomeAction.newsDetail
 
 GET     /errorFront                   											Application.errorFront
 GET     /errorSupervisor              											Application.errorSupervisor

@@ -1,12 +1,12 @@
 <div class="info-panel-container info-panel-gap clearfix">
     <div class="title-header clearfix">
         <span class="title-name float-left">最新动态</span>
-        <span class="more-info float-right"><a>更多</a></span>
+        <span class="more-info float-right"><a  href="@{front.home.HomeAction.aboutUs(-1010)}" target="_blank">更多</a></span>
     </div>
     <div>
         <ul>
             #{list items:latestNews , as:'latestNew'}
-                <li><a target="_blank">${latestNew?.title}</a></li>
+                <li><a href="@{front.home.HomeAction.newsDetail(latestNew?.id)}" target="_blank">${latestNew?.title}</li>
             #{/list}
         </ul>
     </div>

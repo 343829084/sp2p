@@ -15,6 +15,7 @@ import models.v_front_all_bids;
 import constants.Constants;
 import constants.OptionKeys;
 import controllers.BaseController;
+import play.db.jpa.JPABase;
 import utils.Arith;
 import utils.ErrorInfo;
 import utils.PageBean;
@@ -242,20 +243,47 @@ public class HomeAction extends BaseController {
         String content = null;
         List<String> contentList = null;
 
+        List<News> mediaReportNews = null;
+        List<News> latestNews = null;
         switch (id) {
+            case -1010:
+                latestNews = News.findLatestNews(error);
+                break;
+            case -1009:
+                mediaReportNews = News.findMediaReportNews(error);
+                break;
             case -1006:
+                break;
             case -1005:
                 contentList = News.queryContentList(id, error);
                 break;
             default:
                 content = News.queryContentByTypeId(id, error);
+                break;
         }
 
         NewsType parent = new NewsType();
         parent.id = 3;
         List<NewsType> types = NewsType.queryChildTypes(3, error);
+        render(content, contentList, investData, products, creditLevels, parent, types, id, mediaReportNews, latestNews);
+    }
 
-        render(content, contentList, investData, products, creditLevels, parent, types, id);
+    /**
+     * 媒体报道列表
+     */
+    public static void newsDetail(Long newsId) {
+        ErrorInfo error = new ErrorInfo();
+        Object[] investData = News.queryInvestDataSum();
+        List<NewsType> types = NewsType.queryChildTypes(3, error);
+        t_content_news content = t_content_news.findById(newsId);
+        News news = new News();
+        news.id = content.id;
+        news.time = content.time;
+        news.title = content.title;
+        news.content = content.content;
+        news.readCount = content.read_count;
+        news.time = content.time;
+        render(types, news, investData);
     }
 
     /**

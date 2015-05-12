@@ -1,7 +1,7 @@
 <div class="info-panel-container clearfix">
     <div class="title-header clearfix">
         <span class="title-name float-left">媒体报道</span>
-        <span class="more-info float-right"><a>更多</a></span>
+        <span class="more-info float-right"><a href="@{front.home.HomeAction.aboutUs(-1009)}" target="_blank">更多</a></span>
     </div>
     <div>
         <ul>

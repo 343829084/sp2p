@@ -19,7 +19,7 @@ table{border-collapse:collapse;border-spacing:0}
 .clr { zoom:1;}
 
 /*内容区最大盒子*/
-.xf_con_box{width: 1000px; margin:0 auto;}
+.xf_con_box{width: 1000px; margin:0 auto;min-height: 270px;}
 /*a*/
 a{ text-decoration:none; color:#95a0a8;cursor:pointer;outline:none;}
 a:hover{color:#ff6600;}
