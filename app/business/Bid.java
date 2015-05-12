@@ -820,7 +820,7 @@ public class Bid implements Serializable {
 
             return;
         }
-		
+
 		/* 添加事件 */
         if (status)
             DealDetail.supervisorEvent(Supervisor.currSupervisor().id, SupervisorEvent.SET_QUALITY_BID, "设置优质标", error);
@@ -7961,12 +7961,45 @@ public class Bid implements Serializable {
         try {
             String sql = " select sum(b.amount) from t_bids b where b.amount = b.has_invested_amount";
             BigDecimal totalVolume = (BigDecimal) JPA.em().createNativeQuery(sql).getSingleResult();
-            return totalVolume == null ? 0 : totalVolume.doubleValue();
+            return formatMillon((totalVolume == null ? 0 : totalVolume.doubleValue()) + Constants.BASE_TOTAL_VOLUME);
         } catch (Exception e) {
             e.printStackTrace();
             error.msg = "对不起！系统异常！请您联系平台管理员！";
             error.code = -2;
         }
         return 0;
+    }
+
+    public static double findLoanLossProvision(ErrorInfo error) {
+        error.clear();
+        try {
+            String sql = " select " +
+                    "        sum(CASE" +
+                    "            WHEN (b.period_unit = 1)" +
+                    "            THEN b.amount * b.apr/100 * b.period/365" +
+                    "            WHEN (b.period_unit = 0)" +
+                    "            THEN b.amount * b.apr/100 * b.period/12" +
+                    "            WHEN (b.period_unit = -1)" +
+                    "            THEN b.amount * b.apr/100 * b.period/1" +
+                    "            ELSE 0" +
+                    "        END) from t_bids b where b.amount = b.has_invested_amount";
+            BigDecimal loanLossProvision = (BigDecimal) JPA.em().createNativeQuery(sql).getSingleResult();
+            return formatMillon((loanLossProvision == null ? 0 : loanLossProvision.doubleValue()) + Constants.BASE_TOTAL_VOLUME * 0.09 * 6 / 12);
+        } catch (Exception e) {
+            e.printStackTrace();
+            error.msg = "对不起！系统异常！请您联系平台管理员！";
+            error.code = -2;
+        }
+        return 0;
+    }
+
+    /**
+     * 取万元
+     * @param value
+     * @return
+     */
+    private static double formatMillon(double value) {
+        BigDecimal bigDecimal = new BigDecimal(value / 10000);
+        return bigDecimal.setScale(0, BigDecimal.ROUND_CEILING).doubleValue();
     }
 }

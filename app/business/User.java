@@ -12349,7 +12349,7 @@ public class User extends UserBase implements Serializable{
 	public static Long findUserCount(ErrorInfo error) {
 		error.clear();
 		try {
-			return t_users.count();
+			return t_users.count() + Constants.BASE_USER_COUNT;
 		} catch (Exception e) {
 			e.printStackTrace();
 			error.msg = "对不起！系统异常！请您联系平台管理员！";

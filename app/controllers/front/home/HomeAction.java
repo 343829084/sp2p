@@ -64,7 +64,9 @@ public class HomeAction extends BaseController {
 
         double totalVolume = Bid.findTotalVolumeOfBids(error); //累计成交额
 
-        render(homeAds, bidList, mediaReportNews, latestNews, news, bids, adsEnsure, adsPartner, types, maps, userCount, totalVolume);
+        double loanLossProvision = Bid.findLoanLossProvision(error);
+
+        render(homeAds, bidList, mediaReportNews, latestNews, news, bids, adsEnsure, adsPartner, types, maps, userCount, totalVolume, loanLossProvision);
     }
 
     public static void banner() {
