@@ -40,15 +40,7 @@
                             <td class="cutline">
                                 <p>项目期限</p>
                                 <p class="number">
-                                    #{if bid?.period_unit ==-1}
-                                        ${bid?.period}年
-                                    #{/if}
-                                    #{if bid?.period_unit ==0}
-                                        ${bid?.period}个月
-                                    #{/if}
-                                    #{if bid?.period_unit ==1}
-                                        ${bid?.period}天
-                                    #{/if}
+                                    ${bid?.period.formatPeriod(bid?.period_unit)}
                                 </p>
                             </td>
                         </tr>
