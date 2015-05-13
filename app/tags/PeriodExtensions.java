@@ -11,7 +11,7 @@ public class PeriodExtensions extends JavaExtensions {
         if (period == null || periodUnit == null) return null;
         Integer value = null;
         String unit = null;
-        if (periodUnit == 1) {
+        if (periodUnit == 1) {           // 天
             if (31 > period) {
                 value = period;
                 unit = "天";
@@ -19,10 +19,10 @@ public class PeriodExtensions extends JavaExtensions {
                 value = Integer.valueOf((int) Math.floor(period / 31));
                 unit = "个月";
             }
-        } else if (periodUnit == 0) {
+        } else if (periodUnit == 0) {    // 月
             value = period;
             unit = "个月";
-        } else if (periodUnit == -1) {
+        } else if (periodUnit == -1) {   // 年
             value = period;
             unit = "年";
         }

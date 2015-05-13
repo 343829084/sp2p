@@ -1443,6 +1443,8 @@ public class Constants {
 	public static final int ALREADY_RUN = -11; // 某个操作已执行
 	public static final int REFUND_ITEM_FEE = -12; // 完全资金托管模式退回资料审核费
 
+	public static final Long BASE_USER_COUNT = 1500L; // 用户基数
+	public static final Long BASE_TOTAL_VOLUME = 20000000L; //累计成交量基础
 	public static final Long MEDIA_REPORT_NEWS_TYPE = 34L; // 媒体报道
 	public static final Long LATEST_NEWS_TYPE = 34L; // 最新动态
 }
