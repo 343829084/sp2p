@@ -173,4 +173,5 @@ public class AppConstants {
 	public static final int APP_PROJECT_DETAIL=162;  //项目详情
 	public static final int APP_FUND_SECURITY=163;   //资金安全
 	public static final int APP_HOMEPAGE_SHOW_BIDS=164;   //首页展示标的
+	public static final int APP_RETURN_MODE=165;  //收益获取接口
 }

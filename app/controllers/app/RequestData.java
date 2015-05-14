@@ -271,7 +271,7 @@ public class RequestData {
 
 		jsonMap.put("isQuality", bid.isQuality);
 		jsonMap.put("paymentType", bid.repayment.id);
-		jsonMap.put("paymentMode", bid.repayment.name);
+		jsonMap.put("paymentMode", "还款方式:  "+bid.repayment.name);
 		jsonMap.put("paymentTime", bid.recentRepayTime+"");
 
 		if(bid.isAgency && bid.isShowAgencyName){
@@ -313,11 +313,16 @@ public class RequestData {
 		jsonMap.put("bidIdSign",bid.sign);
 		jsonMap.put("bidUserIdSign",bid.signUserId);
 
-		jsonMap.put("project_introduction", bid.project_introduction);//项目简述
-		if(null!=bid.project_introduction && bid.project_introduction.length()>44){
-			jsonMap.put("project_introduction_short",bid.project_introduction.substring(0, 44));//短的项目简述
+		jsonMap.put("project_introduction", bid.description);//项目简述
+		if(null!=bid.project_introduction && bid.description.length()>44){
+			try{
+				String project=bid.description.split(";")[0];
+				jsonMap.put("project_introduction_short",project.substring(0,44));//短的项目简述
+			}catch (Exception e) {
+				jsonMap.put("project_introduction_short",bid.description.substring(0,44));//短的项目简述
+			}	
 		}else{
-			jsonMap.put("project_introduction_short",bid.project_introduction);
+			jsonMap.put("project_introduction_short",bid.description);
 		}
 
         RequestDataExtend.extendBid(jsonMap, bid);
@@ -360,7 +365,7 @@ public class RequestData {
 			for(v_invest_records record : page) {
 				String name = record.name;
 				if(null != name && name.length() > 1) {
-					record.name = record.name.substring(0, 1) + "***";
+					record.name = record.name.substring(0, 3) + "******"+record.name.substring(9, 11);
 				}
 			}
 		}

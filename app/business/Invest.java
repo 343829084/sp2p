@@ -2756,26 +2756,33 @@ public class Invest implements Serializable{
 		
 		List<v_front_all_bids> bids = null;
 		StringBuffer sql = new StringBuffer("");
-		sql.append(SQLTempletes.SELECT);
-		sql.append(SQLTempletes.V_FRONT_ALL_BIDS_CREDIT);
-		if(Constants.IS_BIDS_NEED_FILTER){
-			sql.append(" and t_bids.is_agency = 0 and t_bids.time > '"+Constants.BIDS_CREATETIME +"' and t_users.name = '"+Constants.BIDS_MOBILE +"' and t_bids.status in(?, ?) order by t_bids.id desc");
-		}else {
-			sql.append(" and t_bids.is_agency = 0 and t_bids.status in(?, ?) order by t_bids.id desc");
-		}
+//		sql.append(SQLTempletes.SELECT);
+//		sql.append(SQLTempletes.V_FRONT_ALL_BIDS_CREDIT);
+//		if(Constants.IS_BIDS_NEED_FILTER){
+//			sql.append(" and t_bids.is_agency = 0 and t_bids.time > '"+Constants.BIDS_CREATETIME +"' and t_users.name = '"+Constants.BIDS_MOBILE +"' and t_bids.status in(?, ?) order by t_bids.id desc");
+//		}else {
+//			sql.append(" and t_bids.is_agency = 0 and t_bids.status in(?, ?) order by t_bids.id desc");
+//		}
+//		
+//		List<Object> params = new ArrayList<Object>();
+//		params.add(Constants.BID_ADVANCE_LOAN);
+//		params.add(Constants.BID_FUNDRAISE);
 		
-		List<Object> params = new ArrayList<Object>();
-		params.add(Constants.BID_ADVANCE_LOAN);
-		params.add(Constants.BID_FUNDRAISE);
+		sql.append(" (SELECT "+SQLTempletes.V_FRONT_ALL_BIDS_LIST1 +" WHERE t_bids.is_hot=1 AND t_bids.STATUS = 2 ORDER BY t_bids.TIME DESC LIMIT 1) ");
+		sql.append("UNION (SELECT "+SQLTempletes.V_FRONT_ALL_BIDS_LIST1 +" WHERE t_bids.is_quality = 1 AND t_bids.STATUS = 2 ORDER BY t_bids.TIME DESC  LIMIT 8) ");
+		sql.append("UNION (SELECT "+SQLTempletes.V_FRONT_ALL_BIDS_LIST1 +" WHERE t_bids.TIME > DATE_ADD(NOW(), INTERVAL 3 HOUR) AND t_bids.STATUS = 2 ORDER BY t_bids.TIME DESC LIMIT 2) ");
+		sql.append("UNION (SELECT "+SQLTempletes.V_FRONT_ALL_BIDS_LIST1 +" WHERE t_bids.STATUS = 2 and t_bids.real_invest_expire_time IS NULL ORDER BY t_bids.TIME  DESC LIMIT 8) ");		
+		sql.append("UNION (SELECT "+SQLTempletes.V_FRONT_ALL_BIDS_LIST1 +" WHERE t_bids.STATUS = 2 and t_bids.real_invest_expire_time IS NOT NULL ORDER BY t_bids.TIME DESC LIMIT 8) ");
+		sql.append("UNION (SELECT "+SQLTempletes.V_FRONT_ALL_BIDS_LIST1 +" WHERE t_bids.STATUS = 4 ORDER BY t_bids.TIME DESC LIMIT 8) ");
+		
 		
 		try {
 			EntityManager em = JPA.em();
-			
 			Query query = em.createNativeQuery(sql.toString(),v_front_all_bids.class);
-            for(int n = 1; n <= params.size(); n++){
-                query.setParameter(n, params.get(n-1));
-            }
-            query.setMaxResults(Constants.HOME_BID_COUNT);
+//            for(int n = 1; n <= params.size(); n++){
+//                query.setParameter(n, params.get(n-1));
+//            }
+            query.setMaxResults(Constants.HOME_BID_COUNT);//返回的条数
             bids = query.getResultList();
             
 		} catch (Exception e) {
