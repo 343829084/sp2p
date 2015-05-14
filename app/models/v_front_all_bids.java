@@ -42,8 +42,7 @@ public class v_front_all_bids extends Model{
 	public String repay_name;
 	public Boolean is_show_agency_name;
 	public Integer product_id;
-	public Double min_invest_amount;
-	
+
 	@Transient
 	public t_credit_levels creditLevel;
 	@Transient
