@@ -1,0 +1,90 @@
+<div class="filter-panel">
+	#{form @investHome(),method:'GET',id :'bidsSearch'}
+	<input type="hidden" id="currPage" name="currPage"/>
+    <input type="hidden" id="pageSize" name="pageSize"/>
+	<input type="hidden" id="apr" name="apr" value="${pageBean?.conditions?.apr}"/>
+	<input type="hidden" id="amount" name="amount" value="${pageBean?.conditions?.amount}"/>
+	<input type="hidden" id="loanScheddle" name="loanScheddle" value="${pageBean?.conditions?.loanScheddle}" />
+	<input type="hidden" id="orderType" name="orderType" value="${pageBean?.conditions?.orderType}"/>
+	<input type="hidden" id="period" name="period" value="${pageBean?.conditions?.period}"/>
+	<input type="hidden" id="productType" name="productType" value="${pageBean?.conditions?.productType}"/>
+	<input type="hidden" id="status" name="status" value="${pageBean?.conditions?.status}"/>
+	<div class="filter-condition clearfix">
+		<span>项目类型：</span>
+		<dl>
+			<dd>
+				<a>全部</a>
+			</dd>
+			<dd>
+				<a>易担保</a>
+			</dd>
+			<dd>
+				<a>易抵押</a>
+			</dd>
+			<dd>
+				<a>易票据</a>
+			</dd>
+			<dd>
+				<a>展义宝</a>
+			</dd>
+		</dl>
+	</div>
+	<div class="filter-condition clearfix">
+		<span>借款期限：</span>
+		<dl>
+			<dd onclick="findInvestBy('period',0)" #{if pageBean?.conditions?.period == 0} class="red" #{/if}><a>全部</a></dd>
+			<dd onclick="findInvestBy('period',1)" #{if pageBean?.conditions?.period == 1} class="red" #{/if}><a>30天以下</a></dd>
+			<dd onclick="findInvestBy('period',2)" #{if pageBean?.conditions?.period == 2} class="red" #{/if}><a>30天-90天</a></dd>
+			<dd onclick="findInvestBy('period',3)" #{if pageBean?.conditions?.period == 3} class="red" #{/if}><a>90天-180天</a></dd>
+			<dd onclick="findInvestBy('period',4)" #{if pageBean?.conditions?.period == 4} class="red" #{/if}><a>180天-365	天</a></dd>
+			<dd onclick="findInvestBy('period',5)" #{if pageBean?.conditions?.period == 5} class="red" #{/if}><a>365天以上</a></dd>
+		</dl>
+	</div>
+	<div class="filter-condition clearfix">
+		<span>投资金额：</span>
+		<dl>
+			<dd onclick="findInvestBy('amount',0)" #{if pageBean?.conditions?.amount == 0} class="red" #{/if}><a>全部</a></dd>
+			<dd onclick="findInvestBy('amount',1)" #{if pageBean?.conditions?.amount == 1} class="red" #{/if}><a>10万以下</a></dd>
+			<dd onclick="findInvestBy('amount',2)" #{if pageBean?.conditions?.amount == 2} class="red" #{/if}><a>10-50万</a></dd>
+			<dd onclick="findInvestBy('amount',3)" #{if pageBean?.conditions?.amount == 3} class="red" #{/if}><a>50-100万</a></dd>
+			<dd onclick="findInvestBy('amount',4)" #{if pageBean?.conditions?.amount == 4} class="red" #{/if}><a>100-300万</a></dd>
+			<dd onclick="findInvestBy('amount',5)" #{if pageBean?.conditions?.amount == 5} class="red" #{/if}><a>300万以上</a></dd>
+		</dl>
+	</div>
+	<div class="filter-condition clearfix">
+		<span>项目收益：</span>
+		<dl>
+			<dd onclick="findInvestBy('apr',0)" #{if pageBean?.conditions?.apr == 0} class="red" #{/if}><a>全部</a></dd>
+			<dd onclick="findInvestBy('apr',1)" #{if pageBean?.conditions?.apr == 1} class="red" #{/if}><a>10%以下</a></dd>
+			<dd onclick="findInvestBy('apr',2)" #{if pageBean?.conditions?.apr == 2} class="red" #{/if}><a>10%-15%</a></dd>
+			<dd onclick="findInvestBy('apr',3)" #{if pageBean?.conditions?.apr == 3} class="red" #{/if}><a>15%-20%</a></dd>
+			<dd onclick="findInvestBy('apr',4)" #{if pageBean?.conditions?.apr == 4} class="red" #{/if}><a>20%以上</a></dd>
+
+		</dl>
+	</div>
+	<div class="filter-condition clearfix">
+		<span>借款状态：</span>
+		<dl>
+			<dd onclick="findInvestBy('status',0)" #{if pageBean?.conditions?.status == 0} class="red" #{/if}><a>全部</a></dd>
+			<dd onclick="findInvestBy('status',1)" #{if pageBean?.conditions?.status == 1} class="red" #{/if}><a>预售</a></dd>
+			<dd onclick="findInvestBy('status',2)" #{if pageBean?.conditions?.status == 2} class="red" #{/if}><a>募集中</a></dd>
+			<dd onclick="findInvestBy('status',3)" #{if pageBean?.conditions?.status == 3} class="red" #{/if}><a>还款中</a></dd>
+			<dd onclick="findInvestBy('status',4)" #{if pageBean?.conditions?.status == 4} class="red" #{/if}><a>还款完成</a></dd>
+		</dl>
+	</div>
+	#{/form}
+</div>
+<script>
+
+	function findInvestBy(filterName, filterValue) {
+        $("#" + filterName).val(filterValue);
+        $("#bidsSearch").submit();
+	}
+
+	function showPage(currPage, pageSize){
+		$("#currPage").val(currPage);
+		$("#pageSize").val(pageSize);
+		$("#bidsSearch").submit();
+	}
+
+</script>

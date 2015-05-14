@@ -9,7 +9,7 @@ import utils.Security;
 import utils.ServiceFee;
 
 /**
- * 筹款中的借款标列表
+ * 募集中的借款标列表
  * 
  * @author bsr
  * @version 6.0

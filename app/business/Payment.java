@@ -575,7 +575,7 @@ public class Payment implements Serializable {
 			if(this.pErrCode.equals("MG02503F") || this.pErrCode.equals("MG02505F") || this.pErrCode.equals("MG00000F")) {
 				bid.auditToNotThroughBC(error);
 			}
-		}else if(IPSConstants.BID_CANCEL_I.equals(operation)) { //筹款中->借款中不通过
+		}else if(IPSConstants.BID_CANCEL_I.equals(operation)) { //募集中->借款中不通过
 			if(this.pErrCode.equals("MG02503F") || this.pErrCode.equals("MG02505F") || this.pErrCode.equals("MG00000F")) {
 				bid.fundraiseToPeviewNotThroughBC(error);
 			}
@@ -587,7 +587,7 @@ public class Payment implements Serializable {
 			if(this.pErrCode.equals("MG02503F") || this.pErrCode.equals("MG02505F") || this.pErrCode.equals("MG00000F")) {
 				bid.advanceLoanToRepealBC(error);
 			}
-		}else if(IPSConstants.BID_CANCEL_N.equals(operation)) { //筹款中->撤销
+		}else if(IPSConstants.BID_CANCEL_N.equals(operation)) { //募集中->撤销
 			if(this.pErrCode.equals("MG02503F") || this.pErrCode.equals("MG02505F") || this.pErrCode.equals("MG00000F")) {
 				bid.fundraiseToRepealBC(error);
 			}
@@ -595,7 +595,7 @@ public class Payment implements Serializable {
 			if(this.pErrCode.equals("MG02503F") || this.pErrCode.equals("MG02505F") || this.pErrCode.equals("MG00000F")) {
 				bid.advanceLoanToFlowBC(error);
 			}
-		}else if(IPSConstants.BID_FUNDRAISE.equals(operation)) { //筹款中->流标
+		}else if(IPSConstants.BID_FUNDRAISE.equals(operation)) { //募集中->流标
 			if(this.pErrCode.equals("MG02503F") || this.pErrCode.equals("MG02505F") || this.pErrCode.equals("MG00000F")) {
 				bid.fundraiseToFlowBC(error);
 			}

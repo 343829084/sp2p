@@ -15,7 +15,7 @@ business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackst
             </div>
             <div style="text-align: center;">${news?.title}</div>
             <div style="text-align: right;">${news?.time}</div>
-            <div style="  word-wrap: break-word;word-break: break-all;">${news?.content}</div>
+            <div style="  word-wrap: break-word;word-break: break-all;">${news?.content?.raw()}</div>
         </div>
         <div class="clr">
             <div class="xf_about_contet_l">

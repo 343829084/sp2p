@@ -98,7 +98,7 @@ public class Bid implements Serializable {
     public Date repayall_date;//还本结息日
     public Date moneyback_time;//预计资金到账时间
     public int status; // 审核状态
-    public String strStatus; // 0审核中 1筹款中（审核通过） 2还款中 3已还款 -1审核不通过 -2流标
+    public String strStatus; // 0审核中 1募集中（审核通过） 2还款中 3已还款 -1审核不通过 -2流标
 
     public double hasInvestedAmount; // 已投总额
     public double loanSchedule; // 借款进度比例
@@ -245,7 +245,7 @@ public class Bid implements Serializable {
                     this.strStatus = "提前借款";
                     break;
                 case Constants.BID_FUNDRAISE:
-                    this.strStatus = "筹款中";
+                    this.strStatus = "募集中";
                     break;
                 case Constants.BID_EAIT_LOAN:
                     this.strStatus = "待放款";
@@ -928,12 +928,12 @@ public class Bid implements Serializable {
                         bid.fundraiseToFlow(error);
 
                         if (error.code < 0)
-                            Logger.info("自动流标失败编号(筹款中->流标)：" + id);
+                            Logger.info("自动流标失败编号(募集中->流标)：" + id);
 
                         break;
                 }
             } catch (Exception e) {
-                Logger.error("自动流标失败编号(筹款中->流标)：" + e.getMessage());
+                Logger.error("自动流标失败编号(募集中->流标)：" + e.getMessage());
             } finally {
 
                 JPAPlugin.closeTx(false);
@@ -1690,7 +1690,7 @@ public class Bid implements Serializable {
             }
 
             if (0 == itemid.size())
-                this.status = Constants.BID_FUNDRAISE; // 状态为筹款中
+                this.status = Constants.BID_FUNDRAISE; // 状态为募集中
             else
                 this.status = Constants.BID_ADVANCE_LOAN; // 状态为提前借款
         } else {
@@ -2086,7 +2086,7 @@ public class Bid implements Serializable {
     }
 
     /**
-     * 审核中->提前借款/筹款中,通知
+     * 审核中->提前借款/募集中,通知
      */
     private String auditToadvanceLoanNotice() {
         String content = null;
@@ -2125,7 +2125,7 @@ public class Bid implements Serializable {
     }
 
     /**
-     * 审核中->筹款中
+     * 审核中->募集中
      */
     public void auditToFundraise(ErrorInfo error) {
         error.code = -1;
@@ -2139,7 +2139,7 @@ public class Bid implements Serializable {
         }
 
         if (Constants.BID_FUNDRAISE == this.status) {
-            error.msg = "审核失败,请确定当前标是否已经被审核为“筹款中”!";
+            error.msg = "审核失败,请确定当前标是否已经被审核为“募集中”!";
 
             return;
         }
@@ -2160,7 +2160,7 @@ public class Bid implements Serializable {
         query.setParameter(1, this.allocationSupervisorId);// 审核人
         query.setParameter(2, new Date());// 审核时间
         query.setParameter(3, this.auditSuggest);// 审核意见
-        query.setParameter(4, Constants.BID_FUNDRAISE);// 审核状态为筹款中
+        query.setParameter(4, Constants.BID_FUNDRAISE);// 审核状态为募集中
         query.setParameter(5, this.id); // 标ID
         query.setParameter(6, this.userId); // 用户ID
         query.setParameter(7, Constants.BID_AUDIT); // 当前状态必须为审核中
@@ -2169,7 +2169,7 @@ public class Bid implements Serializable {
             row = query.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            Logger.error("标->审核中->筹款中:" + e.getMessage());
+            Logger.error("标->审核中->募集中:" + e.getMessage());
             error.msg = "修改状态失败!";
             JPA.setRollbackOnly();
 
@@ -2195,7 +2195,7 @@ public class Bid implements Serializable {
         }
 		
 		/* 5.添加事件 */
-        DealDetail.supervisorEvent(this.allocationSupervisorId, SupervisorEvent.AUDIT_BID, "审核标：审核中->筹款中", error);
+        DealDetail.supervisorEvent(this.allocationSupervisorId, SupervisorEvent.AUDIT_BID, "审核标：审核中->募集中", error);
 
         if (error.code < 0) {
             error.msg = "添加事件失败!";
@@ -2208,11 +2208,11 @@ public class Bid implements Serializable {
         this.auditToadvanceLoanNotice();
 
         error.code = 1;
-        error.msg = "审核成功,已将标置为[筹款中]!";
+        error.msg = "审核成功,已将标置为[募集中]!";
     }
 
     /**
-     * 提前借款->筹款中
+     * 提前借款->募集中
      */
     public void advanceLoanToFundraise(ErrorInfo error) {
         error.code = -1;
@@ -2226,7 +2226,7 @@ public class Bid implements Serializable {
         }
 
         if (Constants.BID_FUNDRAISE == this.status) {
-            error.msg = "审核失败,请确定当前标是否已经被审核为“筹款中”!";
+            error.msg = "审核失败,请确定当前标是否已经被审核为“募集中”!";
 
             return;
         }
@@ -2247,7 +2247,7 @@ public class Bid implements Serializable {
         query.setParameter(1, this.allocationSupervisorId);// 审核人
         query.setParameter(2, new Date());// 审核时间
         query.setParameter(3, this.auditSuggest);// 审核意见
-        query.setParameter(4, Constants.BID_FUNDRAISE);// 审核状态为筹款中
+        query.setParameter(4, Constants.BID_FUNDRAISE);// 审核状态为募集中
         query.setParameter(5, this.id); // 标ID
         query.setParameter(6, this.userId); // 用户ID
         query.setParameter(7, Constants.BID_ADVANCE_LOAN); // 当前状态必须为提前借款
@@ -2256,7 +2256,7 @@ public class Bid implements Serializable {
             row = query.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            Logger.error("标->提前借款->筹款中:" + e.getMessage());
+            Logger.error("标->提前借款->募集中:" + e.getMessage());
             error.msg = "审核失败!";
             JPA.setRollbackOnly();
 
@@ -2271,7 +2271,7 @@ public class Bid implements Serializable {
         }
 		
 		/* 4.添加事件 */
-        DealDetail.supervisorEvent(this.allocationSupervisorId, SupervisorEvent.AUDIT_BID, "审核标：提前借款->筹款中", error);
+        DealDetail.supervisorEvent(this.allocationSupervisorId, SupervisorEvent.AUDIT_BID, "审核标：提前借款->募集中", error);
 
         if (error.code < 0) {
             error.msg = "添加事件失败!";
@@ -2281,7 +2281,7 @@ public class Bid implements Serializable {
         }
 
         error.code = 1;
-        error.msg = "审核成功,已将标置为[筹款中]!";
+        error.msg = "审核成功,已将标置为[募集中]!";
     }
 
     /**
@@ -2495,7 +2495,7 @@ public class Bid implements Serializable {
     }
 
     /**
-     * 筹款中->借款中不通过
+     * 募集中->借款中不通过
      */
     public void fundraiseToPeviewNotThrough(ErrorInfo error) {
         error.code = -1;
@@ -2538,13 +2538,13 @@ public class Bid implements Serializable {
         query.setParameter(3, Constants.BID_PEVIEW_NOT_THROUGH);// 审核状态为借款中不通过
         query.setParameter(4, this.id); // 标ID
         query.setParameter(5, this.userId); // 用户ID
-        query.setParameter(6, Constants.BID_FUNDRAISE); // 当前状态必须为筹款中
+        query.setParameter(6, Constants.BID_FUNDRAISE); // 当前状态必须为募集中
 
         try {
             row = query.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            Logger.error("标->筹款中->借款中不通过:" + e.getMessage());
+            Logger.error("标->募集中->借款中不通过:" + e.getMessage());
             error.msg = "审核失败!";
             JPA.setRollbackOnly();
 
@@ -2561,7 +2561,7 @@ public class Bid implements Serializable {
         this.status = Constants.BID_PEVIEW_NOT_THROUGH;
 		
 		/* 3.返还借款人冻结保证金 */
-        this.relieveUserBailFund("筹款中->借款中不通过", error);
+        this.relieveUserBailFund("募集中->借款中不通过", error);
 
         if (error.code < 1) {
             error.msg = "返还冻结保证金失败!";
@@ -2571,7 +2571,7 @@ public class Bid implements Serializable {
         }
 		
 		/* 4.返还投资人投资金额 */
-        this.returnInvestUserFund("筹款中->借款中不通过", error);
+        this.returnInvestUserFund("募集中->借款中不通过", error);
 
         if (error.code < 1) {
             error.msg = "返还投资用户投资金额失败!";
@@ -2581,7 +2581,7 @@ public class Bid implements Serializable {
         }
 		
 		/* 5.添加事件 */
-        DealDetail.supervisorEvent(this.allocationSupervisorId, SupervisorEvent.AUDIT_BID, "审核标：筹款中->借款中不通过", error);
+        DealDetail.supervisorEvent(this.allocationSupervisorId, SupervisorEvent.AUDIT_BID, "审核标：募集中->借款中不通过", error);
 
         if (error.code < 0) {
             error.msg = "添加事件失败!";
@@ -2649,7 +2649,7 @@ public class Bid implements Serializable {
         query.setParameter(3, Constants.BID_EAIT_LOAN);// 审核状态为待放款
         query.setParameter(4, this.id); // 标ID
         query.setParameter(5, this.userId); // 用户ID
-        query.setParameter(6, Constants.BID_FUNDRAISE); // 当前状态必须为筹款中
+        query.setParameter(6, Constants.BID_FUNDRAISE); // 当前状态必须为募集中
 
         try {
             row = query.executeUpdate();
@@ -2790,7 +2790,7 @@ public class Bid implements Serializable {
         query.setParameter(3, Constants.BID_LOAN_NOT_THROUGH);// 审核状态为放款不通过
         query.setParameter(4, this.id); // 标ID
         query.setParameter(5, this.userId); // 用户ID
-        query.setParameter(6, Constants.BID_FUNDRAISE); // 当前状态必须为筹款中
+        query.setParameter(6, Constants.BID_FUNDRAISE); // 当前状态必须为募集中
 
         try {
             row = query.executeUpdate();
@@ -2823,7 +2823,7 @@ public class Bid implements Serializable {
         }
 		
 		/* 4.返还借款人冻结保证金 */
-        this.relieveUserBailFund("筹款中->借款中不通过", error);
+        this.relieveUserBailFund("募集中->借款中不通过", error);
 
         if (error.code < 1) {
             error.msg = "返还冻结保证金失败!";
@@ -3758,7 +3758,7 @@ public class Bid implements Serializable {
     }
 
     /**
-     * 筹款中->流标
+     * 募集中->流标
      */
     public void fundraiseToFlow(ErrorInfo error) {
         error.code = -1;
@@ -3802,12 +3802,12 @@ public class Bid implements Serializable {
         query.setParameter(1, Constants.BID_FLOW); // 审核状态为流标
         query.setParameter(2, this._id); // 标ID
         query.setParameter(3, this._userId); // 用户ID
-        query.setParameter(4, Constants.BID_FUNDRAISE); // 当前状态必须为筹款中
+        query.setParameter(4, Constants.BID_FUNDRAISE); // 当前状态必须为募集中
 
         try {
             row = query.executeUpdate();
         } catch (Exception e) {
-            Logger.error("标->筹款中->流标:" + e.getMessage());
+            Logger.error("标->募集中->流标:" + e.getMessage());
             JPA.setRollbackOnly();
 
             error.code = -1;
@@ -3827,27 +3827,27 @@ public class Bid implements Serializable {
         this.status = Constants.BID_FLOW;
 		
 		/* 3.返还借款人冻结保证金 */
-        this.relieveUserBailFund("筹款中->流标", error);
+        this.relieveUserBailFund("募集中->流标", error);
 
         if (error.code < 1) {
-            Logger.info("标->筹款中->流标，返还借款人冻结保证金失败，事务回滚");
+            Logger.info("标->募集中->流标，返还借款人冻结保证金失败，事务回滚");
             JPA.setRollbackOnly();
 
             return;
         }
 		
 		/* 4.返还投资人投资金额 */
-        this.returnInvestUserFund("筹款中->流标", error);
+        this.returnInvestUserFund("募集中->流标", error);
 
         if (error.code < 1) {
-            Logger.info("标->筹款中->流标，返还投资人投资金额失败，事务回滚");
+            Logger.info("标->募集中->流标，返还投资人投资金额失败，事务回滚");
             JPA.setRollbackOnly();
 
             return;
         }
 		
 		/* 5.添加事件 */
-        DealDetail.userEvent(this.userId, UserEvent.FLOW_BID, "审核标：筹款中->流标", error);
+        DealDetail.userEvent(this.userId, UserEvent.FLOW_BID, "审核标：募集中->流标", error);
 
         if (error.code < 0) {
             error.msg = "添加事件失败!";
@@ -3861,7 +3861,7 @@ public class Bid implements Serializable {
             refundInvestBonus(error);
 
             if (error.code < 0) {
-                Logger.info("标->筹款中->流标，退回投标奖励失败，事务回滚");
+                Logger.info("标->募集中->流标，退回投标奖励失败，事务回滚");
                 JPA.setRollbackOnly();
 
                 return;
@@ -4109,7 +4109,7 @@ public class Bid implements Serializable {
     }
 
     /**
-     * 筹款中->撤销
+     * 募集中->撤销
      */
     public void fundraiseToRepeal(ErrorInfo error) {
         error.code = -1;
@@ -4150,13 +4150,13 @@ public class Bid implements Serializable {
         query.setParameter(1, Constants.BID_REPEAL); // 审核状态为撤销
         query.setParameter(2, this.id); // 标ID
         query.setParameter(3, this.userId); // 用户ID
-        query.setParameter(4, Constants.BID_FUNDRAISE); // 当前状态必须为筹款中
+        query.setParameter(4, Constants.BID_FUNDRAISE); // 当前状态必须为募集中
 
         try {
             row = query.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
-            Logger.error("标->筹款中->撤销:" + e.getMessage());
+            Logger.error("标->募集中->撤销:" + e.getMessage());
             error.msg = "审核失败!";
             JPA.setRollbackOnly();
 
@@ -4173,7 +4173,7 @@ public class Bid implements Serializable {
         this.status = Constants.BID_REPEAL;
 		
 		/* 3.返还借款人冻结保证金 */
-        this.relieveUserBailFund("筹款中->撤销", error);
+        this.relieveUserBailFund("募集中->撤销", error);
 
         if (error.code < 1) {
             JPA.setRollbackOnly();
@@ -4182,7 +4182,7 @@ public class Bid implements Serializable {
         }
 		
 		/* 4.返还投资人投资金额 */
-        this.returnInvestUserFund("筹款中->撤销", error);
+        this.returnInvestUserFund("募集中->撤销", error);
 
         if (error.code < 1) {
             JPA.setRollbackOnly();
@@ -4191,7 +4191,7 @@ public class Bid implements Serializable {
         }
 		
 		/* 5.添加事件 */
-        DealDetail.userEvent(this.userId, UserEvent.REPEAL_BID, "审核标：筹款中->撤销", error);
+        DealDetail.userEvent(this.userId, UserEvent.REPEAL_BID, "审核标：募集中->撤销", error);
 
         if (error.code < 0) {
             error.msg = "添加事件失败!";
@@ -5040,7 +5040,7 @@ public class Bid implements Serializable {
             list = query.getResultList();
         } catch (Exception e) {
             Logger.error("标->审核中的标列表,查询总记录数:" + e.getMessage());
-            error.msg = "加载筹款中的借款标列表失败!";
+            error.msg = "加载募集中的借款标列表失败!";
 
             return null;
         }
@@ -5120,7 +5120,7 @@ public class Bid implements Serializable {
             list = query.getResultList();
         } catch (Exception e) {
             Logger.error("标->审核中的标列表,查询总记录数:" + e.getMessage());
-            error.msg = "加载筹款中的借款标列表失败!";
+            error.msg = "加载募集中的借款标列表失败!";
 
             return null;
         }
@@ -5159,7 +5159,7 @@ public class Bid implements Serializable {
     }
 
     /**
-     * 筹款中的标列表
+     * 募集中的标列表
      *
      * @param pageBean
      * @param error    信息值
@@ -5191,7 +5191,7 @@ public class Bid implements Serializable {
 
         String[] BID_SEARCH = {" AND (u.name LIKE ? OR concat(`e`.`_value`,cast(`b`.`id` as char charset utf8)) LIKE ?)", " AND concat(`e`.`_value`,cast(`b`.`id` as char charset utf8)) LIKE ?", " AND u.name LIKE ?"};
 		
-		/* 筹款中/满标 */
+		/* 募集中/满标 */
         if (status == Constants.V_FULL) {
             conditions.append(" and amount = has_invested_amount");
             conditionsCount.append(" and amount = has_invested_amount");
@@ -5302,8 +5302,8 @@ public class Bid implements Serializable {
         try {
             list = query.getResultList();
         } catch (Exception e) {
-            Logger.error("标->筹款中的标列表,查询总记录数:" + e.getMessage());
-            error.msg = "加载筹款中的借款标列表失败!";
+            Logger.error("标->募集中的标列表,查询总记录数:" + e.getMessage());
+            error.msg = "加载募集中的借款标列表失败!";
 
             return null;
         }
@@ -5329,15 +5329,15 @@ public class Bid implements Serializable {
         try {
             return query.getResultList();
         } catch (Exception e) {
-            Logger.error("标->筹款中的标列表:" + e.getMessage());
-            error.msg = "加载筹款中的借款标列表失败!";
+            Logger.error("标->募集中的标列表:" + e.getMessage());
+            error.msg = "加载募集中的借款标列表失败!";
 
             return null;
         }
     }
 
     /**
-     * 最新筹款中满标倒计时提醒(借款子账户首页)
+     * 最新募集中满标倒计时提醒(借款子账户首页)
      *
      * @param error 信息值
      * @return List<Bid>
@@ -5346,8 +5346,8 @@ public class Bid implements Serializable {
         try {
             return v_bid_fundraiseing.find("user_id = ? and amount > has_invested_amount order by time desc", userId).fetch(Constants.FULL_REMIND_BID_COUNT);
         } catch (Exception e) {
-            Logger.error("标->最新筹款中满标倒计时提醒:" + e.getMessage());
-            error.msg = "加载筹款中的借款标列表失败!";
+            Logger.error("标->最新募集中满标倒计时提醒:" + e.getMessage());
+            error.msg = "加载募集中的借款标列表失败!";
 
             return null;
         }

@@ -346,14 +346,14 @@ public class Constants {
 	
 	public static final int BID_AUDIT = 0; // 审核中
 	public static final int BID_ADVANCE_LOAN = 1; // 提前借款
-	public static final int BID_FUNDRAISE = 2; // 筹款中(审核通过)
+	public static final int BID_FUNDRAISE = 2; // 募集中(审核通过)
 	public static final int BID_EAIT_LOAN = 3; // 待放款(放款审核通过);
 	public static final int BID_REPAYMENT = 4; // 还款中(已放款)
 	public static final int BID_COMPENSATE_REPAYMENT = 14; // 本金垫付还款中(已放款)
 	public static final int BID_REPAYMENTS = 5; // 已还款
 	public static final int BID_AUDIT_VERIFY = 10; // 审核中待验证
 	public static final int BID_ADVANCE_LOAN_VERIFY = 11; // 前提借款待验证
-	public static final int BID_FUNDRAISE_VERIFY = 12; // 筹款中待验证
+	public static final int BID_FUNDRAISE_VERIFY = 12; // 募集中待验证
 	public static final int BID_NOT_THROUGH = -1; // 审核不通过 
 	public static final int BID_PEVIEW_NOT_THROUGH = -2;// 借款中不通过
 	public static final int BID_LOAN_NOT_THROUGH = -3;// 放款不通过 
@@ -1446,5 +1446,5 @@ public class Constants {
 	public static final Long BASE_USER_COUNT = 1500L; // 用户基数
 	public static final Long BASE_TOTAL_VOLUME = 20000000L; //累计成交量基础
 	public static final Long MEDIA_REPORT_NEWS_TYPE = 34L; // 媒体报道
-	public static final Long LATEST_NEWS_TYPE = 34L; // 最新动态
+	public static final Long LATEST_NEWS_TYPE = 35L; // 最新动态
 }

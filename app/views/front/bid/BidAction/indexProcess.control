@@ -86,7 +86,7 @@
 							>
 							会员  ${_?.userName?.asterisk()},
 							${_?.time?.format('yyyy-MM-dd HH:mm:ss')}
-							发布了借款金额￥${_?.amount?.format('###,##0.00')},年息${_?.apr}%筹款中...
+							发布了借款金额￥${_?.amount?.format('###,##0.00')},年息${_?.apr}%募集中...
 							</a>
 							<br/>
 						#{/if}

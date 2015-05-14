@@ -1723,7 +1723,7 @@ public class PaymentAction extends BaseController {
 			
 			/* 如果是标详情审核 */
 			if(bidId > 0){
-				int detail = memo.getInt("detail"); // 具体详情页 1.审核中 2.筹款中 3.满标 4.成功的... 5.失败的...
+				int detail = memo.getInt("detail"); // 具体详情页 1.审核中 2.募集中 3.满标 4.成功的... 5.失败的...
 				
 				switch (detail) {
 					case 1: BidPlatformAction.auditingDetail(bidId); break;

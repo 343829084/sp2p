@@ -729,7 +729,7 @@ public class AccountHome extends BaseController {
 		if(error.code < 0) 
 			render(Constants.ERROR_PAGE_PATH_FRONT);
 		
-		/* 最新筹款中满标倒计时提醒 */
+		/* 最新募集中满标倒计时提醒 */
 		List<v_bid_fundraiseing> fundraiseingBid = Bid.queryFundraiseingBid(user.id, error);
 		
 		/* 账单提醒 */
@@ -1163,7 +1163,7 @@ public class AccountHome extends BaseController {
 	}
 	
 	/**
-	 * 筹款中->撤销
+	 * 募集中->撤销
 	 */
 	public static void fundraiseToRepeal(String sign){
 		ErrorInfo error = new ErrorInfo();

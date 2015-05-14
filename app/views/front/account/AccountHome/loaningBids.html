@@ -2,7 +2,7 @@
 	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
 }%
 #{extends 'common/frontMain.html' /} 
-#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 借款子账户  | 筹款中的借款标'/}
+#{set title:currBackstageSet.seoTitle + ' | 我的账户   | 借款子账户  | 募集中的借款标'/}
 
 <!-- 内容区域 start -->
 <div class="xf_con_box">
@@ -11,7 +11,7 @@
 	#{include "front/account/AccountHome/homeLeft.control"/}
 	<!-- 右侧内容区域 我的借款账单 -->
 	<div class="xf_mem_Account xf_mem_shzdjkb_box">
-		<h3 class="xf_mem_accout_title">筹款中的借款标</h3>
+		<h3 class="xf_mem_accout_title">募集中的借款标</h3>
 		<!-- 搜索区域 -->
 		<ul class="xf_membill_search clr">
 			#{form @loaningBids(), id:'loaningBids'}

@@ -206,8 +206,8 @@ public class Invest implements Serializable {
 
 
     /**
-     * 前台借款标条件分页查询
      *
+     * @param showType
      * @param currPage
      * @param pageSize
      * @param _apr
@@ -216,10 +216,17 @@ public class Invest implements Serializable {
      * @param _startDate
      * @param _endDate
      * @param _loanType
-     * @param _creditLevel
+     * @param minLevelStr
+     * @param maxLevelStr
+     * @param _orderType
+     * @param _keywords
+     * @param _period
+     * @param _productType
+     * @param _status
+     * @param error
      * @return
      */
-    public static PageBean<v_front_all_bids> queryAllBids(int showType, int currPage, int pageSize, String _apr, String _amount, String _loanSchedule, String _startDate, String _endDate, String _loanType, String minLevelStr, String maxLevelStr, String _orderType, String _keywords, ErrorInfo error) {
+    public static PageBean<v_front_all_bids> queryAllBids(int showType, int currPage, int pageSize, String _apr, String _amount, String _loanSchedule, String _startDate, String _endDate, String _loanType, String minLevelStr, String maxLevelStr, String _orderType, String _keywords, String _period, String _productType, String _status, ErrorInfo error) {
 
         int apr = 0;
         int amount = 0;
@@ -228,6 +235,10 @@ public class Invest implements Serializable {
         int product_id = 0;
         int minLevel = 0;
         int maxLevel = 0;
+
+        int period = 0;
+        int productType = 0;
+        int status = 0;
 
         List<v_front_all_bids> bidList = new ArrayList<v_front_all_bids>();
         PageBean<v_front_all_bids> page = new PageBean<v_front_all_bids>();
@@ -247,40 +258,6 @@ public class Invest implements Serializable {
         sql.append(SQLTempletes.V_FRONT_ALL_BIDS_CREDIT);
 
         List<Object> params = new ArrayList<Object>();
-
-        if (StringUtils.isBlank(_apr) && StringUtils.isBlank(_amount) && StringUtils.isBlank(_loanSchedule) && StringUtils.isBlank(_startDate) && StringUtils.isBlank(_endDate) && StringUtils.isBlank(_loanType) && StringUtils.isBlank(minLevelStr) && StringUtils.isBlank(maxLevelStr) && StringUtils.isBlank(_orderType) && StringUtils.isBlank(_keywords)) {
-
-            try {
-                if (showType == Constants.SHOW_TYPE_1) {
-                    sql.append(" and t_bids.show_type in (1,3) ");
-                } else {
-                    sql.append(" and t_bids.show_type in (2,3) ");
-                }
-                if (Constants.IS_BIDS_NEED_FILTER) {
-                    sql.append(" and t_bids.time > '" + Constants.BIDS_CREATETIME + "' and t_users.name = '" + Constants.BIDS_MOBILE + "' ");
-                }
-                sql.append(" order by loan_schedule,is_hot desc,id desc");
-
-                Query query = em.createNativeQuery(sql.toString(), v_front_all_bids.class);
-                for (int n = 1; n <= params.size(); n++) {
-                    query.setParameter(n, params.get(n - 1));
-                }
-                query.setFirstResult((currPage - 1) * pageSize);
-                query.setMaxResults(pageSize);
-                bidList = query.getResultList();
-
-                page.totalCount = QueryUtil.getQueryCountByCondition(em, sql.toString(), params);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                error.msg = "系统异常，给您带来的不便敬请谅解！";
-                error.code = -1;
-            }
-            page.page = bidList;
-            error.code = 1;
-            error.msg = "查询成功";
-            return page;
-        }
 
         if (NumberUtil.isNumericInt(_apr)) {
             apr = Integer.parseInt(_apr);
@@ -361,6 +338,35 @@ public class Invest implements Serializable {
         if (Constants.IS_BIDS_NEED_FILTER) {
             sql.append(" and t_bids.time > '" + Constants.BIDS_CREATETIME + "' and t_users.name = '" + Constants.BIDS_MOBILE + "' ");
         }
+
+
+
+
+        if (NumberUtil.isNumericInt(_period)) {
+            period = Integer.parseInt(_period);
+            if (period > 0) {
+//                sql.append(" and t_products.id = ? ");
+//                params.add(period);
+            }
+
+        }
+        if (NumberUtil.isNumericInt(_productType)) {
+            productType = Integer.parseInt(_productType);
+            if (productType > 0) {
+//                sql.append(" and t_products.id = ? ");
+//                params.add(productType);
+            }
+
+        }
+        if (NumberUtil.isNumericInt(_status)) {
+            status = Integer.parseInt(_status);
+            if (status > 0) {
+//                sql.append(" and t_products.id = ? ");
+//                params.add(status);
+            }
+
+        }
+
         if (NumberUtil.isNumericInt(_orderType)) {
             orderType = Integer.parseInt(_orderType);
         }
@@ -380,6 +386,10 @@ public class Invest implements Serializable {
         conditionMap.put("maxLevel", maxLevel);
         conditionMap.put("orderType", orderType);
         conditionMap.put("loanType", product_id);
+
+        conditionMap.put("period", period);
+        conditionMap.put("productType", productType);
+        conditionMap.put("status", status);
 
         try {
             Query query = em.createNativeQuery(sql.toString(), v_front_all_bids.class);
