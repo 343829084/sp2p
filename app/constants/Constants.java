@@ -453,8 +453,8 @@ public class Constants {
 	public static final int ITEMS_SEARCH_ID = 2; // 邮箱搜索(资料库)
 	
 	/* app每页的条数 */
-	public static final int APP_PAGESIZE = 18;  
-	public static final String APP_PAGESIZE2 = "18"; //字符串类型
+	public static final int APP_PAGESIZE = 10;  
+	public static final String APP_PAGESIZE2 = "10"; //字符串类型
 	
 	/* 会员状态 */
 	public static final int SUCCESS_STATUS = 1; // 有效
