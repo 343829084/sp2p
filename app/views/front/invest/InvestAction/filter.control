@@ -71,9 +71,8 @@
         $("#bidsSearch").submit();
 	}
 
-	function showPage(currPage, pageSize){
+	function selectPage(currPage){
 		$("#currPage").val(currPage);
-		$("#pageSize").val(pageSize);
 		$("#bidsSearch").submit();
 	}
 
