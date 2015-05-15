@@ -40,7 +40,7 @@ public class v_user_waiting_full_invest_bids extends Model{
 			}
 			
 			if(this.period_unit == 1){//日
-				receiving_amount = this.invest_amount*this.apr/360*this.period/100+this.invest_amount;
+				receiving_amount = this.invest_amount*this.apr/365*this.period/100+this.invest_amount;
 			}
 			
 			return receiving_amount;

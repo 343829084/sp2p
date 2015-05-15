@@ -66,6 +66,7 @@
 				</li>
 			</ul>
 			#{/form}
+			<!--
 			<div class="xf_gxlogin_input">
 				<div class="xf_gxlogin_spandl">
 					合作账号登录：
@@ -75,6 +76,7 @@
 				<div class="clear"></div>
 				<span class="xf_gxregister_title">一键登录，无需注册，与朋友分享你的投资经验！</span>
 			</div>
+			-->
 		</div>
 	</div>
 </div>

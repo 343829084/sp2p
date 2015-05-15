@@ -69,7 +69,7 @@
 						
 						>${investBillboard_index}</span></span> 
 								
-						<span class="xf_c_idx_6_lcfyDyhm" style="margin-right:6px;margin-left:-5px;">${investBillboard?.name?.substring(0,3)+"****"+investBillboard?.name?.substring(7,11)}</span> 
+						<span class="xf_c_idx_6_lcfyDyhm" style="margin-right:6px;margin-left:-5px;">${investBillboard?.name?.substring(0,3)+"******"+investBillboard?.name?.substring(9,11)}</span> 
 						<span class="xf_c_idx_6_lcfyDtzje" style="margin-left:13px;padding-left: 30px; width: 60px;">￥#{format money:investBillboard?.corpus}#{/format}</span>
 							 
 						<!--<span	class="xf_c_idx_6_lcfyDsyl"><span ></span>${(investBillboard?.interest*100/investBillboard?.corpus).format('0.00')}%</span>-->

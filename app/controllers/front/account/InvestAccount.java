@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import com.shove.Convert;
 import constants.Constants;
 import constants.IPSConstants;
+import constants.Templets;
 import constants.IPSConstants.IPSOperation;
 import constants.IPSConstants.IpsCheckStatus;
 import constants.IPSConstants.Status;
@@ -32,6 +33,7 @@ import business.Debt;
 import business.Invest;
 import business.IpsDetail;
 import business.News;
+import business.TemplatePact;
 import business.Optimization.InvestOZ;
 import business.Optimization.BidOZ;
 import business.Payment;
@@ -43,10 +45,15 @@ import utils.JsonDateValueProcessor;
 import utils.NumberUtil;
 import utils.PageBean;
 import utils.Security;
+import models.t_bids;
 import models.t_bill_invests;
+import models.t_bills;
 import models.t_content_news;
+import models.t_invests;
 import models.t_statistic_bill_invest;
+import models.t_system_options;
 import models.t_user_automatic_invest_options;
+import models.t_users;
 import models.v_bid_attention;
 import models.v_bid_fundraiseing;
 import models.v_bill_invest;
@@ -1683,7 +1690,43 @@ public static void guarantee(String sign){
 		
 		render(pact, type);
 	}
-	
+	/**
+	 * 显示借款合同(未投资)
+	 */
+	public static void investPactWithoutInvest(String sign, int type){
+		ErrorInfo error = new ErrorInfo();
+		
+		TemplatePact pact = new TemplatePact();
+		pact.id = Templets.BID_PACT_INVEST;
+		
+		t_bids bid = new t_bids();
+		t_users bidUser = new t_users();
+		String company_name = "";
+		String sql1 = "select _value from t_system_options where _key = ?";
+		try {
+			bid = t_bids.findById(Long.parseLong(sign));
+			bidUser = t_users.findById(bid.user_id);
+			company_name = t_system_options.find(sql1, "company_name").first();
+		} catch (Exception e) {
+			error.msg = "系统异常";
+			error.code = -1;
+			return;
+		}
+		
+		Date date = new Date();
+		String pact_no = sign + DateUtil.simple(date);
+		String content = pact.content;
+		content = content.replace(Templets.PACT_NO,pact_no)
+		.replace(Templets.LOAN_NAME, bidUser.reality_name)
+		.replace(Templets.ID_NUMBER, bidUser.id_number)
+		.replace(Templets.COMPANY_NAME,company_name)
+		.replace(Templets.DATE,DateUtil.dateToString(new Date()));	
+		if(error.code < 0){
+			render(Constants.ERROR_PAGE_PATH_FRONT);
+		}
+		
+		render(content, type);
+	}
 	/**
 	 * 居间服务协议
 	 */

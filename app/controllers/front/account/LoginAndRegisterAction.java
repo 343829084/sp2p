@@ -141,9 +141,9 @@ public class LoginAndRegisterAction extends BaseController {
 			redirect(url);
 		}
 		if(url.endsWith(Constants.LOGIN)){
-			if(Constants.IPS_ENABLE && (user.getIpsStatus() != IpsCheckStatus.IPS)){
+			/*if(Constants.IPS_ENABLE && (user.getIpsStatus() != IpsCheckStatus.IPS)){
 				CheckAction.approve();
-			}
+			}*/
 			
 			AccountHome.home();
 		}
@@ -237,7 +237,7 @@ public class LoginAndRegisterAction extends BaseController {
 		ErrorInfo error = new ErrorInfo();
 
 		String name = params.get("userName");
-		String email = params.get("email").toLowerCase();
+		//String email = params.get("email").toLowerCase();
         String mobile = params.get("userName");//the user name is mobile
 		String password = params.get("password");
 		String confirmPassword = params.get("confirmPassword");
@@ -246,7 +246,7 @@ public class LoginAndRegisterAction extends BaseController {
 		String recommendUserName = params.get("recommended");
 		flash.put("userName", name);
 		flash.put("mobile", mobile);
-		flash.put("email", email);
+		//flash.put("email", email);
 		flash.put("password", password);
 		flash.put("confirmPassword", confirmPassword);
 		flash.put("recommendUserName", recommendUserName);
@@ -274,12 +274,12 @@ public class LoginAndRegisterAction extends BaseController {
 		/*if (!RegexUtils.isValidUsername(name)) {
 			flash.error("请填写符合要求的用户名");
 			register();
-		}*/
+		}
 
 		if (!RegexUtils.isEmail(email)) {
 			flash.error("请填写正确的邮箱地址");
 			register();
-		}
+		}*/
         if (!RegexUtils.isMobileNum(name)) {
             flash.error("请填写正确的手机号码");
             register();
@@ -322,7 +322,7 @@ public class LoginAndRegisterAction extends BaseController {
 			}
 		}
 		
-		User.isEmailExist(email, error);
+		//User.isEmailExist(email, error);
 
 		if (error.code < 0) {
 			flash.error(error.msg);
@@ -380,7 +380,7 @@ public class LoginAndRegisterAction extends BaseController {
 		user.password = password;
 		user.mobile = mobile;
         user.authentication_id = authentication_id;
-		user.email = email;
+		//user.email = email;
 		user.recommendUserName = recoName;
 		
 		user.register(error);
@@ -576,13 +576,13 @@ public class LoginAndRegisterAction extends BaseController {
 			login();
 		}
 		
-		if (Constants.IPS_ENABLE) {
+		/*if (Constants.IPS_ENABLE) {
 			CheckAction.approve();
 		}
 
 		if (user.isEmailVerified) {
 			AccountHome.home();
-		}
+		}*/
 
 		String loginOrRegister = Constants.LOGIN_AREAL_FLAG;
 

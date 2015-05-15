@@ -48,7 +48,7 @@
 					</tr>
 					<tr>
 						<td align="center" valign="middle" class="xf_wyjk_taletitle">借款详情对借款用途还款能力的详细说明</td>
-						<td>${bid?.description}</td>
+						<td>${bid?.description?.replaceAll("\r\n", "<br>")?.replaceAll(" ", "&nbsp;")}</td>
 					</tr>
 					<tr>
 						<td align="center" valign="middle" class="xf_wyjk_taletitle">必须资料审核科目</td>

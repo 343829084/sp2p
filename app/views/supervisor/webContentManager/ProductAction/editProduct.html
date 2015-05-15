@@ -553,8 +553,8 @@ left: -70px; *left:-74px !important;" />
       po = $("#dd"+p);
       val = po.val();
       if(val != null && val != ""){
-        if(val > 30 || val <= 0){
-          alert("日期限：”"+ val + "“需在[1~30]日(包含30)之间!");
+        if(val > 10000 || val <= 0){
+          alert("日期限：”"+ val + "“需在[1~10000]日(包含10000)之间!");
 
           return false;
         }

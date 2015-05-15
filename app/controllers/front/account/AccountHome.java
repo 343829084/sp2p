@@ -105,9 +105,9 @@ public class AccountHome extends BaseController {
             render(Constants.ERROR_PAGE_PATH_FRONT);
         }
 		
-		if (Constants.IPS_ENABLE && user.getIpsStatus() != IpsCheckStatus.IPS) {
+		/*if (Constants.IPS_ENABLE && user.getIpsStatus() != IpsCheckStatus.IPS) {
 			CheckAction.approve();
-		}
+		}*/
 		
 		UserOZ warmPrompt = new UserOZ();
         warmPrompt.userId = user.id;

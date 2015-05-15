@@ -1,5 +1,6 @@
 %{
 	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+	double activeApr= constants.Constants.BIDS_ACTIVE_APR;
 }%
 #{extends 'common/frontMain.html' /} 
 #{set title:currBackstageSet.seoTitle+'| 我要理财' /}
@@ -52,7 +53,7 @@
 					<div class="xf_c_idx_4_data">
 						<ul class="xf_c_idx_4_dataul">
 							<li><div>年利率</div>
-								<div class="xf_c_idx_4_nhsy">${bid?.apr}%</div>
+								<div class="xf_c_idx_4_nhsy">${bid?.apr-activeApr}%+${activeApr}%</div>
 							</li>
 							<li><div>借款金额</div>
 								<div class="xf_c_idx_4_jkje">${bid?.amount?.format('###,##0.00')}</div>
@@ -60,23 +61,40 @@
 							<li><div>还款期限</div>
 								<div class="xf_c_idx_4_hkqx">
 								#{if bid?.period_unit ==-1}
-								${bid?.period}年
+									${bid?.period}年
 								#{/if}
 								#{if bid?.period_unit ==0}
-								${bid?.period}个月
+									${bid?.period}个月
 								#{/if}
 								#{if bid?.period_unit ==1}
-								${bid?.period}天
+									${bid?.period}天
 								#{/if}
 								</div>
 							</li>
-							<li><div>还款日期</div>
-								<div class="xf_c_idx_4_hkqx">
+							<li>
 								#{if bid?.repayment_time == null}
-								---
+									<div>预计还款日期</div>
+									<div class="xf_c_idx_4_hkqx" >
+									---
+									<!-- 
+									#{if bid?.period_unit ==-1}
+										${new Date(new Date().getTime() + bid?.period*31622400000 )?.format('yyyy-MM-dd')}
+									#{/if}
+									#{if bid?.period_unit ==0}
+										${new Date(new Date().getTime() + bid?.period*2678400000 )?.format('yyyy-MM-dd')}
+									#{/if}
+									#{if bid?.period_unit ==1}
+										${new Date(new Date().getTime() + bid?.period*86400000)?.format('yyyy-MM-dd')}
+									#{/if}
+									 -->
+									</div>
 								#{/if}
-								${bid?.repayment_time?.format('yyyy-MM-dd')}
-								</div>
+								#{else}
+									<div>还款日期</div>
+									<div class="xf_c_idx_4_hkqx">
+										${bid?.repayment_time?.format('yyyy-MM-dd')}
+									</div>
+								#{/else}
 							</li>
 							<li class="xf_c_idx_4_last" style="width: 150px;" ><div>还款方式</div>
 								<div class="xf_c_idx_4_hkqx">${bid?.repay_name}</div>
@@ -140,14 +158,13 @@
 
 <script>
     $(function(){
-     
-	  #{list items:pageBean.page, as:'bid'}
-	    $('#loanSchedule'+${bid_index}).css({"width":${bid?.loan_schedule}})
-	  #{/list}
-    })
+		#{list items:pageBean.page, as:'bid'}
+			$('#loanSchedule'+${bid_index}).css({"width":${bid?.loan_schedule}});
+		#{/list}
+	})
 
-    function checkLogin(bidId){
-    	var listAction = #{jsAction @front.bid.BidAction.checkUserStatus() /};
+	function checkLogin(bidId){
+		var listAction = #{jsAction @front.bid.BidAction.checkUserStatus() /};
 		$.post(listAction(), function(data) {
 			switch(data.status * 1){
 			    case 1:

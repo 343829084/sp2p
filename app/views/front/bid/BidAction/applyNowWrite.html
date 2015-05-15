@@ -498,8 +498,8 @@
 				$("#imageFilename").val(loanImage);
 			}
 			var description = $.trim($("#description").val());
-			if(description == "" || description.length > 300){
-				alert("请描述借款详情并控制在1~300个字符单位之间!");
+			if(description == "" || description.length > 2000){
+				alert("请描述借款详情并控制在1~2000个字符单位之间!");
 				return false;
 			}
 			if($("#rbonus").is(":checked")){

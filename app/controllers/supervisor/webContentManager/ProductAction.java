@@ -268,8 +268,8 @@ public class ProductAction extends SupervisorController {
 		for (String str : arr) {
 			value = Integer.parseInt(str);
 
-			if (value > 30 || value <= 0) {
-				flash.error("日期限需在1~30日(包含30)之间!");
+			if (value > 10000 || value <= 0) {
+				flash.error("日期限需在1~10000日(包含10000)之间!");
 
 				return true;
 			}

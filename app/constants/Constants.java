@@ -21,6 +21,8 @@ public class Constants {
 	public static final String FP_LOGIN_URL = Play.configuration.getProperty("fp.login.url");	//fp url that for logining with fp
 	public static final String FP_RESETPW_URL = Play.configuration.getProperty("fp.resetpwd.url");	//fp url that for logining with fp
 	public static final String FP_REGISTER_GIVE_JINDOU =Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆 
+	public static final double BIDS_ACTIVE_APR =Convert.strToDouble(Play.configuration.getProperty("bids.active.apr"), 0.5); //active apr 
+	public static final String SUPERVISOR_MAIL =Play.configuration.getProperty("supervisor.mail"); //the supervisor's mail address 
 	
 	public static final String BIDS_MOBILE =Play.configuration.getProperty("bids.mobile"); //发标人的手机号码 
 	public static final String BIDS_CREATETIME =Play.configuration.getProperty("bids.createTime"); //标的创建时间 
@@ -255,7 +257,7 @@ public class Constants {
 	public static final int PRODUCT_INTRODUCTION = 1; // 借款产品简介
 	public static final int PRODUCT_DETAIL_INTRODUCTION = 2; // 借款产品详细描述
 	public static final int APPLICANT_CONDITION = 3; // 申请人条件
-	public static final int DAY_INTEREST = 360; // 日利息结算常量
+	public static final int DAY_INTEREST = 365; // 日利息结算常量
 	
 	public static final int PC = 1; // PC端
 	public static final int APP = 2; // APP端
