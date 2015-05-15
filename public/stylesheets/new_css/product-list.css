@@ -121,6 +121,10 @@
     font-size: large;
     font-weight: bold;
     margin-left: 5px;
+    vertical-align: middle;
+}
+.title img {
+    vertical-align: middle;
 }
 
 .prod-item li {

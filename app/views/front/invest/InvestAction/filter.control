@@ -1,3 +1,4 @@
+
 <div class="filter-panel">
 	#{form @investHome(),method:'GET',id :'bidsSearch'}
 	<input type="hidden" id="currPage" name="currPage"/>

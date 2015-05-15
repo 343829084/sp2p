@@ -1,7 +1,11 @@
+%{
+	java.util.Date currentDate = utils.DateUtil.currentDate();
+}%
 #{list items:pageBean.page, as:'bid'}
+
 <div class="prod-item clearfix">
 	<div class="title">
-		<a class="prod-type" >展义宝</a>
+		#{img src:"${bid.small_image_filename}"}#{/img}
 		<a class="name"<a href="@{invest(bid.id)}" target="_blank">${bid.title}</a>
 	</div>
 	<div class="detail-info">
@@ -27,7 +31,24 @@
 				</div>
 			</li>
 			<li class="fifth-col">
-				<div class="bids-btn"><a class="bids-btn" href="@{invest(bid?.id)}" target="_blank">立即投标</a></div>
+                #{if bid?.statusType == 2}
+                	#{if bid.time > currentDate}
+                		<div class="bt-countdown">${bid.time-currentDate}</div>
+                	#{/if}
+                	#{elseif bid.amount == bid.has_invested_amount}
+                		<div class="bt-return-ing"><a class="bids-btn" href="@{invest(bid?.id)}" target="_blank">已售完...</a></div>
+                	#{/elseif}
+                	#{else}
+                		<div class="bids-btn"><a class="bids-btn" href="@{invest(bid?.id)}" target="_blank">立即投标</a></div>
+                	#{/else}
+                #{/if}
+                #{if bid?.statusType == 4}
+					 <div class="bt-return-ing"><a class="bids-btn" href="@{invest(bid?.id)}" target="_blank">还款中...</a></div>
+				#{/if}
+                #{if bid?.statusType == 5}
+					 <div class="bt-return-ing"><a class="bids-btn" href="@{invest(bid?.id)}" target="_blank">已还款...</a></div>
+				#{/if}
+
 			</li>
 		</ul>
 	</div>
