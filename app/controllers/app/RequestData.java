@@ -174,10 +174,9 @@ public class RequestData {
 		String keywords = (String)parameters.get("keywords");
 
 		String period = (String)parameters.get("period");
-		String productType = (String)parameters.get("productType");
 		String status = (String)parameters.get("status");
 
-		PageBean<v_front_all_bids> bids = Invest.queryAllBids(Constants.SHOW_TYPE_2, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevelStr, maxLevelStr, orderType, keywords,period,productType,status, error);
+		PageBean<v_front_all_bids> bids = Invest.queryAllBids(Constants.SHOW_TYPE_2, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevelStr, maxLevelStr, orderType, keywords,period,status, error);
 		if(error.code < 0){
 			jsonMap.put("error", "-4");
 			jsonMap.put("msg",error.msg);

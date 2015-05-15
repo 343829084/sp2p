@@ -218,12 +218,11 @@ public class Invest implements Serializable{
 	 * @param _orderType
 	 * @param _keywords
 	 * @param _period
-	 * @param _productType
 	 * @param _status
 	 * @param error
 	 * @return
 	 */
-	public static PageBean<v_front_all_bids> queryAllBids(int showType, int currPage, int pageSize, String _apr, String _amount, String _loanSchedule, String _startDate, String _endDate, String _loanType, String minLevelStr, String maxLevelStr, String _orderType, String _keywords, String _period, String _productType, String _status, ErrorInfo error) {
+	public static PageBean<v_front_all_bids> queryAllBids(int showType, int currPage, int pageSize, String _apr, String _amount, String _loanSchedule, String _startDate, String _endDate, String _loanType, String minLevelStr, String maxLevelStr, String _orderType, String _keywords, String _period, String _status, ErrorInfo error) {
 
 		int apr = 0;
 		int amount = 0;
@@ -234,7 +233,6 @@ public class Invest implements Serializable{
 		int maxLevel = 0;
 
 		int period = 0;
-		int productType = 0;
 		int status = 0;
 
 		List<v_front_all_bids> bidList = new ArrayList<v_front_all_bids>();
@@ -278,9 +276,9 @@ public class Invest implements Serializable{
 		}
 
 		if (amount < 0 || amount > 5) {
-			sql.append(SQLTempletes.BID_AMOUNT_CONDITION[0]);// 全部范围
+			sql.append(SQLTempletes.BID_MIN_INVEST_AMOUNT_CONDITION[0]);// 全部范围
 		} else {
-			sql.append(SQLTempletes.BID_AMOUNT_CONDITION[amount]);
+			sql.append(SQLTempletes.BID_MIN_INVEST_AMOUNT_CONDITION[amount]);
 		}
 
 		if (NumberUtil.isNumericInt(_loanSchedule)) {
@@ -337,29 +335,22 @@ public class Invest implements Serializable{
 		}
 
 
-
-
 		if (NumberUtil.isNumericInt(_period)) {
 			period = Integer.parseInt(_period);
-			if (period > 0) {
-//                sql.append(" and t_products.id = ? ");
-//                params.add(period);
+			if (period > 0 && period < 6) {
+                sql.append("and ((CASE WHEN (t_bids.period_unit = 1) THEN t_bids.period WHEN (t_bids.period_unit = 0) THEN t_bids.period * 30 WHEN (t_bids.period_unit = -1) THEN t_bids.period * 365 ELSE 0 END) " + SQLTempletes.BID_PERIOD_CONDITION[period] + ")");
+			} else {
+				sql.append(SQLTempletes.BID_PERIOD_CONDITION[0]);
 			}
 
 		}
-		if (NumberUtil.isNumericInt(_productType)) {
-			productType = Integer.parseInt(_productType);
-			if (productType > 0) {
-//                sql.append(" and t_products.id = ? ");
-//                params.add(productType);
-			}
 
-		}
 		if (NumberUtil.isNumericInt(_status)) {
 			status = Integer.parseInt(_status);
-			if (status > 0) {
-//                sql.append(" and t_products.id = ? ");
-//                params.add(status);
+			if (status > 0 && period < 6) {
+                sql.append(SQLTempletes.BID_STATUS_CONDITION[status]);
+			} else {
+				sql.append(SQLTempletes.BID_STATUS_CONDITION[0]);
 			}
 
 		}
@@ -368,7 +359,7 @@ public class Invest implements Serializable{
 			orderType = Integer.parseInt(_orderType);
 		}
 
-		if (orderType < 0 || orderType > 10) {
+		if (orderType < 0 || orderType > 5) {
 			sql.append(Constants.BID_ORDER_CONDITION[0]);
 		} else {
 			sql.append(Constants.BID_ORDER_CONDITION[orderType]);
@@ -385,7 +376,6 @@ public class Invest implements Serializable{
 		conditionMap.put("loanType", product_id);
 
 		conditionMap.put("period", period);
-		conditionMap.put("productType", productType);
 		conditionMap.put("status", status);
 
 		try {

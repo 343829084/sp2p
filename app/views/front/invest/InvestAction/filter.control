@@ -4,33 +4,32 @@
     <input type="hidden" id="pageSize" name="pageSize"/>
 	<input type="hidden" id="apr" name="apr" value="${pageBean?.conditions?.apr}"/>
 	<input type="hidden" id="amount" name="amount" value="${pageBean?.conditions?.amount}"/>
-	<input type="hidden" id="loanScheddle" name="loanScheddle" value="${pageBean?.conditions?.loanScheddle}" />
+	<input type="hidden" id="loanType" name="loanType" value="${pageBean?.conditions?.loanType}" />
 	<input type="hidden" id="orderType" name="orderType" value="${pageBean?.conditions?.orderType}"/>
 	<input type="hidden" id="period" name="period" value="${pageBean?.conditions?.period}"/>
-	<input type="hidden" id="productType" name="productType" value="${pageBean?.conditions?.productType}"/>
 	<input type="hidden" id="status" name="status" value="${pageBean?.conditions?.status}"/>
 	<div class="filter-condition clearfix">
 		<span>项目类型：</span>
 		<dl>
-			<dd>
-				<a>全部</a>
-			</dd>
-			<dd>
-				<a>易担保</a>
-			</dd>
-			<dd>
-				<a>易抵押</a>
-			</dd>
-			<dd>
-				<a>易票据</a>
-			</dd>
-			<dd>
-				<a>展义宝</a>
-			</dd>
+			<dd onclick="findInvestBy('loanType',0)" #{if pageBean?.conditions?.loanType == 0} class="red" #{/if}><a>全部</a></dd>
+			#{list items:products, as:'product'}
+				<dd onclick="findInvestBy('loanType',${product.id})" #{if pageBean?.conditions?.loanType == product.id} class="red" #{/if}><a>${product.name}</a></dd>
+			#{/list}
 		</dl>
 	</div>
 	<div class="filter-condition clearfix">
-		<span>借款期限：</span>
+    		<span>起投金额：</span>
+    		<dl>
+    			<dd onclick="findInvestBy('amount',0)" #{if pageBean?.conditions?.amount == 0} class="red" #{/if}><a>全部</a></dd>
+    			<dd onclick="findInvestBy('amount',1)" #{if pageBean?.conditions?.amount == 1} class="red" #{/if}><a>1000元以下</a></dd>
+    			<dd onclick="findInvestBy('amount',2)" #{if pageBean?.conditions?.amount == 2} class="red" #{/if}><a>1000元-1万元</a></dd>
+    			<dd onclick="findInvestBy('amount',3)" #{if pageBean?.conditions?.amount == 3} class="red" #{/if}><a>1万元-5万元</a></dd>
+    			<dd onclick="findInvestBy('amount',4)" #{if pageBean?.conditions?.amount == 4} class="red" #{/if}><a>5万元-10万元</a></dd>
+    			<dd onclick="findInvestBy('amount',5)" #{if pageBean?.conditions?.amount == 5} class="red" #{/if}><a>10万元以上</a></dd>
+    		</dl>
+    	</div>
+	<div class="filter-condition clearfix">
+		<span>项目期限：</span>
 		<dl>
 			<dd onclick="findInvestBy('period',0)" #{if pageBean?.conditions?.period == 0} class="red" #{/if}><a>全部</a></dd>
 			<dd onclick="findInvestBy('period',1)" #{if pageBean?.conditions?.period == 1} class="red" #{/if}><a>30天以下</a></dd>
@@ -40,17 +39,7 @@
 			<dd onclick="findInvestBy('period',5)" #{if pageBean?.conditions?.period == 5} class="red" #{/if}><a>365天以上</a></dd>
 		</dl>
 	</div>
-	<div class="filter-condition clearfix">
-		<span>投资金额：</span>
-		<dl>
-			<dd onclick="findInvestBy('amount',0)" #{if pageBean?.conditions?.amount == 0} class="red" #{/if}><a>全部</a></dd>
-			<dd onclick="findInvestBy('amount',1)" #{if pageBean?.conditions?.amount == 1} class="red" #{/if}><a>10万以下</a></dd>
-			<dd onclick="findInvestBy('amount',2)" #{if pageBean?.conditions?.amount == 2} class="red" #{/if}><a>10-50万</a></dd>
-			<dd onclick="findInvestBy('amount',3)" #{if pageBean?.conditions?.amount == 3} class="red" #{/if}><a>50-100万</a></dd>
-			<dd onclick="findInvestBy('amount',4)" #{if pageBean?.conditions?.amount == 4} class="red" #{/if}><a>100-300万</a></dd>
-			<dd onclick="findInvestBy('amount',5)" #{if pageBean?.conditions?.amount == 5} class="red" #{/if}><a>300万以上</a></dd>
-		</dl>
-	</div>
+
 	<div class="filter-condition clearfix">
 		<span>项目收益：</span>
 		<dl>
@@ -63,7 +52,7 @@
 		</dl>
 	</div>
 	<div class="filter-condition clearfix">
-		<span>借款状态：</span>
+		<span>项目状态：</span>
 		<dl>
 			<dd onclick="findInvestBy('status',0)" #{if pageBean?.conditions?.status == 0} class="red" #{/if}><a>全部</a></dd>
 			<dd onclick="findInvestBy('status',1)" #{if pageBean?.conditions?.status == 1} class="red" #{/if}><a>预售</a></dd>

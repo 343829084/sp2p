@@ -1035,7 +1035,10 @@ public class Constants {
 	public static final String [] BID_LOAN_SCHEDULE_CONDITION = { " "," and loan_schedule <= 50 ",
 		" and loan_schedule > 50  and loan_schedule <=80 "," and loan_schedule > 80  and loan_schedule <100 "," and loan_schedule =100 "};
 
-	public static final String [] BID_ORDER_CONDITION  = {" order by loan_schedule,is_hot desc,id desc "," order by amount desc ", " order by amount asc", " order by apr desc ", " order by apr asc", " order by loan_schedule desc ", " order by loan_schedule asc", " order by repayment_time desc ", " order by repayment_time asc"};
+	public static final String [] BID_STATUS_CONDITION = { " "," and loan_schedule <= 50 ",
+		" and loan_schedule > 50  and loan_schedule <=80 "," and loan_schedule > 80  and loan_schedule <100 "," and loan_schedule =100 "};
+
+	public static final String [] BID_ORDER_CONDITION  = {" ORDER BY t_bids.status,t_bids.is_hot desc ,t_bids.is_quality desc,t_bids.time desc"," ORDER BY t_bids.status,t_bids.time desc", " order by t_bids.amount desc,t_bids.time desc", " order by t_bids.apr desc,t_bids.time desc ", " order by t_bids.repayment_time desc,t_bids.time desc"};
 
 	public static final String [] DEBT_AMOUNT_CONDITION = {" ","  and  debt_amount <= 1000 ",
 		"  and  debt_amount > 1000  and debt_amount <=5000 ","  and  debt_amount > 5000   and debt_amount <=10000 ",

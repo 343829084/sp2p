@@ -45,7 +45,6 @@ public class InvestAction extends BaseController {
     public static void investHome() {
 
         ErrorInfo error = new ErrorInfo();
-        List<Product> list = Product.queryProductNames(true, error);
         Long totalCount = Invest.getBidCount(error);
 
         if (error.code < 0) {
@@ -73,7 +72,6 @@ public class InvestAction extends BaseController {
         String amount = params.get("amount") == null ? "0" : params.get("amount");
         String loanSchedule = params.get("loanSchedule") == null ? "0" : params.get("loanSchedule");
         String period = params.get("period") == null ? "0" : params.get("period");
-        String productType = params.get("productType") == null ? "0" : params.get("productType");
         String status = params.get("status") == null ? "0" : params.get("status");
 
         String startDate = params.get("startDate");
@@ -85,13 +83,13 @@ public class InvestAction extends BaseController {
         String keywords = params.get("keywords");
 
         PageBean<v_front_all_bids> pageBean = new PageBean<v_front_all_bids>();
-        pageBean = Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevel, maxLevel, orderType, keywords, period, productType, status, error);
+        pageBean = Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevel, maxLevel, orderType, keywords, period, status, error);
 
         if (error.code < 0) {
             render(Constants.ERROR_PAGE_PATH_FRONT);
         }
 
-        render(list, totalCount, creditLevels, products, pageBean);
+        render(totalCount, creditLevels, products, pageBean);
     }
 
 
