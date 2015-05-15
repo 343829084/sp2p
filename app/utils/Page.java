@@ -75,6 +75,8 @@ public class Page  implements Serializable{
 			return getMixedTheme();
 		case 4:
 			return getBackstageTheme();
+		case 5:
+			return getPreAndNextTheme();
 		default:
 			return getDefaultTheme();
 		}
@@ -94,6 +96,8 @@ public class Page  implements Serializable{
 			return getMixedThemeScript();
 		case 4:
 			return getBackstageThemeScript();
+		case 5:
+			return getPreAndNextScript();
 		default:
 			return getDefaultThemeScript();
 		}
@@ -529,7 +533,27 @@ public class Page  implements Serializable{
 		strBuff.append("</div>");
 		return strBuff.toString();
 	}
-	
+
+	private String getPreAndNextTheme(){
+		StringBuffer html = new StringBuffer();
+		html.append("<div class=\"paging\">");
+		html.append("	<a class=\"paging-btn\">上一页</a>");
+		html.append("	<a class=\"paging-btn\">1</a>");
+		html.append("	<a class=\"paging-btn\">2</a>");
+		html.append("	<a class=\"paging-btn\">3</a>");
+		html.append("	<a class=\"paging-btn\">4</a>");
+		html.append("	<a class=\"paging-btn\">...</a>");
+		html.append("	<a class=\"paging-btn\">下一页</a>");
+		html.append("</div>");
+		return html.toString();
+	}
+
+	private String getPreAndNextScript(){
+		StringBuffer html = new StringBuffer();
+
+		return html.toString();
+	}
+
 	private String getBackstageThemeScript(){
 		
 		//2012-12-18 增加判断，如果没有传函数，那就执行默认方法
@@ -625,7 +649,7 @@ public class Page  implements Serializable{
 		strBuff.append(script);
 		return strBuff.toString();
 	}
-	
+
 	private String getDefaultTheme(){
 		StringBuffer strBuff = new StringBuffer("<div class=\"pageDivClass\">");
 		String myUrl = Request.current().actionMethod;

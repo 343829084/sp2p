@@ -21,7 +21,10 @@ public class MyTags extends FastTags{
 	 */
 	public static void _page(Map<String, Object> params, Closure body, PrintWriter out, 
 			ExecutableTemplate template, int fromLine) {
-		
+
+		for (String key : params.keySet()) {
+			System.out.println("[" + key + "]:[" + params.get(key) + "]");
+		}
 		int currPage = (Integer) params.get("currPage");
 		int pageSize = (Integer) (params.get("pageSize") == null ? Constants.TEN : params.get("pageSize"));
 		int totalCount = (Integer) params.get("totalCount");

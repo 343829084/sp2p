@@ -568,7 +568,7 @@ public class Constants {
 	 */
 	public static final int PAGE_SIMPLE = 1;
 	public static final int PAGE_ASYNCH = 2;
-	
+
 	/**
 	 * 默认风格
 	 */
