@@ -1,5 +1,5 @@
 #{extends 'common/supervisor.html' /} 
-#{set title:'筹款中的借款标详情' /} 
+#{set title:'募集中的借款标详情' /} 
 #{if (bid?.status == 1 || bid?.status == 2) && bid?.amount > bid?.hasInvestedAmount}
 <div class="xn_c_contentwarp">
   <div class="xn_c_contentlist">
@@ -69,7 +69,7 @@
                      #{/td}
                    #{/tr}
                    #{/if}
-                   *{ 筹款中 }*
+                   *{ 募集中 }*
                    #{elseif bid?.status == 2}
                    #{tr}
                      #{td align:"right", valign:"top"}<span class="xf_s_sz">CBO风控体系审核：</span>#{/td}
@@ -199,7 +199,7 @@
         });
 	}
 
-	/* 筹款中不通过确认 */
+	/* 募集中不通过确认 */
 	function fundraiseToPeviewNotThrough(){
 		$.layer({
 		    shade: [0],

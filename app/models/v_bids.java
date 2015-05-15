@@ -58,7 +58,7 @@ public class v_bids extends Model {
 		switch (this.status) {
 			case Constants.BID_AUDIT: this.strStatus = "审核中"; break;
 			case Constants.BID_ADVANCE_LOAN: this.strStatus = "提前借款"; break;
-			case Constants.BID_FUNDRAISE: this.strStatus = "筹款中"; break;
+			case Constants.BID_FUNDRAISE: this.strStatus = "募集中"; break;
 			case Constants.BID_EAIT_LOAN: this.strStatus = "待放款"; break;
 			case Constants.BID_REPAYMENT: this.strStatus = "还款中"; break;
 			case Constants.BID_COMPENSATE_REPAYMENT: this.strStatus = "本金垫付还款中"; break;

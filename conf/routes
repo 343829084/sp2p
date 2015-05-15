@@ -277,7 +277,7 @@ GET    /front/account/submitPrepayment                 							front.account.Acco
 GET    /front/account/auditToRepeal                 						    front.account.AccountHome.auditToRepeal
 # 提前借款->撤销
 GET    /front/account/advanceLoanToRepeal                 						front.account.AccountHome.advanceLoanToRepeal
-# 筹款中->撤销
+# 募集中->撤销
 GET    /front/account/fundraiseToRepeal                 						front.account.AccountHome.fundraiseToRepeal
 # 查看层
 POST   /front/account/auditMaterialsSameItem									front.account.AccountHome.auditMaterialsSameItem
@@ -1151,7 +1151,7 @@ POST    /supervisor/TemplateAction/updatePact          				            superviso
 # -----------------------------------------------平台借款标管理--------------------------------------------------------
 # 审核中的借款标列表
 *       /supervisor/BidPlatformAction/auditingList                   			supervisor.bidManager.BidPlatformAction.auditingList
-# 筹款中的借款标列表
+# 募集中的借款标列表
 *       /supervisor/BidPlatformAction/fundraiseingList                 			supervisor.bidManager.BidPlatformAction.fundraiseingList
 # 满标待放款
 *       /supervisor/BidPlatformAction/fullList                         			supervisor.bidManager.BidPlatformAction.fullList
@@ -1167,7 +1167,7 @@ POST    /supervisor/TemplateAction/updatePact          				            superviso
 *       /supervisor/BidPlatformAction/badList                          			supervisor.bidManager.BidPlatformAction.badList
 # 审核中的借款标详情
 *       /supervisor/BidPlatformAction/auditingDetail							supervisor.bidManager.BidPlatformAction.auditingDetail
-# 筹款中的借款标详情
+# 募集中的借款标详情
 *       /supervisor/BidPlatformAction/fundraiseingDetail						supervisor.bidManager.BidPlatformAction.fundraiseingDetail
 # 满标待放款的借款标详情
 *       /supervisor/BidPlatformAction/fullDetail								supervisor.bidManager.BidPlatformAction.fullDetail
@@ -1199,15 +1199,15 @@ POST    /supervisor/BidPlatformAction/siteHot									supervisor.bidManager.BidP
 GET     /supervisor/BidPlatformAction/print                          			supervisor.bidManager.BidPlatformAction.print
 # 审核中->提前借款 
 *    	/supervisor/BidPlatformAction/auditToadvanceLoan 						supervisor.bidManager.BidPlatformAction.auditToadvanceLoan
-# 审核中->筹款中 
+# 审核中->募集中 
 *    	/supervisor/BidPlatformAction/auditToFundraise 							supervisor.bidManager.BidPlatformAction.auditToFundraise
-# 提前借款->筹款中 
+# 提前借款->募集中 
 *    	/supervisor/BidPlatformAction/advanceLoanToFundraise 					supervisor.bidManager.BidPlatformAction.advanceLoanToFundraise
 # 审核中->审核不通过 
 *    	/supervisor/BidPlatformAction/auditToNotThrough 						supervisor.bidManager.BidPlatformAction.auditToNotThrough
 # 提前借款->借款中不通过 
 *    	/supervisor/BidPlatformAction/advanceLoanToPeviewNotThrough 			supervisor.bidManager.BidPlatformAction.advanceLoanToPeviewNotThrough
-# 筹款中->借款中不通过 
+# 募集中->借款中不通过 
 *    	/supervisor/BidPlatformAction/fundraiseToPeviewNotThrough 				supervisor.bidManager.BidPlatformAction.fundraiseToPeviewNotThrough
 # 满标->待放款 
 *    	/supervisor/BidPlatformAction/fundraiseToEaitLoan 						supervisor.bidManager.BidPlatformAction.fundraiseToEaitLoan

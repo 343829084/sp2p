@@ -2,13 +2,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	%{
-	business.User currUser = business.User.currUser();
-	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
-	String platUrl = constants.Constants.BASE_URL;
-	java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
-	boolean ipsEnable = constants.Constants.IPS_ENABLE;
-	boolean debtUse = constants.Constants.DEBT_USE;
-	String mobile = constants.Constants.BIDS_MOBILE;
+		business.User currUser = business.User.currUser();
+		business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+		String platUrl = constants.Constants.BASE_URL;
+		java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+		boolean ipsEnable = constants.Constants.IPS_ENABLE;
+		boolean debtUse = constants.Constants.DEBT_USE;
+		String mobile = constants.Constants.BIDS_MOBILE;
+		java.util.Date currentDate = utils.DateUtil.currentDate();
 	}%
 	<title>#{get 'title' /}</title>
 	<meta name="keywords" content="${currBackstageSet?.seoKeywords}" />

@@ -171,7 +171,7 @@ public class BidPlatformAction extends SupervisorController {
 	}
 	
 	/**
-	 * 筹款中的借款标详情
+	 * 募集中的借款标详情
 	 */
 	public static void fundraiseingDetail(long bidId){
 		
@@ -430,7 +430,7 @@ public class BidPlatformAction extends SupervisorController {
 	} 
 	
 	/**
-	 *  审核中->筹款中 
+	 *  审核中->募集中 
 	 */
 	public static void auditToFundraise(String sign) {
 		checkAuthenticity();
@@ -465,7 +465,7 @@ public class BidPlatformAction extends SupervisorController {
 	}
 	
 	/** 
-	 * 提前借款->筹款中 
+	 * 提前借款->募集中 
 	 */
 	public static void advanceLoanToFundraise(String sign) { 
 		checkAuthenticity();
@@ -598,7 +598,7 @@ public class BidPlatformAction extends SupervisorController {
 	}
 	
 	/**
-	 *  筹款中->借款中不通过 
+	 *  募集中->借款中不通过 
 	 */
 	public static void fundraiseToPeviewNotThrough(String sign) { 
 		checkAuthenticity();

@@ -346,14 +346,14 @@ public class Constants {
 	
 	public static final int BID_AUDIT = 0; // 审核中
 	public static final int BID_ADVANCE_LOAN = 1; // 提前借款
-	public static final int BID_FUNDRAISE = 2; // 筹款中(审核通过)
+	public static final int BID_FUNDRAISE = 2; // 募集中(审核通过)
 	public static final int BID_EAIT_LOAN = 3; // 待放款(放款审核通过);
 	public static final int BID_REPAYMENT = 4; // 还款中(已放款)
 	public static final int BID_COMPENSATE_REPAYMENT = 14; // 本金垫付还款中(已放款)
 	public static final int BID_REPAYMENTS = 5; // 已还款
 	public static final int BID_AUDIT_VERIFY = 10; // 审核中待验证
 	public static final int BID_ADVANCE_LOAN_VERIFY = 11; // 前提借款待验证
-	public static final int BID_FUNDRAISE_VERIFY = 12; // 筹款中待验证
+	public static final int BID_FUNDRAISE_VERIFY = 12; // 募集中待验证
 	public static final int BID_NOT_THROUGH = -1; // 审核不通过 
 	public static final int BID_PEVIEW_NOT_THROUGH = -2;// 借款中不通过
 	public static final int BID_LOAN_NOT_THROUGH = -3;// 放款不通过 
@@ -453,8 +453,8 @@ public class Constants {
 	public static final int ITEMS_SEARCH_ID = 2; // 邮箱搜索(资料库)
 	
 	/* app每页的条数 */
-	public static final int APP_PAGESIZE = 18;  
-	public static final String APP_PAGESIZE2 = "18"; //字符串类型
+	public static final int APP_PAGESIZE = 10;  
+	public static final String APP_PAGESIZE2 = "10"; //字符串类型
 	
 	/* 会员状态 */
 	public static final int SUCCESS_STATUS = 1; // 有效
@@ -568,7 +568,7 @@ public class Constants {
 	 */
 	public static final int PAGE_SIMPLE = 1;
 	public static final int PAGE_ASYNCH = 2;
-	
+
 	/**
 	 * 默认风格
 	 */
@@ -1035,7 +1035,10 @@ public class Constants {
 	public static final String [] BID_LOAN_SCHEDULE_CONDITION = { " "," and loan_schedule <= 50 ",
 		" and loan_schedule > 50  and loan_schedule <=80 "," and loan_schedule > 80  and loan_schedule <100 "," and loan_schedule =100 "};
 
-	public static final String [] BID_ORDER_CONDITION  = {" order by loan_schedule,is_hot desc,id desc "," order by amount desc ", " order by amount asc", " order by apr desc ", " order by apr asc", " order by loan_schedule desc ", " order by loan_schedule asc", " order by repayment_time desc ", " order by repayment_time asc"};
+	public static final String [] BID_STATUS_CONDITION = { " "," and loan_schedule <= 50 ",
+		" and loan_schedule > 50  and loan_schedule <=80 "," and loan_schedule > 80  and loan_schedule <100 "," and loan_schedule =100 "};
+
+	public static final String [] BID_ORDER_CONDITION  = {" ORDER BY t_bids.status,t_bids.is_hot desc ,t_bids.is_quality desc,t_bids.time desc"," ORDER BY t_bids.status,t_bids.time desc", " order by t_bids.amount desc,t_bids.time desc", " order by t_bids.apr desc,t_bids.time desc ", " order by t_bids.repayment_time desc,t_bids.time desc"};
 
 	public static final String [] DEBT_AMOUNT_CONDITION = {" ","  and  debt_amount <= 1000 ",
 		"  and  debt_amount > 1000  and debt_amount <=5000 ","  and  debt_amount > 5000   and debt_amount <=10000 ",
@@ -1446,5 +1449,5 @@ public class Constants {
 	public static final Long BASE_USER_COUNT = 1500L; // 用户基数
 	public static final Long BASE_TOTAL_VOLUME = 20000000L; //累计成交量基础
 	public static final Long MEDIA_REPORT_NEWS_TYPE = 34L; // 媒体报道
-	public static final Long LATEST_NEWS_TYPE = 34L; // 最新动态
+	public static final Long LATEST_NEWS_TYPE = 35L; // 最新动态
 }

@@ -40,17 +40,17 @@
     color: #555555;
 }
 
-.filter-condition ul {
+.filter-condition dl {
     display: inline;
 }
 
-.filter-condition li a {
+.filter-condition dd a {
     float: left;
     margin-left: 20px;
     color: #007FC1;
 }
 
-.filter-condition li:first-child a {
+.filter-condition .red a {
     color: red;
 }
 
@@ -121,6 +121,10 @@
     font-size: large;
     font-weight: bold;
     margin-left: 5px;
+    vertical-align: middle;
+}
+.title img {
+    vertical-align: middle;
 }
 
 .prod-item li {

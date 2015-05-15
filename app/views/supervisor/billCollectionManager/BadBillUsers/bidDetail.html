@@ -75,7 +75,7 @@
           (#{if bid?.isAgency}机构标、#{/if}
           #{if bid?.status == 0}审核中#{/if}
       #{elseif bid?.status == 1}#{if bid?.loanSchedule == 100}提前借款、满标#{/if}#{else}提前借款#{/else}#{/elseif}
-      #{elseif bid?.status == 2}#{if bid?.loanSchedule == 100}筹款中、满标#{/if}#{else}筹款中#{/else}#{/elseif}
+      #{elseif bid?.status == 2}#{if bid?.loanSchedule == 100}募集中、满标#{/if}#{else}募集中#{/else}#{/elseif}
       #{elseif bid?.status == 3}待放款#{/elseif}
       #{elseif bid?.status == 4}还款中#{/elseif}
       #{elseif bid?.status == 5}已还款#{/elseif}

@@ -29,6 +29,7 @@ public enum MsgCode {
     LOAN_BID_INVEST_RECORDS_SUCC("0505","查询投标记录详情成功"),
     LOAN_BID_SHOW_QUERY_SUCC("0506","查询首页展示标的成功"),
     LOAN_BID_APR_CALCULATOR_SUCC("0507","查询利率计算器成功"),
+    LOAN_BID_RETURN_MODE_SUCC("0508","查询收益获取成功"),
     
     
     LOAN_BID_QUERY_FAIL("2501","查询借款标列表失败"),

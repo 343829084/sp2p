@@ -46,12 +46,12 @@ public class IPSConstants {
 	public static final String BID_CANCEL = "cancel"; //审核中->撤销
 	public static final String BID_CANCEL_B = "cancelB"; //提前借款->借款中不通过
 	public static final String BID_CANCEL_S = "cancelS"; //审核中->审核不通过
-	public static final String BID_CANCEL_I = "cancelI"; //筹款中->借款中不通过
+	public static final String BID_CANCEL_I = "cancelI"; //募集中->借款中不通过
 	public static final String BID_CANCEL_M = "cancelM"; //满标->放款不通过
 	public static final String BID_CANCEL_F = "cancelF"; //提前借款->撤销
-	public static final String BID_CANCEL_N = "cancelN"; //筹款中->撤销
+	public static final String BID_CANCEL_N = "cancelN"; //募集中->撤销
 	public static final String BID_ADVANCE_LOAN = "flowA"; //提前借款->流标
-	public static final String BID_FUNDRAISE = "flowI"; //筹款中->流标
+	public static final String BID_FUNDRAISE = "flowI"; //募集中->流标
 	
 	public static double MIN_AMOUNT = 1.0;						//标的借款额度限额最小值
 	public static int EXCUTED = -1314;	//已执行

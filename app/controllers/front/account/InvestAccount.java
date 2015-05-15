@@ -88,7 +88,7 @@ public class InvestAccount extends BaseController {
 		/* 优质债权推荐 */
 		List<v_front_all_debts> qualityDebts= Debt.queryQualityDebtTransfers(error);
 		
-		/* 最新筹款中满标倒计时提醒 */
+		/* 最新募集中满标倒计时提醒 */
 		List<v_bid_fundraiseing> fundraiseingBid = Bid.queryFundraiseingBid(user.id, error);
 		
 		if(null == fundraiseingBid)
