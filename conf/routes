@@ -713,6 +713,8 @@ POST   /login                         											front.account.LoginAndRegisterA
 POST   /front/account/codeReturn                         						front.account.LoginAndRegisterAction.codeReturn
 #会员注册
 GET    /register                       											front.account.LoginAndRegisterAction.register
+#发送手机验证码
+POST   /register/verifyCode                       								front.account.LoginAndRegisterAction.getVerifyCode
 #生成验证码
 POST   /front/account/setCode                       							front.account.LoginAndRegisterAction.setCode
 #校验验证码
