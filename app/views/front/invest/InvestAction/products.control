@@ -12,15 +12,15 @@
 		<ul>
 			<li class="first-col">
 				<div>年化收益率 : <span class="highlight">${bid.apr}%</span></div>
-				<div class="second-row">起投金额 : <span >1000</span>元</div>
+				<div class="second-row">起投金额 : <span >${bid.min_invest_amount?.format('###,##0.00')}</span>元</div>
 			</li>
 			<li class="second-col">
 				<div>项目期限 : <span>${bid?.period.formatPeriod(bid.period_unit)}</span></div>
-				<div class="second-row">融资规模 : <span>${bid.amount/10000}</span>万元</div>
+				<div class="second-row">融资规模 : <span>${(bid.amount/10000).format('###,##0.00')}</span>万元</div>
 			</li>
 			<li class="third-col">
 				<div>还款方式 : <span>${bid.repay_name}</span></div>
-				<div class="second-row">剩余可投金额 : <span>${bid.amount-bid.has_invested_amount}</span>元</div>
+				<div class="second-row">剩余可投金额 : <span>${(bid.amount-bid.has_invested_amount).format('###,##0.00')}</span>元</div>
 			</li>
 			<li class="fourth-col">
 				<div>项目进度 : <span>${bid.loan_schedule}%</span></div>
@@ -33,7 +33,7 @@
 			<li class="fifth-col">
                 #{if bid?.statusType == 2}
                 	#{if bid.time > currentDate}
-                		<div class="bt-countdown">${bid.time-currentDate}</div>
+                		<div class="bt-countdown">${bid.time-currentDate}后起投</div>
                 	#{/if}
                 	#{elseif bid.amount == bid.has_invested_amount}
                 		<div class="bt-return-ing"><a class="bids-btn" href="@{invest(bid?.id)}" target="_blank">已售完...</a></div>
