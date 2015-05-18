@@ -74,5 +74,5 @@ var floatWidget = function (){
 
 $(function () {
 	initAdvBanner();
-	floatWidget();
+	//floatWidget();
 });

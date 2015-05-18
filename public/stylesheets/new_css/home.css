@@ -436,11 +436,14 @@
     color: #ABABAB;
 }
 
-#twoDimensionalCode {
-    position: absolute;
+.float-div {
+    position: fixed;
     z-index: 10000;
-    top: 15px;
-    right: -150px;
+    right:300px;
+    bottom: 0;
+}
+
+#twoDimensionalCode {
     border: 1px solid #efefef;
     background-color: #fff;
 }
@@ -487,6 +490,38 @@
     text-align: center;
 }
 
+.toolbar {
+    margin-top: 10px;
+}
+
+.toolbar .telephone-icon{
+    background: url(../../images/new/toolbar.png) no-repeat 0px 0px;
+    width: 52px;
+    height: 51px;
+    margin: 0 auto;
+}
+
+.toolbar .qq-icon{
+    background: url(../../images/new/toolbar.png) no-repeat 0px -50px;
+    width: 52px;
+    height: 51px;
+    margin: 0 auto;
+}
+
+.toolbar .calculate-icon{
+    background: url(../../images/new/toolbar.png) no-repeat 0px -100px;
+    width: 52px;
+    height: 60px;
+    margin: 0 auto;
+}
+
+.toolbar .return-top-icon{
+    background: url(../../images/new/toolbar.png) no-repeat 0px -155px;
+    width: 52px;
+    height: 52px;
+    margin: 0 auto;
+}
+
 
 #main-bottom {
     width: 1000px;
@@ -509,6 +544,35 @@
 
 .info-panel-gap {
     margin-left: 5px;
+}
+
+.info-panel-container .info-list {
+    color: #a9a9a9;
+}
+
+.info-list ul li {
+    list-style-type: disc;
+    list-style-position:inside;
+}
+
+.info-list .news-title {
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    overflow: hidden;
+    margin-left: 10px;
+    width: 72%;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -webkit-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    line-height: 1em;
+    margin-top: 15px;
+    margin-bottom: 0;
+}
+
+.info-list .publish-date {
+    margin-left: 20px;
 }
 
 .title-header {

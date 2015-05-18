@@ -23,6 +23,69 @@
 
 .content .contect-us {
     margin-left: 20px;
+    position: relative;
+    border: solid 1px #FAFAFA;
+}
+
+.contect-us .contect-us-popup-detail {
+    position: absolute;
+    z-index: 10000;
+    display: none;
+    border: solid 1px #ececec;
+    background-color: #fff ;
+    right: 0px;
+    width: 300px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.contect-us:hover .contect-us-popup-detail{
+    display: block;
+}
+
+.contect-us:hover .tag{
+    border: solid 1px #ececec;
+    border-bottom: none;
+}
+
+.contect-us-popup-detail .scan-code {
+    background: url("../../images/new/code-img.png") no-repeat 0px 0px;
+    width: 80px;
+    height: 80px;
+}
+
+.contect-us-popup-detail .right-detail-info{
+    width: 200px;
+}
+
+.contect-us-popup-detail table {
+    width: 100%;
+}
+
+.cutline {
+    border-left: solid 1px #ececec;;
+}
+
+.contect-us-popup-detail .code-img-style {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.contect-us-popup-detail .contect-us-icon {
+}
+
+.contect-us-icon img {
+    margin-left: 10px;
+}
+
+.right-detail-info .work-time {
+    font-size: 0.9em;
+    margin-left: 10px;
+}
+
+.right-detail-info .hotline {
+    margin-left: 10px;
+    margin-top: 5px;
 }
 
 #nav-container {
@@ -56,6 +119,9 @@
 
 
 #footer {
+}
+
+#footer .company-info {
     width: 1000px;
     margin: 0 auto;
     margin-top: 20px;
@@ -89,5 +155,12 @@
     margin-right: 5px;
 }
 
+.security-background {
+    background: #505050;
+}
 
-
+#footer .security-container {
+    width: 1000px;
+    margin: 0 auto;
+    margin-top: 20px;
+}

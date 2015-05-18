@@ -6,7 +6,7 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type"/>
     <link rel="stylesheet" type="text/css" href="../stylesheets/reset.css"/>
     <link rel="stylesheet" type="text/css" href="../stylesheets/new_css/common.css"/>
-    <link rel="stylesheet" type="text/css" href="../stylesheets/new_css/register.css">
+    <link rel="stylesheet" type="text/css" href="../stylesheets/new_css/login.css">
     <script type="text/javascript" src="../javascripts/jquery-2.0.js"></script>
 </head>
 <body>
@@ -49,39 +49,49 @@
         </div>
         <div class="body clearfix">
             <div class="advertisement">
-
             </div>
             <div class="form">
+                <ul class="tab clearfix">
+                    <li>
+                        <button class="selected-tab" style="">
+                            账户登录
+                        </button>
+                    </li>
+                    <li class="cutline">
+                        <button>
+                            快速登录
+                        </button>
+                    </li>
+                </ul>
                 <form action="" >
                     <div>
-                        <label for="mobile">手机号码</label>
+                        <label for="mobile">手机号</label>
                         <input type="text" name="mobile" id="mobile" placeholder="请输入手机号码"/>
                     </div>
 
-                    <div class="security-code">
-                        <label for="securityCode">验证码</label>
-                        <input type="text" name="securityCode" id="securityCode" placeholder="请输入验证码"/>
-                        <a>获取验证码</a>
-                    </div>
-
                     <div>
-                        <label for="password">设置密码</label>
-                        <input type="text" name="password" id="password" placeholder="请输入登录密码 6-20位字符组成"/>
+                        <label for="password">密&nbsp; &nbsp;码</label>
+                        <input type="text" name="password" id="password" placeholder="请输入登录密码"/>
                     </div>
 
-                    <div>
-                        <label for="invitaionCode">设置密码</label>
-                        <input type="text" name="invitaionCode" id="invitaionCode" placeholder="请输入邀请码（推荐人手机号）"/>
-                    </div>
 
-                    <div class="agreed-deal">
-                        <input class="check-box" type="checkbox" checked="true"  />
-                        <span>我已阅读并同意<a>《金豆荚理财用户注册协议》</a></span>
+                    <div class="save-user-name clearfix">
+                        <input class="check-box" type="checkbox" checked="true" />
+                        <span>记住用户名</span>
+                        <p><a>忘记密码</a></p>
                     </div>
                     <div class="submit-btn-container">
-                        <input class="submit-btn" type="submit" value="确认提交"/>
+                        <input class="submit-btn" type="submit" value="登&nbsp;&nbsp;录"/>
+                    </div>
+                    <div class="free-register clearfix">
+                        <a>10秒免费注册</a>
                     </div>
                 </form>
+                <div class="partner">
+                    <p>
+                        使用合作账户登录：
+                    </p>
+                </div>
             </div>
         </div>
     </div>
