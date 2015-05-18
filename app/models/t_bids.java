@@ -58,7 +58,7 @@ public class t_bids extends Model {
 	public boolean is_agency;             // 标示合作机构状态
 	public int agency_id;                  // 合作机构ID
 	public boolean is_show_agency_name;     //是否显示机构合作名称
-	public int status;               //审核状态:0审核中 1筹款中（审核通过） 2还款中 3已还款 -1审核不通过 -2流标
+	public int status;               //审核状态:0审核中 1募集中（审核通过） 2还款中 3已还款 -1审核不通过 -2流标
 	public double loan_schedule;                    // 借款进度比例
 	public double has_invested_amount;            // 已投总额
 	public int read_count;                         // 阅读次数(默认为0)
@@ -87,13 +87,12 @@ public class t_bids extends Model {
 	}
 
 	/**
-	 * 我要借款,时间最新的未满借款标 
-	 * @param user_id 用户ID
-	 * @param name 用户名称
-	 * @param id 标ID
-	 * @param time 时间
-	 * @param amount 金额
-	 * @param apr 利率
+	 * 我要借款,时间最新的未满借款标
+	 * @param user_id
+	 * @param id
+	 * @param time
+	 * @param amount
+	 * @param apr
 	 */
 	public t_bids(long user_id, long id, Date time, double amount, double apr) {
 		this.user_id = user_id;

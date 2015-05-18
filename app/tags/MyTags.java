@@ -21,10 +21,11 @@ public class MyTags extends FastTags{
 	 */
 	public static void _page(Map<String, Object> params, Closure body, PrintWriter out, 
 			ExecutableTemplate template, int fromLine) {
-		
+
 		int currPage = (Integer) params.get("currPage");
 		int pageSize = (Integer) (params.get("pageSize") == null ? Constants.TEN : params.get("pageSize"));
 		int totalCount = (Integer) params.get("totalCount");
+		int maxSize = params.get("maxSize") == null ? 0 :(Integer) params.get("maxSize");
 		int theme = (Integer) params.get("theme") == null ? Constants.PAGE_SIMPLE : (Integer) params.get("theme");
 		int style = (Integer) params.get("style") == null ? Constants.PAGE_STYLE_DEFAULT : (Integer) params.get("style");
 		String funMethod = (String) params.get("funMethod");
@@ -42,6 +43,7 @@ public class MyTags extends FastTags{
 		page.totalCount = totalCount;
 		page.funMethod = funMethod;
 		page.pageTitle = pageTitle;
+		page.maxSize = maxSize;
 		page.style = style;
 		if(condition != null) {
 			page.conditions = condition;

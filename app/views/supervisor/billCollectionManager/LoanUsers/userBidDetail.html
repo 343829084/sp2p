@@ -12,7 +12,7 @@
             <option >请选择</option>
             <option value="0" #{if status == '0'} selected="selected" #{/if}>审核中</option>
             <option value="1" #{if status == '1'} selected="selected" #{/if}>提前借款</option>
-            <option value="2" #{if status == '2'} selected="selected" #{/if}> 筹款中</option>
+            <option value="2" #{if status == '2'} selected="selected" #{/if}> 募集中</option>
             <option value="3" #{if status == '3'} selected="selected" #{/if}>待放款</option>
             <option value="4" #{if status == '4'} selected="selected" #{/if}> 还款中</option>
             <option value="5" #{if status == '5'} selected="selected" #{/if}>已还款</option>
@@ -48,7 +48,7 @@
             提前借款
             #{/elseif}
             #{elseif bid?.status==2}
-            筹款中
+            募集中
             #{/elseif}
             #{elseif bid?.status==3}
             待放款
