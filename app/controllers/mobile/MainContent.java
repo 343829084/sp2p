@@ -1,27 +1,23 @@
 package controllers.mobile;
 
+
 import business.*;
 import constants.Constants;
-import constants.IPSConstants;
 import constants.SQLTempletes;
 import controllers.BaseController;
-import controllers.app.RequestDataExtend;
-import controllers.front.account.CheckAction;
 import models.*;
-import net.sf.json.JSON;
+import models.v_front_all_bids;
+import models.y_front_show_bids;
 import net.sf.json.JSONObject;
-import net.sf.json.util.JSONBuilder;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
 import play.db.jpa.JPA;
-import play.mvc.Http;
-import sun.org.mozilla.javascript.internal.json.JsonParser;
 import utils.ErrorInfo;
-import utils.JSONUtils;
-import utils.QueryUtil;
+import utils.PageBean;
+
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -218,11 +214,21 @@ public class MainContent extends BaseController {
 
     }
     /**
-     * 跳转到财富页面
+     * 跳转到理财页面
      */
     public static void moneyMatters() {
 
-        render();
+        ErrorInfo error = new ErrorInfo();
+        int currPage = 1;
+
+        if(params.get("currPage")!=null) {
+            currPage = Integer.parseInt(params.get("currPage"));
+        }
+
+        PageBean<v_front_all_bids> pageBean = new PageBean<v_front_all_bids>();
+        pageBean= Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, 100, null, null, null, null, null, null, null, null, "0", null, error);
+        render(pageBean);
+
     }
     /**
      * 跳转到me页面

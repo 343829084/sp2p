@@ -199,7 +199,7 @@ public class BidAction extends BaseController {
 	 */
 	public static void createBid(Bid bid, String signProductId, String uuid, int status) {
 		checkAuthenticity(); 
-		
+		String date=bid.presellTime;
         if(User.currUser().simulateLogin != null){
         	if(User.currUser().simulateLogin.equalsIgnoreCase(User.currUser().encrypt())){
             	flash.error("模拟登录不能进行该操作");

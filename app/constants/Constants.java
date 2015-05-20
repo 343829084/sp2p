@@ -435,7 +435,7 @@ public class Constants {
 	public static final int FULL_REMIND_BID_COUNT = 3; // 我的账户提醒满标倒计时数量
 	public static final int RECENTLY_REPAYMENT_BILL_COUNT = 3; // 账单提醒最近还款账单数量
 	public static final int YEAR_PERIOD_LIMIT = 5; // 年借款期限，限制
-	public static final int HOME_BID_COUNT = 4; // 首页借款标限制
+	public static final int HOME_BID_COUNT = 8; // 首页借款标限制
 	public static final int NEW_FUNDRAISEING_BID = 3; // 最新未满标限制数量
 	
 	public static final int SEARCH_ALL = 0; // 全部搜索
@@ -454,8 +454,8 @@ public class Constants {
 	public static final int ITEMS_SEARCH_ID = 2; // 邮箱搜索(资料库)
 	
 	/* app每页的条数 */
-	public static final int APP_PAGESIZE = 18;  
-	public static final String APP_PAGESIZE2 = "18"; //字符串类型
+	public static final int APP_PAGESIZE = 10;  
+	public static final String APP_PAGESIZE2 = "10"; //字符串类型
 	
 	/* 会员状态 */
 	public static final int SUCCESS_STATUS = 1; // 有效

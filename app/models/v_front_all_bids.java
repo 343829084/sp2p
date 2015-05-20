@@ -1,15 +1,19 @@
 package models;
 
-import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.Transient;
 import constants.Constants;
 import play.db.jpa.Model;
+
+import javax.persistence.Entity;
+import javax.persistence.Transient;
+import java.util.Date;
 
 @Entity
 public class v_front_all_bids extends Model{
 	
 	public Date time;
+	public String is_new;
+	public String feeType;
+	public double min_invest_amount;
 	//public String credit_name;
 	//public String credit_image_filename;
 	public String product_filename;

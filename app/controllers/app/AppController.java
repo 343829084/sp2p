@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Map;
 import play.Logger;
 import business.BackstageSet;
-import com.shove.gateway.GeneralRestGateway;
 import com.shove.gateway.GeneralRestGatewayInterface;
 import com.shove.security.License;
 import constants.Constants;
@@ -1202,6 +1201,14 @@ public class AppController extends BaseController implements GeneralRestGatewayI
 				result = RequestDataExtend.showP2PProductOnHome(parameters);
 			} catch(Exception e) {
 				Logger.error("首页展示标的：%s：", e.getMessage());
+			}
+			break;	
+			
+		case AppConstants.APP_RETURN_MODE:
+			try{
+				result = RequestDataExtend.returnMode(parameters);
+			} catch(Exception e) {
+				Logger.error("收益获取：%s：", e.getMessage());
 			}
 			break;	
 			

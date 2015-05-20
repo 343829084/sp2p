@@ -4,7 +4,10 @@ import java.io.File;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -91,6 +94,7 @@ public class Bid implements Serializable{
 	
 	public String no; // 编号
 	public Date time; // 发布时间
+	public String presellTime;//预售shi'jian
 	public String title; // 标题
 	public double amount; // 借款金额
 	public int periodUnit; // 借款期限单位
@@ -116,7 +120,7 @@ public class Bid implements Serializable{
 	public Date moneyback_time ;//预计资金到账时间
 	public int status; // 审核状态
 	public String strStatus; // 0审核中 1筹款中（审核通过） 2还款中 3已还款 -1审核不通过 -2流标
-
+	
 	public double hasInvestedAmount; // 已投总额
 	public double loanSchedule; // 借款进度比例
 	public double minInvestAmount; // 最低金额招标
@@ -1282,7 +1286,16 @@ public class Bid implements Serializable{
 		t_bids tbid = new t_bids();
 		
 		tbid.mark = this.product.mark;
-		tbid.time = new Date(); // 申请时间
+		if(null==this.presellTime){
+			tbid.time = new Date(); // 申请时间
+		}else{
+			DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			try {
+				tbid.time =format.parse(this.presellTime);//添加了预售逻辑
+			} catch (Exception e) {
+				tbid.time = new Date(); // 申请时间
+			}
+		}
 		tbid.title = this.title; // 标题
 		tbid.amount = this.amount; // 金额
 		tbid.period_unit =  this.product.loanType == Constants.S_REPAYMENT_BID ? Constants.DAY : this.periodUnit; // 借款期限单位

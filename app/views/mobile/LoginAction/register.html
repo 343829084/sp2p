@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/login.css'}" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobileCommon.css'}" />
+    <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/mobileCommon.js'}"></script>
+
+    <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+
+</head>
+
+<body>
+
+
+<div data-role="page" id="index">
+
+    <div data-role="content " class="ui-content">
+
+        *{<form method="post" id="form" data-ajax="false" action="/mobile/register">}*
+
+            <div class="ui-field-contain">
+                <input type="tel" class="mobile_login_shurk" id="name" name="name" value="${flash?.name}" placeholder="请输入您的手机号" >
+
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <input type="text" class="mobile_login_shurk" id="verifyCode" name="verifyCode" value="${flash?.verifyCode}" placeholder="请输入您的验证码" >
+                    </div>
+                    <div class="ui-block-b">
+                        <a href="#" data-role="button" id="btn_getVerifyCode">获取验证码</a>
+                    </div>
+                </div>
+
+                <input type="text" class="mobile_login_shurk" id="password" data-icon="grid" data-iconpos="right" name="password" value="${flash?.password}" placeholder="请设置登录密码">
+
+                <div data-role="collapsible" data-mini="true" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
+                    <h4>推荐人的手机号或者推荐码（选填）</h4>
+                    <input type="text"  id="recommended" name="recommended" data-inset="false" value="${flash?.recommended}" placeholder="请输入手机号或者推荐码（选填）">
+                </div>
+
+
+                <fieldset data-role="controlgroup" data-type="horizontal">
+                    <input type="checkbox" name="agreement" data-role="none" id="agreement" data-mini="true" checked>同意
+                    <a href="#" target="_self">《金豆荚注册协议》</a>
+                </fieldset>
+
+                <a class="ui-btn ui-corner-all ui-shadow ui-btn-b" id="submit" type="submit"  disabled="disabled" >注册完成</a>
+
+            </div>
+        *{</form>}*
+
+        <div id="error_tips">
+            <div class="error_tips">
+                <h4 class="error_tips_title">提示</h4>
+                <p class="error_tips_content"><var id="error_msg">${flash?.error}</var></p>
+                <div class="close_error_tips">
+                    <span id="btn_closeErrorTips" class="btn_PopRed cwhite" onclick="closeErrorTips();">确 定</span>
+                </div>
+            </div>
+        </div><div class="opacity_div"></div>
+    </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>
+
+
+<script type="text/javascript">
+    $(document).on("pageinit", function(){
+        veriChangeVal("submit","#name","#password","#agreement");
+
+        var msg = '${flash?.msg}';
+        if (msg == null || msg == undefined || msg == '') {
+            $("#error_tips").hide();
+        }else{
+            $("#error_tips").show();
+        }
+    });
+
+
+    $("#submit").on("click",function(){
+        var mobile = veriPhoneNumber($("#name").val());
+        if (mobile != true) {
+            $("#error_tips").show();
+            $("#error_msg").text(mobile);
+            return;
+        }
+
+        var verifyCode = veriValCode($("#verifyCode").val());
+        if (verifyCode != true) {
+            $("#error_tips").show();
+            $("#error_msg").text(verifyCode);
+            return;
+        }
+
+        var password = veriPassword($("#password").val());
+        if (password != true) {
+            $("#error_tips").show();
+            $("#error_msg").text(password);
+            return;
+        }
+
+        var agreement = veriCheckBox($("#agreement"));
+        if (agreement != true) {
+            $("#error_tips").show();
+            $("#error_msg").text(agreement);
+            return;
+        }
+
+        try{
+            $.ajax({
+                type : "POST",
+                url : getBaseUrl() + "/mobile/register",
+                data : {name:$("#name").val(),
+                    password:$("#password").val(),
+                    verifyCode:$("#verifyCode").val(),
+                    recommended:$("#recommended").val()},
+                success : function(data) {
+                    if(0==data.error.code){
+                        //redirect
+                    }else{
+                        $("#error_tips").show();
+                        $("#error_msg").text(data.error.msg);
+                    }
+                },
+                error : function(XMLHttpRequest) {
+                    $("#error_tips").show();
+                    $("#error_msg").text("网络错误，请稍后再试",XMLHttpRequest);
+                }
+            });
+        }catch(err){
+            showErr(err);
+        }
+    });
+
+    $("#btn_getVerifyCode").on("click",function(){
+        try{
+            $("#btn_getVerifyCode").attr("disabled","disabled");
+            $.ajax({
+                type : "GET",
+                url : getBaseUrl() + "/mobile/verifyCode",
+                data : {"mobile":$("#name").val()},
+                success : function(data) {
+                    if(0==data.error.code){
+                        getValCodeTimeout(60,"btn_getVerifyCode");
+                    }else{
+                        $("#btn_getVerifyCode").removeAttr("disabled");
+                        $("#error_tips").show();
+                        $("#error_msg").text(data.error.msg);
+                    }
+                },
+                error : function(XMLHttpRequest) {
+                    $("#btn_getVerifyCode").removeAttr("disabled");
+                    $("#error_tips").show();
+                    $("#error_msg").text("网络错误，请稍后再试",XMLHttpRequest);
+                }
+            });
+        }catch(err){
+            showErr(err);
+        }
+    });
+
+</script>
