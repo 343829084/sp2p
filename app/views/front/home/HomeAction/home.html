@@ -18,14 +18,17 @@ business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackst
     <div class="main-middle">
         <div id="prodList">
             #{include "front/home/HomeAction/products.control"/}
-            #{include "front/home/HomeAction/twoDimensionalCode.control"/}
         </div>
     </div>
     <div id="main-bottom">
-        <div class="info-panel">
+        <div class="info-panel clearfix">
             #{include "front/home/HomeAction/media.control"/}
             #{include "front/home/HomeAction/news.control"/}
         </div>
         #{include "front/home/HomeAction/partner.control"/}
+        <div class = "float-div">
+            #{include "front/home/HomeAction/twoDimensionalCode.control"/}
+            #{include "front/home/HomeAction/toolbar.control"/}
+        </div>
     </div>
 </div>
