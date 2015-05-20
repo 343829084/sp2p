@@ -278,7 +278,9 @@ public class SQLTempletes {
 	 * 收款中的理财标的
 	 */
 	public static final String V_RECEIVING_INVEST_BIDS = "`t_invests`.`id` AS `id`,`t_invests`.`user_id` AS `user_id`,`t_invests`.`bid_id` AS `bid_id`,`t_invests`.`transfer_status` AS `transfer_status`,`t_invests`.`transfers_id` AS `transfers_id`,`t_bids`.`title` AS `title`,`t_bids`.`amount` AS `bid_amount`,`t_bids`.`apr` AS `apr`,`t_invests`.`amount` AS `invest_amount`,`t_bids`.`period_unit` AS `period_unit`,`t_bids`.`is_sec_bid` AS `is_sec_bid`,`t_bids`.`is_agency` AS `is_agency`,`t_users`.`name` AS `name`,concat((select `t_system_options`.`_value` AS `_value` from `t_system_options` where (`t_system_options`.`_key` = 'loan_number')),(`t_bids`.`id` + '')) AS `no`,ifnull((select ifnull(sum(((`t_bill_invests`.`receive_corpus` + `t_bill_invests`.`receive_interest`) + `t_bill_invests`.`overdue_fine`)),0) AS `has_received_amount` from `t_bill_invests` where ((`t_invests`.`id` = `t_bill_invests`.`invest_id`) and (`t_bill_invests`.`status` in (-(3),-(4),0)))),0) AS `has_received_amount`,(select ifnull(sum(((`t_bill_invests`.`receive_corpus` + `t_bill_invests`.`receive_interest`) + `t_bill_invests`.`overdue_fine`)),0) AS `receiving_amount` from `t_bill_invests` where (`t_invests`.`id` = `t_bill_invests`.`invest_id`)) AS `receiving_amount`,(select count(`t_bill_invests`.`id`) AS `dd` from `t_bill_invests` where ((`t_invests`.`id` = `t_bill_invests`.`invest_id`) and (`t_bill_invests`.`status` = -(2)))) AS `overdue_payback_period`,(select count(`t_bill_invests`.`id`) AS `ff` from `t_bill_invests` where ((`t_invests`.`id` = `t_bill_invests`.`invest_id`) and (`t_bill_invests`.`status` in (-(3),-(4),0)))) AS `has_payback_period`,(select count(`t_bill_invests`.`id`) AS `ff` from `t_bill_invests` where (`t_invests`.`id` = `t_bill_invests`.`invest_id`)) AS `period` from ((`t_invests` left join `t_bids` on((`t_bids`.`id` = `t_invests`.`bid_id`))) left join `t_users` on((`t_users`.`id` = `t_bids`.`user_id`))) where ((`t_bids`.`status` = 4) and (`t_invests`.`transfer_status` <> -(1))) ";
-	
+
+
+
 	/**
 	 * 平台信息详情
 	 */
@@ -471,8 +473,13 @@ public class SQLTempletes {
 	/**
 	 * 理财账单
 	 */
-	public static final String V_BILL_INVEST = "`a`.`id` AS `id`,`c`.`id` AS `user_id`,`a`.`bid_id` AS `bid_id`,`a`.`title` AS `title`,((`a`.`receive_corpus` + `a`.`receive_interest`) + `a`.`overdue_fine`) AS `income_amounts`,`a`.`status` AS `status`,`a`.`receive_time` AS `repayment_time`,`a`.`real_receive_time` AS `real_repayment_time` from ((`t_bill_invests` `a` join `t_bids` `b` on((`a`.`bid_id` = `b`.`id`))) join `t_users` `c` on((`a`.`user_id` = `c`.`id`))) where 1=1 ";
-	
+	public static final String V_BILL_INVEST = "`a`.`id` AS `id`,`a`.`receive_corpus` AS `receive_corpus`,`c`.`id` AS `user_id`,`a`.`bid_id` AS `bid_id`,`a`.`title` AS `title`,((`a`.`receive_corpus` + `a`.`receive_interest`) + `a`.`overdue_fine`) AS `income_amounts`,`a`.`status` AS `status`,`a`.`receive_time` AS `repayment_time`,`a`.`real_receive_time` AS `real_repayment_time` from ((`t_bill_invests` `a` join `t_bids` `b` on((`a`.`bid_id` = `b`.`id`))) join `t_users` `c` on((`a`.`user_id` = `c`.`id`))) where 1=1 ";
+
+	/**
+	 * 根据bid_id 查询状态
+	 */
+	public static final String V_BILL_bid= "`b`.`status` AS `status` from  `t_bids` `b` where 1=1";
+
 	/**
 	 * 已还款的账单
 	 */

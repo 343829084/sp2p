@@ -3,7 +3,7 @@
 <div id="demo1" class="slideBox">
     <ul class="items">
     #{list items:message?.list,as:'list'}
-        <li><a href=${list?.url} title="这里是测试标题一"><img class="banner_image_width" src=${list?.image}></a></li>
+        <li><a href=${list?.url} title="这里是测试标题一"><img alt="图像" class="banner_image_width" src=${list?.image}></a></li>
     #{/list}
     </ul>
 </div>
@@ -12,7 +12,7 @@
     <div role="main" class="ui-content bt-pd-padding">
         <h3>${bid?.title}</h3>
               <p class="bp_font_p">预期年化收益</p>
-                 <dd class="bp_font_apr">${bid?.apr}<sub>%</sub></dd>
+                 <dd class="bp_font_apr">${bid?.apr}<sub class="bp-sb">%</sub></dd>
         <dt class="">投资1万元每天可赚取<sapn class="bp_font_red">${(bid?.apr * 100 /365).format('###,###.00')}</sapn>元</dt>
         <div class="bp_productListBox">
             <div class="bp_bp_productList_l">

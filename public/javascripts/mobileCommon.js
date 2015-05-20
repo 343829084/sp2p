@@ -12,7 +12,7 @@ if(url.indexOf("bestProduct")>-1){
         $("#menu_Tree").removeClass("ui-icon-gold-selected");
     }
 }
-if(url.indexOf("property")>-1){
+if(url.indexOf("moneyMatters")>-1){
     clearFocus();
     if(  $("#menu_Two").hasClass("ui-icon-list-unselected")){
         $("#menu_Two").removeClass("ui-icon-list-unselected");
@@ -22,7 +22,7 @@ if(url.indexOf("property")>-1){
         $("#menu_Two").removeClass("ui-icon-list-selected");
     }
 }
-if(url.indexOf("moneyMatters ")>-1){
+if(url.indexOf("property")>-1){
     clearFocus();
     if( $("#menu_Tree").hasClass("ui-icon-gold-unselected")){
         $("#menu_Tree").removeClass("ui-icon-gold-unselected");

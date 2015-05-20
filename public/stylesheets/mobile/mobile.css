@@ -20,6 +20,25 @@ body{
     font-size: 0.8em!important;
 
 }
+.pp-hd-pd{
+    padding-left:0.6rem!important;
+}
+.pp-ul-pd{
+    padding-left:0.5rem;
+}
+.pp-hd-wd{
+    width:100%;
+}
+.pp-cl-bt{
+    clear:both;
+}
+.pp-hd-wd li{
+    width:50%;
+    float:left;
+}
+.pp-ta-nu{
+    font-size: 4rem;
+}
 .center{
     text-align: center;
 }
@@ -163,10 +182,16 @@ div.slideBox div.tips div.nums a.active{ background-color:#093;}
     margin-top: 0Px!important;
     padding-top: 0px!important;
 }
+dd sub,li sub{
+    vertical-align: sub;
+}
+em{
+    color:red;
+}
 .bp_ul li{
     text-align: left;
 }
-sub{
+.bp-sb{
     font-size: 1.5rem;
 }
 .bp_font_p{
@@ -218,7 +243,77 @@ sub{
     font-size: 0.9rem;
     font-weight: 600;
 }
+.ui-block-r{
+    float:right;
+}
+.pb-li-rh{
+   text-align: center;
+}
+.pp-md-div{
+    padding:0;
 
+}
+.pp-tb-wd tbody tr{
+
+}
+.pp-tb-wd tbody tr td{
+    word-wrap:break-word;
+    text-align: center;
+    text-align: center;
+    padding: 8px;
+    border-bottom-width: 2px;
+    border-bottom-style: solid;
+    border-color: #bbb;
+}
+.pp-tb-wd thead{
+    background-color: rgb(235,235,235);
+    color:rgb(128,128,128);
+}
+.pp-hd-wd .ui-block-e{
+    padding-left:1.5rem;
+}
+.pp-bt-bk_1{
+    background-color:rgb(255,160,0)!important;
+    color:rgb(255,255,255)!important;
+}
+.pp-bt-bk_2{
+    background-color:rgb(231,76,60)!important;
+    color:rgb(255,255,255)!important;
+}
+.pb-li-rh dd{
+    text-align: left;
+    padding-left:1.5rem;
+}
+.pp-tb-wd{
+    width:100%;
+}
+.pp-btn-rt{
+    text-align: right;
+    padding-top:10px!important;
+
+}
+.ui-block-e dd{
+    padding:0.4rem 0;
+}
+.pp-bt-ft{
+    font-size: 0.9rem!important;
+    width:40%!important;
+    border-radius: 5px;
+}
+.pp-pop-width{
+    width:400%;
+    display:none;
+}
+.pp-icon-pos{
+    background-image: url(../../images/h5icon/bi.png);
+    background-position: right bottom;
+    background-repeat: no-repeat;
+}
+.pp-da-lb{
+    border-left-width: 2px!important;
+    border-left-color: #dfdede!important;
+    border-left-style: solid!important;
+}
 @media screen and (min-width: 801px) and (max-width: 1024px) {
     html,body{
         font-size:16px!important ;

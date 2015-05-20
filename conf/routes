@@ -1994,3 +1994,6 @@ GET  /mobile/content/property                                         mobile.Mai
 GET  /mobile/content/moneyMatters                                     mobile.MainContent.moneyMatters
 
 GET  /mobile/content/me                                               mobile.MainContent.me
+
+GET  /mobile/content/tradeList                                         mobile.TradeController.tradeList
+

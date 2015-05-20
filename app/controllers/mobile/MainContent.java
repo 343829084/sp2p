@@ -1,10 +1,13 @@
 package controllers.mobile;
 
+import business.*;
 import constants.Constants;
+import constants.IPSConstants;
 import constants.SQLTempletes;
 import controllers.BaseController;
 import controllers.app.RequestDataExtend;
-import models.y_front_show_bids;
+import controllers.front.account.CheckAction;
+import models.*;
 import net.sf.json.JSON;
 import net.sf.json.JSONObject;
 import net.sf.json.util.JSONBuilder;
@@ -14,10 +17,13 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
 import play.db.jpa.JPA;
+import play.mvc.Http;
 import sun.org.mozilla.javascript.internal.json.JsonParser;
 import utils.ErrorInfo;
 import utils.JSONUtils;
+import utils.QueryUtil;
 
+import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
 import java.util.*;
@@ -80,6 +86,7 @@ public class MainContent extends BaseController {
                     new NameValuePair("pageSize", "10"),
                     new NameValuePair("filter", "0")};
             postMethod.setRequestBody(data);
+            httpClient.setTimeout(3000);
             int statusCode = httpClient.executeMethod(postMethod);
 
             String result = postMethod.getResponseBodyAsString();
@@ -141,21 +148,87 @@ public class MainContent extends BaseController {
      * 跳转到财富页面
      */
     public static void property() {
-        String loginOrRegister = Constants.LOGIN_AREAL_FLAG;
-        render();
+        User user = new User();  // User.currUser();
+        user.setId(14);
+        int payType=1;
+      long userId=user.getId();
+        ErrorInfo error = new ErrorInfo();
+        v_user_account_statistics accountStatistics = User.queryAccountStatistics(userId, error);
+
+        if(error.code < 0) {
+            render(Constants.ERROR_PAGE_PATH_FRONT);
+        }
+
+        Optimization.UserOZ accountInfo = new Optimization.UserOZ(userId);
+
+        if(error.code < 0) {
+            render(Constants.ERROR_PAGE_PATH_FRONT);
+        }
+
+        List<v_user_details> userDetails = User.queryUserDetail(userId, error);
+
+        if(error.code < 0) {
+            render(Constants.ERROR_PAGE_PATH_FRONT);
+        }
+
+        List<UserBankAccounts> userBanks = UserBankAccounts.queryUserAllBankAccount(userId);
+        BackstageSet backstageSet = BackstageSet.getCurrentBackstageSet();
+        String content = News.queryContent(Constants.NewsTypeId.VIP_AGREEMENT, error);
+
+        List<t_content_news> news = News.queryNewForFront(Constants.NewsTypeId.MONEY_TIPS, 3,error);
+
+        boolean isIps = Constants.IPS_ENABLE;
+        /*******查询客户投资未收款的标的详情***********************************************************/
+
+        Map<String,Object> conditionMap = new HashMap<String, Object>();
+        List<Object> params = new ArrayList<Object>();
+        List<v_bill_invest> bills = new ArrayList<v_bill_invest>();
+        StringBuffer sql = new StringBuffer("");
+        StringBuffer sqlBill=new StringBuffer("");
+        sql.append(SQLTempletes.SELECT);
+        sql.append(SQLTempletes.V_BILL_INVEST);
+        sql.append(SQLTempletes.LOAN_INVESTBILL_RECEIVE[payType]);
+        sql.append("and c.id = ?");
+        params.add(userId);
+        sql.append(" group by receive_time");
+        EntityManager em = JPA.em();
+        Query query = em.createNativeQuery(sql.toString(),v_bill_invest.class);
+        for(int n = 1; n <= params.size(); n++){
+            query.setParameter(n, params.get(n-1));
+        }
+        bills = query.getResultList();
+       for(int i=0;i< bills.size();i++){
+           StringBuffer conditions = new StringBuffer(" where b.id = ?");
+           sql = new StringBuffer();
+           sql.append("select b.status from t_bids b");
+           sql.append(conditions);
+           params.clear();
+           params.add(bills.get(i).bid_id);
+           Query queryBill = em.createNativeQuery(sql.toString());
+
+           for(int n = 1; n <= params.size(); n++){
+               queryBill.setParameter(n, params.get(n-1));
+           }
+           
+           int status = Integer.parseInt(queryBill.getResultList().get(0).toString());
+
+           bills.get(i).bidStatus=status;
+       }
+        render(user, accountStatistics, accountInfo, userDetails, userBanks, backstageSet, content, bills, isIps);
+
     }
     /**
      * 跳转到财富页面
      */
     public static void moneyMatters() {
-        String loginOrRegister = Constants.LOGIN_AREAL_FLAG;
+
         render();
     }
     /**
      * 跳转到me页面
      */
     public static void me() {
-        String loginOrRegister = Constants.LOGIN_AREAL_FLAG;
+
         render();
     }
 }

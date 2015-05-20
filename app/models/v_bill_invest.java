@@ -19,7 +19,10 @@ public class v_bill_invest extends Model {
     public int status;
     public Date repayment_time;
     public Date real_repayment_time;
-    
+	public double receive_corpus;
+	@Transient
+	public int bidStatus;
+
     @Transient
 	public String sign;
 	

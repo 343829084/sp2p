@@ -10,6 +10,15 @@
     <!--
     <link rel='dns-prefetch' href='redtip.html'>
     -->
+    %{
+    business.User currUser = business.User.currUser();
+    business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+    String platUrl = constants.Constants.BASE_URL;
+    java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
+    boolean ipsEnable = constants.Constants.IPS_ENABLE;
+    boolean debtUse = constants.Constants.DEBT_USE;
+    String mobile = constants.Constants.BIDS_MOBILE;
+    }%
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile.theme-1.4.3.css'}"/>
@@ -53,13 +62,13 @@
             $("#menu_One").addClass("ui-icon-home-selected");
             $("#menu_One").attr("data-icon","home-selected");
         }
-        if(url.indexOf("property")>-1){
+        if(url.indexOf("moneyMatters")>-1){
 //            clearFocus();
             $("#menu_Two").removeClass("ui-icon-list-unselected");
             $("#menu_Two").addClass("ui-icon-list-selected");
             $("#menu_Two").attr("data-icon","list-selected");
         }
-        if(url.indexOf("moneyMatters")>-1){
+        if(url.indexOf("property")>-1){
 //            clearFocus();
             $("#menu_Three").removeClass("ui-icon-gold-unselected");
             $("#menu_Three").addClass("ui-icon-gold-selected");
