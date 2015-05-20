@@ -3,7 +3,6 @@ package models;
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Transient;
-
 import constants.Constants;
 import play.db.jpa.Model;
 

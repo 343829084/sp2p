@@ -20,6 +20,7 @@ public class Constants {
 	public static final String FP_REGISTER_URL = Play.configuration.getProperty("fp.register.url");	//fp url that for registering with fp
 	public static final String FP_LOGIN_URL = Play.configuration.getProperty("fp.login.url");	//fp url that for logining with fp
 	public static final String FP_RESETPW_URL = Play.configuration.getProperty("fp.resetpwd.url");	//fp url that for logining with fp
+	public static final String FP_ACTIVITY_IMAG_URL = Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
 	public static final String FP_REGISTER_GIVE_JINDOU =Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆 
 	
 	public static final String BIDS_MOBILE =Play.configuration.getProperty("bids.mobile"); //发标人的手机号码 

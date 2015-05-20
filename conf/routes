@@ -1982,3 +1982,27 @@ POST    /front/PaymentAction/repaymentNewTradePost			                    front.a
 #*  	/supervisor/{<[\s\S]*>action}         									Application.error2
 #*  	/{<[\s\S]*>action}         												Application.error
 GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
+
+
+
+
+
+
+GET   /mobile/login                                                  mobile.LoginAction.login
+POST   /mobile/login                                                  mobile.LoginAction.doLogin
+GET   /mobile/register                                                  mobile.LoginAction.register
+POST   /mobile/register                                                  mobile.LoginAction.doRegister
+GET   /mobile/verifyCode                                                  mobile.CheckAction.sendVerifyCode
+
+GET  /mobile/content/bestProduct                                     mobile.MainContent.bestProduct
+
+GET  /mobile/content/property                                         mobile.MainContent.property
+
+GET  /mobile/content/moneyMatters                                     mobile.MainContent.moneyMatters
+
+GET  /mobile/content/me                                               mobile.MainContent.me
+
+GET  /mobile/content/tradeList                                         mobile.TradeController.tradeList
+
+GET   /mobile/product/detail                                 mobile.ProductAction.productDetail
+

@@ -470,11 +470,16 @@ public class SQLTempletes {
 	 * 理财账单详情
 	 */
 	public static final String V_BILL_INVEST_DETAIL = "`a`.`id` AS `id`,`a`.`user_id` AS `user_id`,`a`.`invest_id` AS `invest_id`,`a`.`periods` AS `current_period`,`e`.`name` AS `name`,`a`.`bid_id` AS `bid_id`,`a`.`title` AS `title`,`b`.`audit_time` AS `audit_time`,`a`.`receive_time` AS `receive_time`,`c`.`name` AS `repayment_type`,`b`.`apr` AS `apr`,`b`.`amount` AS `amount`,(select count(`t`.`id`) AS `COUNT(t.id)` from `t_bills` `t` where (`t`.`bid_id` = `a`.`bid_id`)) AS `loan_periods`,`a`.`receive_corpus` AS `receive_corpus`,`d`.`amount` AS `invest_amount`,(select sum((`t`.`receive_corpus` + `t`.`receive_interest`)) AS `ss` from `t_bill_invests` `t` where (`t`.`id` = `a`.`id`)) AS `should_received_amount`,(select sum(((`t`.`receive_corpus` + `t`.`receive_interest`) + `t`.`overdue_fine`)) AS `ss` from `t_bill_invests` `t` where (`t`.`id` = `a`.`id`)) AS `current_receive_amount`,(select sum(((`t`.`receive_corpus` + `t`.`receive_interest`) + `t`.`overdue_fine`)) AS `receive_amounts` from `t_bill_invests` `t` where ((`t`.`user_id` = `a`.`user_id`) and (`t`.`bid_id` = `a`.`bid_id`) and (`t`.`status` <> -(7)) and (`t`.`invest_id` = `a`.`invest_id`))) AS `should_receive_all_amount`,ifnull((select sum(((`t`.`receive_corpus` + `t`.`receive_interest`) + `t`.`overdue_fine`)) AS `amount` from `t_bill_invests` `t` where ((`t`.`user_id` = `a`.`user_id`) and (`t`.`bid_id` = `a`.`bid_id`) and (`t`.`status` in (-(3),-(4),0)) and (`t`.`invest_id` = `a`.`invest_id`))),0) AS `has_received_amount`,(select count(`t`.`id`) AS `couont` from `t_bill_invests` `t` where ((`t`.`user_id` = `a`.`user_id`) and (`t`.`bid_id` = `a`.`bid_id`) and (`t`.`status` in (-(3),-(4),0)) and (`t`.`invest_id` = `a`.`invest_id`))) AS `has_received_periods`,(select count(`t1`.`id`) AS `count(``t1``.``id``)` from `t_bills` `t1` where ((`t1`.`bid_id` = `a`.`bid_id`) and (`t1`.`status` in (-(3),0)))) AS `has_payed_periods`,(select sum(((`t`.`repayment_corpus` + `t`.`repayment_interest`) + `t`.`overdue_fine`)) AS `amount` from `t_bills` `t` where (`t`.`bid_id` = `a`.`bid_id`)) AS `loan_principal_interest`,concat(`f`.`_value`,cast(`a`.`id` as char charset utf8)) AS `invest_number` from (((((`t_bill_invests` `a` left join `t_bids` `b` on((`a`.`bid_id` = `b`.`id`))) left join `t_dict_bid_repayment_types` `c` on((`b`.`repayment_type_id` = `c`.`id`))) left join `t_invests` `d` on(((`d`.`bid_id` = `a`.`bid_id`) and (`d`.`user_id` = `a`.`user_id`) and (`d`.`id` = `a`.`invest_id`)))) left join `t_users` `e` on((`a`.`user_id` = `e`.`id`))) join `t_system_options` `f`) where ((`f`.`_key` = 'invests_bill_number') and (`a`.`status` <> -(7))) ";
-
+	
 	/**
 	 * 理财账单
 	 */
-	public static final String V_BILL_INVEST = "`a`.`id` AS `id`,`c`.`id` AS `user_id`,`a`.`bid_id` AS `bid_id`,`a`.`title` AS `title`,((`a`.`receive_corpus` + `a`.`receive_interest`) + `a`.`overdue_fine`) AS `income_amounts`,`a`.`status` AS `status`,`a`.`receive_time` AS `repayment_time`,`a`.`real_receive_time` AS `real_repayment_time` from ((`t_bill_invests` `a` join `t_bids` `b` on((`a`.`bid_id` = `b`.`id`))) join `t_users` `c` on((`a`.`user_id` = `c`.`id`))) where 1=1 ";
+	public static final String V_BILL_INVEST = "`a`.`id` AS `id`,`a`.`receive_corpus` AS `receive_corpus`,`c`.`id` AS `user_id`,`a`.`bid_id` AS `bid_id`,`a`.`title` AS `title`,((`a`.`receive_corpus` + `a`.`receive_interest`) + `a`.`overdue_fine`) AS `income_amounts`,`a`.`status` AS `status`,`a`.`receive_time` AS `repayment_time`,`a`.`real_receive_time` AS `real_repayment_time` from ((`t_bill_invests` `a` join `t_bids` `b` on((`a`.`bid_id` = `b`.`id`))) join `t_users` `c` on((`a`.`user_id` = `c`.`id`))) where 1=1 ";
+
+	/**
+	 * 根据bid_id 查询状态
+	 */
+	public static final String V_BILL_bid= "`b`.`status` AS `status` from  `t_bids` `b` where 1=1";
 
 	/**
 	 * 已还款的账单
@@ -606,16 +611,10 @@ public class SQLTempletes {
 	public static final String [] BID_AMOUNT_CONDITION = {" "," and t_bids.amount < 100000 ","  and t_bids.amount >= 100000 and t_bids.amount <= 500000  ",
         " and t_bids.amount >= 500000 and t_bids.amount <= 1000000 ","  and t_bids.amount >= 1000000 and t_bids.amount <= 3000000 ",
         "  and t_bids.amount > 3000000 "};
-	public static final String [] BID_MIN_INVEST_AMOUNT_CONDITION = {" "," and t_bids.min_invest_amount < 1000 ","  and t_bids.min_invest_amount >= 1000 and t_bids.min_invest_amount <= 10000  ",
-        " and t_bids.min_invest_amount >= 10000 and t_bids.min_invest_amount <= 50000 ","  and t_bids.min_invest_amount >= 50000 and t_bids.min_invest_amount <= 100000 ",
-        "  and t_bids.min_invest_amount > 100000 "};
-
+	
 	public static final String [] BID_LOAN_SCHEDULE_CONDITION = { " "," and t_bids.loan_schedule < 50 ",
 		" and t_bids.loan_schedule >= 50  and t_bids.loan_schedule <=80 "," and t_bids.loan_schedule > 80  and t_bids.loan_schedule <= 100 "," and t_bids.loan_schedule = 100 "};
 	
-	public static final String [] BID_PERIOD_CONDITION = { " ","< 31", "between 31 and 90","between 90 and 180","between 180 and 365",">365"};
-	public static final String [] BID_STATUS_CONDITION = { " "," and t_bids.status in(1,2) and t_bids.TIME > now()", " and t_bids.status in(1,2) and t_bids.TIME <= now() "," and t_bids.status = 4"," and t_bids.status = 5"};
-
 	/**
 	 * 前台--cps推广
 	 */
