@@ -352,7 +352,6 @@ public class LoginAndRegisterAction extends BaseController {
                     new NameValuePair("passWord", password),
                     // 推荐人手机号
                     new NameValuePair("recommendPhone", recoName),
-//                     new NameValuePair("verifyCode", code),
                     new NameValuePair("channel", "1")};
             postMethod.setRequestBody(data);
             int statusCode = httpClient.executeMethod(postMethod);
