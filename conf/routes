@@ -2006,3 +2006,7 @@ GET  /mobile/content/tradeList                                         mobile.Tr
 
 GET   /mobile/product/detail                                 mobile.ProductAction.productDetail
 
+GET   /mobile/product/bidRecords                                 mobile.ProductDetailAction.bidRecords
+GET   /mobile/product/detailtwo                                 mobile.ProductDetailAction.projectDetail
+GET   /mobile/product/fundSecurity                                 mobile.ProductDetailAction.fundSecurity
+GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
