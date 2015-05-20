@@ -15,6 +15,7 @@ import models.v_front_all_bids;
 import constants.Constants;
 import constants.OptionKeys;
 import controllers.BaseController;
+import play.Logger;
 import play.db.jpa.JPABase;
 import utils.Arith;
 import utils.ErrorInfo;
@@ -28,6 +29,7 @@ public class HomeAction extends BaseController {
 
     /*网站首页*/
     public static void home() {
+        Logger.info("HomeAction.home()");
 
         ErrorInfo error = new ErrorInfo();
 
