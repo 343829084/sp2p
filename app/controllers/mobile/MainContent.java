@@ -226,7 +226,7 @@ public class MainContent extends BaseController {
         }
 
         PageBean<v_front_all_bids> pageBean = new PageBean<v_front_all_bids>();
-        pageBean= Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, 100, null, null, null, null, null, null, null, null, "0", null, error);
+        pageBean= Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, 100, null, null, null, null, null, null, null, null, "0", null,null, null, error);
         render(pageBean);
 
     }

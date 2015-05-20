@@ -614,7 +614,14 @@ public class SQLTempletes {
 	
 	public static final String [] BID_LOAN_SCHEDULE_CONDITION = { " "," and t_bids.loan_schedule < 50 ",
 		" and t_bids.loan_schedule >= 50  and t_bids.loan_schedule <=80 "," and t_bids.loan_schedule > 80  and t_bids.loan_schedule <= 100 "," and t_bids.loan_schedule = 100 "};
-	
+
+	public static final String [] BID_PERIOD_CONDITION = { " ","< 31", "between 31 and 90","between 90 and 180","between 180 and 365",">365"};
+	public static final String [] BID_STATUS_CONDITION = { " "," and t_bids.status in(1,2) and t_bids.TIME > now()", " and t_bids.status in(1,2) and t_bids.TIME <= now() "," and t_bids.status = 4"," and t_bids.status = 5"};
+	public static final String [] BID_MIN_INVEST_AMOUNT_CONDITION = {" "," and t_bids.min_invest_amount < 1000 ","  and t_bids.min_invest_amount >= 1000 and t_bids.min_invest_amount <= 10000  ",
+			" and t_bids.min_invest_amount >= 10000 and t_bids.min_invest_amount <= 50000 ","  and t_bids.min_invest_amount >= 50000 and t_bids.min_invest_amount <= 100000 ",
+			"  and t_bids.min_invest_amount > 100000 "};
+
+
 	/**
 	 * 前台--cps推广
 	 */
