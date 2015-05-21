@@ -91,7 +91,7 @@
 #nav-container {
     width: 1000px;
     margin: 0 auto;
-    margin-top: 20px;
+    margin-top: 5px;
 }
 
 #nav-container .nav {
@@ -138,7 +138,7 @@
 }
 
 .company-detail .site-info {
-    font-size: 0.6em;
+    font-size: 0.8em;
     margin-top: 50px;
 }
 
@@ -147,7 +147,7 @@
 }
 
 .company-detail p {
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 
 #footer .customer-service{
@@ -163,4 +163,17 @@
     width: 1000px;
     margin: 0 auto;
     margin-top: 20px;
+    padding-bottom: 21px;
+}
+
+.security-container .copyright {
+    margin-top: 20px;
+}
+
+.security-container .verify-img {
+    margin-top: 20px;
+}
+
+.verify-img img {
+    margin-right: 5px;
 }
