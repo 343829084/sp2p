@@ -244,16 +244,13 @@ public class LoginAndRegisterAction extends BaseController {
         ErrorInfo error = new ErrorInfo();
 
         String name = params.get("userName");
-        String email = params.get("email").toLowerCase();
         String mobile = params.get("userName");//the user name is mobile
         String password = params.get("password");
         String confirmPassword = params.get("confirmPassword");
-//        String randomID = (String) Cache.get(params.get("randomID"));
         String code = params.get("code");
         String recommendUserName = params.get("recommended");
         flash.put("userName", name);
         flash.put("mobile", mobile);
-        flash.put("email", email);
         flash.put("password", password);
         flash.put("confirmPassword", confirmPassword);
         flash.put("recommendUserName", recommendUserName);
@@ -287,10 +284,6 @@ public class LoginAndRegisterAction extends BaseController {
 			register();
 		}*/
 
-        if (!RegexUtils.isEmail(email)) {
-            flash.error("请填写正确的邮箱地址");
-            register();
-        }
         if (!RegexUtils.isMobileNum(name)) {
             flash.error("请填写正确的手机号码");
             register();
@@ -304,11 +297,6 @@ public class LoginAndRegisterAction extends BaseController {
             flash.error("两次输入密码不一致");
             register();
         }
-//
-//        if (!code.equalsIgnoreCase(randomID)) {
-//            flash.error("验证码输入有误");
-//            register();
-//        }
 
         User.isNameExist(name, error);
 
@@ -333,7 +321,6 @@ public class LoginAndRegisterAction extends BaseController {
             }
         }
 
-        User.isEmailExist(email, error);
 
         if (error.code < 0) {
             flash.error(error.msg);
@@ -352,7 +339,6 @@ public class LoginAndRegisterAction extends BaseController {
                     new NameValuePair("passWord", password),
                     // 推荐人手机号
                     new NameValuePair("recommendPhone", recoName),
-//                     new NameValuePair("verifyCode", code),
                     new NameValuePair("channel", "1")};
             postMethod.setRequestBody(data);
             int statusCode = httpClient.executeMethod(postMethod);
@@ -394,7 +380,6 @@ public class LoginAndRegisterAction extends BaseController {
         user.password = password;
         user.mobile = mobile;
         user.authentication_id = authentication_id;
-        user.email = email;
         user.recommendUserName = recoName;
 
         user.register(error);
