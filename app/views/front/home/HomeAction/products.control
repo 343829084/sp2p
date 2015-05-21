@@ -8,70 +8,23 @@
 <ul class="clearfix">
     #{list items:bidList , as:'bid'}
     <li class="${bid_index%4 == 0 ? 'border-li' : ''}">
-        <div class="item">
-            <div class="top">
-                <a href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank"><p>${bid?.title}</p></a>
-                <span class="income-rate">预期年化</span>
-                <div class="rate">
-                    <span>${bid?.apr}</span>
-                    <label>%</label>
-                </div>
-            </div>
-            <div class="middle">
-                <p class="amount">融资金额：<span>${bid?.amount?.format('###,##0.00')}</span>元</p>
-                <div class="progress-bar">
-                    #{if bid?.status == 1 || bid?.status == 2 }
-                        <div class="progress-ing">&nbsp;</div>
-                    #{/if}
-                    #{if bid?.status == 4}
-                        <div class="progress-finished">&nbsp;</div>
-                    #{/if}
-                </div>
-                <div class="progress-detail clearfix">
-                    <p class="float-left">已融资<span>${bid?.loan_schedule}%</span></p>
-                    <p class="float-right">剩余融资：<span>#{format money:(bid?.amount-bid?.has_invested_amount)}#{/format}元</span></p>
-                </div>
-                <div class="item-require">
-                    <table>
-                        <tr>
-                            <td>
-                                <p>起购金额</p>
-                                <p class="number">${bid.min_invest_amount.format('###,##0.00')}元</p>
-                            </td>
-                            <td class="cutline">
-                                <p>项目期限</p>
-                                <p class="number">
-                                    ${bid?.period?.formatPeriod(bid?.period_unit)}
-                                </p>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="bottom clearfix">
-
-                #{if bid?.statusType == 2}
-                    #{if bid.time > currentDate}
-                        <span class="text-panel">${bid.time-currentDate}后起投</span>
-                    #{/if}
-                    #{elseif bid.amount == bid.has_invested_amount}
-                        <span class="text-panel"><a class="bids-btn" href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank">已售完...</a></span>
-                    #{/elseif}
-                    #{else}
-                        <span class="safe-tag float-left">本息保障</span>
-                        <a class="bids-btn float-right" href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank">  立即投标
-                        </a>
-                    #{/else}
-                #{/if}
-                #{if bid?.statusType == 4}
-                     <span class="text-panel"><a class="bids-btn" href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank">还款中...</a></span>
-                #{/if}
-                #{if bid?.statusType == 5}
-                     <span class="text-panel"><a class="bids-btn" href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank">已还款...</a></span>
-                #{/if}
-
-            </div>
-        </div>
+        #{if bid?.statusType == 2}
+            #{if bid.time > currentDate}
+                #{include "front/home/HomeAction/prepareBid.control"/}
+            #{/if}
+            #{elseif bid.amount == bid.has_invested_amount}
+                #{include "front/home/HomeAction/sellOutBid.control"/}
+            #{/elseif}
+            #{else}
+                #{include "front/home/HomeAction/fundraisingBid.control"/}
+            #{/else}
+        #{/if}
+        #{if bid?.statusType == 4}
+            #{include "front/home/HomeAction/repaymentBid.control"/}
+        #{/if}
+        #{if bid?.statusType == 5}
+             <span class="text-panel"><a class="bids-btn" href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank">已还款...</a></span>
+        #{/if}
     </li>
     #{/list}
 </ul>
