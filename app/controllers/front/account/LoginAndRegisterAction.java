@@ -92,11 +92,8 @@ public class LoginAndRegisterAction extends BaseController {
         String name = params.get("name");
         String url = request.headers.get("referer").value();
         String password = params.get("password");
-        String code = params.get("code");
-        String randomID = params.get("randomID");
         flash.put("name", name);
         flash.put("password", password);
-        flash.put("code", code);
 
         if (StringUtils.isBlank(name)) {
             flash.error("请输入用户名");
@@ -105,22 +102,6 @@ public class LoginAndRegisterAction extends BaseController {
 
         if (StringUtils.isBlank(password)) {
             flash.error("请输入密码");
-            redirect(url);
-        }
-
-        if (StringUtils.isBlank(code)) {
-            flash.error("请输入验证码");
-            redirect(url);
-
-        }
-
-        if (StringUtils.isBlank(randomID)) {
-            flash.error("请刷新验证码");
-            redirect(url);
-        }
-
-        if (!code.equalsIgnoreCase(CaptchaUtil.getCode(randomID))) {
-            flash.error("验证码错误");
             redirect(url);
         }
 
