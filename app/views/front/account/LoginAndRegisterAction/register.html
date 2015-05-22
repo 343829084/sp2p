@@ -28,8 +28,8 @@ String REGISTER_URL = constants.Constants.FP_AGREEMENT_URL;
 
                     <div class="security-code">
                         <label for="securityCode">验证码</label>
-                        <input type="text" nid="verifyCode" name="code" value="${flash?.code}" placeholder="请输入验证码"/>
-                        <button onclick="getVerifyCode()" type="button">获取验证码</button>
+                        <input type="text" id="verifyCode" name="code" value="${flash?.code}" placeholder="请输入验证码"/>
+                        <input type="button" onClick="getVerifyCode()" id="verifyCode_btn" value="获取验证码"/>
                     </div>
 
                     <div>
@@ -95,12 +95,28 @@ String REGISTER_URL = constants.Constants.FP_AGREEMENT_URL;
     }
 
     function getVerifyCode() {
-        console.info('[getVerifyCode]');
-
-
-    }
-
-    function disabledVerifyCode() {
+        var verifyCodeRoute = #{jsRoute @front.account.LoginAndRegisterAction.getVerifyCode() /} ;
+        var mobile = $("#userName").val();
+        if ('' == mobile || '手机号码即为用户名' == mobile) {
+            alert("手机号不能为空");
+        } else {
+            $.ajax({
+                url: verifyCodeRoute.url(),
+                type: verifyCodeRoute.method,
+                data: 'userName=' + mobile,
+                success: function (data) {
+                    teleCodeTimer("verifyCode_btn");
+                    if (0 == data.code) {
+                        alert(data.msg);
+                    } else {
+                        alert('验证码发送失败：' + data.msg);
+                    }
+                },
+                error: function () {
+                    alert("对不起，出现错误!");
+                }
+            });
+        }
 
     }
 
