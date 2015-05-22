@@ -105,8 +105,8 @@ String REGISTER_URL = constants.Constants.FP_AGREEMENT_URL;
                 type: verifyCodeRoute.method,
                 data: 'userName=' + mobile,
                 success: function (data) {
-                    teleCodeTimer("verifyCode_btn");
                     if (0 == data.code) {
+                        teleCodeTimer("verifyCode_btn");
                         alert(data.msg);
                     } else {
                         alert('验证码发送失败：' + data.msg);
