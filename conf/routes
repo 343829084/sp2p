@@ -53,6 +53,8 @@ POST	/quick/logining								 	 						front.quicklogin.QuickLogin.quickLogining
 #1 		account Home page
 
 GET     /front/account/home                      								front.account.AccountHome.home
+GET     /front/account/userInfo                      							front.account.AccountHome.userInfo
+POST    /front/account/saveMyInfo                      						    front.account.AccountHome.saveMyInfo
 POST    /front/account/queryQualityDebts        					            front.account.AccountHome.queryQualityDebts
 POST    /front/account/queryQualityBids          					            front.account.AccountHome.queryQualityBids
 POST    /front/account/attentionUser											front.account.AccountHome.attentionUser
