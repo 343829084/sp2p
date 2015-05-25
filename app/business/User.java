@@ -12359,4 +12359,39 @@ public class User extends UserBase implements Serializable{
 		
 		return user;
 	}
+
+	/**
+	 * 客户数量
+	 *
+	 * @param error
+	 * @return
+	 */
+	public static Long findUserCount(ErrorInfo error) {
+		error.clear();
+		try {
+			return t_users.count() + Constants.BASE_USER_COUNT;
+		} catch (Exception e) {
+			e.printStackTrace();
+			error.msg = "对不起！系统异常！请您联系平台管理员！";
+			error.code = -2;
+			return null;
+		}
+	}
+
+	public void saveMyInfo(ErrorInfo error) {
+		error.clear();
+		t_users user = new t_users();
+		user.id = this.id;
+		user.reality_name = this.realityName;
+		user.id_number = this.idNumber;
+		user.email = this.email;
+		try {
+			user.save();
+		} catch (Exception e) {
+			error.code = -1;
+			error.msg = "数据库异常";
+			Logger.error("[完善基本信息失败：]", e);
+		}
+	}
 }
+
