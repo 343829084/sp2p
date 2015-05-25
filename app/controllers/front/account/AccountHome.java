@@ -605,7 +605,7 @@ public class AccountHome extends BaseController {
     /**
      * 用户详情
      *
-     * @param userId
+     * @param
      */
     public static void userDetail(String sign) {
         ErrorInfo error = new ErrorInfo();
@@ -695,7 +695,7 @@ public class AccountHome extends BaseController {
     /**
      * 发送站内信
      *
-     * @param receiverUserId
+     * @param
      * @param title
      * @param content
      */
