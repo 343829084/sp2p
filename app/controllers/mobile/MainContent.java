@@ -5,9 +5,9 @@ import business.*;
 import constants.Constants;
 import constants.SQLTempletes;
 import controllers.BaseController;
+import controllers.SubmitRepeat;
+import controllers.interceptor.H5Interceptor;
 import models.*;
-import models.v_front_all_bids;
-import models.y_front_show_bids;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -15,9 +15,9 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
 import play.db.jpa.JPA;
+import play.mvc.With;
 import utils.ErrorInfo;
 import utils.PageBean;
-
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -27,6 +27,7 @@ import java.util.*;
 /**
  * Created by libaozhong on 2015/5/5.
  */
+@With({H5Interceptor.class, SubmitRepeat.class})
 public class MainContent extends BaseController {
 
 
