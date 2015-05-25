@@ -105,7 +105,7 @@ public class AccountHome extends BaseController {
         currUser.realityName = user.realityName;
         currUser.idNumber = user.idNumber;
         currUser.email = user.email;
-//        currUser.saveMyInfo(error);
+        currUser.saveMyInfo(error);
         Validation.addError("info", "已完成注册");
         if (validation.hasErrors()) {
             validation.keep();
