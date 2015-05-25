@@ -18,7 +18,7 @@
         #{list items:pageBean.page, as:'bid'}
         <div class="white_box_pdr"
              style="background:#fff url(/public/images/ad.png) no-repeat 99% 2px; background-size:34px;"
-             id="${bid?.id}" >
+             id="${bid?.id}">
 
             <div class="productListBox">
                 <div class="productBox_l">
@@ -63,6 +63,9 @@
         var amount = '${bid?.amount}';
         var percent=hasInvestAmount/amount;
         drawPercent_small("product_canvas${bid?.id}",percent,0.85,0.85);
+        $("#${bid?.id}").click(function(){
+            window.location.href="/mobile/product/detail?bidId=${bid?.id}"
+        });
     #{/list}
 
 
@@ -70,7 +73,6 @@
         $("#productList div.white_box_pdr:not('#notAnyMore')").on("click",function(){
             setSessionData("productId",$(this).attr("id"));
             setSessionData("productName",$(this).find(".title h1").text());
-            window.location.href='./product_summary.html';
         });
     });
 

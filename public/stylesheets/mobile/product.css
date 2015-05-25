@@ -206,10 +206,16 @@
     float: left;
 }
 .fundraising_progressbar{
-    width:92%;
-    margin-top: 15px;
-    color: red;
-    height: 1em;
+    /*width:92%;*/
+    /*margin-top: 15px;*/
+    /*color: red;*/
+    /*height: 1em;*/
+    margin: 0 auto;
+    border-radius: 5px;
+    height: 0.8em;
+    width: 90%;
+    background-color: #E5E5E5;
+    position: relative;
 }
 .fundraising_grid{
     width:92%;

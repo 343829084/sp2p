@@ -1,6 +1,8 @@
 package controllers.mobile;
 
+import business.Bid;
 import controllers.BaseController;
+import play.Logger;
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -14,8 +16,16 @@ import controllers.BaseController;
 public class ProductAction extends BaseController {
 
     public static void productDetail(){
+        if (params.get("bidId") == null) {
+            MainContent.moneyMatters();
+        }
+        Long bidId = Long.valueOf(params.get("bidId"));
+        Logger.info(">>bidId:" + bidId);
+        Bid bid = new Bid();
+        bid.id = bidId;
 
+        Logger.info(">>current bid status:" + bid.status);
 
-        render();
+        render(bid);
     }
 }

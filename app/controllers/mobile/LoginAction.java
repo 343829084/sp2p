@@ -36,13 +36,6 @@ public class LoginAction extends BaseController {
         render();
     }
 
-    public static void delegateSuccess(){
-        render();
-    }
-    public static void openAccount(){
-        render();
-    }
-
     public static void doLogin(){
         ErrorInfo error = new ErrorInfo();
 
@@ -51,19 +44,17 @@ public class LoginAction extends BaseController {
         flash.put("name", name);
         flash.put("password", password);
 
-        String url = request.headers.get("referer").value();
-
         if (StringUtils.isBlank(name)) {
             error.code = -1;
             error.msg = "请输入用户名";
             flash.error(error.msg);
-            redirect(url);
+            login();
         }
         if (StringUtils.isBlank(password)) {
             error.code = -1;
             error.msg = "请输入密码";
             flash.error(error.msg);
-            redirect(url);
+            login();
         }
 
         User user = new User();
@@ -73,15 +64,22 @@ public class LoginAction extends BaseController {
             error.code = -1;
             error.msg = "该用户名不存在";
             flash.error(error.msg);
-            redirect(url);
+            login();
         }
 
         if (user.login(password,false, error) < 0) {
             flash.error(error.msg);
-            redirect(url);
+            login();
         }
 
-        redirect("https://www.baidu.com");//TODO
+        MainContent.moneyMatters();
+    }
+
+    public static void delegateSuccess(){
+        render();
+    }
+    public static void openAccount(){
+        render();
     }
 
 
@@ -168,12 +166,12 @@ public class LoginAction extends BaseController {
             return;
         }
 
-        String cacheVerifyCode = (String) Cache.get(mobile);//TODO
-//        if (!verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
-//            error.code = -1;
-//            error.msg = "验证码输入有误";
-//            return;
-//        }
+        String cacheVerifyCode = (String) Cache.get(mobile);
+        if (!verifyCode.equals(cacheVerifyCode)) {
+            error.code = -1;
+            error.msg = "验证码输入有误";
+            return;
+        }
 
         User.isNameExist(mobile, error);
     }

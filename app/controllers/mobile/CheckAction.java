@@ -1,10 +1,13 @@
 package controllers.mobile;
 
-import controllers.BaseController;
 import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
+
 import utils.ErrorInfo;
 import utils.RegexUtils;
+import utils.SMSUtil;
+import controllers.BaseController;
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -39,7 +42,7 @@ public class CheckAction extends BaseController {
             renderJSON(json);
         }
 
-//        SMSUtil.sendCode(mobile, error);
+        SMSUtil.sendCode(mobile, error);
 
         json.put("error",error);
         renderJSON(json);
