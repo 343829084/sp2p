@@ -62,6 +62,7 @@ import controllers.SubmitRepeat;
 import controllers.interceptor.FInterceptor;
 import play.Logger;
 import play.cache.Cache;
+import play.data.validation.Validation;
 import play.db.jpa.JPA;
 import play.mvc.With;
 import utils.DateUtil;
@@ -92,10 +93,23 @@ public class AccountHome extends BaseController {
         User user = (User) JSONObject.toBean(jsonObject, User.class);
         ErrorInfo error = new ErrorInfo();
         User currUser = User.currUser();
+        validation.required("realityName", user.realityName);
+        validation.required("idNumber", user.idNumber);
+        validation.required("email", user.email);
+        validation.email("email", user.email);
+        if (validation.hasErrors()) {
+            params.flash();
+            validation.keep();
+            userInfo();
+        }
         currUser.realityName = user.realityName;
         currUser.idNumber = user.idNumber;
         currUser.email = user.email;
-        currUser.saveMyInfo(error);
+//        currUser.saveMyInfo(error);
+        Validation.addError("info", "已完成注册");
+        if (validation.hasErrors()) {
+            validation.keep();
+        }
         Logger.debug("[完善个人信息成功]");
         userInfo();
     }
@@ -757,13 +771,13 @@ public class AccountHome extends BaseController {
 
 		/* 最新募集中满标倒计时提醒 */
         List<v_bid_fundraiseing> fundraiseingBid = Bid.queryFundraiseingBid(user.id, error);
-		
+
 		/* 账单提醒 */
         List<v_bill_recently_pending> recentlyRepayBills = Bill.queryRecentlyBills(error);
 
         if (null == fundraiseingBid)
             render(Constants.ERROR_PAGE_PATH_FRONT);
-		
+
 		/* 最新欠缺资料的借款标 */
         List<v_bids> toSubmitItemBid = Bid.queryToSubmitItemBid(user.id, error);
 
@@ -945,14 +959,14 @@ public class AccountHome extends BaseController {
 
         Bill bill = new Bill();
         bill.setId(id);
-		
+
 		/* 2014-12-29 限制还款需要从第一期逐步开始还款 */
         if (bill.checkPeriod(bill.bidId, bill.periods) > 0) {
             flash.error("请您从第一期逐次还款!");
 
             loanBillDetails(billId, 1);
         }
-		
+
 		/*本金垫付还款*/
         if (Constants.IPS_ENABLE && bill.status == Constants.ADVANCE_PRINCIIPAL_REPAYMENT) {
             String pMerBillNo = Bill.getRepaymentBillNo(error, id);

@@ -14,8 +14,18 @@ business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackst
     <div class="main-top">
         <div class="main-top-content">
             <div>
-                <img src="/public/images/new/gray_tick.png" class="float-left"/>
-                <span class="float-left">已完成注册</span>
+                #{ifErrors}
+                    #{errors}
+                        #{if error.key=="info"}
+                            <img src="/public/images/new/gray_tick.png" class="float-left"/>
+                            <span class="float-left">${error.message()}</span>
+                        #{/if}
+                        #{else}
+                            <li>${error.message()}</li>
+                        #{/else}
+                    #{/errors}
+                #{/ifErrors}
+
             </div>
         </div>
         <hr class="bottom-line" size="1"/>
