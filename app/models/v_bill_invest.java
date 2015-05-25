@@ -22,9 +22,16 @@ public class v_bill_invest extends Model {
 	public double receive_corpus;
 	@Transient
 	public int bidStatus;
-
+	@Transient
+	public Date bidTime;
+	@Transient
+	public int invest_period;
+	@Transient
+	public int period_unit;
     @Transient
 	public String sign;
+	@Transient
+	public double apr;
 	
 	/**
 	 * 获取加密ID

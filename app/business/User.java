@@ -3978,7 +3978,7 @@ public class User extends UserBase implements Serializable{
 		} catch(Exception e) {
 			JPA.setRollbackOnly();
 			e.printStackTrace();
-			Logger.info("管理员接收用户的站内信时,更新用户数据时："+e.getMessage());
+			Logger.info("管理员接收用户的站内信时,更新用户数据时：" + e.getMessage());
 			error.code = -3;
 			error.msg = "更新用户数据出现错误";
 			
@@ -4014,7 +4014,26 @@ public class User extends UserBase implements Serializable{
 		List<t_user_recharge_details> list = t_user_recharge_details.find("", id).fetch();
 		return list;
 	}
-	
+	/**
+	 * 充值记录查询
+	 * @param userId 用户id
+	 * @return
+	 */
+	public static List<t_user_recharge_details> queryRechargeRecordByUserId(long userId){
+		EntityManager em = JPA.em();
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql =new StringBuffer();
+		sql.append(SQLTempletes.SELECT);
+		sql.append(SQLTempletes.V_RECHARGER);
+		sql.append("and a.user_id = ?");
+		params.add(userId);
+		Query query = em.createNativeQuery(sql.toString(), t_user_recharge_details.class);
+		for(int n = 1; n <= params.size(); n++){
+			query.setParameter(n, params.get(n-1));
+		}
+		List<t_user_recharge_details> list = query.getResultList();
+		return list;
+	}
 	/**
 	 * 手工充值
 	 */

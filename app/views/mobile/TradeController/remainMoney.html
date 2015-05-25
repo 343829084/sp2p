@@ -19,21 +19,21 @@
 
     <div data-role="content " >
         <div class="tl_hd_po">
-            <h3>冻结金额(元)</h3>
-            <h1><span class="bp_font_red">${InvestAmount}</span></h1>
+            <h3>待收总额(元)</h3>
+            <h1><span class="bp_font_red">${totalRemain}</span></h1>
         </div>
 
     </div>
     <div class="tl_hd_bd">
         <ul class="tl_title_cn">
             <li>
-               名称
+                到期时间
             </li>
             <li>
-                投资金额(元)
+                本金
             </li>
             <li>
-                冻结时间
+                预估收益
             </li>
         </ul>
     </div>
@@ -45,21 +45,28 @@
 #{else}
 #{list items:resultBills, as:'bid'}
     <div data-role="content tl_cn_pd" >
+
+        <ul class="tl_cn_cn">
+            <li>
+            ${bid?.title}
+            </li>
+
+        </ul>
         <div class="clear_float"></div>
             <ul class="tl_cn_cn">
                 <li>
-                ${bid?.title}
+                ${bid?.repayment_time?.format('yyyy-MM-dd')}
                 </li>
                 <li>
-                ${(bid?.receive_corpus).format('###,###,###,###,###.00')}
+                ${bid?.receive_corpus?.format('###,###,###,###,###.00')}
                 </li>
                 <li>
-                ${bid?.bidTime.format('yyyy-MM-dd')}
+                ${(bid?.income_amounts-bid?.receive_corpus).format('###,###,###,###,###.00')}
                 </li>
             </ul>
     </div>
     <div class="clear_float"></div>
-    <hr>
+    <hr class="tl_hr_bk">
 #{/list}
 #{/else}
 

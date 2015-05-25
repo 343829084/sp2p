@@ -36,6 +36,13 @@ public class LoginAction extends BaseController {
         render();
     }
 
+    public static void delegateSuccess(){
+        render();
+    }
+    public static void openAccount(){
+        render();
+    }
+
     public static void doLogin(){
         ErrorInfo error = new ErrorInfo();
 
