@@ -1460,7 +1460,7 @@ public class News implements Serializable {
     public static List<News> findMediaReportNews(ErrorInfo error) {
         List<News> news = new ArrayList<News>();
         try {
-            List<t_content_news> list = t_content_news.find("type_id = ?", Constants.MEDIA_REPORT_NEWS_TYPE).fetch();
+            List<t_content_news> list = t_content_news.find("type_id = ? order by time desc", Constants.MEDIA_REPORT_NEWS_TYPE).fetch(5);
             News aNews = null;
             for (t_content_news content : list) {
                 aNews = new News();
@@ -1489,7 +1489,7 @@ public class News implements Serializable {
     public static List<News> findLatestNews(ErrorInfo error) {
         List<News> news = new ArrayList<News>();
         try {
-            List<t_content_news> list = t_content_news.find("type_id = ?", Constants.LATEST_NEWS_TYPE).fetch();
+            List<t_content_news> list = t_content_news.find("type_id = ? order by time desc", Constants.LATEST_NEWS_TYPE).fetch(5);
             News aNews = null;
             for (t_content_news content : list) {
                 aNews = new News();

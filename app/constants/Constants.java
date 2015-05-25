@@ -17,6 +17,7 @@ public class Constants {
 	public static final String HTTP_PATH = Play.configuration.getProperty("http.path");
 	public static final String ENCRYPTION_KEY = Play.configuration.getProperty("fixed.secret");			//加密key
 	public static final String APP_ENCRYPTION_KEY = Play.configuration.getProperty("app.fixed.secret");			//APP加密key
+	public static final String FP_AGREEMENT_URL = Play.configuration.getProperty("fp.agreement.url");	//fp url
 	public static final String FP_REGISTER_URL = Play.configuration.getProperty("fp.register.url");	//fp url that for registering with fp
 	public static final String FP_LOGIN_URL = Play.configuration.getProperty("fp.login.url");	//fp url that for logining with fp
 	public static final String FP_RESETPW_URL = Play.configuration.getProperty("fp.resetpwd.url");	//fp url that for logining with fp
