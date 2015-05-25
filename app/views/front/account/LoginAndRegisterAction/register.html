@@ -1,7 +1,7 @@
 #{extends 'common/frontMain.html' /}
 %{
 business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
-String REGISTER_URL = constants.Constants.FP_AGREEMENT_URL;
+String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
 }%
 #{set title:currBackstageSet.seoTitle + '--注册' /}
 <head>
@@ -71,7 +71,7 @@ String REGISTER_URL = constants.Constants.FP_AGREEMENT_URL;
 
     function findRegisterAgreement() {
         $.ajax({
-            url: '${REGISTER_URL}',
+            url: '${AGREEMENT_URL}',
             type: 'POST',
             data: 'code=0001',
             success: function (data) {
