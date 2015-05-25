@@ -470,7 +470,10 @@ public class SQLTempletes {
 	 * 理财账单详情
 	 */
 	public static final String V_BILL_INVEST_DETAIL = "`a`.`id` AS `id`,`a`.`user_id` AS `user_id`,`a`.`invest_id` AS `invest_id`,`a`.`periods` AS `current_period`,`e`.`name` AS `name`,`a`.`bid_id` AS `bid_id`,`a`.`title` AS `title`,`b`.`audit_time` AS `audit_time`,`a`.`receive_time` AS `receive_time`,`c`.`name` AS `repayment_type`,`b`.`apr` AS `apr`,`b`.`amount` AS `amount`,(select count(`t`.`id`) AS `COUNT(t.id)` from `t_bills` `t` where (`t`.`bid_id` = `a`.`bid_id`)) AS `loan_periods`,`a`.`receive_corpus` AS `receive_corpus`,`d`.`amount` AS `invest_amount`,(select sum((`t`.`receive_corpus` + `t`.`receive_interest`)) AS `ss` from `t_bill_invests` `t` where (`t`.`id` = `a`.`id`)) AS `should_received_amount`,(select sum(((`t`.`receive_corpus` + `t`.`receive_interest`) + `t`.`overdue_fine`)) AS `ss` from `t_bill_invests` `t` where (`t`.`id` = `a`.`id`)) AS `current_receive_amount`,(select sum(((`t`.`receive_corpus` + `t`.`receive_interest`) + `t`.`overdue_fine`)) AS `receive_amounts` from `t_bill_invests` `t` where ((`t`.`user_id` = `a`.`user_id`) and (`t`.`bid_id` = `a`.`bid_id`) and (`t`.`status` <> -(7)) and (`t`.`invest_id` = `a`.`invest_id`))) AS `should_receive_all_amount`,ifnull((select sum(((`t`.`receive_corpus` + `t`.`receive_interest`) + `t`.`overdue_fine`)) AS `amount` from `t_bill_invests` `t` where ((`t`.`user_id` = `a`.`user_id`) and (`t`.`bid_id` = `a`.`bid_id`) and (`t`.`status` in (-(3),-(4),0)) and (`t`.`invest_id` = `a`.`invest_id`))),0) AS `has_received_amount`,(select count(`t`.`id`) AS `couont` from `t_bill_invests` `t` where ((`t`.`user_id` = `a`.`user_id`) and (`t`.`bid_id` = `a`.`bid_id`) and (`t`.`status` in (-(3),-(4),0)) and (`t`.`invest_id` = `a`.`invest_id`))) AS `has_received_periods`,(select count(`t1`.`id`) AS `count(``t1``.``id``)` from `t_bills` `t1` where ((`t1`.`bid_id` = `a`.`bid_id`) and (`t1`.`status` in (-(3),0)))) AS `has_payed_periods`,(select sum(((`t`.`repayment_corpus` + `t`.`repayment_interest`) + `t`.`overdue_fine`)) AS `amount` from `t_bills` `t` where (`t`.`bid_id` = `a`.`bid_id`)) AS `loan_principal_interest`,concat(`f`.`_value`,cast(`a`.`id` as char charset utf8)) AS `invest_number` from (((((`t_bill_invests` `a` left join `t_bids` `b` on((`a`.`bid_id` = `b`.`id`))) left join `t_dict_bid_repayment_types` `c` on((`b`.`repayment_type_id` = `c`.`id`))) left join `t_invests` `d` on(((`d`.`bid_id` = `a`.`bid_id`) and (`d`.`user_id` = `a`.`user_id`) and (`d`.`id` = `a`.`invest_id`)))) left join `t_users` `e` on((`a`.`user_id` = `e`.`id`))) join `t_system_options` `f`) where ((`f`.`_key` = 'invests_bill_number') and (`a`.`status` <> -(7))) ";
-	
+	/**
+	 * 取现
+	 */
+	public static final String V_RECHARGER ="`a`.`id` AS `id`,`a`.`user_id` AS `user_id`,`a`.`time` AS `time`,`a`.`payment_gateway_id` AS `payment_gateway_id`,`a`.`pay_number` AS `pay_number`,`a`.`amount` AS `amount`,`a`.`is_completed` AS `is_completed`,`a`.`completed_time` AS `completed_time`,`a`.`order_no` AS `order_no`,`a`.`type` AS `type` from `t_user_recharge_details` a where 1=1 ";
 	/**
 	 * 理财账单
 	 */
@@ -656,7 +659,12 @@ public class SQLTempletes {
 	 * 待验证的借款标 
 	 */
 	public static final String V_BID_WAIT_VERIFY = "SELECT concat(`e`.`_value`, cast(`b`.`id` AS CHAR charset utf8))AS `bid_no`,`b`.`id` AS `id`,`b`.`title` AS `title`,`b`.`user_id` AS `user_id`,`u`.`name` AS `user_name`,`b`.`product_id` AS `product_id`,`p`.`small_image_filename` AS `small_image_filename`,`p`.`name` AS `product_name`,`b`.`apr` AS `apr`,`b`.`period_unit` AS `period_unit`,`b`.`period` AS `period`,`b`.`time` AS `time`,`b`.`amount` AS `amount`,`b`.`status` AS `status`,`b`.`mark` AS `mark`,`f_credit_levels`(`u`.`id`)AS `credit_level_id`,`f_user_audit_item`(`u`.`id`, `b`.`mark`, 2)AS `user_item_count_true`,`f_user_audit_item`(`u`.`id`, `b`.`mark` ,-(1))AS `user_item_count_false`,`b`.`repayment_type_id` AS `repaymentId`,(SELECT count(`pail`.`id`)AS `product_item_count` FROM`t_product_audit_items_log` `pail` WHERE `pail`.`mark` = `b`.`mark` AND `pail`.`type` = 1)AS `product_item_count` FROM `t_bids` `b` LEFT JOIN `t_users` `u` ON `b`.`user_id` = `u`.`id` LEFT JOIN `t_products` `p` ON `b`.`product_id` = `p`.`id` JOIN `t_system_options` `e` WHERE(`b`.`status` = 10 OR b.`status` = 11 OR b.`status` = 12) AND `e`.`_key` = 'loan_number'";
-	
+
+	/**
+	 * 根据id查询对应标
+	 */
+	public static final String V_BI_ID = "SELECT `b`.`id` AS `bid_no`,`b`.`id` AS `id`,`b`.`title` AS `title`,`b`.`user_id` AS `user_id`,`b`.`apr` AS `apr`,`b`.`period_unit` AS `period_unit`,`b`.`period` AS `period`,`b`.`time` AS `time`,`b`.`amount` AS `amount`,`b`.`status` AS `status`,`b`.`mark` AS `mark`,`b`.`repayment_type_id` AS `repaymentId`  FROM `t_bids` `b` where 1=1";
+
 	/**
 	 * 审核中的借款标
 	 */

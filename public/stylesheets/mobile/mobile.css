@@ -119,14 +119,16 @@ div.slideBox ul.items{ position:absolute; float:left; background:none; list-styl
 div.slideBox ul.items li{ float:left; background:none; list-style:none; padding:0px; margin:0px;width: 100%;}
 div.slideBox ul.items li a{ float:left; line-height:normal !important; padding:0px !important; border:none/*For IE.ADD.JENA.201206300844*/;}
 div.slideBox ul.items li a img{ margin:0px !important; padding:0px !important; display:block; border:none/*For IE.ADD.JENA.201206300844*/;}
-div.slideBox div.tips{ position:absolute; width:100%; height:30px; background-color:#000; overflow:hidden;}
+div.slideBox div.tips{ position:absolute; width:100%; height:30px; background-color:#000; overflow:hidden;text-align: center;}
 div.slideBox div.tips div.title{ position:absolute; left:0px; top:0px; height:100%;}
 div.slideBox div.tips div.title a{ color:#FFF; font-size:18px; line-height:50px; margin-left:10px; text-decoration:none;}
 div.slideBox div.tips div.title a:hover{ text-decoration:underline !important;}
-div.slideBox div.tips div.nums{ position:absolute; right:0px; top:0px; height:100%;}
+div.slideBox div.tips div.nums{height:100%;}
 div.slideBox div.tips div.nums a{ display:inline-block; >float:left/*For IE.ADD.JENA.201206300844*/; width:10px; height:10px; background-color:#FFF; text-indent:-99999px; margin:10px 10px 0px 0px;}
 div.slideBox div.tips div.nums a.active{ background-color:#093;}
-
+h1{
+   font-size: 3rem;
+}
 /*************************************************bestProduct**********************************************************************/
 .bt-pd-padding{
     padding-bottom: 3em!important;
@@ -314,6 +316,200 @@ em{
     border-left-color: #dfdede!important;
     border-left-style: solid!important;
 }
+/***************************************************财富子页面********************************************/
+.tl_hd_po{
+    padding-left: 2.5rem;
+    padding-top: 2.5rem;
+}
+.tl_hd_bd{
+    background-color: rgb(219, 247, 227);
+    height: 37px;
+    width:100%;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #666666;
+    border-bottom-style: solid;
+    border-bottom-width: 1px ;
+    border-bottom-color: #666666;
+    margin-top: 10px;
+}
+.tl_title_cn{
+    padding:0.5rem;
+}
+.tl_title_cn li{
+    padding:0.5rem 0;
+    text-align: center;
+    float:left;
+    width:33%;
+    font-size: 1.1rem;
+    font-weight: 600;
+    list-style: none;
+}
+.tl_hd_bd ul{
+    padding:0;
+    margin:0;
+}
+.tl_cn_cn{
+    padding:0;
+    margin:0;
+}
+.tl_cn_cn li{
+    padding:0.5rem 0;
+    text-align: center;
+    float:left;
+    width:33%;
+    font-size: 0.9rem;
+    font-weight: 600;
+    list-style: none;
+}
+.tl_cn_lfag{
+    padding-left:2rem;
+    font-size:0.9rem;
+}
+.tl_cn_pd{
+    padding:0.2rem 1rem;
+}
+.clear_float{
+    clear: both;
+}
+.tl_hr_bk{
+    border-color: #666666;
+}
+/************************************tradeHistory***********************************/
+.th_pd{
+    padding:0;
+}
+
+.ds_cn_po{
+    height:100px;
+    width: 100%;
+    margin-top: 40%;
+}
+.ds_cn_po p{
+
+    text-align: center;
+    font-size: 1.3rem;
+}
+.ds_sp{
+    position: relative;
+    margin-left: 30px;
+}
+.ds_lb_bm{
+    display: inline-block!important;
+    height: 25px;
+    width: 15px;
+    opacity: 1;
+    cursor: pointer;
+    position: absolute;
+    top: -8px;
+    left: -30px;
+    background: #fff;
+    border-right: 2px solid rgb(39,172,67);
+    border-bottom: 2px solid rgb(39,172,67);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.ds_p_des{
+    font-size: 0.9rem!important;
+}
+.ds_ft_dv{
+    text-align: center;
+    margin-top: auto;
+    position: absolute;
+    bottom: 60px;
+    display: inline;
+    width: 100%;
+}
+.ds_ft_dv a{
+   width:32%;
+}
+.ds_bc{
+    position: absolute;
+    bottom: 20px;
+    right:20px;
+}
+.bp_bt_color{
+    background-color: rgb(231,76,60)!important;
+    color:rgb(255,255,255)!important;
+}
+.oa_sy{
+    width: 100%;
+    border-style: outset;
+    border-top: 1px solid red;
+    border-bottom: 1px solid red;
+    background-color: white;
+    border-width: 1px!important;
+    height: 30px;
+    display: inline-block;
+}
+.oa_sy span{
+    font-size: 1.2rem;
+    margin-left: 6%;
+}
+.oa_ft{
+    overflow: hidden;
+}
+.oa_ip_na{
+    display: inline-block;
+    width:50%;
+    font-size: 1.2rem;
+    border: none;
+    margin-left: 1rem;
+    line-height:30px;
+}
+.oa_ft p{
+    margin:0.3rem;
+}
+.oa_sy s{
+    color:red;
+}
+.oa_sy:nth-child(3){
+    border-width: 0px!important;
+}
+.oa_btn_bk{
+    background-color: rgb(231,76,60)!important;
+    color:white!important;
+}
+.oa_ft_p{
+    text-align: right;
+    padding-right:30px;
+}
+.oa_ft_p a{
+    text-decoration: none;
+}
+.oa_error{
+    text-align: center;
+    /*display:none;*/
+    z-index: 9999;
+    margin-top: 30%;
+    position: relative;
+    width:100%;
+    height:100px;
+    background-color:white ;
+}
+
+.oa_er_bk{
+    display:none;
+    position: absolute;
+    top:0px;
+    left:0px;
+    z-index: 888;
+    width:100%;
+    height:100%;
+    background-color: rgba(12, 12, 12, 0.2);
+}
+.os_cf{
+    width: 50%!important;
+    height: 30px;
+    line-height: 10px!important;
+    margin: 0 auto!important;
+    background-color: rgb(231,76,60)!important;
+    color: white!important;
+}
+
 @media screen and (min-width: 801px) and (max-width: 1024px) {
     html,body{
         font-size:16px!important ;

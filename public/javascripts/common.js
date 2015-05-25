@@ -200,6 +200,16 @@ String.prototype.isEmail = function() {
 			new RegExp(/^([a-zA-Z0-9])+([a-zA-Z0-9_.-])+@([a-zA-Z0-9_-])+((\.([a-zA-Z0-9_-]){2,3}){1,2})$/).test(this)
 		   );
 }
+/**
+ * 是否有效的身份证号
+ *
+ * @returns
+ */
+String.prototype.isCardId = function() {
+	return (
+		new RegExp(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/).test(this)
+	);
+}
 
 /**
  * 是否是QQ邮箱

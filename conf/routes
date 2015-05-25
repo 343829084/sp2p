@@ -1985,28 +1985,33 @@ POST    /front/PaymentAction/repaymentNewTradePost			                    front.a
 #*  	/{<[\s\S]*>action}         												Application.error
 GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
 
-
-
-
-
-
 GET   /mobile/login                                                  mobile.LoginAction.login
 POST   /mobile/login                                                  mobile.LoginAction.doLogin
 GET   /mobile/register                                                  mobile.LoginAction.register
 POST   /mobile/register                                                  mobile.LoginAction.doRegister
 GET   /mobile/verifyCode                                                  mobile.CheckAction.sendVerifyCode
-
+#首页金品
 GET  /mobile/content/bestProduct                                     mobile.MainContent.bestProduct
-
+#财富
 GET  /mobile/content/property                                         mobile.MainContent.property
-
+#理财
 GET  /mobile/content/moneyMatters                                     mobile.MainContent.moneyMatters
-
+#我
 GET  /mobile/content/me                                               mobile.MainContent.me
+#冻结金额
+GET  /mobile/content/tradeList                                        mobile.TradeController.tradeList
+#待收金额
+GET  /mobile/content/remainMoney                                      mobile.TradeController.remainMoney
+#交易记录
+GET  /mobile/content/tradeHistory                                     mobile.TradeController.tradeHistory
 
-GET  /mobile/content/tradeList                                         mobile.TradeController.tradeList
+GET   /mobile/product/detail                                          mobile.ProductAction.productDetail
 
-GET   /mobile/product/detail                                 mobile.ProductAction.productDetail
+GET   /mobile/LoginAction/delegateSuccess                                     mobile.LoginAction.delegateSuccess
+
+GET   /mobile/LoginAction/openAccount                                     mobile.LoginAction.openAccount
+
+
 
 GET   /mobile/product/bidRecords                                 mobile.ProductDetailAction.bidRecords
 GET   /mobile/product/detailtwo                                 mobile.ProductDetailAction.projectDetail
