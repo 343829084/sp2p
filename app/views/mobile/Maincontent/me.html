@@ -1,5 +1,28 @@
 #{extends 'mobile/common/frmMain.html' /}
 #{set title:'我' /}
-<div>
-    me
+<style>
+    .ui-grid-b
+    {
+        background-color: lightgray;
+        height: 80px;
+    }
+</style>
+<div data-role="page" id="pageone">
+    <div >
+        <div class="ui-grid-b" >
+            <br>
+            <div class="ui-block-a"><span> <a href="#"><img src="/public/images/h5icon/safe_ensure.png"></a></span></div><br>
+            <div class="ui-block-b"><p>小冯</p><p>138888888</p></div>
+        </div>
+    </div>
+    <div data-role="content">
+        <ul data-role="listview">
+            <li><a href="#"><img src="/public/images/h5icon/safe_ensure.png" alt="账户与安全" class="ui-li-icon">账户与安全</a></li>
+            <li><a href="#"><img src="/public/images/h5icon/safe_ensure.png" alt="红包" class="ui-li-icon">红包</a></li>
+            <li><a href="#"><img src="/public/images/h5icon/safe_ensure.png" alt="安全保障" class="ui-li-icon">安全保障</a></li>
+            <li><a href="#"><img src="/public/images/h5icon/safe_ensure.png" alt="关于金豆荚" class="ui-li-icon">关于金豆荚</a></li>
+            <li><a href="#"><img src="/public/images/h5icon/safe_ensure.png" alt="邀请好友" class="ui-li-icon">邀请好友</a></li>
+        </ul>
+    </div>
+
 </div>

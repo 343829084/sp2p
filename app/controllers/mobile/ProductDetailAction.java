@@ -229,6 +229,10 @@ public class ProductDetailAction extends BaseController {
         render(jsonMap);;
     }
 
+
+    public static void changePassWord(String borrowId) {
+        render();
+    }
     static Bid buildBid(long bidId) {
         Bid bid = new Bid();
         bid.id = bidId;

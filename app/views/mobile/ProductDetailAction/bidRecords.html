@@ -46,7 +46,6 @@ padding: 5px;
    </div>
   </div>
   <div >
-   <div class="ui-grid-b">
    #{list items:pageBean?.page , as: 'records'}
      <div class="ui-block-a" style="background-color: white;"><span>${records?.name?.substring(0,3)+"****"+records?.name?.substring(7,11)}</span></div>
      <div class="ui-block-b" style="background-color: white;"><span>${records?.time?.format('yyyy-MM-dd')}</span></div>
@@ -54,6 +53,6 @@ padding: 5px;
    #{/list}
    </div>
   </div>
-
+</div>
 </body>
 </html>
