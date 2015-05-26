@@ -2906,76 +2906,72 @@ public class Payment implements Serializable {
 	 * 账户余额查询
 	 * @return
 	 */
-	public static JSONObject queryForAccBalance(String name, ErrorInfo error) {
-		error.clear();
-		User user = new User();
-		user.name = name;
-		
-		JSONObject jsonObjExtra = new JSONObject();
-		jsonObjExtra.put("pMerBillNo", createBillNo(user.id, IPSOperation.QUERY_FOR_ACC_BALANCE));
-		jsonObjExtra.put("mobile", user.mobile);
-		jsonObjExtra.put("tranIP", DataUtil.getIp());
-		String strXmlExtra = Converter.jsonToXml(jsonObjExtra.toString(), "pExtra", null, null, null);
-		String argeXtraPara = Encrypt.encrypt3DES(strXmlExtra, Constants.ENCRYPTION_KEY);
-		String argSign = "";
-		
-		if("1.0".equals(BackstageSet.getCurrentBackstageSet().entrustVersion)) {
-			argSign = Encrypt.MD5(IPSConstants.MER_CODE + user.ipsAcctNo + Constants.ENCRYPTION_KEY);
-		}else {
-			argSign = Encrypt.MD5(IPSConstants.MER_CODE + user.ipsAcctNo + argeXtraPara + Constants.ENCRYPTION_KEY);
-		}
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("domain", IPSConstants.DOMAIN);
-		map.put("platform", IPSConstants.PLATFORM);
-		map.put("memberId", User.currUser().id+"");
-		map.put("type", IPSOperation.QUERY_FOR_ACC_BALANCE+"");
-		map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
-		map.put("argMerCode", IPSConstants.MER_CODE);
-		map.put("argIpsAccount", user.ipsAcctNo);
-		map.put("argeXtraPara", argeXtraPara);
-		map.put("argSign", argSign);
-		
-		String strJson = WS.url(IPSConstants.ACTION).setParameters(map).get().getString();
-		Logger.info("查询账户余额信息：" + strJson);
-		
-		if (strJson == null) {
-			error.code = -1;
-			error.msg = "账户余额查询失败";
-			
-			return null;
-		}
-		
-		JSONObject jsonObj = JSONObject.fromObject(strJson);
-		jsonObj.put("balance", user.balanceDetail.user_amount);
-		jsonObj.put("freeze", user.balanceDetail.freeze);
-		jsonObj.put("balance2", user.balanceDetail.user_amount2);
-		
-		JSONObject obj = new JSONObject();
-		obj.put("userName", user.name);
-		obj.put("系统余额", user.balanceDetail.user_amount);
-		obj.put("系统冻结", user.balanceDetail.freeze);
-		obj.put("托管余额", jsonObj.get("pBalance"));
-		obj.put("托管冻结", jsonObj.get("pLock"));
-		
-//		String src = "<pMerCode>" + jsonObj.getString("pMerCode") + "</pMerCode>" + 
-//		"<pErrCode>" + jsonObj.getString("pErrCode") + "</pErrCode>" + 
-//		"<pErrMsg>" + jsonObj.getString("pErrMsg") + "</pErrMsg>" + 
-//		"<pIpsAcctNo>" + jsonObj.getString("pIpsAcctNo") + "</pIpsAcctNo>" +
-//		"<pBalance>" + jsonObj.getString("pBalance") + "</pBalance>" +
-//		"<pLock>" + jsonObj.getString("pLock") + "</pLock>" +
-//		"<pNeedstl>" + jsonObj.getString("pNeedstl") + "</pNeedstl>";
-//		
-//		String pSign = jsonObj.getString("pSign");
-//		
-//		if (!checkSign(src, pSign)) {
-//			error.code = -1;
-//			error.msg = "签名失败";
-//			
-//			return null;
-//		}
-		
-		return obj;
-	}
+    public static JSONObject queryForAccBalance(String name, ErrorInfo error) {
+        error.clear();
+        User user = new User();
+        user.name = name;
+
+        String strJson = queryForAccBalanceFromIps(user);
+
+        if (strJson == null) {
+            error.code = -1;
+            error.msg = "账户余额查询失败";
+
+            return null;
+        }
+
+        JSONObject jsonObj = JSONObject.fromObject(strJson);
+        jsonObj.put("balance", user.balanceDetail.user_amount);
+        jsonObj.put("freeze", user.balanceDetail.freeze);
+        jsonObj.put("balance2", user.balanceDetail.user_amount2);
+
+        JSONObject obj = new JSONObject();
+        obj.put("userName", user.name);
+        obj.put("系统余额", user.balanceDetail.user_amount);
+        obj.put("系统冻结", user.balanceDetail.freeze);
+        obj.put("托管余额", jsonObj.get("pBalance"));
+        obj.put("托管冻结", jsonObj.get("pLock"));
+
+        return obj;
+    }
+
+    public static String queryForAccBalanceFromIps(User user) {
+        JSONObject argJson = new JSONObject();
+        argJson.put("argIpsAccount", user.ipsAcctNo);
+        String arg3DesXmlPara = Converter.jsonToXml(argJson.toString(), "pReq", null, null, null);
+        arg3DesXmlPara = Encrypt.encrypt3DES(arg3DesXmlPara, Constants.ENCRYPTION_KEY);
+        arg3DesXmlPara = arg3DesXmlPara.replaceAll("\r", "");
+        arg3DesXmlPara = arg3DesXmlPara.replaceAll("\n", "");
+
+        JSONObject jsonObjExtra = new JSONObject();
+        jsonObjExtra.put("pMerBillNo", createBillNo(user.id, IPSOperation.QUERY_FOR_ACC_BALANCE));
+        jsonObjExtra.put("mobile", user.mobile);
+        jsonObjExtra.put("tranIP", DataUtil.getIp());
+        String strXmlExtra = Converter.jsonToXml(jsonObjExtra.toString(), "pExtra", null, null, null);
+        String argeXtraPara = Encrypt.encrypt3DES(strXmlExtra, Constants.ENCRYPTION_KEY);
+        String argSign = "";
+
+        if("1.0".equals(BackstageSet.getCurrentBackstageSet().entrustVersion)) {
+            argSign = Encrypt.MD5(IPSConstants.MER_CODE + user.ipsAcctNo + Constants.ENCRYPTION_KEY);
+        }else {
+            argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + argeXtraPara + Constants.ENCRYPTION_KEY);
+        }
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("domain", IPSConstants.DOMAIN);
+        map.put("platform", IPSConstants.PLATFORM);
+        map.put("memberId", User.currUser().id+"");
+        map.put("type", IPSOperation.QUERY_FOR_ACC_BALANCE+"");
+        map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
+        map.put("argMerCode", IPSConstants.MER_CODE);
+        map.put("argIpsAccount", user.ipsAcctNo);
+        map.put("argeXtraPara", argeXtraPara);
+        map.put("arg3DesXmlPara", arg3DesXmlPara);
+        map.put("argSign", argSign);
+
+        String strJson = WS.url(IPSConstants.ACTION).setParameters(map).get().getString();
+        Logger.debug("查询账户余额信息：" + strJson);
+        return strJson;
+    }
 	
 	/**
 	 * 商户端获取银行列表查询

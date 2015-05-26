@@ -1,7 +1,6 @@
 package controllers.app.common;
 
-import controllers.app.common.MsgCode;
-import controllers.app.common.Severity;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -24,9 +23,13 @@ public class Message {
     this.code = msgCode.getCode();
     this.summary = msgCode.getMessage();
     String detailMsg = msgCode.getDetail();
-    if (params != null) {
-      detailMsg = MessageFormat.format(msgCode.getDetail(), params);
-    }
+      if (params != null && params.length != 0) {
+          if (StringUtils.isEmpty(msgCode.getDetail())) {
+              detailMsg = params[0] == null ? "" : (String)params[0];
+          }else {
+              detailMsg = MessageFormat.format(msgCode.getDetail(), params);
+          }
+      }
     this.detail = detailMsg;
   }
 

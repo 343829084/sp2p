@@ -1,13 +1,13 @@
 package controllers.app;
 
-import java.io.IOException;
-import java.util.Map;
-import play.Logger;
-import business.BackstageSet;
 import com.shove.gateway.GeneralRestGatewayInterface;
-import com.shove.security.License;
 import constants.Constants;
 import controllers.BaseController;
+import controllers.app.common.MessageUtil;
+import play.Logger;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * app控制器
@@ -1210,11 +1210,49 @@ public class AppController extends BaseController implements GeneralRestGatewayI
 			} catch(Exception e) {
 				Logger.error("收益获取：%s：", e.getMessage());
 			}
-			break;	
-			
-		}
-				
-		
+			break;
+            case AppConstants.APP_P2P_AT_TOKEN:
+                try{
+                    result = RequestDataExtend.getAuthToken(parameters);
+                } catch(Exception e) {
+                    Logger.error("获取authToken：%s：", e.getMessage());
+                }
+                break;
+            case AppConstants.APP_P2P_AT_TOKEN_CLEAN:
+                try{
+                    result = RequestDataExtend.removeAuthToken();
+                } catch(Exception e) {
+                    Logger.error("清除authToken：%s：", e.getMessage());
+                }
+                break;
+            case AppConstants.APP_EDIT_USER_INFO:
+                try{
+                    Logger.info("保存用户信息====");
+                    RequestDataExtend.editUserInfo(parameters);
+                    result = MessageUtil.getInstance().toStr();
+                    Logger.info("保存用户信息返回：" + result);
+                } catch(Exception e) {
+                    Logger.error("保存用户信息：%s：", e.getMessage());
+                }
+                break;
+            case AppConstants.APP_QUERY_ACC_BALANCE:
+                try{
+                    result = RequestDataExtend.queryForAccBalance();
+                    Logger.debug("用户余额查询返回：" + result);
+                } catch(Exception e) {
+                    Logger.error("用户余额查询：%s：", e.getMessage());
+                }
+                break;
+            case AppConstants.APP_SIGN_INVEST:
+                try{
+                    result = RequestDataExtend.invest(parameters);
+                    Logger.debug("获取标的sign返回：" + result);
+                } catch(Exception e) {
+                    Logger.error("获取标的sign：%s：", e.getMessage());
+                }
+                break;
+        }
+
 		return result;
 	}
 	

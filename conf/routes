@@ -469,6 +469,7 @@ POST   /front/account/creditDetailOverdue                      					front.accoun
 #12 account recharge
 GET    /front/account/recharge                      							front.account.FundsManage.recharge
 GET    /front/account/rechargeApp                      							front.account.FundsManage.rechargeApp
+GET    /front/account/rechargeApp2                      						front.account.FundsManage.rechargeApp2
 GET    /front/account/rechargePay                      							front.account.FundsManage.rechargePay
 GET    /front/account/rechargePayIps                      						front.account.FundsManage.rechargePayIps
 #13 account submitRecharge
@@ -790,6 +791,8 @@ POST   /front/invest/checkUserStatus                							front.invest.investAc
 GET    /front/invest/invest                            							front.invest.investAction.invest
 #确认投标
 POST   /front/invest/confirmInvest                      						front.invest.investAction.confirmInvest
+GET    /front/invest/confirmInvestApp                                           front.invest.investAction.confirmInvestApp
+
 
 #确认投标
 POST   /front/invest/confirmInvestBottom                      					front.invest.investAction.confirmInvestBottom
