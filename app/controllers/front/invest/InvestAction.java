@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import controllers.app.common.Message;
+import controllers.app.common.MessageVo;
+import controllers.app.common.MsgCode;
+import controllers.app.common.Severity;
 import org.apache.commons.lang.StringUtils;
 import com.shove.security.Encrypt;
 import constants.Constants;
@@ -25,6 +29,7 @@ import business.Payment;
 import business.Product;
 import business.User;
 import business.UserAuditItem;
+import play.Logger;
 import play.cache.Cache;
 import play.db.jpa.JPA;
 import utils.CaptchaUtil;
@@ -414,7 +419,102 @@ public class InvestAction extends BaseController {
             invest(bidId, "");
         }
     }
+    /**
+     * 确认投标--金豆荚
+     */
+    public static void confirmInvestApp(){
+        ErrorInfo error = new ErrorInfo();
+        Map<String, String> args = buildConfirmInvestAppParams(error);
+        if (error.code < 0) {
+            MessageVo messageVo = new MessageVo(new Message(Severity.ERROR, MsgCode.CONFIRM_INVEST_FAIL, error.msg));
+            Logger.info("确认投标返回：" + JSONObject.fromObject(messageVo).toString());
+            renderJSON(JSONObject.fromObject(messageVo).toString());
+        }
+        Logger.info("确认投标成功===");
+        renderTemplate("front/account/PaymentAction/registerCreditor.html", args);
+    }
 
+    private static Map<String, String> buildConfirmInvestAppParams(ErrorInfo error) {
+        User user = User.currUser();
+        if(null == user){
+            error.code = -3;
+            error.msg = "未获取到当前用户，请登录后再试";
+            return null;
+        }
+        if(User.currUser().ipsAcctNo == null){
+            error.code = -1;
+            error.msg = "还未开启资金托管，请前去开户!";
+            return null;
+        }
+        String sign = params.get("sign");
+        String uuid = params.get("uuid");
+        /* 防重复提交 */
+        if(!CaptchaUtil.checkUUID(uuid)){
+            error.code = -1;
+            error.msg = "请求已提交或请求超时!";
+            return null;
+        }
+        if (StringUtils.isEmpty(sign)) {
+            error.code = -1;
+            error.msg = "请求参数为空!";
+            return null;
+        }
+
+        long bidId = Security.checkSign(sign, Constants.BID_ID_SIGN, Constants.VALID_TIME, error);
+        if(bidId < 1){
+            return null;
+        }
+
+        String investAmountStr = params.get("investAmount");
+        if(StringUtils.isBlank(investAmountStr)){
+            error.code = -1;
+            error.msg = "投标金额不能为空";
+            return null;
+        }
+
+        boolean b=investAmountStr.matches("^[1-9][0-9]*$");
+        if(!b){
+            error.code = -1;
+            error.msg = "投标金额只能输入正整数!";
+            return null;
+        }
+
+        int investAmount = Integer.parseInt(investAmountStr);
+        Invest.invest(user.id, bidId, investAmount, null, false, false, null, error);
+        if (error.code < 0) {
+            return null;
+        }
+
+        Map<String, String> bid = Invest.bidMap(bidId, error);
+        if (error.code < 0) {
+            return null;
+        }
+
+        double minInvestAmount = Double.parseDouble(bid.get("min_invest_amount") + "");
+        double averageInvestAmount = Double.parseDouble(bid.get("average_invest_amount") + "");
+
+        if(minInvestAmount == 0){//认购模式
+            investAmount = (int) (investAmount*averageInvestAmount);
+        }
+
+        String pMerBillNo = Payment.createBillNo(13L, 2);
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("userId", user.id+"");
+        map.put("bidId", bidId+"");
+        map.put("investAmount", investAmount+"");
+        JSONObject info = JSONObject.fromObject(map);
+        IpsDetail.setIpsInfo(Long.parseLong(pMerBillNo), info.toString(), error);
+
+        if(error.code < 0) {
+            JPA.setRollbackOnly();
+            return null;
+        }
+
+        Map<String, String> args = Payment.registerCreditor(pMerBillNo, user.id, bidId, 1, investAmount, error);
+
+        return args;
+    }
     /**
      * 确认投标(页面底部投标按钮)
      *

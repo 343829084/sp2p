@@ -469,6 +469,7 @@ POST   /front/account/creditDetailOverdue                      					front.accoun
 #12 account recharge
 GET    /front/account/recharge                      							front.account.FundsManage.recharge
 GET    /front/account/rechargeApp                      							front.account.FundsManage.rechargeApp
+GET    /front/account/rechargeApp2                      						front.account.FundsManage.rechargeApp2
 GET    /front/account/rechargePay                      							front.account.FundsManage.rechargePay
 GET    /front/account/rechargePayIps                      						front.account.FundsManage.rechargePayIps
 #13 account submitRecharge
@@ -790,6 +791,8 @@ POST   /front/invest/checkUserStatus                							front.invest.investAc
 GET    /front/invest/invest                            							front.invest.investAction.invest
 #确认投标
 POST   /front/invest/confirmInvest                      						front.invest.investAction.confirmInvest
+GET    /front/invest/confirmInvestApp                                           front.invest.investAction.confirmInvestApp
+
 
 #确认投标
 POST   /front/invest/confirmInvestBottom                      					front.invest.investAction.confirmInvestBottom
@@ -2018,8 +2021,11 @@ GET   /mobile/product/detailtwo                                 mobile.ProductDe
 GET   /mobile/product/fundSecurity                                 mobile.ProductDetailAction.fundSecurity
 GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
 GET   /mobile/me/changepwd                                 mobile.MeAction.changePassWord
+POST  /mobile/me/modifypwd                                 mobile.MeAction.modifyPassWord
 GET   /mobile/me/aboutOur                               mobile.MeAction.aboutOur
 GET   /mobile/me/safety                               mobile.MeAction.safety
+GET   /mobile/me/melogout                               mobile.MeAction.MeLogout
+GET   /mobile/me/accountsafe                               mobile.MeAction.accountSafe
 GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
 
 GET   /mobile/product/productBid                               mobile.ProductAction.productBid

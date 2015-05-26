@@ -1,63 +1,37 @@
 package controllers.front.account;
 
+import business.*;
+import business.Optimization.UserOZ;
+import com.shove.Convert;
+import constants.Constants;
+import constants.Constants.PayType;
+import constants.Constants.RechargeType;
+import constants.IPSConstants;
+import constants.OptionKeys;
+import controllers.BaseController;
+import controllers.SubmitCheck;
+import controllers.SubmitOnly;
+import controllers.SubmitRepeat;
+import controllers.app.common.MessageUtil;
+import controllers.app.common.MsgCode;
+import controllers.app.common.Severity;
+import controllers.front.bid.BidAction;
+import models.*;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.JsonConfig;
+import org.apache.commons.lang.StringUtils;
+import play.Logger;
+import play.cache.Cache;
+import play.mvc.With;
+import utils.*;
+
 import java.io.File;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.lang.StringUtils;
-import com.shove.Convert;
-import constants.Constants;
-import constants.IPSConstants;
-import constants.Constants.PayType;
-import constants.Constants.RechargeType;
-import constants.OptionKeys;
-import controllers.BaseController;
-import controllers.SubmitCheck;
-import controllers.SubmitOnly;
-import controllers.SubmitRepeat;
-import controllers.front.bid.BidAction;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import models.t_content_news;
-import models.t_dict_audit_items;
-import models.t_dict_payment_gateways;
-import models.t_user_over_borrows;
-import models.t_user_recharge_details;
-import models.v_credit_levels;
-import models.v_user_account_statistics;
-import models.v_user_audit_items;
-import models.v_user_detail_credit_score_audit_items;
-import models.v_user_detail_credit_score_invest;
-import models.v_user_detail_credit_score_loan;
-import models.v_user_detail_credit_score_normal_repayment;
-import models.v_user_detail_credit_score_overdue;
-import models.v_user_detail_score;
-import models.v_user_details;
-import models.v_user_withdrawals;
-import business.AuditItem;
-import business.BackstageSet;
-import business.Bid;
-import business.CreditLevel;
-import business.News;
-import business.OverBorrow;
-import business.Payment;
-import business.User;
-import business.UserAuditItem;
-import business.UserBankAccounts;
-import business.Vip;
-import business.Optimization.UserOZ;
-import play.Logger;
-import play.cache.Cache;
-import play.mvc.With;
-import utils.ErrorInfo;
-import utils.ExcelUtils;
-import utils.GopayUtils;
-import utils.JsonDateValueProcessor;
-import utils.PageBean;
-import utils.Security;
 
 @With({CheckAction.class, SubmitRepeat.class})
 public class FundsManage extends BaseController {
@@ -401,7 +375,37 @@ public class FundsManage extends BaseController {
 		
 		render(user, payType);
 	}
-	
+
+    /**
+     * 新版app确认充值--用于金豆荚app端
+     */
+    public static void rechargeApp2(){
+        String bankCode = params.get("bankCode");
+        double money = 0;
+
+        try {
+            if (params.get("money") == null) {
+                MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.RECHARGE_ERROR));
+                renderJSON(MessageUtil.getInstance().toStr());
+            }
+            money = Double.valueOf(params.get("money"));
+        }catch(Exception e){
+            e.printStackTrace();
+            MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.RECHARGE_ERROR));
+            renderJSON(MessageUtil.getInstance().toStr());
+        }
+
+        if (money <= 0) {
+            MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.RECHARGE_ERROR));
+            renderJSON(MessageUtil.getInstance().toStr());
+        }
+
+        ErrorInfo error = new ErrorInfo();
+        Map<String, String> args = Payment.doDpTrade(money, bankCode, error);
+
+        render("@front.account.PaymentAction.doDpTrade", args);
+    }
+
 	/**
 	 * app确认充值
 	 */

@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
+%{
+business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
+}%
 <head>
     <meta charset="utf-8">
     <title>注册</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
-    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}" />
-    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/login.css'}" />
-    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobileCommon.css'}" />
-    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/login.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobileCommon.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
 
     <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/mobileCommon.js'}"></script>
@@ -26,44 +30,49 @@
     <div data-role="content " class="ui-content">
 
         <div class="ui-field-contain">
-            <input type="tel" class="mobile_login_shurk" id="name" name="name" value="${flash?.name}" placeholder="请输入您的手机号" >
+            <input type="tel" class="mobile_login_shurk" id="name" name="name" value="${flash?.name}"
+                   placeholder="请输入您的手机号">
 
             <div class="ui-grid-a">
                 <div class="ui-block-a">
-                    <input type="text" class="mobile_login_shurk" id="verifyCode" name="verifyCode" value="${flash?.verifyCode}" placeholder="请输入您的验证码" >
+                    <input type="text" class="mobile_login_shurk" id="verifyCode" name="verifyCode"
+                           value="${flash?.verifyCode}" placeholder="请输入您的验证码">
                 </div>
                 <div class="ui-block-b">
                     <a href="#" data-role="button" id="btn_getVerifyCode">获取验证码</a>
                 </div>
             </div>
 
-            <input type="text" class="mobile_login_shurk" id="password" data-icon="grid" data-iconpos="right" name="password" value="${flash?.password}" placeholder="请设置登录密码">
+            <input type="text" class="mobile_login_shurk" id="password" data-icon="grid" data-iconpos="right"
+                   name="password" value="${flash?.password}" placeholder="请设置登录密码">
 
-            <div data-role="collapsible" data-mini="true" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u" >
+            <div data-role="collapsible" data-mini="true" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
                 <h4>推荐人的手机号或者推荐码（选填）</h4>
-                <input type="text"  id="recommended" name="recommended" data-inset="false" value="${flash?.recommended}" placeholder="请输入手机号或者推荐码（选填）">
+                <input type="text" id="recommended" name="recommended" data-inset="false" value="${flash?.recommended}"
+                       placeholder="请输入手机号或者推荐码（选填）">
             </div>
 
 
             <fieldset data-role="controlgroup" data-type="horizontal">
                 <input type="checkbox" name="agreement" data-role="none" id="agreement" data-mini="true" checked>同意
-                <a href="#" target="_self">《金豆荚注册协议》</a>
+                <a id="agreementLink" href="#" target="_self">《金豆荚注册协议》</a>
             </fieldset>
 
-            <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk" id="submit" type="submit" disabled="disabled" >注册完成</a>
+            <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk" id="submit" type="submit" disabled="disabled">注册完成</a>
 
         </div>
 
         <div class="oa_er_bk">
             <div class="oa_error">
                 <h3>错误提示</h3>
+
                 <p class="error_content" id="error_content"></p>
                 <button data-role="button" id="close" class="os_cf" onclick="closeErrorTips();">确定</button>
             </div>
         </div>
     </div>
 
-    </div>
+</div>
 
 </div>
 
@@ -73,11 +82,12 @@
 
 
 <script type="text/javascript">
-    $(document).ready(function(){
-        veriChangeVal("submit","#name","#password","#agreement");
+    $(document).ready(function () {
+        veriChangeVal("submit", "#name", "#password", "#agreement");
+        findRegisterAgreement();
     });
 
-    $("#submit").on("click",function(){
+    $("#submit").on("click", function () {
         var mobile = veriPhoneNumber($("#name").val());
         if (mobile != true) {
             $(".oa_er_bk").show();
@@ -106,63 +116,86 @@
             return;
         }
 
-        try{
+        try {
             $.ajax({
-                type : "POST",
-                url : getBaseUrl() + "/mobile/register",
-                data : {name:$("#name").val(),
-                    password:$("#password").val(),
-                    verifyCode:$("#verifyCode").val(),
-                    recommended:$("#recommended").val()},
-                success : function(data) {
-                    if(0==data.error.code){
-                        window.location.href="/mobile/content/moneyMatters"
-                    }else{
+                type: "POST",
+                url: getBaseUrl() + "/mobile/register",
+                data: {
+                    name: $("#name").val(),
+                    password: $("#password").val(),
+                    verifyCode: $("#verifyCode").val(),
+                    recommended: $("#recommended").val()
+                },
+                success: function (data) {
+                    if (0 == data.error.code) {
+                        window.location.href = "/mobile/content/moneyMatters"
+                    } else {
                         $(".oa_er_bk").show();
                         $("#error_content").text(data.error.msg)
                     }
                 },
-                error : function(XMLHttpRequest) {
+                error: function (XMLHttpRequest) {
                     $(".oa_er_bk").show();
-                    $("#error_content").text("网络错误，请稍后再试",XMLHttpRequest)
+                    $("#error_content").text("网络错误，请稍后再试", XMLHttpRequest)
                 }
             });
-        }catch(err){
+        } catch (err) {
             showErr(err);
         }
     });
 
-    $("#btn_getVerifyCode").on("click",function(){
+    $("#btn_getVerifyCode").on("click", function () {
         var mobile = veriPhoneNumber($("#name").val());
         if (mobile != true) {
             $(".oa_er_bk").show();
             $("#error_content").text(mobile)
             return;
         }
-        try{
-            $("#btn_getVerifyCode").attr("disabled","disabled");
+        try {
+            $("#btn_getVerifyCode").attr("disabled", "disabled");
             $.ajax({
-                type : "GET",
-                url : getBaseUrl() + "/mobile/verifyCode",
-                data : {"mobile":$("#name").val()},
-                success : function(data) {
-                    if(0==data.error.code){
-                        getValCodeTimeout(60,"btn_getVerifyCode");
-                    }else{
+                type: "GET",
+                url: getBaseUrl() + "/mobile/verifyCode",
+                data: {"mobile": $("#name").val()},
+                success: function (data) {
+                    if (0 == data.error.code) {
+                        getValCodeTimeout(60, "btn_getVerifyCode");
+                    } else {
                         $("#btn_getVerifyCode").removeAttr("disabled");
                         $(".oa_er_bk").show();
                         $("#error_content").text(data.error.msg)
                     }
                 },
-                error : function(XMLHttpRequest) {
+                error: function (XMLHttpRequest) {
                     $("#btn_getVerifyCode").removeAttr("disabled");
                     $(".oa_er_bk").show();
-                    $("#error_content").text("网络错误，请稍后再试",XMLHttpRequest)
+                    $("#error_content").text("网络错误，请稍后再试", XMLHttpRequest)
                 }
             });
-        }catch(err){
+        } catch (err) {
             showErr(err);
         }
     });
+
+    function findRegisterAgreement() {
+        $.ajax({
+            url: '${AGREEMENT_URL}',
+            type: 'POST',
+            data: 'code=0001',
+            success: function (data) {
+                if ('0000' == data.message.code) {
+                    var agreement = $("#agreementLink");
+                    agreement.html('《${currBackstageSet?.platformName} ').append(data.value.title).append('》');
+                    agreement.attr("href", data.value.link);
+                } else {
+                    console.info(data.message);
+                }
+            },
+            error: function () {
+                console.info('获取注册协议失败');
+            }
+        });
+    }
+
 
 </script>

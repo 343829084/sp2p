@@ -1726,6 +1726,83 @@ public class User extends UserBase implements Serializable{
 		error.msg = "保存基本资料成功";
 		error.code = 0;
 	}
+
+
+    public void appEditUser(User user, ErrorInfo error){
+        error.clear();
+
+        if(StringUtils.isBlank(this.realityName)) {
+            error.code = -1;
+            error.msg = "请输入真实姓名";
+            return ;
+        }
+
+        if(StringUtils.isBlank(this.idNumber)) {
+            error.code = -1;
+            error.msg = "请输入身份证号码";
+            return;
+        }
+
+        if(!"".equals(IDCardValidate.chekIdCard(0, idNumber))) {
+            error.code = -1;
+            error.msg = "请输入正确的身份证号";
+
+            return ;
+        }
+
+        if (StringUtils.isNotBlank(this.email)) {
+            if (RegexUtils.isEmail(this.email) || RegexUtils.isQQEmail(this.email)) {
+            }else{
+                error.code = -1;
+                error.msg = "请输入正确的邮箱";
+                return;
+            }
+        }
+
+        EntityManager em = JPA.em();
+
+        Query query = em.createQuery("update t_users set reality_name=?,id_number=?,email=? where id = ?")
+                .setParameter(1, this.realityName)
+                .setParameter(2, this.idNumber)
+                .setParameter(3, this.email)
+                .setParameter(4, this.id);
+
+        int rows = 0;
+
+        try {
+            rows = query.executeUpdate();
+        } catch(Exception e) {
+            JPA.setRollbackOnly();
+            e.printStackTrace();
+            Logger.info("首次编辑基本信息时,保存用户编辑的信息时："+e.getMessage());
+            error.code = -2;
+            error.msg = "对不起，您的身份证号码已注册！";
+
+            return;
+        }
+
+        if(rows == 0) {
+            JPA.setRollbackOnly();
+            error.code = -1;
+            error.msg = "数据未更新";
+
+            return ;
+        }
+
+        DealDetail.userEvent(this.id, UserEvent.ADD_BASIC_INFORMATION, "添加用户资料", error);
+        if(error.code < 0) {
+            JPA.setRollbackOnly();
+            return ;
+        }
+
+        user.realityName = realityName;
+        user.idNumber = this.idNumber;
+        user.email = this.email;
+        user.isAddBaseInfo = true;
+
+        error.msg = "保存基本资料成功";
+        error.code = 0;
+    }
 	
 	/**
 	 * 安全退出

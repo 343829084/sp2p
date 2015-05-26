@@ -1,34 +1,36 @@
 package controllers.app;
 
 import business.Bid;
+import business.DealDetail;
+import business.Payment;
+import business.User;
+import com.google.gson.JsonObject;
+import constants.Constants;
 import constants.SQLTempletes;
+import constants.UserEvent;
 import controllers.app.common.Message;
+import controllers.app.common.MessageUtil;
 import controllers.app.common.MsgCode;
 import controllers.app.common.Severity;
-import models.t_user_audit_items;
-import models.v_front_all_bids;
+import models.t_users;
 import models.y_front_show_bids;
 import models.y_subject_url;
 import net.sf.json.JSONObject;
-
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
-
 import play.Logger;
+import play.cache.Cache;
 import play.db.jpa.JPA;
+import play.libs.WS;
+import play.mvc.Scope;
+import utils.CacheManager;
+import utils.CaptchaUtil;
 import utils.ErrorInfo;
 
+import javax.persistence.Query;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.persistence.EntityManager;
-import javax.persistence.Query;
+import java.util.*;
 
 /**
  * Created by loki on 3/24/15.
@@ -36,7 +38,7 @@ import javax.persistence.Query;
 public class RequestDataExtend {
 
     static String infoMessage(Map<String, Object> jsonMap, MsgCode msgCode) {
-        RequestData.messageUtil.setMessage(new Message(Severity.INFO, msgCode), JSONObject.fromObject(jsonMap).toString());
+        RequestData.messageUtil.setMessage(new Message(Severity.INFO, msgCode), jsonMap == null ? null : JSONObject.fromObject(jsonMap).toString());
         return RequestData.messageUtil.toStr();
     }
 
@@ -281,5 +283,226 @@ public class RequestDataExtend {
     static String errorMessage(Map<String, Object> jsonMap, MsgCode msgCode) {
         RequestData.messageUtil.setMessage(new Message(Severity.ERROR, msgCode), JSONObject.fromObject(jsonMap).toString());
         return  RequestData.messageUtil.toStr();
+    }
+
+    public static String getAuthToken(Map<String, String> params){
+        ErrorInfo error = new ErrorInfo();
+        String token = params.get("FPtoken");//TODO fp ?
+        String name = params.get("mobile");
+        if (StringUtils.isEmpty(name)) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.ACCESS_FAIL));
+            return MessageUtil.getInstance().toStr();
+        }
+
+        User user = new User();
+        user.name = name;
+        if (user.getId() == -1) {
+            return errorMessage(null, MsgCode.AUTH_TOKEN_FAIL);
+        }
+        setAppCurrUser(user);
+
+        DealDetail.userEvent(user.getId(), UserEvent.LOGIN, "登录成功", error);
+        utils.Cache cache = CacheManager.getCacheInfo("online_user_" + user.getId() + "");
+
+        if (null == cache) {
+            cache = new utils.Cache();
+            long timeout = 1800000;//单位毫秒
+            CacheManager.putCacheInfo("online_user_" + user.getId(), cache, timeout);
+        }
+
+        t_users t_users = user.queryUser2ByUserId(user.getId(), error);
+
+        String p2pRealNameFlag = t_users.id_number == null ? "0" : "1";
+        String p2pAccountFlag = t_users.ips_acct_no == null ? "0" : "1";
+
+        Map<String, String> valueMap = new HashMap<String, String>();
+        valueMap.put("p2pRealNameFlag", p2pRealNameFlag);
+        valueMap.put("p2pAccountFlag", p2pAccountFlag);
+
+        if (error.code == 0) {//表示成功
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.AUTH_TOKEN_SUCC), valueMap);
+        }else{
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.AUTH_TOKEN_FAIL), valueMap);
+        }
+
+        return  MessageUtil.getInstance().toStr();
+    }
+
+    public static String removeAuthToken(){
+        User user = User.currUser();
+
+        Logger.info("当前退出authToken：" + Scope.Session.current().getAuthenticityToken());
+        if (user != null) {
+            Logger.info("当前退出user：userId_"+user.id);
+            ErrorInfo error = new ErrorInfo();
+            user.logout(error);
+        }
+
+        return infoMessage(null, MsgCode.AUTH_TOKEN_CLEAN_SUCC);
+    }
+
+    private static void setAppCurrUser(User user){
+        if (Scope.Session.current() == null) {
+            return;
+        }
+
+        String encryString = Scope.Session.current().getId();
+        Scope.Session.current().getAuthenticityToken();
+        //设置用户凭证
+        Cache.set("front_" + encryString, user.getId(), Constants.CACHE_TIME_HOURS_12);
+        //设置用户登录成功信息
+        Cache.set("userId_"+user.getId(), user, Constants.CACHE_TIME_HOURS_12);
+
+        Logger.info("当前登录人：userId_"+user.getId());
+        Logger.info("当前创建authToken：" + Scope.Session.current().getAuthenticityToken());
+
+    }
+
+    private static void getAuthenticationInfo(String mobile, Map<String, String> params){
+        Map<String,String> baseParams = new HashMap<String, String>();
+        baseParams.put("mobile", mobile);
+        WS.HttpResponse httpResponse = WS.url(Constants.FP_AUTHENTICATION).setParameters(baseParams).get();
+
+        JsonObject jsonObject = null;
+        if(httpResponse.getStatus().intValue() == HttpStatus.SC_OK){
+            jsonObject = httpResponse.getJson().getAsJsonObject();
+            String severity = jsonObject.get("message").getAsJsonObject().get("severity").getAsString();
+            if ("0".equals(severity)) {
+                String realName = jsonObject.get("value").getAsJsonObject().get("userName").getAsString();
+                String idCard = jsonObject.get("value").getAsJsonObject().get("idCardNo").getAsString();
+                String email = jsonObject.get("value").getAsJsonObject().get("email").getAsString();
+
+                params.put("realName", realName);
+                params.put("idCard", idCard);
+                if (StringUtils.isNotEmpty(email)) {
+                    params.put("email", email);
+                }
+            }
+        }
+    }
+
+    /**
+     * 完善用户资料接口
+     * @param parameters
+     * realName
+     * idNo
+     * email
+     */
+    public static void editUserInfo(Map<String, String> parameters) {
+        User user = User.currUser();
+        if (user == null) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CURRENT_USER_FAIL));
+            return ;
+        }
+
+        if (user.id < 0) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL), "该用户不存在");
+            return ;
+        }
+
+        String certify = parameters.get("certify");//是否实名认证      0未  1已
+        if ("1".equals(certify)) {
+            try {
+                getAuthenticationInfo(user.mobile, parameters);
+            }catch (Exception e){
+                e.printStackTrace();
+                Logger.error("调用fp获取实名认证信息异常", e.getMessage());
+                MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL), "未获取到实名认证信息");
+                return ;
+            }
+        }
+
+        ErrorInfo error = new ErrorInfo();
+        String realName = parameters.get("realName");
+        String idNo = parameters.get("idNo");
+        String email = parameters.get("email");
+
+        User newUser = new User();
+        newUser.id = user.id;
+        newUser.realityName = realName;
+        newUser.idNumber = idNo;
+        if (email != null){//若传入参数则替换  否则默认数据库中的数据不作更新
+            newUser.email = email;
+        }
+        newUser.appEditUser(user,error);
+
+        if(error.code != 0){
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL),  error.msg);
+            return ;
+        }
+
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.SAVE_USER_INFO_SUCC));
+    }
+
+
+    /**
+     * 账户余额查询--金豆荚
+     * @return
+     */
+    public static String queryForAccBalance() {
+        User user = User.currUser();
+        if (user == null) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.CURRENT_USER_FAIL));
+            return MessageUtil.getInstance().toStr();
+        }
+
+        String strJson = Payment.queryForAccBalanceFromIps(user);
+        if (strJson == null) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.QUERY_ACC_BALANCE_FAIL));
+            return MessageUtil.getInstance().toStr();
+        }
+
+        JSONObject jsonObj = JSONObject.fromObject(strJson);
+
+        String pErrCode = (String)jsonObj.get("pErrCode");
+        if ("MG00000F".equals(pErrCode)) {//成功
+            JSONObject obj = new JSONObject();
+            obj.put("userName", user.name);
+            obj.put("balance", user.balanceDetail.user_amount);//系统余额
+            obj.put("pFreeze", user.balanceDetail.freeze);//系统冻结
+            obj.put("pBalance", formatMoney((String)jsonObj.get("pBalance")));//托管余额
+            obj.put("pLock", formatMoney((String)jsonObj.get("pLock")));//托管冻结
+            obj.put("pAccBalance", formatMoney((String)jsonObj.get("pAccBalance")));//托管账户余额 （总额）
+
+            MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.QUERY_ACC_BALANCE_SUCC), obj);
+        }else{
+            String pErrMsg = (String)jsonObj.get("pErrMsg");
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.QUERY_ACC_BALANCE_FAIL, pErrMsg));
+        }
+
+        return MessageUtil.getInstance().toStr();
+    }
+
+    private static String formatMoney(String money){
+        if (StringUtils.isEmpty(money)) {
+            return "0.00";
+        }
+
+        String newMoney = money.replaceAll(",", "");
+
+        return newMoney;
+    }
+
+    /**
+     * 投标获取sign--金豆荚
+     * @return
+     */
+    public static String invest(Map<String, String> parameters) {
+        if (parameters.get("bidId") == null) {
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.ACCESS_FAIL));
+            return MessageUtil.getInstance().toStr();
+        }
+        Long bidId = Long.valueOf(parameters.get("bidId"));
+        Bid bid = new Bid();
+        bid.id = bidId;
+        String sign = bid.getSign();
+        String uuid = CaptchaUtil.getUUID(); // 防重复提交UUID
+
+        JSONObject obj = new JSONObject();
+        obj.put("uuid", uuid);
+        obj.put("sign", sign);
+
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.SEARCH_INVEST_SUCC), obj);
+        return MessageUtil.getInstance().toStr();
     }
 }
