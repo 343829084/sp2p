@@ -2018,6 +2018,7 @@ GET   /mobile/product/detailtwo                                 mobile.ProductDe
 GET   /mobile/product/fundSecurity                                 mobile.ProductDetailAction.fundSecurity
 GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
 GET   /mobile/me/changepwd                                 mobile.MeAction.changePassWord
+POST  /mobile/me/modifypwd                                 mobile.MeAction.modifyPassWord
 GET   /mobile/me/aboutOur                               mobile.MeAction.aboutOur
 GET   /mobile/me/safety                               mobile.MeAction.safety
 GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode

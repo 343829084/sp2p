@@ -2,9 +2,12 @@ package controllers.mobile;
 
 import business.Bid;
 import business.Invest;
+import business.User;
 import controllers.BaseController;
+import controllers.front.account.LoginAndRegisterAction;
 import models.v_invest_records;
 import models.y_subject_url;
+import net.sf.json.JSONObject;
 import play.db.jpa.JPA;
 import utils.ErrorInfo;
 import utils.PageBean;
@@ -27,6 +30,32 @@ public class MeAction extends BaseController {
 
     public static void changePassWord(String borrowId) {
         render();
+    }
+    /**
+     * 保存重设的密码
+     */
+    public static void modifyPassWord() {
+        JSONObject json = new JSONObject();
+        ErrorInfo error = new ErrorInfo();
+        String mobile = params.get("name");//the user name is mobile
+        String password = params.get("password");
+        String code = params.get("verifyCode");
+        String confirmPassword = password;
+        User.updatePasswordByMobile(mobile, code, password, confirmPassword,error);
+        if (error.code < 0) {
+            json.put("error",error);
+            renderJSON(json);
+        }
+//        if (error.code < 0) {
+//            flash.put("mobile", mobile);
+//            flash.put("code", code);
+//            flash.put("password", password);
+//            flash.put("confirmPassword", confirmPassword);
+//            flash.error(error.msg);
+//        }
+        json.put("error",error);
+        renderJSON(json);
+
     }
     public static void aboutOur() {
         render();
