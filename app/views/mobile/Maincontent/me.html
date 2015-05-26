@@ -1,58 +1,181 @@
-#{extends 'mobile/common/frmMain.html' /}
+<!DOCTYPE html>
+<html>
+<!-- 预加载设置 -->
+<!--
+<link rel='dns-prefetch' href='redtip.html'>
+-->
+%{
+business.User currUser = business.User.currUser();
+business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1 minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="telephone=no" name="format-detection"/>
+    <meta name="apple-mobile-web-app-capable" content="no"/>
+    <meta http-equiv='x-dns-prefetch-control' content='on'>
+
+
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile.theme-1.4.3.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/product.css'}"/>
+
+
+    <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/jweixin-1.0.0.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/sha.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/sign.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/weixin.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/defaultshare.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/hammer.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.sliderBox.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/drawCanvas.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.lazyload.min.js'}"></script>
+</head>
+
 #{set title:'我' /}
+
+<body>
+
 <style>
-    .ui-grid-b
-    {
+    .ui-grid-b {
         background-color: lightgray;
         height: 90px;
     }
 </style>
 
-    <div >
-        <div class="ui-grid-b" >
-            <br>
-        #{if user?.name!=null }
-            <div class="ui-block-a"><span> <a href="#"><img src="@{'/public/images/h5icon/user_img.png'}"></a></span></div><br>
-            <div class="ui-block-b"><p>${user?.realityName}</p><p>${user?.name}</p></div>
-        #{/if}
-        #{else}
-            <div class="ui-block-a"><span> <a href="#"><img src="@{'/public/images/h5icon/user_img.png'}"></a></span></div>
-          <div data-role="controlgroup" data-type="horizontal">
-                <a href="#" id="me_login" data-role="button">登录</a>
-                <a href="#" id="me_register" data-role="button">注册</a>
-            </div>
+<div>
+    <div class="ui-grid-b">
+        <br>
+    #{if user?.name!=null }
+        <div class="ui-block-a"><span> <a href="#"><img src="@{'/public/images/h5icon/user_img.png'}"></a></span></div>
+        <br>
 
-        #{/else}
+        <div class="ui-block-b"><p>${user?.realityName}</p>
+
+            <p>${user?.name}</p></div>
+    #{/if}
+    #{else}
+        <div class="ui-block-a"><span> <a href="#"><img src="@{'/public/images/h5icon/user_img.png'}"></a></span></div>
+        <div data-role="controlgroup" data-type="horizontal">
+            <a href="#" id="me_login" data-role="button">登录</a>
+            <a href="#" id="me_register" data-role="button">注册</a>
         </div>
+
+    #{/else}
     </div>
-    <div data-role="content">
-        <ul data-role="listview">
-            <li><a href="#" id="accountsafe"><img src="@{'/public/images/h5icon/safe_ensure.png'}" alt="账户与安全" class="ui-li-icon">账户与安全</a></li>
-            <li><a href="#"><img src="@{'/public/images/h5icon/red_bag.png'}" alt="红包" class="ui-li-icon">红包</a></li>
-            <li><a href="#"  id="safety"><img src="@{'/public/images/h5icon/safety.png'}" alt="安全保障" class="ui-li-icon">安全保障</a></li>
-            <li><a href="#" id="aboutOur"><img src="@{'/public/images/h5icon/51jdj_log.png'}" alt="关于金豆荚" class="ui-li-icon">关于金豆荚</a></li>
-            <li><a href="#" id="share_friend"><img src="@{'/public/images/h5icon/invite_img.png'}" alt="邀请好友" class="ui-li-icon">邀请好友</a></li>
-            <input id="share_mobile" type="hidden" value="${user?.name}">
-        </ul>
-    </div>
+</div>
+<div data-role="content">
+    <ul data-role="listview">
+        <li><a href="#" id="accountsafe"><img src="@{'/public/images/h5icon/safe_ensure.png'}" alt="账户与安全"
+                                              class="ui-li-icon">账户与安全</a></li>
+        <li><a href="#"><img src="@{'/public/images/h5icon/red_bag.png'}" alt="红包" class="ui-li-icon">红包</a></li>
+        <li><a href="#" id="safety"><img src="@{'/public/images/h5icon/safety.png'}" alt="安全保障" class="ui-li-icon">安全保障</a>
+        </li>
+        <li><a href="#" id="aboutOur"><img src="@{'/public/images/h5icon/51jdj_log.png'}" alt="关于金豆荚"
+                                           class="ui-li-icon">关于金豆荚</a></li>
+        <li><a href="#" id="share_friend"><img src="@{'/public/images/h5icon/invite_img.png'}" alt="邀请好友"
+                                               class="ui-li-icon">邀请好友</a></li>
+        <input id="share_mobile" type="hidden" value="${user?.name}">
+    </ul>
+</div>
 <script>
-        $("#aboutOur").click(function(){
-            window.location.href="/mobile/me/aboutOur"
-        });
-        $("#safety").click(function(){
-            window.location.href="/mobile/me/safety"
-        });
-        $("#me_login").click(function(){
-            window.location.href="/mobile/login"
-        });
-        $("#me_register").click(function(){
-            window.location.href="/mobile/register"
-        });
-        $("#share_friend").click(function(){
-            window.location.href="https://api-2.sunlights.me/share/qrredirect.html?mobile="+$("#share_mobile").val()
-        });
-        $("#accountsafe").click(function(){
-            window.location.href="/mobile/me/accountsafe"
-        });
+    $("#aboutOur").click(function () {
+        window.location.href = "/mobile/me/aboutOur"
+    });
+    $("#safety").click(function () {
+        window.location.href = "/mobile/me/safety"
+    });
+    $("#me_login").click(function () {
+        window.location.href = "/mobile/login"
+    });
+    $("#me_register").click(function () {
+        window.location.href = "/mobile/register"
+    });
+    $("#share_friend").click(function () {
+        window.location.href = "https://api-2.sunlights.me/share/qrredirect.html?mobile=" + $("#share_mobile").val()
+    });
+    $("#accountsafe").click(function () {
+        window.location.href = "/mobile/me/accountsafe"
+    });
 
 </script>
+
+
+<div class="ui-grid-d center foot_pos">
+    <div class="ui-block-a">
+        <a id="menu_One" href="#" data-role="button" data-bind="nav_bar"
+           class="ui-shadow  fm_mgpd ui-btn-inline fm_border " data-icon="home-unselected"
+           data-iconpos="top">金品</a>
+    </div>
+    <div class="ui-block-b ">
+        <a id="menu_Two" href="#" data-role="button" data-bind="nav_bar"
+           class="ui-shadow  fm_mgpd ui-btn-inline fm_border " data-icon="list-unselected"
+           data-iconpos="top">理财</a>
+    </div>
+    <div class="ui-block-c ">
+        <a id="menu_Three" href="#" data-bind="nav_bar" data-role="button"
+           class="ui-shadow  fm_mgpd ui-btn-inline fm_border" data-icon="gold-unselected"
+           data-iconpos="top">财富</a>
+    </div>
+
+    <div class="ui-block-d ">
+        <a id="menu_Four" href="#" data-bind="nav_bar" data-role="button"
+           data-icon="more-unselected" data-iconpos="top"
+           class=" ui-shadow  fm_mgpd ui-btn-inline">我</a>
+
+    </div>
+
+</div>
+
+
+<script>
+    var url = window.location.href;
+    if (url.indexOf("bestProduct") > -1) {
+//            clearFocus();
+
+        $("#menu_One").removeClass("ui-icon-home-unselected");
+        $("#menu_One").addClass("ui-icon-home-selected");
+        $("#menu_One").attr("data-icon", "home-selected");
+    }
+    if (url.indexOf("moneyMatters") > -1) {
+//            clearFocus();
+        $("#menu_Two").removeClass("ui-icon-list-unselected");
+        $("#menu_Two").addClass("ui-icon-list-selected");
+        $("#menu_Two").attr("data-icon", "list-selected");
+    }
+    if (url.indexOf("property") > -1) {
+//            clearFocus();
+        $("#menu_Three").removeClass("ui-icon-gold-unselected");
+        $("#menu_Three").addClass("ui-icon-gold-selected");
+        $("#menu_Three").attr("data-icon", "gold-selected");
+    }
+    if (url.indexOf("me") > -1) {
+//            clearFocus();
+        $("#menu_Four").removeClass("ui-icon-more-unselected");
+        $("#menu_Four").addClass("ui-icon-more-selected");
+        $("#menu_Four").attr("data-icon", "more-selected");
+    }
+    $("#menu_One").click(function () {
+        window.location.href = "/mobile/content/bestProduct"
+    });
+    $("#menu_Two").click(function () {
+        window.location.href = "/mobile/content/moneyMatters"
+
+    });
+    $("#menu_Three").click(function () {
+        window.location.href = "/mobile/content/property "
+    });
+    $("#menu_Four").click(function () {
+        window.location.href = "/mobile/content/me"
+    });
+
+</script>
+
+</body>
+</html>
+
