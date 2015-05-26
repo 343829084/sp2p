@@ -1,24 +1,22 @@
 <!DOCTYPE html>
 <html>
+<!-- 预加载设置 -->
+<!--
+<link rel='dns-prefetch' href='redtip.html'>
+-->
+%{
+business.User currUser = business.User.currUser();
+business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+}%
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1 minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta content="telephone=no" name="format-detection" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1 minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="telephone=no" name="format-detection"/>
     <meta name="apple-mobile-web-app-capable" content="no"/>
     <meta http-equiv='x-dns-prefetch-control' content='on'>
-    <!-- 预加载设置 -->
-    <!--
-    <link rel='dns-prefetch' href='redtip.html'>
-    -->
-    %{
-    business.User currUser = business.User.currUser();
-    business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
-    String platUrl = constants.Constants.BASE_URL;
-    java.util.Map<String,java.util.List<business.BottomLinks>> bottomLinks = business.BottomLinks.currentBottomlinks();
-    boolean ipsEnable = constants.Constants.IPS_ENABLE;
-    boolean debtUse = constants.Constants.DEBT_USE;
-    String mobile = constants.Constants.BIDS_MOBILE;
-    }%
+
+
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile.theme-1.4.3.css'}"/>
@@ -42,62 +40,77 @@
 <body>
 
 
-    #{doLayout /}
+#{doLayout /}
 
-    <div class="ui-grid-d center foot_pos" >
-        <div class="ui-block-a"><a  id="menu_One" href="#" data-role="button" data-bind="nav_bar" class="ui-shadow  fm_mgpd ui-btn-inline fm_border " data-icon="home-unselected" data-iconpos="top">金品</a></div>
-        <div class="ui-block-b "><a id="menu_Two" href="#" data-role="button" data-bind="nav_bar" class="ui-shadow  fm_mgpd ui-btn-inline fm_border "  data-icon="list-unselected" data-iconpos="top">理财</a></div>
-        <div class="ui-block-c "><a id="menu_Three" href="#"  data-bind="nav_bar"  data-role="button" class="ui-shadow  fm_mgpd ui-btn-inline fm_border" data-icon="gold-unselected" data-iconpos="top">财富</a></div>
+<div class="ui-grid-d center foot_pos">
+    <div class="ui-block-a">
+        <a id="menu_One" href="#" data-role="button" data-bind="nav_bar"
+                               class="ui-shadow  fm_mgpd ui-btn-inline fm_border " data-icon="home-unselected"
+                               data-iconpos="top">金品</a>
+    </div>
+    <div class="ui-block-b ">
+        <a id="menu_Two" href="#" data-role="button" data-bind="nav_bar"
+                                class="ui-shadow  fm_mgpd ui-btn-inline fm_border " data-icon="list-unselected"
+                                data-iconpos="top">理财</a>
+    </div>
+    <div class="ui-block-c ">
+        <a id="menu_Three" href="#" data-bind="nav_bar" data-role="button"
+                                class="ui-shadow  fm_mgpd ui-btn-inline fm_border" data-icon="gold-unselected"
+                                data-iconpos="top">财富</a>
+    </div>
 
-        <div class="ui-block-d "><a id="menu_Four" href="#" data-bind="nav_bar" data-role="button"  data-icon="more-unselected" data-iconpos="top" class=" ui-shadow  fm_mgpd ui-btn-inline">我</a>
+    <div class="ui-block-d ">
+        <a id="menu_Four" href="#" data-bind="nav_bar" data-role="button"
+                                data-icon="more-unselected" data-iconpos="top"
+                                class=" ui-shadow  fm_mgpd ui-btn-inline">我</a>
 
-            </div>
+    </div>
 
 </div>
 
 
-    <script>
-        var url=window.location.href;
-        if(url.indexOf("bestProduct")>-1){
+<script>
+    var url = window.location.href;
+    if (url.indexOf("bestProduct") > -1) {
 //            clearFocus();
 
-            $("#menu_One").removeClass("ui-icon-home-unselected");
-            $("#menu_One").addClass("ui-icon-home-selected");
-            $("#menu_One").attr("data-icon","home-selected");
-        }
-        if(url.indexOf("moneyMatters")>-1){
+        $("#menu_One").removeClass("ui-icon-home-unselected");
+        $("#menu_One").addClass("ui-icon-home-selected");
+        $("#menu_One").attr("data-icon", "home-selected");
+    }
+    if (url.indexOf("moneyMatters") > -1) {
 //            clearFocus();
-            $("#menu_Two").removeClass("ui-icon-list-unselected");
-            $("#menu_Two").addClass("ui-icon-list-selected");
-            $("#menu_Two").attr("data-icon","list-selected");
-        }
-        if(url.indexOf("property")>-1){
+        $("#menu_Two").removeClass("ui-icon-list-unselected");
+        $("#menu_Two").addClass("ui-icon-list-selected");
+        $("#menu_Two").attr("data-icon", "list-selected");
+    }
+    if (url.indexOf("property") > -1) {
 //            clearFocus();
-            $("#menu_Three").removeClass("ui-icon-gold-unselected");
-            $("#menu_Three").addClass("ui-icon-gold-selected");
-            $("#menu_Three").attr("data-icon","gold-selected");
-        }
-        if(url.indexOf("me")>-1){
+        $("#menu_Three").removeClass("ui-icon-gold-unselected");
+        $("#menu_Three").addClass("ui-icon-gold-selected");
+        $("#menu_Three").attr("data-icon", "gold-selected");
+    }
+    if (url.indexOf("me") > -1) {
 //            clearFocus();
-            $("#menu_Four").removeClass("ui-icon-more-unselected");
-            $("#menu_Four").addClass("ui-icon-more-selected");
-            $("#menu_Four").attr("data-icon","more-selected");
-        }
-        $("#menu_One").click(function(){
-            window.location.href="/mobile/content/bestProduct"
-        });
-        $("#menu_Two").click(function(){
-            window.location.href="/mobile/content/moneyMatters"
+        $("#menu_Four").removeClass("ui-icon-more-unselected");
+        $("#menu_Four").addClass("ui-icon-more-selected");
+        $("#menu_Four").attr("data-icon", "more-selected");
+    }
+    $("#menu_One").click(function () {
+        window.location.href = "/mobile/content/bestProduct"
+    });
+    $("#menu_Two").click(function () {
+        window.location.href = "/mobile/content/moneyMatters"
 
-        });
-        $("#menu_Three").click(function(){
-            window.location.href="/mobile/content/property "
-        });
-        $("#menu_Four").click(function(){
-            window.location.href="/mobile/content/me"
-        });
+    });
+    $("#menu_Three").click(function () {
+        window.location.href = "/mobile/content/property "
+    });
+    $("#menu_Four").click(function () {
+        window.location.href = "/mobile/content/me"
+    });
 
-    </script>
+</script>
 
 </body>
 </html>
