@@ -33,10 +33,19 @@ public class LoginAction extends BaseController {
      * 跳转到登录页面
      */
     public static void login() {
+        flash.keep("url");
         render();
     }
 
-    public static void doLogin(){
+    public static void delegateSuccess() {
+        render();
+    }
+
+    public static void openAccount() {
+        render();
+    }
+
+    public static void doLogin() {
         ErrorInfo error = new ErrorInfo();
 
         String name = params.get("name");
@@ -44,17 +53,19 @@ public class LoginAction extends BaseController {
         flash.put("name", name);
         flash.put("password", password);
 
+        boolean validate = true;
+
         if (StringUtils.isBlank(name)) {
             error.code = -1;
             error.msg = "请输入用户名";
             flash.error(error.msg);
-            login();
+            validate = false;
         }
         if (StringUtils.isBlank(password)) {
             error.code = -1;
             error.msg = "请输入密码";
             flash.error(error.msg);
-            login();
+            validate = false;
         }
 
         User user = new User();
@@ -64,22 +75,22 @@ public class LoginAction extends BaseController {
             error.code = -1;
             error.msg = "该用户名不存在";
             flash.error(error.msg);
-            login();
+            validate = false;
         }
 
-        if (user.login(password,false, error) < 0) {
+        if (user.login(password, false, error) < 0) {
             flash.error(error.msg);
+            validate = false;
+        }
+
+        if (validate) {
+            String url = flash.get("url");
+            redirect(StringUtils.isBlank(url) ? "/mobile/content/me" : url);
+        } else {
+            flash.keep("url");
             login();
         }
 
-        MainContent.moneyMatters();
-    }
-
-    public static void delegateSuccess(){
-        render();
-    }
-    public static void openAccount(){
-        render();
     }
 
 
@@ -90,7 +101,7 @@ public class LoginAction extends BaseController {
         render();
     }
 
-    public static void doRegister(){
+    public static void doRegister() {
 //        checkAuthenticity();//TODO
         JSONObject json = new JSONObject();
         ErrorInfo error = new ErrorInfo();
@@ -102,14 +113,14 @@ public class LoginAction extends BaseController {
         registerValidation(error);
 
         if (error.code < 0) {
-            json.put("error",error);
+            json.put("error", error);
             renderJSON(json);
         }
 
         String authentication_id = registerFp(error, mobile, password);
 
         if (error.code < 0) {
-            json.put("error",error);
+            json.put("error", error);
             renderJSON(json);
         }
 
@@ -124,18 +135,18 @@ public class LoginAction extends BaseController {
         user.register(error);
 
         if (error.code < 0) {
-            json.put("error",error);
+            json.put("error", error);
             renderJSON(json);
         }
 
-        registerGiveJinDou(error,mobile);
+        registerGiveJinDou(error, mobile);
 
-        json.put("error",error);
+        json.put("error", error);
         renderJSON(json);
         //TODO userid session cookie?
     }
 
-    private static void registerValidation(ErrorInfo error){
+    private static void registerValidation(ErrorInfo error) {
         String mobile = params.get("name");//the user name is mobile
         String password = params.get("password");
         String verifyCode = params.get("verifyCode");
@@ -166,12 +177,12 @@ public class LoginAction extends BaseController {
             return;
         }
 
-        String cacheVerifyCode = (String) Cache.get(mobile);
-        if (!verifyCode.equals(cacheVerifyCode)) {
-            error.code = -1;
-            error.msg = "验证码输入有误";
-            return;
-        }
+        String cacheVerifyCode = (String) Cache.get(mobile);//TODO
+//        if (!verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
+//            error.code = -1;
+//            error.msg = "验证码输入有误";
+//            return;
+//        }
 
         User.isNameExist(mobile, error);
     }
