@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>投标</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/product-bid.css'}"/>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+
+
+</head>
+<body>
+    <div data-role="page" id="productBid">
+        <div class="content-container">
+            <div class="productInfo clearfix">
+                <h4>展义宝1期OL001</h4>
+                <div class="">
+                    <ul>
+                        <li>年化收益: <span>9.6%</span></li>
+                        <li>期限：<span>30</span>天</li>
+                        <li>剩余可投：<span>90,000</span>元</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="account-info">
+                <div class="account-balance">
+                    <p>可用余额：<span>9900</span>元</p>
+                    <a>立即充值</a>
+                </div>
+                <div class="btn-container clearfix">
+                    <input type="text" class=" input-click"  id="loginpwd" placeholder="至少投100元"  maxlength="11" autocomplete="off" > <a id="allInBtn">全投</a>
+                </div>
+                <p class="predict-price">
+                    预计收益<span>0.00</span>元
+                </p>
+                <div>
+                    <a class="ui-btn ui-corner-all" id="bidBtn">立即投标</a>
+                </div>
+            </div>
+            <div class="agree" >
+                <label style=" position:relative; top:1px; display:inline-block"  data-role="none">
+                    <div class="checkboxFive">
+                        <input type="checkbox" value="1"  data-role="none" id="agreeTerms" checked="" name="">
+                        <label for="agreeTerms"  data-role="none" id="tep"></label>
+                    </div>
+                </label>
+                <label for="agreeTerms" style="margin-left:5px;display:inline-block;font-size: 13px">我已经阅读并同意<a href="" class="fg-cblue" target="_self">《投资理财服务协议》</a></label>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

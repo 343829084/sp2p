@@ -28,4 +28,15 @@ public class ProductAction extends BaseController {
 
         render(bid);
     }
+    
+    
+    public static void productBid(){
+    	Bid bid = new Bid();
+    	bid.setId(Integer.parseInt(params.get("bidId")));
+    	if (bid.id == -1 ) {
+    		MainContent.moneyMatters();
+    	}
+    	
+    	ProductAction.render();
+    }
 }

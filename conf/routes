@@ -2021,3 +2021,5 @@ GET   /mobile/me/changepwd                                 mobile.MeAction.chang
 GET   /mobile/me/aboutOur                               mobile.MeAction.aboutOur
 GET   /mobile/me/safety                               mobile.MeAction.safety
 GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
+
+GET   /mobile/product/productBid                               mobile.ProductAction.productBid
