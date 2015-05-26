@@ -2024,4 +2024,6 @@ GET   /mobile/me/changepwd                                 mobile.MeAction.chang
 POST  /mobile/me/modifypwd                                 mobile.MeAction.modifyPassWord
 GET   /mobile/me/aboutOur                               mobile.MeAction.aboutOur
 GET   /mobile/me/safety                               mobile.MeAction.safety
+GET   /mobile/me/melogout                               mobile.MeAction.MeLogout
+GET   /mobile/me/accountsafe                               mobile.MeAction.accountSafe
 GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode

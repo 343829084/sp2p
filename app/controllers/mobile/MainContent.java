@@ -235,7 +235,7 @@ public class MainContent extends BaseController {
      * 跳转到me页面
      */
     public static void me() {
-
-        render();
+        User user = User.currUser();
+        render(user);
     }
 }
