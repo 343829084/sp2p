@@ -1,18 +1,9 @@
 <!DOCTYPE html>
 <html>
-<!-- 预加载设置 -->
-<!--
-<link rel='dns-prefetch' href='redtip.html'>
--->
-%{
-business.User currUser = business.User.currUser();
-business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
-}%
 <head>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1 minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta content="telephone=no" name="format-detection"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1 minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="telephone=no" name="format-detection" />
     <meta name="apple-mobile-web-app-capable" content="no"/>
     <meta http-equiv='x-dns-prefetch-control' content='on'>
 
@@ -69,48 +60,46 @@ business.BackstageSet currBackstageSet = business.BackstageSet.getCurrentBacksta
 </div>
 
 
-<script>
-    var url = window.location.href;
-    if (url.indexOf("bestProduct") > -1) {
-//            clearFocus();
+    <script>
+        var url=window.location.href;
+        if(url.indexOf("bestProduct")>-1){
 
-        $("#menu_One").removeClass("ui-icon-home-unselected");
-        $("#menu_One").addClass("ui-icon-home-selected");
-        $("#menu_One").attr("data-icon", "home-selected");
-    }
-    if (url.indexOf("moneyMatters") > -1) {
-//            clearFocus();
-        $("#menu_Two").removeClass("ui-icon-list-unselected");
-        $("#menu_Two").addClass("ui-icon-list-selected");
-        $("#menu_Two").attr("data-icon", "list-selected");
-    }
-    if (url.indexOf("property") > -1) {
-//            clearFocus();
-        $("#menu_Three").removeClass("ui-icon-gold-unselected");
-        $("#menu_Three").addClass("ui-icon-gold-selected");
-        $("#menu_Three").attr("data-icon", "gold-selected");
-    }
-    if (url.indexOf("me") > -1) {
-//            clearFocus();
-        $("#menu_Four").removeClass("ui-icon-more-unselected");
-        $("#menu_Four").addClass("ui-icon-more-selected");
-        $("#menu_Four").attr("data-icon", "more-selected");
-    }
-    $("#menu_One").click(function () {
-        window.location.href = "/mobile/content/bestProduct"
-    });
-    $("#menu_Two").click(function () {
-        window.location.href = "/mobile/content/moneyMatters"
+            $("#menu_One").removeClass("ui-icon-home-unselected");
+            $("#menu_One").addClass("ui-icon-home-selected");
+            $("#menu_One").attr("data-icon","home-selected");
+        }
+        if(url.indexOf("moneyMatters")>-1){
 
-    });
-    $("#menu_Three").click(function () {
-        window.location.href = "/mobile/content/property "
-    });
-    $("#menu_Four").click(function () {
-        window.location.href = "/mobile/content/me"
-    });
+            $("#menu_Two").removeClass("ui-icon-list-unselected");
+            $("#menu_Two").addClass("ui-icon-list-selected");
+            $("#menu_Two").attr("data-icon","list-selected");
+        }
+        if(url.indexOf("property")>-1){
 
-</script>
+            $("#menu_Three").removeClass("ui-icon-gold-unselected");
+            $("#menu_Three").addClass("ui-icon-gold-selected");
+            $("#menu_Three").attr("data-icon","gold-selected");
+        }
+        if(url.indexOf("me")>-1){
+            $("#menu_Four").removeClass("ui-icon-more-unselected");
+            $("#menu_Four").addClass("ui-icon-more-selected");
+            $("#menu_Four").attr("data-icon","more-selected");
+        }
+        $("#menu_One").click(function(){
+            window.location.href="@{mobile.MainContent.bestProduct()}"
+        });
+        $("#menu_Two").click(function(){
+            window.location.href="@{mobile.MainContent.moneyMatters()}"
+
+        });
+        $("#menu_Three").click(function(){
+            window.location.href="@{mobile.MainContent.property()}"
+        });
+        $("#menu_Four").click(function(){
+            window.location.href="@{mobile.MainContent.me()}"
+        });
+
+    </script>
 
 </body>
 </html>
