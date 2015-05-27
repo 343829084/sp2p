@@ -1,7 +1,6 @@
 package constants;
 
 import com.shove.Convert;
-import play.Logger;
 import play.Play;
 
 /**
@@ -1456,13 +1455,13 @@ public class Constants {
 	public static final Long LATEST_NEWS_TYPE = 35L; // 最新动态
 
 	public Constants() {
-		Logger.info("[Constants init]");
-		Logger.info("[FP_AGREEMENT_URL]" + FP_AGREEMENT_URL);
-		Logger.info("[FP_LOGIN_URL]" + FP_LOGIN_URL);
-		Logger.info("[FP_REGISTER_URL]" + FP_REGISTER_URL);
-		Logger.info("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
-		Logger.info("[FP_REGISTER_GIVE_JINDOU]" + FP_REGISTER_GIVE_JINDOU);
-		Logger.info("[FP_AUTHENTICATION]" + FP_AUTHENTICATION);
-		Logger.info("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
+		System.out.println("[Constants init]");
+		System.out.println("[FP_AGREEMENT_URL]" + FP_AGREEMENT_URL);
+		System.out.println("[FP_LOGIN_URL]" + FP_LOGIN_URL);
+		System.out.println("[FP_REGISTER_URL]" + FP_REGISTER_URL);
+		System.out.println("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
+		System.out.println("[FP_REGISTER_GIVE_JINDOU]" + FP_REGISTER_GIVE_JINDOU);
+		System.out.println("[FP_AUTHENTICATION]" + FP_AUTHENTICATION);
+		System.out.println("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
 	}
 }
