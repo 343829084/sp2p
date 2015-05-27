@@ -9,6 +9,10 @@ import play.mvc.Before;
 public class H5Interceptor extends BaseController {
 
     @Before(only = {"mobile.MainContent.property",
+            "mobile.MainContent.me",
+            "mobile.TradeController.tradeList",
+            "mobile.TradeController.tradeHistory",
+            "mobile.TradeController.remainMoney",
             "mobile.MeAction.changePassWord",
             "mobile.MeAction.accountSafe"})
     public static void checkLogin() {

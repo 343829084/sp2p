@@ -2009,9 +2009,9 @@ GET  /mobile/content/remainMoney                                      mobile.Tra
 GET  /mobile/content/tradeHistory                                     mobile.TradeController.tradeHistory
 
 GET   /mobile/product/detail                                          mobile.ProductAction.productDetail
-
+#开户成功
 GET   /mobile/LoginAction/delegateSuccess                                     mobile.LoginAction.delegateSuccess
-
+#开户
 GET   /mobile/LoginAction/openAccount                                     mobile.LoginAction.openAccount
 
 

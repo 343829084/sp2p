@@ -4,8 +4,11 @@ import business.*;
 import constants.Constants;
 import constants.SQLTempletes;
 import controllers.BaseController;
+import controllers.SubmitRepeat;
+import controllers.interceptor.H5Interceptor;
 import models.*;
 import play.db.jpa.JPA;
+import play.mvc.With;
 import utils.ErrorInfo;
 import utils.PageBean;
 
@@ -18,10 +21,10 @@ import java.util.*;
 /**
  * Created by libaozhong on 2015/5/14.
  */
+@With({H5Interceptor.class, SubmitRepeat.class})
 public class TradeController extends BaseController {
     public static void tradeHistory(){
-        User user = new User();  // User.currUser();
-        user.setId(14);
+        User user =User.currUser();
         Invest invest=new Invest();
         ErrorInfo error = new ErrorInfo();
         PageBean<v_invest_records> invetResult = invest.queryUserInvestRecords(user.getId(), "1", "100", null, null, error);
@@ -47,8 +50,7 @@ public class TradeController extends BaseController {
 
 /*****************跳转到待收金额****************************/
     public static void remainMoney(){
-        User user = new User();  // User.currUser();
-        user.setId(14);
+        User user =  User.currUser();
         int payType=1;
         long userId=user.getId();
         ErrorInfo error = new ErrorInfo();
@@ -93,8 +95,7 @@ public class TradeController extends BaseController {
      */
     public static void tradeList() {
 
-        User user = new User();  // User.currUser();
-        user.setId(14);
+        User user = User.currUser();
         int payType=1;
         long userId=user.getId();
         ErrorInfo error = new ErrorInfo();
