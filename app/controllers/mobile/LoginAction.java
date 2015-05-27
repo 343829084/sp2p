@@ -3,6 +3,8 @@ package controllers.mobile;
 import business.User;
 import constants.Constants;
 import controllers.BaseController;
+import controllers.mobile.account.AccountAction;
+import models.t_users;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -34,14 +36,6 @@ public class LoginAction extends BaseController {
      */
     public static void login() {
         flash.keep("url");
-        render();
-    }
-
-    public static void delegateSuccess() {
-        render();
-    }
-
-    public static void openAccount() {
         render();
     }
 
@@ -85,7 +79,12 @@ public class LoginAction extends BaseController {
 
         if (validate) {
             String url = flash.get("url");
-            redirect(StringUtils.isBlank(url) ? "/mobile/content/me" : url);
+            t_users t_users = user.queryUser2ByUserId(user.getId(), error);
+            if (t_users.ips_acct_no == null) {//未开户
+                AccountAction.createAcct();
+            }else{
+                MainContent.property();
+            }
         } else {
             flash.keep("url");
             login();
@@ -102,7 +101,6 @@ public class LoginAction extends BaseController {
     }
 
     public static void doRegister() {
-//        checkAuthenticity();//TODO
         JSONObject json = new JSONObject();
         ErrorInfo error = new ErrorInfo();
 
@@ -143,7 +141,6 @@ public class LoginAction extends BaseController {
 
         json.put("error", error);
         renderJSON(json);
-        //TODO userid session cookie?
     }
 
     private static void registerValidation(ErrorInfo error) {
@@ -177,8 +174,8 @@ public class LoginAction extends BaseController {
             return;
         }
 
-        String cacheVerifyCode = (String) Cache.get(mobile);//TODO
-//        if (!verifyCode.equalsIgnoreCase(cacheVerifyCode)) {
+        String cacheVerifyCode = (String) Cache.get(mobile);
+//        if (!verifyCode.equals(cacheVerifyCode)) {
 //            error.code = -1;
 //            error.msg = "验证码输入有误";
 //            return;

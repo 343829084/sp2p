@@ -19,7 +19,6 @@ import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
-import play.cache.Cache;
 import play.db.jpa.JPA;
 import play.libs.WS;
 import play.mvc.Scope;
@@ -299,7 +298,7 @@ public class RequestDataExtend {
         if (user.getId() == -1) {
             return errorMessage(null, MsgCode.AUTH_TOKEN_FAIL);
         }
-        setAppCurrUser(user);
+        User.setCurrUser(user);
 
         DealDetail.userEvent(user.getId(), UserEvent.LOGIN, "登录成功", error);
         utils.Cache cache = CacheManager.getCacheInfo("online_user_" + user.getId() + "");
@@ -341,22 +340,6 @@ public class RequestDataExtend {
         return infoMessage(null, MsgCode.AUTH_TOKEN_CLEAN_SUCC);
     }
 
-    private static void setAppCurrUser(User user){
-        if (Scope.Session.current() == null) {
-            return;
-        }
-
-        String encryString = Scope.Session.current().getId();
-        Scope.Session.current().getAuthenticityToken();
-        //设置用户凭证
-        Cache.set("front_" + encryString, user.getId(), Constants.CACHE_TIME_HOURS_12);
-        //设置用户登录成功信息
-        Cache.set("userId_"+user.getId(), user, Constants.CACHE_TIME_HOURS_12);
-
-        Logger.info("当前登录人：userId_"+user.getId());
-        Logger.info("当前创建authToken：" + Scope.Session.current().getAuthenticityToken());
-
-    }
 
     private static void getAuthenticationInfo(String mobile, Map<String, String> params){
         Map<String,String> baseParams = new HashMap<String, String>();
