@@ -2014,8 +2014,9 @@ GET   /mobile/LoginAction/delegateSuccess                                     mo
 #开户
 GET   /mobile/LoginAction/openAccount                                     mobile.LoginAction.openAccount
 
+GET   /mobile/quickRegister                                 mobile.QuickRegister.quickRegister
 
-
+GET   /mobile/registerSuccess                                 mobile.QuickRegister.registerSuccess
 GET   /mobile/product/bidRecords                                 mobile.ProductDetailAction.bidRecords
 GET   /mobile/product/detailtwo                                 mobile.ProductDetailAction.projectDetail
 GET   /mobile/product/fundSecurity                                 mobile.ProductDetailAction.fundSecurity
