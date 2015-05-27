@@ -14,6 +14,9 @@
 
 
 <div data-role="page" id="index">
+    #{if vInvestRecords?.size == 0 && userRechargeDetails?.size == 0 && userRechargeDetails?.size == 0}
+        <p style="text-align: center;"> 暂无任何交易记录!</p>
+        #{/if}
 #{if vInvestRecords?.size > 0}
 #{list items:vInvestRecords, as:'vInvestRecord'}
     <div data-role="content th_pd">

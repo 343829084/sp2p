@@ -13,7 +13,7 @@
         <h3>${bid?.title}</h3>
               <p class="bp_font_p">预期年化收益</p>
                  <dd class="bp_font_apr">${bid?.apr}<sub class="bp-sb">%</sub></dd>
-        <dt class="">投资1万元每天可赚取<sapn class="bp_font_red">${(bid?.apr * 100 /365).format('###,###.00')}</sapn>元</dt>
+        <dt class="">投资1万元每天可赚取<sapn class="bp_font_red">${(bid?.apr * 100 /365).format('##,###,##0.00')}</sapn>元</dt>
         <div class="bp_productListBox">
             <div class="bp_bp_productList_l">
                 <canvas id="bp_first_pro" data-id=${bid?.id} width="54" height="54">您的浏览器不支持HTML5 canvas，请换用现代浏览器。</canvas>
@@ -21,7 +21,7 @@
             <div class="bp_bp_productList_r">
                 <ul class="bp_ul">
                     <li><sapn class="bp_font_red">${bid?.min_invest_amount}</sapn>元起购  期限<sapn class="bp_font_red">${bid?.period}</sapn>#{if bid?.period_unit == 0}个月#{/if} #{if bid?.period_unit == 1}天#{/if} #{if bid?.period_unit == -1}年#{/if} </li>
-                    <li>剩余可投<sapn  id="invest_money" class="bp_font_red">${(bid?.amount-bid?.has_invested_amount).format('###,###,###,###,###.00')}</sapn>元</li>
+                    <li>剩余可投<sapn  id="invest_money" class="bp_font_red">${(bid?.amount-bid?.has_invested_amount).format('###,###,###,###,##0.00')}</sapn>元</li>
                 </ul>
             </div>
             <button class="ui-btn ui-corner-all bp_bt_color">立刻投标</button>
