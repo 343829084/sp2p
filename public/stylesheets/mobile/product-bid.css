@@ -151,3 +151,9 @@ input[id=agreeTerms] {
     -ms-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
+
+.security {
+    position: fixed;
+    bottom: 1em;
+    left: 25%;
+}

@@ -1,5 +1,6 @@
 var RESULT_STATUS = {
-	SUCCESS: "0000"
+	SUCCESS: "0507",
+	FAIL:"2506"
 };
 
 
