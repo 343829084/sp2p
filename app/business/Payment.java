@@ -1,13 +1,13 @@
 package business;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.persistence.Query;
+
+import models.*;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -18,18 +18,7 @@ import play.db.jpa.JPAPlugin;
 import play.libs.WS;
 import play.libs.WS.HttpResponse;
 import play.libs.WS.WSRequest;
-import models.t_bids;
-import models.t_bill_invests;
-import models.t_bills;
-import models.t_sequences;
-import models.t_users;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import utils.Arith;
-import utils.Converter;
-import utils.DataUtil;
-import utils.DateUtil;
-import utils.ErrorInfo;
+import utils.*;
 import business.Bid.Purpose;
 
 import com.google.gson.Gson;
@@ -37,17 +26,10 @@ import com.shove.Convert;
 import com.shove.security.Encrypt;
 
 import constants.Constants;
-import constants.IPSConstants;
 import constants.Constants.MerToUserType;
 import constants.Constants.PayType;
-import constants.IPSConstants.CompensateType;
-import constants.IPSConstants.IPSOperation;
-import constants.IPSConstants.IPSS2SUrl;
-import constants.IPSConstants.IPSWSUrl;
-import constants.IPSConstants.IPSWebUrl;
-import constants.IPSConstants.RepairOperation;
-import constants.IPSConstants.Status;
-import constants.IPSConstants.TransferType;
+import constants.IPSConstants;
+import constants.IPSConstants.*;
 
 /**
  * 资金托管
@@ -115,63 +97,67 @@ public class Payment implements Serializable {
 	 * 开户
 	 * @return
 	 */
-	public static Map<String, String> createAcct() {
-		User user = User.currUser();
-		
-		String pMerBillNo = createBillNo(user.id, IPSOperation.CREATE_IPS_ACCT);
-		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("pMerBillNo", pMerBillNo);
-		
-		jsonObj.put("pIdentType", IPSConstants.INDENT_TYPE);
-		jsonObj.put("pIdentNo", user.idNumber);
-		jsonObj.put("pRealName", user.realityName);
-		jsonObj.put("pMobileNo", user.mobile);
-		jsonObj.put("pEmail", user.email);
-		jsonObj.put("pSmDate", DateUtil.simple(new Date()));
-		
-		jsonObj.put("pWebUrl", IPSWebUrl.CREATE_IPS_ACCT);
-		jsonObj.put("pS2SUrl", IPSS2SUrl.CREATE_IPS_ACCT);
-		jsonObj.put("pMemo1", "pMemo1");
-		jsonObj.put("pMemo2", "pMemo2");
-		jsonObj.put("pMemo3", "pMemo3");
+    public static Map<String, String> createAcct(String clientConstant) {
+        User user = User.currUser();
 
-		JSONObject jsonObjExtra = new JSONObject();
-		jsonObjExtra.put("userId", user.id);
-		jsonObjExtra.put("tranIP", DataUtil.getIp());
-		String strXml = Converter.jsonToXml(jsonObj.toString(), "pReq", null, null, null);
-		String strXmlExtra = Converter.jsonToXml(jsonObjExtra.toString(), "pExtra", null, null, null);
-		Logger.info("strXml:"+strXml);
-		Logger.info("strXmlExtra:"+strXmlExtra);
-		
-		String arg3DesXmlPara = Encrypt.encrypt3DES(strXml, Constants.ENCRYPTION_KEY);
-		arg3DesXmlPara = arg3DesXmlPara.replaceAll("\r", "");
-		arg3DesXmlPara = arg3DesXmlPara.replaceAll("\n", "");
-		String argeXtraPara = Encrypt.encrypt3DES(strXmlExtra, Constants.ENCRYPTION_KEY);
-		
-		String argSign = "";
-		
-		if("1.0".equals(BackstageSet.getCurrentBackstageSet().entrustVersion)) {
-			argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + Constants.ENCRYPTION_KEY);
-		}else {
-			argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + argeXtraPara +Constants.ENCRYPTION_KEY);
-		}
+        String pMerBillNo = createBillNo(user.id, IPSOperation.CREATE_IPS_ACCT);
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("action", IPSConstants.ACTION);
-		map.put("domain", IPSConstants.DOMAIN);
-		map.put("platform", IPSConstants.PLATFORM);
-		map.put("type", IPSOperation.CREATE_IPS_ACCT+"");
-		map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
-		map.put("argMerCode", IPSConstants.MER_CODE);
-		map.put("arg3DesXmlPara", arg3DesXmlPara);
-		map.put("argeXtraPara", argeXtraPara);
-		map.put("memberId", user.id+"");
-		map.put("memberName", user.name);
-		map.put("argSign", argSign);
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("pMerBillNo", pMerBillNo);
 
-		return map;
-	}
+        jsonObj.put("pIdentType", IPSConstants.INDENT_TYPE);
+        jsonObj.put("pIdentNo", user.idNumber);
+        jsonObj.put("pRealName", user.realityName);
+        jsonObj.put("pMobileNo", user.mobile);
+        jsonObj.put("pEmail", user.email);
+        jsonObj.put("pSmDate", DateUtil.simple(new Date()));
+
+        if (ParseClientUtil.H5.equals(clientConstant)) {
+            jsonObj.put("pWebUrl", IPSH5Url.CREATE_IPS_ACCT);
+        }else{
+            jsonObj.put("pWebUrl", IPSWebUrl.CREATE_IPS_ACCT);
+        }
+        jsonObj.put("pS2SUrl", IPSS2SUrl.CREATE_IPS_ACCT);
+        jsonObj.put("pMemo1", "pMemo1");
+        jsonObj.put("pMemo2", "pMemo2");
+        jsonObj.put("pMemo3", "pMemo3");
+
+        JSONObject jsonObjExtra = new JSONObject();
+        jsonObjExtra.put("userId", user.id);
+        jsonObjExtra.put("tranIP", DataUtil.getIp());
+        String strXml = Converter.jsonToXml(jsonObj.toString(), "pReq", null, null, null);
+        String strXmlExtra = Converter.jsonToXml(jsonObjExtra.toString(), "pExtra", null, null, null);
+        Logger.info("strXml:"+strXml);
+        Logger.info("strXmlExtra:"+strXmlExtra);
+
+        String arg3DesXmlPara = Encrypt.encrypt3DES(strXml, Constants.ENCRYPTION_KEY);
+        arg3DesXmlPara = arg3DesXmlPara.replaceAll("\r", "");
+        arg3DesXmlPara = arg3DesXmlPara.replaceAll("\n", "");
+        String argeXtraPara = Encrypt.encrypt3DES(strXmlExtra, Constants.ENCRYPTION_KEY);
+
+        String argSign = "";
+
+        if("1.0".equals(BackstageSet.getCurrentBackstageSet().entrustVersion)) {
+            argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + Constants.ENCRYPTION_KEY);
+        }else {
+            argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + argeXtraPara +Constants.ENCRYPTION_KEY);
+        }
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("action", IPSConstants.ACTION);
+        map.put("domain", IPSConstants.DOMAIN);
+        map.put("platform", IPSConstants.PLATFORM);
+        map.put("type", IPSOperation.CREATE_IPS_ACCT+"");
+        map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
+        map.put("argMerCode", IPSConstants.MER_CODE);
+        map.put("arg3DesXmlPara", arg3DesXmlPara);
+        map.put("argeXtraPara", argeXtraPara);
+        map.put("memberId", user.id+"");
+        map.put("memberName", user.name);
+        map.put("argSign", argSign);
+
+        return map;
+    }
 	
 	/**
 	 * 开户回调
@@ -1231,7 +1217,7 @@ public class Payment implements Serializable {
 	 * 充值
 	 * @return
 	 */
-	public static Map<String, String> doDpTrade(double pTrdAmt, String pTrdBnkCode, ErrorInfo error) {
+	public static Map<String, String> doDpTrade(double pTrdAmt, String pTrdBnkCode, ErrorInfo error, String client) {
 		User user = User.currUser();
 		
 		String pMerBillNo = createBillNo(user.id, IPSOperation.DO_DP_TRADE);
@@ -1258,12 +1244,20 @@ public class Payment implements Serializable {
 		
 		jsonObj.put("pTrdDate", DateUtil.simple(new Date()));
 		jsonObj.put("pTrdAmt", String.format("%.2f", pTrdAmt));
-		jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE);
 		jsonObj.put("pTrdBnkCode", pTrdBnkCode);
 		jsonObj.put("pMerFee", "0");
 		jsonObj.put("pIpsFeeType", IPSConstants.IPS_FEE_TYPE);
-		
-		jsonObj.put("pWebUrl", IPSWebUrl.DO_DP_TRADE);
+
+        if (ParseClientUtil.H5.equals(client)) {
+            jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE_MOBILE);
+            jsonObj.put("pWebUrl", IPSH5Url.DO_DP_TRADE);
+        }else if (ParseClientUtil.APP.equals(client)){
+            jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE_MOBILE);
+            jsonObj.put("pWebUrl", IPSWebUrl.DO_DP_TRADE);
+        }else{
+            jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE);
+            jsonObj.put("pWebUrl", IPSWebUrl.DO_DP_TRADE);
+        }
 		jsonObj.put("pS2SUrl", IPSS2SUrl.DO_DP_TRADE);
 		jsonObj.put("pMemo1", "pMemo1");
 		jsonObj.put("pMemo2", "pMemo2");
@@ -2981,7 +2975,7 @@ public class Payment implements Serializable {
 		error.clear();
 		String argSign = Encrypt.MD5(IPSConstants.MER_CODE + Constants.ENCRYPTION_KEY);
 
-		Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
 		map.put("domain", IPSConstants.DOMAIN);
 		map.put("platform", IPSConstants.PLATFORM);
 		map.put("memberId", User.currUser().id+"");
@@ -2989,9 +2983,10 @@ public class Payment implements Serializable {
 		map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
 		map.put("argMerCode", IPSConstants.MER_CODE);
 		map.put("argSign", argSign);
-		
-		String strJson = WS.url(IPSConstants.ACTION).setParameters(map).get().getString();
-		Logger.info(strJson);
+
+        String strJson = WS.url(IPSConstants.ACTION).setParameters(map).get().getString();
+        Logger.debug("查询银行列表信息：" + strJson);
+        Logger.info(strJson);
 		if (strJson == null) {
 			error.code = -1;
 			error.msg = "商户端获取银行列表查询失败";

@@ -1453,4 +1453,15 @@ public class Constants {
 	public static final Long BASE_TOTAL_VOLUME = 20000000L; //累计成交量基础
 	public static final Long MEDIA_REPORT_NEWS_TYPE = 34L; // 媒体报道
 	public static final Long LATEST_NEWS_TYPE = 35L; // 最新动态
+
+	public Constants() {
+		System.out.println("[Constants init]");
+		System.out.println("[FP_AGREEMENT_URL]" + FP_AGREEMENT_URL);
+		System.out.println("[FP_LOGIN_URL]" + FP_LOGIN_URL);
+		System.out.println("[FP_REGISTER_URL]" + FP_REGISTER_URL);
+		System.out.println("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
+		System.out.println("[FP_REGISTER_GIVE_JINDOU]" + FP_REGISTER_GIVE_JINDOU);
+		System.out.println("[FP_AUTHENTICATION]" + FP_AUTHENTICATION);
+		System.out.println("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
+	}
 }

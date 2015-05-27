@@ -2008,23 +2008,31 @@ GET  /mobile/content/remainMoney                                      mobile.Tra
 #交易记录
 GET  /mobile/content/tradeHistory                                     mobile.TradeController.tradeHistory
 
-GET   /mobile/product/detail                                          mobile.ProductAction.productDetail
-#开户成功
-GET   /mobile/LoginAction/delegateSuccess                                     mobile.LoginAction.delegateSuccess
+#产品
+GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
+GET     /mobile/product/productBid
+GET     /mobile/product/bidRecords                                              mobile.ProductDetailAction.bidRecords
+GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
+GET     /mobile/product/fundSecurity                                            mobile.ProductDetailAction.fundSecurity
+GET     /mobile/product/returnMode                                              mobile.ProductDetailAction.returnMode
+
+#我
+GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord
+POST    /mobile/me/modifypwd                                                    mobile.MeAction.modifyPassWord
+GET     /mobile/me/aboutOur                                                     mobile.MeAction.aboutOur
+GET     /mobile/me/safety                                                       mobile.MeAction.safety
+GET     /mobile/me/melogout                                                     mobile.MeAction.MeLogout
+GET     /mobile/me/accountsafe                                                  mobile.MeAction.accountSafe
+
 #开户
-GET   /mobile/LoginAction/openAccount                                     mobile.LoginAction.openAccount
+GET     /mobile/account/createAcct                                              mobile.account.AccountAction.createAcct
+POST    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
+POST    /mobile/account/saveUser                                                mobile.account.AccountAction.saveUser
+
+#充值
+GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
+POST    /mobile/account/rechargeCB                                               mobile.account.RechargeAction.rechargeCB
 
 GET   /mobile/quickRegister                                 mobile.QuickRegister.quickRegister
 
-GET   /mobile/registerSuccess                                 mobile.QuickRegister.registerSuccess
-GET   /mobile/product/bidRecords                                 mobile.ProductDetailAction.bidRecords
-GET   /mobile/product/detailtwo                                 mobile.ProductDetailAction.projectDetail
-GET   /mobile/product/fundSecurity                                 mobile.ProductDetailAction.fundSecurity
-GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
-GET   /mobile/me/changepwd                                 mobile.MeAction.changePassWord
-POST  /mobile/me/modifypwd                                 mobile.MeAction.modifyPassWord
-GET   /mobile/me/aboutOur                               mobile.MeAction.aboutOur
-GET   /mobile/me/safety                               mobile.MeAction.safety
-GET   /mobile/me/melogout                               mobile.MeAction.MeLogout
-GET   /mobile/me/accountsafe                               mobile.MeAction.accountSafe
-GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
+GET   /mobile/registerSuccess     
