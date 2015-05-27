@@ -1,0 +1,54 @@
+#{extends 'mobile/common/frmMain.html' /}
+#{set title:'金品' /}
+<div id="demo1" class="slideBox">
+    <ul class="items">
+    #{list items:message?.list,as:'list'}
+        <li><a href=${list?.url} title="这里是测试标题一"><img alt="图像" class="banner_image_width" src=${list?.image}></a></li>
+    #{/list}
+    </ul>
+</div>
+<div>
+
+    <div role="main" class="ui-content bt-pd-padding">
+        <h3>${bid?.title}</h3>
+              <p class="bp_font_p">预期年化收益</p>
+                 <dd class="bp_font_apr">${bid?.apr}<sub class="bp-sb">%</sub></dd>
+        <dt class="">投资1万元每天可赚取<sapn class="bp_font_red">${(bid?.apr * 100 /365).format('###,###.00')}</sapn>元</dt>
+        <div class="bp_productListBox">
+            <div class="bp_bp_productList_l">
+                <canvas id="bp_first_pro" data-id=${bid?.id} width="54" height="54">您的浏览器不支持HTML5 canvas，请换用现代浏览器。</canvas>
+            </div>
+            <div class="bp_bp_productList_r">
+                <ul class="bp_ul">
+                    <li><sapn class="bp_font_red">${bid?.min_invest_amount}</sapn>元起购  期限<sapn class="bp_font_red">${bid?.period}</sapn>#{if bid?.period_unit == 0}个月#{/if} #{if bid?.period_unit == 1}天#{/if} #{if bid?.period_unit == -1}年#{/if} </li>
+                    <li>剩余可投<sapn  id="invest_money" class="bp_font_red">${(bid?.amount-bid?.has_invested_amount).format('###,###,###,###,###.00')}</sapn>元</li>
+                </ul>
+            </div>
+            <button class="ui-btn ui-corner-all bp_bt_color">立刻投标</button>
+            <div class="bp_sec_icon">
+              <img  src="@{'/public/images/h5icon/safe.png'}">
+                <span class="bp_fix_font">浦发银行全程保证资金安全</span>
+            </div>
+        </div>
+    </div><!-- /content -->
+
+
+</div>
+<Script>
+    $("#demo1").slideBox(
+            {
+                width: screen.width,
+                hideClickBar :false,
+                height:screen.height/24*7,
+                hideBottomBar :false
+
+            });
+    $('img').css('height',screen.height/24*7);
+    $('img').css('width',screen.width);
+//    *********投资比例图*******************
+    var invest='${(bid?.amount-bid?.has_invested_amount)}';
+    var amonut='${bid?.amount}'
+    var   percent=1-invest/amonut;
+    drawPercent_small("bp_first_pro",percent,0.85,0.85);
+
+</Script>
