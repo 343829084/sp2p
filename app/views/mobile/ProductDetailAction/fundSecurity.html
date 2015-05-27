@@ -13,10 +13,10 @@
 <div data-role="page" >
     <div data-role="navbar" >
       <ul>
-        <li><a href="#" >项目详情</a></li>
-        <li><a href="#" class="ui-btn-active" >资金安全</a></li>
-        <li><a href="#" >投标记录</a></li>
-		<li><a href="#" >收益方式</a></li>
+          <li><a href="#" id="detailtwo" >项目详情</a></li>
+          <li><a href="#" id="fundSecurity" class="ui-btn-active">资金安全</a></li>
+          <li><a href="#" id="bidrecords" >投标记录</a></li>
+          <li><a href="#" id="returnMode">收益方式</a></li>
       </ul>
     </div>
 
@@ -52,13 +52,28 @@
 		    </a>
           <div data-role="popup" id="${records?.name}">
               <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
-                  <img src="${records?.image_file_name}" class="pophoto" style="max-height:256px;" />
+                  <img src="${records?.image_file_name}" class="pophoto"  style="width:100%;" />
           </div>
       </li>
     #{/list}
     </ul>
 
   </div>
+    <input type="hidden" value="${jsonMap?.borrowId}" id="bid_Id">
 </div>
 </body>
 </html>
+<script>
+    $("#bidrecords").click(function(){
+        window.location.href="/mobile/product/bidRecords?bidId="+$("#bid_Id").val();
+    });
+    $("#detailtwo").click(function(){
+        window.location.href="/mobile/product/detailtwo?borrowId="+$("#bid_Id").val();
+    });
+    $("#fundSecurity").click(function(){
+        window.location.href="/mobile/product/fundSecurity?borrowId="+$("#bid_Id").val();
+    });
+    $("#returnMode").click(function(){
+        window.location.href="/mobile/product/returnMode?borrowId="+$("#bid_Id").val();
+    });
+</script>

@@ -474,7 +474,7 @@ GET    /front/account/rechargePay                      							front.account.Fund
 GET    /front/account/rechargePayIps                      						front.account.FundsManage.rechargePayIps
 #13 account submitRecharge
 *      /front/account/submitRecharge                      						front.account.FundsManage.submitRecharge
-*      /front/account/submitRechargeApp                      						front.account.FundsManage.submitRechargeApp
+*      /front/account/submitRechargeApp                      			        front.account.FundsManage.submitRechargeApp
 POST   /front/account/submitRechargePay                      					front.account.FundsManage.submitRechargePay
 #13 account submitRecharge
 GET    /front/account/callback                      							front.account.FundsManage.callback
@@ -1988,44 +1988,50 @@ POST    /front/PaymentAction/repaymentNewTradePost			                    front.a
 #*  	/{<[\s\S]*>action}         												Application.error
 GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
 
-GET   /mobile/login                                                  mobile.LoginAction.login
-POST   /mobile/login                                                  mobile.LoginAction.doLogin
-GET   /mobile/register                                                  mobile.LoginAction.register
-POST   /mobile/register                                                  mobile.LoginAction.doRegister
-GET   /mobile/verifyCode                                                  mobile.CheckAction.sendVerifyCode
+
+
+
+GET     /mobile/login                                                           mobile.LoginAction.login
+POST    /mobile/login                                                           mobile.LoginAction.doLogin
+GET     /mobile/register                                                        mobile.LoginAction.register
+POST    /mobile/register                                                        mobile.LoginAction.doRegister
+GET     /mobile/verifyCode                                                      mobile.CheckAction.sendVerifyCode
 #首页金品
-GET  /mobile/content/bestProduct                                     mobile.MainContent.bestProduct
+GET     /mobile/content/bestProduct                                             mobile.MainContent.bestProduct
 #财富
-GET  /mobile/content/property                                         mobile.MainContent.property
+GET     /mobile/content/property                                                mobile.MainContent.property
 #理财
-GET  /mobile/content/moneyMatters                                     mobile.MainContent.moneyMatters
+GET     /mobile/content/moneyMatters                                            mobile.MainContent.moneyMatters
 #我
-GET  /mobile/content/me                                               mobile.MainContent.me
+GET     /mobile/content/me                                                      mobile.MainContent.me
 #冻结金额
-GET  /mobile/content/tradeList                                        mobile.TradeController.tradeList
+GET     /mobile/content/tradeList                                               mobile.TradeController.tradeList
 #待收金额
-GET  /mobile/content/remainMoney                                      mobile.TradeController.remainMoney
+GET     /mobile/content/remainMoney                                             mobile.TradeController.remainMoney
 #交易记录
-GET  /mobile/content/tradeHistory                                     mobile.TradeController.tradeHistory
+GET     /mobile/content/tradeHistory                                            mobile.TradeController.tradeHistory
 
-GET   /mobile/product/detail                                          mobile.ProductAction.productDetail
+#产品
+GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
+GET     /mobile/product/productBid
+GET     /mobile/product/bidRecords                                              mobile.ProductDetailAction.bidRecords
+GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
+GET     /mobile/product/fundSecurity                                            mobile.ProductDetailAction.fundSecurity
+GET     /mobile/product/returnMode                                              mobile.ProductDetailAction.returnMode
 
-GET   /mobile/LoginAction/delegateSuccess                                     mobile.LoginAction.delegateSuccess
+#我
+GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord
+POST    /mobile/me/modifypwd                                                    mobile.MeAction.modifyPassWord
+GET     /mobile/me/aboutOur                                                     mobile.MeAction.aboutOur
+GET     /mobile/me/safety                                                       mobile.MeAction.safety
+GET     /mobile/me/melogout                                                     mobile.MeAction.MeLogout
+GET     /mobile/me/accountsafe                                                  mobile.MeAction.accountSafe
 
-GET   /mobile/LoginAction/openAccount                                     mobile.LoginAction.openAccount
+#开户
+GET     /mobile/account/createAcct                                              mobile.account.AccountAction.createAcct
+POST    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
+POST    /mobile/account/saveUser                                                mobile.account.AccountAction.saveUser
 
-
-
-GET   /mobile/product/bidRecords                                 mobile.ProductDetailAction.bidRecords
-GET   /mobile/product/detailtwo                                 mobile.ProductDetailAction.projectDetail
-GET   /mobile/product/fundSecurity                                 mobile.ProductDetailAction.fundSecurity
-GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
-GET   /mobile/me/changepwd                                 mobile.MeAction.changePassWord
-POST  /mobile/me/modifypwd                                 mobile.MeAction.modifyPassWord
-GET   /mobile/me/aboutOur                               mobile.MeAction.aboutOur
-GET   /mobile/me/safety                               mobile.MeAction.safety
-GET   /mobile/me/melogout                               mobile.MeAction.MeLogout
-GET   /mobile/me/accountsafe                               mobile.MeAction.accountSafe
-GET   /mobile/product/returnMode                                 mobile.ProductDetailAction.returnMode
-
-GET   /mobile/product/productBid                               mobile.ProductAction.productBid
+#充值
+GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
+POST    /mobile/account/rechargeCB                                              mobile.account.RechargeAction.rechargeCB

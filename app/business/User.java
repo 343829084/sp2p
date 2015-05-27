@@ -113,6 +113,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Model;
 import play.libs.WS;
 import play.mvc.Http.Request;
+import play.mvc.Scope;
 import play.mvc.Scope.Session;
 import utils.Arith;
 import utils.CacheManager;
@@ -7310,12 +7311,15 @@ public class User extends UserBase implements Serializable{
 		if (Session.current() == null) {
 			return;
 		}
-		
+		String token = Session.current().getAuthenticityToken();
 		String encryString = Session.current().getId();
 		//设置用户凭证
 		Cache.set("front_"+encryString, user.id, Constants.CACHE_TIME_HOURS_12);
 		//设置用户登录成功信息
 		Cache.set("userId_"+user.id, user, Constants.CACHE_TIME_HOURS_12);
+
+        Logger.debug("当前登录人：userId_"+user.getId());
+        Logger.debug("当前创建authToken：" + token);
 	}
 	
 	/**
