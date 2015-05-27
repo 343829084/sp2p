@@ -1,6 +1,10 @@
 package controllers.mobile;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import business.Bid;
+import business.User;
 import controllers.BaseController;
 import play.Logger;
 
@@ -56,7 +60,12 @@ public class ProductAction extends BaseController {
     	if (bid.id == -1 ) {
     		MainContent.moneyMatters();
     	}
+    	double availavleInvestedAmount = bid.amount - bid.hasInvestedAmount;
+    	Map map = new HashMap();
+    	map.put("availavleInvestedAmount", availavleInvestedAmount);
     	
-    	ProductAction.render();
+    	map.put("currentUser", User.currUser());
+    	
+    	ProductAction.render(bid, map);
     }
 }

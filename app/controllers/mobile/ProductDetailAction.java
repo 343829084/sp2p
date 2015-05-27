@@ -41,6 +41,10 @@ public class ProductDetailAction extends BaseController {
         ErrorInfo error = new ErrorInfo();
         int currPage = 1;
         pageSize = 50;
+        if(null==bidId){
+            LoginAction.login();
+            return;
+        }
         long bidid = Long.parseLong(bidId);
         PageBean<v_invest_records> pageBean = new PageBean<v_invest_records>();
         pageBean = Invest.queryBidInvestRecords(currPage, pageSize, bidid, error);
@@ -58,10 +62,12 @@ public class ProductDetailAction extends BaseController {
         try {
             bidId = Long.parseLong(borrowId);
             if(bidId==0){
-                render();
+                LoginAction.login();
+                return;
             }
         }catch (Exception e){
-            render();
+            LoginAction.login();
+            return;
         }
         Bid bid = buildBid(bidId);
         jsonMap.put("error", -1);
@@ -114,10 +120,12 @@ public class ProductDetailAction extends BaseController {
         try {
             bidId = Long.parseLong(borrowId);
             if(bidId==0){
-                render();
+                LoginAction.login();
+                return;
             }
         }catch (Exception e){
-            render();
+            LoginAction.login();
+            return;
         }
         Bid bid = buildBid(bidId);
 
@@ -160,10 +168,12 @@ public class ProductDetailAction extends BaseController {
         try {
             bidId = Long.parseLong(borrowId);
             if(bidId==0){
-                render();
+                LoginAction.login();
+                return;
             }
         }catch (Exception e){
-            render();
+            LoginAction.login();
+            return;
         }
         Bid bid = buildBid(bidId);
         jsonMap.put("error", -1);

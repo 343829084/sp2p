@@ -19,7 +19,26 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
 
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
-
+    <style>
+        .eye{
+            position: absolute;
+            display: block;
+            top: 12px;
+            right: 10px;
+            width: 33px;
+            height: 20px;
+            background: url(/public/images/h5icon/eyes_closed.png) no-repeat center right #FFFFFF;
+            background-size: 100%;
+        }
+        .row-width{
+            width:100%;
+            text-align: left;
+        }
+        .rel-pos{
+            position: relative;
+        }
+        .mobile_login_shurk{ height: 45px; line-height: 28px; font-size: 15px; color: #969696; padding:0 0 0 5px;}
+    </style>
 </head>
 
 <body>
@@ -42,10 +61,10 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
                     <a href="#" data-role="button" id="btn_getVerifyCode">获取验证码</a>
                 </div>
             </div>
-
-            <input type="text" class="mobile_login_shurk" id="password" data-icon="grid" data-iconpos="right"
-                   name="password" value="${flash?.password}" placeholder="请设置登录密码">
-
+            <div class="row-width rel-pos">
+                <input type="password" class="mobile_login_shurk" id="password" data-icon="grid" data-iconpos="right"  maxlength="20"
+                   name="password" value="${flash?.password}" placeholder="请设置登录密码"><b class="eye"></b>
+            </div>
             <div data-role="collapsible" data-mini="true" data-collapsed-icon="arrow-d" data-expanded-icon="arrow-u">
                 <h4>推荐人的手机号或者推荐码（选填）</h4>
                 <input type="text" id="recommended" name="recommended" data-inset="false" value="${flash?.recommended}"
@@ -86,6 +105,21 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
         veriChangeVal("submit", "#name", "#password", "#agreement");
         findRegisterAgreement();
     });
+
+    $(".eye").click(
+            function(){
+                if( $("#password").attr("type")=="password"){
+                    $(".eye").css("background","url(/public/images/h5icon/eyes_opened.png) no-repeat center right #FFFFFF");
+                    $(".eye").css("background-size","100%");
+                    $("#password").attr("type","text");
+                }else
+                if( $("#password").attr("type")=="text"){
+                    $(".eye").css("background","url(/public/images/h5icon/eyes_closed.png) no-repeat center right #FFFFFF");
+                    $(".eye").css("background-size","100%");
+                    $("#password").attr("type","password");
+                }
+            }
+    );
 
     $("#submit").on("click", function () {
         var mobile = veriPhoneNumber($("#name").val());

@@ -42,6 +42,7 @@ import controllers.supervisor.financeManager.LoanManager;
 import controllers.supervisor.financeManager.PayableBillManager;
 import controllers.supervisor.financeManager.PlatformAccountManager;
 import controllers.supervisor.financeManager.ReceivableBillManager;
+import utils.ParseClientUtil;
 
 /**
  * 资金托管
@@ -54,7 +55,9 @@ public class PaymentAction extends BaseController {
 	 * 开户
 	 */
 	public static void createAcct() {
-		Map<String, String> args = Payment.createAcct();
+        String client = ParseClientUtil.parseClient(request);
+
+		Map<String, String> args = Payment.createAcct(client);
 
 		render(args);
 	}
@@ -64,7 +67,7 @@ public class PaymentAction extends BaseController {
 	 */
 	public static void createAcctCB(String pMerCode, String pErrCode, String pErrMsg, String p3DesXmlPara, String pSign) {
 		ErrorInfo error = new ErrorInfo();
-		
+
 		Payment pay = new Payment();
 		pay.pMerCode = pMerCode;
 		pay.pErrCode = pErrCode;
@@ -77,13 +80,13 @@ public class PaymentAction extends BaseController {
 		
 		CheckAction.approve();
 	}
-	
+
 	/**
 	 * 开户回调（异步）
 	 */
 	public static void createAcctCBSys(String pMerCode, String pErrCode, String pErrMsg, String p3DesXmlPara, String pSign) {
 		ErrorInfo error = new ErrorInfo();
-		
+
 		Logger.info("-----------开户回调（异步）:----------");
 		Payment pay = new Payment();
 		pay.pMerCode = pMerCode;
