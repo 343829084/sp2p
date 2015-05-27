@@ -401,7 +401,7 @@ public class FundsManage extends BaseController {
         }
 
         ErrorInfo error = new ErrorInfo();
-        Map<String, String> args = Payment.doDpTrade(money, bankCode, error);
+        Map<String, String> args = Payment.doDpTrade(money, bankCode, error, ParseClientUtil.PC);
 
         render("@front.account.PaymentAction.doDpTrade", args);
     }
@@ -425,7 +425,7 @@ public class FundsManage extends BaseController {
 				rechargeApp();
 			}
 			
-			Map<String, String> args = Payment.doDpTrade(money, bankCode, error);
+			Map<String, String> args = Payment.doDpTrade(money, bankCode, error, ParseClientUtil.PC);
 			
 			render("@front.account.PaymentAction.doDpTrade", args);
 		}
@@ -550,7 +550,7 @@ public class FundsManage extends BaseController {
 				recharge();
 			}
 			
-			Map<String, String> args = Payment.doDpTrade(money, bankCode, error);
+			Map<String, String> args = Payment.doDpTrade(money, bankCode, error, ParseClientUtil.PC);
 			
 			render("@front.account.PaymentAction.doDpTrade", args);
 		}

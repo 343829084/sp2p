@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>按信贷001</title>
+    <title>项目详情</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
@@ -59,13 +59,14 @@
 
 
     <div class="productDetail_ref">
-        <a href="index.html" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-right ">项目详情</a>
-        <span>${bid?.description}</span>
-        <a href="index.html" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-right ">资金安全</a>
-        <span>${bid?.repayment_res}</span>
-        <a href="index.html" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-right ">投标记录</a>
+        <input type="hidden" value="${bid?.id}" id="bid_Id">
+        <a href="#" id="detailtwo" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-right ">项目详情</a>
+        <span>${jsonMap?.project_introduction_short}</span>
+        <a href="#" id="fundSecurity" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-right ">资金安全</a>
+        <span>${jsonMap?.repayment_res_short}</span>
+        <a href="#" id="bidrecords" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-right ">投标记录</a>
         <span>已投标人数：${bid?.investCount}人</span>
-        <a href="index.html" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-right ">投资收益</a>
+        <a href="#" id="returnMode" class="ui-btn ui-shadow ui-corner-all ui-icon-arrow-r ui-btn-icon-right ">投资收益</a>
         <span>${bid?.repayment?.name}</span>
     </div>
 
@@ -82,6 +83,20 @@
 
 </body>
 </html>
+<script>
+    $("#bidrecords").click(function(){
+        window.location.href="/mobile/product/bidRecords?bidId="+$("#bid_Id").val();
+    });
+    $("#detailtwo").click(function(){
+        window.location.href="/mobile/product/detailtwo?borrowId="+$("#bid_Id").val();
+    });
+    $("#fundSecurity").click(function(){
+        window.location.href="/mobile/product/fundSecurity?borrowId="+$("#bid_Id").val();
+    });
+    $("#returnMode").click(function(){
+        window.location.href="/mobile/product/returnMode?borrowId="+$("#bid_Id").val();
+    });
+</script>
 
 <script id="refund" type="text/x-jquery-tmpl">
     <div class="productDetail_refund">
