@@ -401,7 +401,7 @@ public class FundsManage extends BaseController {
         }
 
         ErrorInfo error = new ErrorInfo();
-        Map<String, String> args = Payment.doDpTrade(money, bankCode, error, ParseClientUtil.PC);
+        Map<String, String> args = Payment.doDpTrade(money, bankCode, error, ParseClientUtil.APP);
 
         render("@front.account.PaymentAction.doDpTrade", args);
     }

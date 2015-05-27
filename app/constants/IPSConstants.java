@@ -26,6 +26,7 @@ public class IPSConstants {
 	public static final String ACCT_AGENCY = "0";		//账户类型：0#机构
 	public static final String UNFREEZENT_YPE = "1";		//1#解冻借款方;2#解冻担保方
 	public static final String CHANNEL_TYPE = "1";	//充值渠道类型：1#网银充值
+    public static final String CHANNEL_TYPE_MOBILE = "3";	//充值渠道类型：只显示快捷绑卡
 	public static final String IPS_FEE_TYPE = "1";	//谁付ips手续费：1#平台支付，2#用户支付
 	public static final String VALID_TYPE = "N";	//自动还款有限期类型：N#长期有效
 	public static final String VALID_DATE = "0";	//自动还款有效期：0
