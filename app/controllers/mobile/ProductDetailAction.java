@@ -44,7 +44,7 @@ public class ProductDetailAction extends BaseController {
         long bidid = Long.parseLong(bidId);
         PageBean<v_invest_records> pageBean = new PageBean<v_invest_records>();
         pageBean = Invest.queryBidInvestRecords(currPage, pageSize, bidid, error);
-        render(pageBean);
+        render(pageBean,bidid);
     }
 
     /**
@@ -226,6 +226,7 @@ public class ProductDetailAction extends BaseController {
             timeNodeList.add(timeNode3);
         }
         jsonMap.put("timeNodeList", timeNodeList);
+        jsonMap.put("borrowId",borrowId);
         render(jsonMap);;
     }
 
