@@ -1244,14 +1244,18 @@ public class Payment implements Serializable {
 		
 		jsonObj.put("pTrdDate", DateUtil.simple(new Date()));
 		jsonObj.put("pTrdAmt", String.format("%.2f", pTrdAmt));
-		jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE);
 		jsonObj.put("pTrdBnkCode", pTrdBnkCode);
 		jsonObj.put("pMerFee", "0");
 		jsonObj.put("pIpsFeeType", IPSConstants.IPS_FEE_TYPE);
 
         if (ParseClientUtil.H5.equals(client)) {
+            jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE_MOBILE);
             jsonObj.put("pWebUrl", IPSH5Url.DO_DP_TRADE);
+        }else if (ParseClientUtil.APP.equals(client)){
+            jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE_MOBILE);
+            jsonObj.put("pWebUrl", IPSWebUrl.DO_DP_TRADE);
         }else{
+            jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE);
             jsonObj.put("pWebUrl", IPSWebUrl.DO_DP_TRADE);
         }
 		jsonObj.put("pS2SUrl", IPSS2SUrl.DO_DP_TRADE);

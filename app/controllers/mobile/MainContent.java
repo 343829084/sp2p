@@ -145,8 +145,7 @@ public class MainContent extends BaseController {
      * 跳转到财富页面
      */
     public static void property() {
-        User user = new User();  // User.currUser();
-        user.setId(14);
+        User user =  User.currUser();
         int payType=1;
       long userId=user.getId();
         ErrorInfo error = new ErrorInfo();
