@@ -474,7 +474,7 @@ GET    /front/account/rechargePay                      							front.account.Fund
 GET    /front/account/rechargePayIps                      						front.account.FundsManage.rechargePayIps
 #13 account submitRecharge
 *      /front/account/submitRecharge                      						front.account.FundsManage.submitRecharge
-*      /front/account/submitRechargeApp                      			        front.account.FundsManage.submitRechargeApp
+*      /front/account/submitRechargeApp                      						front.account.FundsManage.submitRechargeApp
 POST   /front/account/submitRechargePay                      					front.account.FundsManage.submitRechargePay
 #13 account submitRecharge
 GET    /front/account/callback                      							front.account.FundsManage.callback
@@ -1988,28 +1988,25 @@ POST    /front/PaymentAction/repaymentNewTradePost			                    front.a
 #*  	/{<[\s\S]*>action}         												Application.error
 GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
 
-
-
-
-GET     /mobile/login                                                           mobile.LoginAction.login
-POST    /mobile/login                                                           mobile.LoginAction.doLogin
-GET     /mobile/register                                                        mobile.LoginAction.register
-POST    /mobile/register                                                        mobile.LoginAction.doRegister
-GET     /mobile/verifyCode                                                      mobile.CheckAction.sendVerifyCode
+GET   /mobile/login                                                  mobile.LoginAction.login
+POST   /mobile/login                                                  mobile.LoginAction.doLogin
+GET   /mobile/register                                                  mobile.LoginAction.register
+POST   /mobile/register                                                  mobile.LoginAction.doRegister
+GET   /mobile/verifyCode                                                  mobile.CheckAction.sendVerifyCode
 #首页金品
-GET     /mobile/content/bestProduct                                             mobile.MainContent.bestProduct
+GET  /mobile/content/bestProduct                                     mobile.MainContent.bestProduct
 #财富
-GET     /mobile/content/property                                                mobile.MainContent.property
+GET  /mobile/content/property                                         mobile.MainContent.property
 #理财
-GET     /mobile/content/moneyMatters                                            mobile.MainContent.moneyMatters
+GET  /mobile/content/moneyMatters                                     mobile.MainContent.moneyMatters
 #我
-GET     /mobile/content/me                                                      mobile.MainContent.me
+GET  /mobile/content/me                                               mobile.MainContent.me
 #冻结金额
-GET     /mobile/content/tradeList                                               mobile.TradeController.tradeList
+GET  /mobile/content/tradeList                                        mobile.TradeController.tradeList
 #待收金额
-GET     /mobile/content/remainMoney                                             mobile.TradeController.remainMoney
+GET  /mobile/content/remainMoney                                      mobile.TradeController.remainMoney
 #交易记录
-GET     /mobile/content/tradeHistory                                            mobile.TradeController.tradeHistory
+GET  /mobile/content/tradeHistory                                     mobile.TradeController.tradeHistory
 
 #产品
 GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
@@ -2034,4 +2031,8 @@ POST    /mobile/account/saveUser                                                
 
 #充值
 GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
-POST    /mobile/account/rechargeCB                                              mobile.account.RechargeAction.rechargeCB
+POST    /mobile/account/rechargeCB                                               mobile.account.RechargeAction.rechargeCB
+
+GET   /mobile/quickRegister                                 mobile.QuickRegister.quickRegister
+
+GET   /mobile/registerSuccess     

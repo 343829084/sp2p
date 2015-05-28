@@ -24,7 +24,7 @@ public class Constants {
 	public static final String FP_ACTIVITY_IMAG_URL = Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
 	public static final String FP_REGISTER_GIVE_JINDOU =Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆 
     public static final String FP_AUTHENTICATION =Play.configuration.getProperty("fp.authentication"); //fp认证信息
-
+	public static final String FP_HOST =Play.configuration.getProperty("fp.host.add"); //fp主机地址
     public static final String BIDS_MOBILE =Play.configuration.getProperty("bids.mobile"); //发标人的手机号码
 	public static final String BIDS_CREATETIME =Play.configuration.getProperty("bids.createTime"); //标的创建时间 
 	public static final boolean IS_BIDS_NEED_FILTER =Convert.strToBoolean(Play.configuration.getProperty("is.bids.need.filter"), true); //是否需要过滤标的 
@@ -1453,4 +1453,15 @@ public class Constants {
 	public static final Long BASE_TOTAL_VOLUME = 20000000L; //累计成交量基础
 	public static final Long MEDIA_REPORT_NEWS_TYPE = 34L; // 媒体报道
 	public static final Long LATEST_NEWS_TYPE = 35L; // 最新动态
+
+	public Constants() {
+		System.out.println("[Constants init]");
+		System.out.println("[FP_AGREEMENT_URL]" + FP_AGREEMENT_URL);
+		System.out.println("[FP_LOGIN_URL]" + FP_LOGIN_URL);
+		System.out.println("[FP_REGISTER_URL]" + FP_REGISTER_URL);
+		System.out.println("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
+		System.out.println("[FP_REGISTER_GIVE_JINDOU]" + FP_REGISTER_GIVE_JINDOU);
+		System.out.println("[FP_AUTHENTICATION]" + FP_AUTHENTICATION);
+		System.out.println("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
+	}
 }
