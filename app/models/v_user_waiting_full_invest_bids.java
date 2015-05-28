@@ -4,10 +4,13 @@ import javax.persistence.Entity;
 import javax.persistence.Transient;
 import play.db.jpa.Model;
 
+import java.util.Date;
+
 @Entity
 public class v_user_waiting_full_invest_bids extends Model{
 	
 		public long bid_id;
+	     public Date time;
 		public long user_id;
 		public double bid_amount;
 		public double invest_amount;

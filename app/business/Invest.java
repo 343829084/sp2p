@@ -590,7 +590,7 @@ public class Invest implements Serializable{
 		StringBuffer sql = new StringBuffer("");
 		sql.append(SQLTempletes.PAGE_SELECT);
 		sql.append(SQLTempletes.V_INVEST_RECORDS);
-		sql.append(" and user_id = ? ");
+		sql.append(" and `t_invests`.user_id  = ? ");
 		sql.append(" order by time desc");
 		List<Object> params = new ArrayList<Object>();
 		params.add(userId);

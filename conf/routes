@@ -2033,6 +2033,6 @@ POST    /mobile/account/saveUser                                                
 GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
 POST    /mobile/account/rechargeCB                                               mobile.account.RechargeAction.rechargeCB
 
-GET   /mobile/quickRegister                                 mobile.QuickRegister.quickRegister
+GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 
-GET   /mobile/registerSuccess     
+GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess

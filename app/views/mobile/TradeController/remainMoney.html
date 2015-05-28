@@ -20,7 +20,7 @@
     <div data-role="content " >
         <div class="tl_hd_po">
             <h3>待收总额(元)</h3>
-            <h1><span class="bp_font_red">${totalRemain}</span></h1>
+            <h1><span class="bp_font_red">${totalRemain.format('###,###,###,###,##0.00')}</span></h1>
         </div>
 
     </div>
@@ -37,13 +37,13 @@
             </li>
         </ul>
     </div>
-#{if resultBills?.size==0}
+#{if billInvestView?.size==0}
 <p>
     没有记录!
 </p>
 #{/if}
 #{else}
-#{list items:resultBills, as:'bid'}
+#{list items:billInvestView, as:'bid'}
     <div data-role="content tl_cn_pd" >
 
         <ul class="tl_cn_cn">
@@ -55,13 +55,13 @@
         <div class="clear_float"></div>
             <ul class="tl_cn_cn">
                 <li>
-                ${bid?.repayment_time?.format('yyyy-MM-dd')}
+                ${bid?.repayment_time.format('yyyy-MM-dd hh:mm:ss')}
                 </li>
                 <li>
-                ${bid?.receive_corpus?.format('###,###,###,###,###.00')}
+                ${bid?.receive_corpus?.format('###,###,###,###,##0.00')}
                 </li>
                 <li>
-                ${(bid?.income_amounts-bid?.receive_corpus).format('###,###,###,###,###.00')}
+                ${(bid?.income_amounts-bid?.receive_corpus).format('###,###,###,###,##0.00')}
                 </li>
             </ul>
     </div>

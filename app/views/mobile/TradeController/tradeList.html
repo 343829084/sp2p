@@ -37,13 +37,13 @@
             </li>
         </ul>
     </div>
-#{if resultBills?.size==0}
+#{if investsBill?.size==0}
 <p>
     没有记录!
 </p>
 #{/if}
 #{else}
-#{list items:resultBills, as:'bid'}
+#{list items:investsBill, as:'bid'}
     <div data-role="content tl_cn_pd" >
         <div class="clear_float"></div>
             <ul class="tl_cn_cn">
@@ -51,10 +51,10 @@
                 ${bid?.title}
                 </li>
                 <li>
-                ${(bid?.receive_corpus).format('###,###,###,###,###.00')}
+                ${(bid?.invest_amount).format('###,###,###,###,##0.00')}
                 </li>
                 <li>
-                ${bid?.bidTime.format('yyyy-MM-dd')}
+                ${bid?.time.format('yyyy-MM-dd')}
                 </li>
             </ul>
     </div>

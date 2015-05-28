@@ -1355,13 +1355,13 @@ public class User extends UserBase implements Serializable{
             e.printStackTrace();
             error.code = -1;
             error.msg = "请求FP校验失败 " + e.toString();
-            
+
             return error.code;
         } catch (IOException e) {
             e.printStackTrace();
             error.code = -1;
             error.msg = "请求FP校验失败 " + e.toString();
-            
+
             return error.code;
         }
 		error.clear();
@@ -1370,10 +1370,10 @@ public class User extends UserBase implements Serializable{
 		if(this.isAllowLogin){
 			error.code = -1;
 			error.msg = "你已经被管理员禁止登录";
-			
+
 			return error.code;
 		}
-		
+
 		BackstageSet backstageSet = BackstageSet.getCurrentBackstageSet();
 		String ip = DataUtil.getIp();
 		

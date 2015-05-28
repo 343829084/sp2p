@@ -31,7 +31,10 @@ public class v_invest_records extends Model {
 	public Long user_id;
 	public Integer question_count;
 	public Integer answer_count;
-
+	@Transient
+	public double Forecast_earnings;
+	@Transient
+	public Date repayment_time;
 	@Transient
 	public String strStatus;
 
