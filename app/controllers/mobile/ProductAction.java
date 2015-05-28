@@ -1,5 +1,6 @@
 package controllers.mobile;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,9 +8,11 @@ import business.Bid;
 import business.User;
 import controllers.BaseController;
 import play.Logger;
+import utils.JSONUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -66,6 +69,15 @@ public class ProductAction extends BaseController {
     	
     	map.put("currentUser", User.currUser());
     	
+    	String jsonBidInstance = null;
+    	try {
+			jsonBidInstance = JSONUtils.printObject(bid);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	System.out.println(jsonBidInstance);
     	ProductAction.render(bid, map);
     }
 }
