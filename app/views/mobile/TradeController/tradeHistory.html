@@ -39,7 +39,7 @@
                 状态
             </li>
             <li>
-            ${(vInvestRecord?.invest_amount).format('###,###,###,###,###.00')}
+            ${(vInvestRecord?.invest_amount).format('###,###,###,###,##0.00')}
             </li>
             <li>
             ${vInvestRecord?.time.format('yyyy-MM-dd')}
@@ -76,7 +76,7 @@
                 状态
             </li>
             <li>
-            ${userRechargeDetail?.amount}
+            ${userRechargeDetail?.amount.format('###,###,###,###,##0.00')}
             </li>
             <li>
             ${userRechargeDetail?.time.format('yyyy-MM-dd')}
@@ -117,7 +117,7 @@
                 状态
             </li>
             <li>
-            ${withdrawal?.amount}
+            ${withdrawal?.amount.format('###,###,###,###,##0.00')}
             </li>
             <li>
             ${withdrawal?.time.format('yyyy-MM-dd')}

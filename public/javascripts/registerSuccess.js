@@ -20,7 +20,7 @@ if(b){
     $("#rg_ss").hide();
 };
     $("#go_register").click(function(){
-        window.location.href = sourceBaseUrl+"/share/quickRegister.html?mobile="+rph;
+        window.location.href = "/mobile/quickRegister?mobile="+rph;
     });
 
     function show(){
