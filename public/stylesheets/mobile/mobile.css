@@ -71,45 +71,53 @@ a[id^=menu]:visited{
 .ui-icon-gold-selected {
     background: url('../../images/h5icon/gold_selected.png') no-repeat 0 0;
     background-position: center 5px;
+    background-size: 22px 22px;
 }
 
 
 .ui-icon-gold-unselected{
     background: url('../../images/h5icon/gold_unselected.png') no-repeat 0 0;
     background-position: center 5px;
+    background-size: 22px 22px;
 }
 
 .ui-icon-home-selected {
     background: url('../../images/h5icon/home_selected.png') no-repeat 0 0;
     background-position: center 5px;
+    background-size: 22px 22px;
 }
 
 
 .ui-icon-home-unselected{
     background: url('../../images/h5icon/home_unselected.png') no-repeat 0 0;
     background-position: center 5px;
+    background-size: 22px 22px;
 }
 
 .ui-icon-list-selected {
     background: url('../../images/h5icon/list_selected.png') no-repeat 0 0;
     background-position: center 5px;
+    background-size: 22px 22px;
 }
 
 
 .ui-icon-list-unselected{
     background: url('../../images/h5icon/list_unselected.png') no-repeat 0 0;
     background-position: center 5px;
+    background-size: 22px 22px;
 }
 
 .ui-icon-more-selected {
     background: url('../../images/h5icon/more_selected.png') no-repeat 0 0;
     background-position: center 5px;
+    background-size: 22px 22px;
 }
 
 
 .ui-icon-more-unselected{
     background: url('../../images/h5icon/more_unselected.png') no-repeat 0 0;
     background-position: center 5px;
+    background-size: 22px 22px;
 }
 /*.fm_foot_mu{*/
     /*border-top: 1px silver solid!important;*/
