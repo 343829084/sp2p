@@ -3,7 +3,7 @@
 <div id="demo1" class="slideBox">
     <ul class="items">
     #{list items:message?.list,as:'list'}
-        <li><a href=${list?.url} title="这里是测试标题一"><img alt="图像" class="banner_image_width" src=${list?.image}></a></li>
+        <li><a href=${list?.url} target="_blank" title="这里是测试标题一"><img alt="图像" class="banner_image_width" src=${list?.image}></a></li>
     #{/list}
     </ul>
 </div>

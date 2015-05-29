@@ -281,6 +281,7 @@ em{
 .pp-tb-wd thead{
     background-color: rgb(235,235,235);
     color:rgb(128,128,128);
+    text-align: center!important;
 }
 .pp-hd-wd .ui-block-e{
     padding-left:1.5rem;
