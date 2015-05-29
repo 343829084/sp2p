@@ -211,4 +211,24 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
         }
     });
 
+    function findRegisterAgreement() {
+        $.ajax({
+            url: '${AGREEMENT_URL}',
+            type: 'POST',
+            data: 'code=0001',
+            success: function (data) {
+                if ('0000' == data.message.code) {
+                    var agreement = $("#agreementLink");
+                    agreement.html('《${currBackstageSet?.platformName} ').append(data.value.title).append('》');
+                    agreement.attr("href", data.value.link);
+                } else {
+                    console.info(data.message);
+                }
+            },
+            error: function () {
+                console.info('获取注册协议失败');
+            }
+        });
+    }
+
 </script>
