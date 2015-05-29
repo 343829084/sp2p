@@ -140,22 +140,15 @@ public class IPSConstants {
         public static final String CREATE_IPS_ACCT = CALLBACK_H5_URL + "account/createAcctCB";					//开户
         public static final String DO_DP_TRADE = CALLBACK_H5_URL + "account/rechargeCB";						//充值
 
-        public static final String REGISTER_SUBJECT = CALLBACK_URL + "registerSubjectCB";			//标的登记
-        public static final String REGISTER_CREDITOR = CALLBACK_URL + "registerCreditorCB";			//登记债权人接口
-        public static final String REGISTER_GUARANTOR = CALLBACK_URL + "registerGuarantorCB";		//登记担保方
-        public static final String REGISTER_CRETANSFER = CALLBACK_URL + "registerCretansferCB";		//登记债权转让接口
-        public static final String AUTO_NEW_SIGNING = CALLBACK_URL + "autoNewSigningCB";			//自动投标签约
-        public static final String REPAYMENT_SIGNING = CALLBACK_URL + "repaymentSigningCB";			//自动还款签约
-        public static final String TRANSFER = CALLBACK_URL + "transferCB";							//转账(WS)
+        public static final String REGISTER_CREDITOR_SYS = CALLBACK_H5_URL + "account/registerCreditorCBSys";			//投标
+        public static final String REGISTER_CREDITOR = CALLBACK_H5_URL + "account/registerCreditorCB";			        //投标
+        public static final String UNFREEZE_INVEST_AMOUNT = CALLBACK_H5_URL + "account/unfreezeInvestAmountCB";		    //解冻投资金额
+
+
         public static final String REPAYMENT_NEW_TRADE = CALLBACK_URL + "repaymentNewTradeCB";		//还款
-        public static final String GUARANTEE_UNFREEZE = CALLBACK_URL + "guaranteeUnfreezeCB";		//解冻保证金
         public static final String DO_DW_TRADE = CALLBACK_URL + "doDwTradeCB";						//提现
         public static final String QUERY_FOR_ACC_BALANCE = CALLBACK_URL + "queryForAccBalanceCB";	//账户余额查询(WS)
         public static final String GET_BANK_LIST = CALLBACK_URL + "getBankListCB";					//获取银行列表查询(WS)
-        public static final String QUERY_MER_USER_INFO = CALLBACK_URL + "queryMerUserInfoCB";		//账户信息查询(WS)
-        public static final String TRANSFER_USER_TO_MER = CALLBACK_URL + "transferUserToMerCB";		//转账-用户转商户
-        public static final String TRANSFER_MER_TO_USER = CALLBACK_URL + "transferMerToUserCB";		//转账-商户转用户(WS)
-        public static final String UNFREEZE_INVEST_AMOUNT = CALLBACK_URL + "unfreezeInvestAmountCB";	//解冻投资金额
     }
 	
 	public static class IPSS2SUrl {

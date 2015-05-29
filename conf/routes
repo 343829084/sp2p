@@ -1988,6 +1988,11 @@ POST    /front/PaymentAction/repaymentNewTradePost			                    front.a
 #*  	/{<[\s\S]*>action}         												Application.error
 GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
 
+
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^mobile^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 GET   /mobile/login                                                  mobile.LoginAction.login
 POST   /mobile/login                                                  mobile.LoginAction.doLogin
 GET   /mobile/register                                                  mobile.LoginAction.register
@@ -2010,7 +2015,7 @@ GET  /mobile/content/tradeHistory                                     mobile.Tra
 
 #产品
 GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
-GET     /mobile/product/productBid												mobile.ProductAction.productBid
+GET     /mobile/product/productBid                                              mobile.ProductAction.productBid
 GET     /mobile/product/bidRecords                                              mobile.ProductDetailAction.bidRecords
 GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
 GET     /mobile/product/fundSecurity                                            mobile.ProductDetailAction.fundSecurity
@@ -2029,6 +2034,12 @@ GET     /mobile/account/createAcct                                              
 POST    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
 POST    /mobile/account/saveUser                                                mobile.account.AccountAction.saveUser
 
+#投标
+POST    /mobile/account/confirmInvest                                           mobile.account.InvestAction.confirmInvest
+POST    /mobile/account/registerCreditorCBSys                                   mobile.account.InvestAction.registerCreditorCBSys
+POST    /mobile/account/registerCreditorCB                                      mobile.account.InvestAction.registerCreditorCB
+POST    /mobile/account/unfreezeInvestAmountCB                                  mobile.account.InvestAction.unfreezeInvestAmountCB
+
 #充值
 GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
 POST    /mobile/account/rechargeCB                                               mobile.account.RechargeAction.rechargeCB
@@ -2037,4 +2048,3 @@ GET   /mobile/quickRegister                                                     
 
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
 
-GET   /mobile/account/recharge                                                     mobile.account.RechargeAction.recharge
