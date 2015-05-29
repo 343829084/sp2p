@@ -29,8 +29,10 @@
             li_height = settings.height ? settings.height : lis.first().height();
             li_width = settings.width ? settings.width : lis.first().width();
 
-            wrapper.css({width: li_width+'px', height:li_height+'px'});
-            lis.css({width: li_width+'px', height:li_height+'px'});//ADD.JENA.201207051027
+            wrapper.css("width", li_width+'px');
+            wrapper.css("offsetHeight",li_height+'px!important');
+
+            lis.css({width: li_width+'px', height:li_height+'px!important'});//ADD.JENA.201207051027
 
             if (settings.direction == 'left') {
                 ul.css('width', li_num * li_width + 'px');
