@@ -2011,6 +2011,7 @@ GET  /mobile/content/tradeHistory                                     mobile.Tra
 #产品
 GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
 GET     /mobile/product/productBid												mobile.ProductAction.productBid
+GET		/mobile/product/bidSuccess												mobile.ProductAction.bidSuccess
 GET     /mobile/product/bidRecords                                              mobile.ProductDetailAction.bidRecords
 GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
 GET     /mobile/product/fundSecurity                                            mobile.ProductDetailAction.fundSecurity
@@ -2026,12 +2027,13 @@ GET     /mobile/me/accountsafe                                                  
 
 #开户
 GET     /mobile/account/createAcct                                              mobile.account.AccountAction.createAcct
-POST    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
+GET    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
 POST    /mobile/account/saveUser                                                mobile.account.AccountAction.saveUser
 
 #充值
 GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
 POST    /mobile/account/rechargeCB                                               mobile.account.RechargeAction.rechargeCB
+GET		/mobile/account/rechargeSuccess 										 mobile.account.RechargeAction.rechargeSuccess
 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 

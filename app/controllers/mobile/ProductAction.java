@@ -77,7 +77,10 @@ public class ProductAction extends BaseController {
 			e.printStackTrace();
 		}
     	
-    	System.out.println(jsonBidInstance);
     	ProductAction.render(bid, map);
+    }
+    
+    public static void bidSuccess () {
+    	ProductAction.render();
     }
 }

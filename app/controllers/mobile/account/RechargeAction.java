@@ -35,4 +35,8 @@ public class RechargeAction extends BaseController {
 
         render();
     }
+    
+    public static void rechargeSuccess(){
+    	render();
+    }
 }
