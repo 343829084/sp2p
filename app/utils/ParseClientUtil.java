@@ -20,6 +20,10 @@ public class ParseClientUtil {
     public static final String H5 = "2";
 
 
+//    public static String parseClient(Http.Request request){
+//        return H5;
+//    }
+
     public static String parseClient(Http.Request request){
         Http.Header userAgentHeader = request.headers.get("User-Agent");
         if (userAgentHeader == null) {

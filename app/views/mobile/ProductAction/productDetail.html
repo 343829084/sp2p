@@ -13,9 +13,10 @@
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.tmpl.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.min.js'}"></script>
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+    *{<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">}*
+    *{<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>}*
 
 </head>
 <body>
@@ -34,7 +35,7 @@
             </div>
             <div class="productDetail_bids">
                 <p>起购金额</p>
-                <p>${bid?.minAllowInvestAmount}元</p>
+                <span >${bid?.minAllowInvestAmount?.format('###,##0.00')}</span>元
             </div>
         </div>
         <div class="productDetail_msg" id="product_status_div">
@@ -79,7 +80,7 @@
 
     <hr/>
 
-    <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk" id="submit" type="submit" onclick="" disabled="disabled" >购买</a>
+    <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk" id="confirmInvestBtn" type="submit" >购买</a>
 
 </body>
 </html>
@@ -96,6 +97,9 @@
     $("#returnMode").click(function(){
         window.location.href="/mobile/product/returnMode?borrowId="+$("#bid_Id").val();
     });
+    $("#confirmInvestBtn").click(function(){
+        window.location.href="/mobile/product/productBid?bidId=${bid?.id}";
+    });
 </script>
 
 <script id="refund" type="text/x-jquery-tmpl">
@@ -109,7 +113,9 @@
         </li>
         <li>
             <ui>融资总额:</ui>
-            <ui class="bp_font_red">233，000元</ui>
+            <ui class="bp_font_red">
+                ${(bid.amount).format('###,##0')}元
+            </ui>
         </li>
     </div>
 </script>
@@ -117,7 +123,9 @@
     <div id="progressbar" class="fundraising_progressbar"></div>
 
     <div class="ui-grid-a fundraising_grid">
-        <div class="ui-block-a">融资金额：<span>230,000元</span></div>
+        <div class="ui-block-a">
+            融资金额：${(bid.amount).format('###,##0')}元
+        </div>
         <div class="ui-block-b" style="text-align: right;">已融资：<span>${bid?.loanSchedule}</span>%</div>
     </div>
     <div class="ui-grid-a">距离购买结束：<span>10天56时29分17秒</span></div>
@@ -133,7 +141,7 @@
         $("#fundraising").tmpl('${bid}').appendTo('#product_status_div');
                 $(function() {
             $("#progressbar").progressbar({
-                value: 37
+                value: '${bid?.loanSchedule}'
             });
         });
     }else  {

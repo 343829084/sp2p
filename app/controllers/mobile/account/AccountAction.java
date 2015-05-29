@@ -1,7 +1,9 @@
 package controllers.mobile.account;
 
+import controllers.interceptor.H5Interceptor;
 import models.t_users;
 import play.Logger;
+import play.mvc.With;
 import utils.ErrorInfo;
 import business.User;
 import controllers.BaseController;
@@ -18,6 +20,8 @@ import controllers.mobile.MainContent;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+
+@With(H5Interceptor.class)
 public class AccountAction extends BaseController {
     public static void createAcctCB() {
         Logger.info("开户回调信息 start >>：");
@@ -73,6 +77,9 @@ public class AccountAction extends BaseController {
         newUser.idNumber = idNo;
         newUser.realityName = realName;
         newUser.email = email;
+        newUser.isEmailVerified = true;
+        newUser.isAddBaseInfo = true;
+
         newUser.appEditUser(user,error);
         if(error.code != 0){
             flash.error(error.msg);
