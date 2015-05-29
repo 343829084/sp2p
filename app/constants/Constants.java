@@ -24,7 +24,7 @@ public class Constants {
 	public static final String FP_ACTIVITY_IMAG_URL = Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
 	public static final String FP_REGISTER_GIVE_JINDOU =Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆 
     public static final String FP_AUTHENTICATION =Play.configuration.getProperty("fp.authentication"); //fp认证信息
-	public static final String FP_HOST =Play.configuration.getProperty("fp.host.add"); //fp主机地址
+	public static final String FP_HOST =Play.configuration.getProperty("static.host"); //fp主机地址
     public static final String BIDS_MOBILE =Play.configuration.getProperty("bids.mobile"); //发标人的手机号码
 	public static final String BIDS_CREATETIME =Play.configuration.getProperty("bids.createTime"); //标的创建时间 
 	public static final boolean IS_BIDS_NEED_FILTER =Convert.strToBoolean(Play.configuration.getProperty("is.bids.need.filter"), true); //是否需要过滤标的 
