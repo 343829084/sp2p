@@ -10,6 +10,7 @@
 
 <div class="clear"></div>
     <div role="main" class="ui-content bt-pd-padding">
+        <div id="biddetail">
         <h3>${bid?.title}</h3>
               <p class="bp_font_p">预期年化收益</p>
                  <dd class="bp_font_apr">${bid?.apr}<sub class="bp-sb">%</sub></dd>
@@ -24,12 +25,13 @@
                     <li>剩余可投<sapn  id="invest_money" class="bp_font_red">${(bid?.amount-bid?.has_invested_amount).format('###,###,###,###,##0.00')}</sapn>元</li>
                 </ul>
             </div>
+        </div>
+            </div>
             <button class="ui-btn ui-corner-all bp_bt_color">立刻投标</button>
             <div class="bp_sec_icon">
               <img  src="@{'/public/images/h5icon/safe.png'}">
                 <span class="bp_fix_font">浦发银行全程保证资金安全</span>
             </div>
-        </div>
     </div><!-- /content -->
 
 <Script>
@@ -51,6 +53,9 @@
     var invest='${(bid?.amount-bid?.has_invested_amount)}';
     var amonut='${bid?.amount}'
     var   percent=1-invest/amonut;
+    $("#biddetail").click(function(){
+        window.location.href="/mobile/product/detail?bidId=${bid?.id}";
+    });
     drawPercent_small("bp_first_pro",percent,0.85,0.85);
 
 </Script>
