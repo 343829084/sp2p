@@ -2015,7 +2015,8 @@ GET  /mobile/content/tradeHistory                                     mobile.Tra
 
 #产品
 GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
-GET     /mobile/product/productBid                                              mobile.ProductAction.productBid
+GET     /mobile/product/productBid												mobile.ProductAction.productBid
+GET		/mobile/product/bidSuccess												mobile.ProductAction.bidSuccess
 GET     /mobile/product/bidRecords                                              mobile.ProductDetailAction.bidRecords
 GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
 GET     /mobile/product/fundSecurity                                            mobile.ProductDetailAction.fundSecurity
@@ -2043,8 +2044,10 @@ POST    /mobile/account/unfreezeInvestAmountCB                                  
 #充值
 GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
 POST    /mobile/account/rechargeCB                                               mobile.account.RechargeAction.rechargeCB
+GET		/mobile/account/rechargeSuccess 										 mobile.account.RechargeAction.rechargeSuccess
 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
 
+GET   /mobile/account/recharge                                                     mobile.account.RechargeAction.recharge
