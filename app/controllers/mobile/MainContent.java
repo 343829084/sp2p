@@ -186,7 +186,7 @@ public class MainContent extends BaseController {
         sql.append(SQLTempletes.LOAN_INVESTBILL_RECEIVE[payType]);
         sql.append("and c.id = ?");
         params.add(userId);
-        sql.append(" group by receive_time");
+        sql.append(" order by receive_time");
         EntityManager em = JPA.em();
         Query query = em.createNativeQuery(sql.toString(),v_bill_invest.class);
         for(int n = 1; n <= params.size(); n++){
