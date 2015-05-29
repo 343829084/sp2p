@@ -613,129 +613,142 @@ public class Payment implements Serializable {
 	 * @return
 	 */
 	public static Map<String, String> registerCreditor(String pMerBillNo, long userId, long bidId, int pRegType, double pTrdAmt, ErrorInfo error) {
-		error.clear();
-		
-		Bid bid = Bid.queryBidForInvest(bidId, error);
-		
-		if(error.code < 0) {
-			return null;
-		}
-
-		String purpose = Purpose.queryPurpose(bid.purpose.id, error);
-		
-		if(error.code < 0) {
-			return null;
-		}
-		
-		User user = User.queryUserforIPS(userId, error);
-		
-		if(error.code < 0) {
-			return null;
-		}
-
-		JSONObject memo = new JSONObject();
-		memo.put("userId", userId);
-		memo.put("bidId", bidId);
-		memo.put("pTrdAmt", pTrdAmt);
-		
-		IpsDetail detail = new IpsDetail();
-		detail.merBillNo = pMerBillNo;
-		detail.userName = user.name;
-		detail.time = new Date();
-		detail.type = IPSOperation.REGISTER_CREDITOR;
-		detail.status = Status.FAIL;
-		detail.memo = memo.toString();
-		detail.create(error);
-		
-		if (error.code < 0) {
-			return null;
-		}
-
-		IpsDetail.addMerNo(pMerBillNo, error);
-		
-		if (error.code < 0) {
-			return null;
-		}
-		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("pMerBillNo", pMerBillNo);
-		jsonObj.put("pMerDate", DateUtil.simple(new Date()));
-		jsonObj.put("pBidNo", bid.bidNo);
-		jsonObj.put("pContractNo", "pContractNo");
-		jsonObj.put("pRegType", pRegType);
-		jsonObj.put("pAuthNo", pRegType==1 ? "" : user.ipsBidAuthNo);
-		jsonObj.put("pAuthAmt", String.format("%.2f", pTrdAmt));
-		jsonObj.put("pTrdAmt", String.format("%.2f", pTrdAmt));
-		jsonObj.put("pFee", "0");
-		jsonObj.put("pAcctType", IPSConstants.ACCT_TYPE);
-		jsonObj.put("pIdentNo", user.idNumber);
-		jsonObj.put("pRealName", user.realityName);
-		jsonObj.put("pAccount", user.ipsAcctNo);
-		jsonObj.put("pUse", purpose);
-		jsonObj.put("pWebUrl", IPSWebUrl.REGISTER_CREDITOR);
-		jsonObj.put("pS2SUrl", IPSS2SUrl.REGISTER_CREDITOR);
-		jsonObj.put("pMemo1", "pMemo1");
-		jsonObj.put("pMemo2", "pMemo2");
-		jsonObj.put("pMemo3", "pMemo3");
-
-		String strXml = Converter.jsonToXml(jsonObj.toString(), "pReq", null, null, null);
-		Logger.info(strXml);
-		String arg3DesXmlPara = Encrypt.encrypt3DES(strXml, Constants.ENCRYPTION_KEY);
-		arg3DesXmlPara = arg3DesXmlPara.replaceAll("\r", "");
-		arg3DesXmlPara = arg3DesXmlPara.replaceAll("\n", "");
-		
-		BackstageSet backstageSet = BackstageSet.getCurrentBackstageSet();
-		
-		String isFull = "Y";
-		double serviceFee = 0;
-		
-		if(bid.amount != bid.hasInvestedAmount + pTrdAmt) {
-			isFull = "N";
-			serviceFee =  Arith.round(pTrdAmt / bid.amount * bid.serviceFees, 2);
-		}
-
-		JSONObject jsonObjExtra = new JSONObject();
-		jsonObjExtra.put("bidContractNo", User.queryIpsAcctNo(bid.userId, error));
-		jsonObjExtra.put("loanerId", bid.userId);
-		jsonObjExtra.put("mobile", user.mobile);
-		jsonObjExtra.put("transferAmount", bid.amount);
-		jsonObjExtra.put("maxTenderRate", String.format("%.2f",backstageSet.investmentFee/100));
-		jsonObjExtra.put("borrowerRate",  String.format("%.2f",bid.apr/100));
-		jsonObjExtra.put("transferAmount", String.format("%.2f",bid.amount));
-		jsonObjExtra.put("IsFreeze", "Y");
-		jsonObjExtra.put("isFull", isFull);
-		jsonObjExtra.put("serviceFee", String.format("%.2f",serviceFee));
-		jsonObjExtra.put("pFTrdFee", String.format("%.2f",bid.serviceFees));
-		jsonObjExtra.put("pWSUrl", IPSWSUrl.REGISTER_CREDITOR);
-		jsonObjExtra.put("tranIP", DataUtil.getIp());
-		
-		//满标金额，双乾使用
-		jsonObjExtra.put("fullAmount", bid.amount);
-		Logger.info("--------------------------------我是扩展参数：" +jsonObjExtra+ "---------------------------------");
-		String argeXtraPara = Encrypt.encrypt3DES(Converter.jsonToXml(jsonObjExtra.toString(), "pExtra", null, null, null), Constants.ENCRYPTION_KEY);
-		String argSign = "";
-		
-		if("1.0".equals(BackstageSet.getCurrentBackstageSet().entrustVersion)) {
-			argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + Constants.ENCRYPTION_KEY);
-		}else {
-			argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + argeXtraPara +Constants.ENCRYPTION_KEY);
-		}
-		
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("action", IPSConstants.ACTION);
-		map.put("domain", IPSConstants.DOMAIN);
-		map.put("platform", IPSConstants.PLATFORM);
-		map.put("memberId", userId+"");
-		map.put("type", IPSOperation.REGISTER_CREDITOR+"");
-		map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
-		map.put("autoInvest", pRegType==1 ? "" : "autoInvest");
-		map.put("argMerCode", IPSConstants.MER_CODE);
-		map.put("arg3DesXmlPara", arg3DesXmlPara);
-		map.put("argeXtraPara", argeXtraPara);
-		map.put("argSign", argSign);
-		
-		return map;
+		return registerCreditorCommon(pMerBillNo, userId, bidId, pRegType, pTrdAmt, error, ParseClientUtil.PC);
 	}
+
+    /**
+     * 登记债权人接口
+     * @return
+     */
+    public static Map<String, String> registerCreditorCommon(String pMerBillNo, long userId, long bidId, int pRegType, double pTrdAmt, ErrorInfo error, String client) {
+        error.clear();
+
+        Bid bid = Bid.queryBidForInvest(bidId, error);
+
+        if(error.code < 0) {
+            return null;
+        }
+
+        String purpose = Purpose.queryPurpose(bid.purpose.id, error);
+
+        if(error.code < 0) {
+            return null;
+        }
+
+        User user = User.queryUserforIPS(userId, error);
+
+        if(error.code < 0) {
+            return null;
+        }
+
+        JSONObject memo = new JSONObject();
+        memo.put("userId", userId);
+        memo.put("bidId", bidId);
+        memo.put("pTrdAmt", pTrdAmt);
+
+        IpsDetail detail = new IpsDetail();
+        detail.merBillNo = pMerBillNo;
+        detail.userName = user.name;
+        detail.time = new Date();
+        detail.type = IPSOperation.REGISTER_CREDITOR;
+        detail.status = Status.FAIL;
+        detail.memo = memo.toString();
+        detail.create(error);
+
+        if (error.code < 0) {
+            return null;
+        }
+
+        IpsDetail.addMerNo(pMerBillNo, error);
+
+        if (error.code < 0) {
+            return null;
+        }
+
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("pMerBillNo", pMerBillNo);
+        jsonObj.put("pMerDate", DateUtil.simple(new Date()));
+        jsonObj.put("pBidNo", bid.bidNo);
+        jsonObj.put("pContractNo", "pContractNo");
+        jsonObj.put("pRegType", pRegType);
+        jsonObj.put("pAuthNo", pRegType==1 ? "" : user.ipsBidAuthNo);
+        jsonObj.put("pAuthAmt", String.format("%.2f", pTrdAmt));
+        jsonObj.put("pTrdAmt", String.format("%.2f", pTrdAmt));
+        jsonObj.put("pFee", "0");
+        jsonObj.put("pAcctType", IPSConstants.ACCT_TYPE);
+        jsonObj.put("pIdentNo", user.idNumber);
+        jsonObj.put("pRealName", user.realityName);
+        jsonObj.put("pAccount", user.ipsAcctNo);
+        jsonObj.put("pUse", purpose);
+        if (ParseClientUtil.H5.equals(client)) {
+            jsonObj.put("pWebUrl", IPSH5Url.REGISTER_CREDITOR);
+            jsonObj.put("pS2SUrl", IPSH5Url.REGISTER_CREDITOR_SYS);
+        }else{
+            jsonObj.put("pWebUrl", IPSWebUrl.REGISTER_CREDITOR);
+            jsonObj.put("pS2SUrl", IPSS2SUrl.REGISTER_CREDITOR);
+        }
+        jsonObj.put("pMemo1", "pMemo1");
+        jsonObj.put("pMemo2", "pMemo2");
+        jsonObj.put("pMemo3", "pMemo3");
+
+        String strXml = Converter.jsonToXml(jsonObj.toString(), "pReq", null, null, null);
+        Logger.info(strXml);
+        String arg3DesXmlPara = Encrypt.encrypt3DES(strXml, Constants.ENCRYPTION_KEY);
+        arg3DesXmlPara = arg3DesXmlPara.replaceAll("\r", "");
+        arg3DesXmlPara = arg3DesXmlPara.replaceAll("\n", "");
+
+        BackstageSet backstageSet = BackstageSet.getCurrentBackstageSet();
+
+        String isFull = "Y";
+        double serviceFee = 0;
+
+        if(bid.amount != bid.hasInvestedAmount + pTrdAmt) {
+            isFull = "N";
+            serviceFee =  Arith.round(pTrdAmt / bid.amount * bid.serviceFees, 2);
+        }
+
+        JSONObject jsonObjExtra = new JSONObject();
+        jsonObjExtra.put("bidContractNo", User.queryIpsAcctNo(bid.userId, error));
+        jsonObjExtra.put("loanerId", bid.userId);
+        jsonObjExtra.put("mobile", user.mobile);
+        jsonObjExtra.put("transferAmount", bid.amount);
+        jsonObjExtra.put("maxTenderRate", String.format("%.2f",backstageSet.investmentFee/100));
+        jsonObjExtra.put("borrowerRate",  String.format("%.2f",bid.apr/100));
+        jsonObjExtra.put("transferAmount", String.format("%.2f",bid.amount));
+        jsonObjExtra.put("IsFreeze", "Y");
+        jsonObjExtra.put("isFull", isFull);
+        jsonObjExtra.put("serviceFee", String.format("%.2f",serviceFee));
+        jsonObjExtra.put("pFTrdFee", String.format("%.2f",bid.serviceFees));
+        jsonObjExtra.put("pWSUrl", IPSWSUrl.REGISTER_CREDITOR);
+        jsonObjExtra.put("tranIP", DataUtil.getIp());
+
+        //满标金额，双乾使用
+        jsonObjExtra.put("fullAmount", bid.amount);
+        Logger.info("--------------------------------我是扩展参数：" +jsonObjExtra+ "---------------------------------");
+        String argeXtraPara = Encrypt.encrypt3DES(Converter.jsonToXml(jsonObjExtra.toString(), "pExtra", null, null, null), Constants.ENCRYPTION_KEY);
+        String argSign = "";
+
+        if("1.0".equals(BackstageSet.getCurrentBackstageSet().entrustVersion)) {
+            argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + Constants.ENCRYPTION_KEY);
+        }else {
+            argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + argeXtraPara +Constants.ENCRYPTION_KEY);
+        }
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("action", IPSConstants.ACTION);
+        map.put("domain", IPSConstants.DOMAIN);
+        map.put("platform", IPSConstants.PLATFORM);
+        map.put("memberId", userId+"");
+        map.put("type", IPSOperation.REGISTER_CREDITOR+"");
+        map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
+        map.put("autoInvest", pRegType==1 ? "" : "autoInvest");
+        map.put("argMerCode", IPSConstants.MER_CODE);
+        map.put("arg3DesXmlPara", arg3DesXmlPara);
+        map.put("argeXtraPara", argeXtraPara);
+        map.put("argSign", argSign);
+
+        return map;
+    }
 	
 	/**
 	 * 登记债权人回调

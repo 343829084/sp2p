@@ -10,6 +10,10 @@
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/product-bid.css'}"/>
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/mobile/product-bid.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/mobileCommon.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/mobile/product-bid.js'}"></script>
+
     <script type="text/javascript">
         var bid = {
             apr : '${bid?.apr}',
@@ -19,8 +23,7 @@
             bonus : '${bid?.bonus}'
         }
     </script>
-    <script type="text/javascript" src="@{'/public/javascripts/mobile/product-bid.js'}"></script>
-
+   
 </head>
 <body>
     <div data-role="page" id="productBid">
@@ -36,21 +39,27 @@
                 </div>
             </div>
             <div class="account-info">
-                <div class="account-balance">
-                    <p>可用余额：<span>${map?.currentUser?.balance}</span>元</p>
-                    <!--
-                    <a>立即充值</a>
-                    -->
-                </div>
-                <div class="btn-container clearfix">
-                    <input type="text" class=" input-click"  id="bidAmount" placeholder="至少投100元"  maxlength="11" autocomplete="off" > <a id="allInBtn">全投</a>
-                </div>
-                <p class="predict-price">
-                    预计收益&nbsp;<span id="showPredictPrice">0.00</span>元
-                </p>
-                <div>
-                    <a class="ui-btn ui-corner-all" id="bidBtn">立即投标</a>
-                </div>
+                <form method="post" id="submit" data-ajax="false" action="/mobile/account/confirmInvest">
+                    <input type="hidden" name="uuid" value="${map?.uuid}" id="uuid">
+                    <input type="hidden" name="sign" value="${map?.sign}" id="sign">
+                    <input type="hidden" name="bidId" value="${bid?.id}" id="bidId">
+
+                    <div class="account-balance">
+                        <p>可用余额：<span>${map?.currentUser?.balance}</span>元</p>
+                        <!--
+                        <a>立即充值</a>
+                        -->
+                    </div>
+                    <div class="btn-container clearfix">
+                        <input type="text" class=" input-click"  name="investAmount" id="bidAmount" placeholder="至少投100元"  maxlength="11" autocomplete="off" > <a id="allInBtn">全投</a>
+                    </div>
+                    <p class="predict-price">
+                        预计收益&nbsp;<span id="showPredictPrice">0.00</span>元
+                    </p>
+                    <div>
+                        <a class="ui-btn ui-corner-all" id="bidBtn">立即投标</a>
+                    </div>
+                </form>
             </div>
             <div class="agree" >
                 <label style=" position:relative; top:1px; display:inline-block"  data-role="none">
@@ -61,6 +70,15 @@
                 </label>
                 <label for="agreeTerms" style="margin-left:5px;display:inline-block;font-size: 13px">我已经阅读并同意<a href="" class="fg-cblue" target="_self">《投资理财服务协议》</a></label>
             </div>
+
+            <div class="oa_er_bk">
+                <div class="oa_error">
+                    <h3>错误提示</h3>
+                    <p class="error_content" id="error_content"></p>
+                    <button data-role="button" id="close" class="os_cf" onclick="closeErrorTips();">确定</button>
+                </div>
+            </div>
+
         </div>
     </div>
     <div class="security">
@@ -68,3 +86,28 @@
     </div>
 </body>
 </html>
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        var error = '${flash?.error}';
+        if (error == null || error == undefined || error == '') {
+            $("#error_tips").hide();
+        }else{
+            $(".oa_er_bk").show();
+            $("#error_content").text(error);
+        }
+    });
+
+    function confirmInvest(){
+        var investAmount = $("#bidAmount").val();
+        if(isNaN(investAmount) || investAmount < 0){
+            $(".oa_er_bk").show();
+            $("#error_content").text("您输入的金额格式不正确，请重新输入！");
+            return;
+        }
+
+        $("#submit").submit();
+    }
+
+</script>

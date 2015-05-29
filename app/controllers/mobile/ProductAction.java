@@ -23,6 +23,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+@With(H5Interceptor.class)
 public class ProductAction extends BaseController {
 
     public static void productDetail(){
@@ -33,6 +34,10 @@ public class ProductAction extends BaseController {
         Logger.info(">>bidId:" + bidId);
         Bid bid = new Bid();
         bid.id = bidId;
+        if (bid.getId() == -1) {
+            MainContent.moneyMatters();
+        }
+
         Map jsonMap=new HashMap();
         if(null!=bid.repayment_res && bid.repayment_res.length()>44){
             try{

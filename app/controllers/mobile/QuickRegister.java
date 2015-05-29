@@ -8,12 +8,17 @@ import controllers.BaseController;
  */
 public class QuickRegister extends BaseController {
     public static void quickRegister(){
-       String fpHots= Constants.FP_HOST;
-        render(fpHots);
+//       String fpHots= Constants.FP_HOST;
+//        render(fpHots);
+
+        render();
     }
 
     public static void registerSuccess(){
-        String fpHots= Constants.FP_HOST;
-        render(fpHots);
+//        String fpHots= Constants.FP_HOST;
+//        render(fpHots);
+
+        render();
+
     }
 }

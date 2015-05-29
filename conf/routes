@@ -1988,6 +1988,11 @@ POST    /front/PaymentAction/repaymentNewTradePost			                    front.a
 #*  	/{<[\s\S]*>action}         												Application.error
 GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
 
+
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^mobile^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 GET   /mobile/login                                                  mobile.LoginAction.login
 POST   /mobile/login                                                  mobile.LoginAction.doLogin
 GET   /mobile/register                                                  mobile.LoginAction.register
@@ -2027,8 +2032,14 @@ GET     /mobile/me/accountsafe                                                  
 
 #开户
 GET     /mobile/account/createAcct                                              mobile.account.AccountAction.createAcct
-GET    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
+POST    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
 POST    /mobile/account/saveUser                                                mobile.account.AccountAction.saveUser
+
+#投标
+POST    /mobile/account/confirmInvest                                           mobile.account.InvestAction.confirmInvest
+POST    /mobile/account/registerCreditorCBSys                                   mobile.account.InvestAction.registerCreditorCBSys
+POST    /mobile/account/registerCreditorCB                                      mobile.account.InvestAction.registerCreditorCB
+POST    /mobile/account/unfreezeInvestAmountCB                                  mobile.account.InvestAction.unfreezeInvestAmountCB
 
 #充值
 GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge

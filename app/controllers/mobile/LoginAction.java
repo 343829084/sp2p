@@ -79,11 +79,15 @@ public class LoginAction extends BaseController {
 
         if (validate) {
             String url = flash.get("url");
-            t_users t_users = user.queryUser2ByUserId(user.getId(), error);
-            if (t_users.ips_acct_no == null) {//未开户
-                AccountAction.createAcct();
-            }else{
-                MainContent.property();
+            if (StringUtils.isNotBlank(url)) {
+                redirect(url);
+            }else {
+                t_users t_users = user.queryUser2ByUserId(user.getId(), error);
+                if (t_users.ips_acct_no == null) {//未开户
+                    AccountAction.createAcct();
+                }else{
+                    MainContent.moneyMatters();
+                }
             }
         } else {
             flash.keep("url");
@@ -128,6 +132,7 @@ public class LoginAction extends BaseController {
         user.name = mobile;
         user.password = password;
         user.mobile = mobile;
+        user.isMobileVerified = true;
         user.authentication_id = authentication_id;
         user.recommendUserName = recommendUserName;
 
