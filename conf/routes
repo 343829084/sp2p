@@ -2010,7 +2010,7 @@ GET  /mobile/content/tradeHistory                                     mobile.Tra
 
 #产品
 GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
-GET     /mobile/product/productBid
+GET     /mobile/product/productBid												mobile.ProductAction.productBid
 GET     /mobile/product/bidRecords                                              mobile.ProductDetailAction.bidRecords
 GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
 GET     /mobile/product/fundSecurity                                            mobile.ProductDetailAction.fundSecurity

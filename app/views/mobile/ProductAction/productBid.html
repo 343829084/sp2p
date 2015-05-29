@@ -10,6 +10,15 @@
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/product-bid.css'}"/>
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+    <script type="text/javascript">
+        var bid = {
+            apr : '${bid?.apr}',
+            period : '${bid?.period}',
+            periodUnit : '${bid?.periodUnit}',
+            repayType : '${bid?.repayment.id}',
+            bonus : '${bid?.bonus}'
+        }
+    </script>
     <script type="text/javascript" src="@{'/public/javascripts/mobile/product-bid.js'}"></script>
 
 </head>
@@ -34,7 +43,7 @@
                     -->
                 </div>
                 <div class="btn-container clearfix">
-                    <input type="text" class=" input-click"  id="loginpwd" placeholder="至少投100元"  maxlength="11" autocomplete="off" > <a id="allInBtn">全投</a>
+                    <input type="text" class=" input-click"  id="bidAmount" placeholder="至少投100元"  maxlength="11" autocomplete="off" > <a id="allInBtn">全投</a>
                 </div>
                 <p class="predict-price">
                     预计收益&nbsp;<span id="showPredictPrice">0.00</span>元
