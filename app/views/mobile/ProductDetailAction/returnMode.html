@@ -23,7 +23,7 @@ text-align: center;
 <body>
 
 
-<div data-role="page" >
+<div data-role="page" id="bind_swipe">
 
     <div data-role="navbar" >
       <ul>
@@ -69,6 +69,14 @@ text-align: center;
 </body>
 </html>
 <script>
+    $(function () {
+        $("#bind_swipe").bind("swipeleft",function(){
+            window.location.href="/mobile/product/bidRecords?bidId="+$("#bid_Id").val();
+        });
+        $("#bind_swipe").bind("swiperight",function(){
+            window.location.href="/mobile/product/detailtwo?borrowId="+$("#bid_Id").val();
+        })
+    });
     $("#bidrecords").click(function(){
         window.location.href="/mobile/product/bidRecords?bidId="+$("#bid_Id").val();
     });

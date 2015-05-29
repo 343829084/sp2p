@@ -4,7 +4,6 @@ var RESULT_STATUS = {
 };
 
 
-
 //var host = "https://api-2.sunlights.me/api";
 var host = (function() {
 	var prdUrl1 = "51jdj.com";
