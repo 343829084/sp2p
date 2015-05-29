@@ -512,7 +512,38 @@ em{
     background-color: rgb(231,76,60)!important;
     color: white!important;
 }
-
+.rh_mg p{
+ margin-top:1rem;
+}
+.rh_cm_dv{
+    display:inline-block;
+    padding-left:40px;
+    background-color: white;
+    width:100%;
+    border-bottom-width: 1px;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-top-color: #006666;
+    border-bottom-color: #006666;
+}
+.rh_cm_dv label{
+    display:inline-block!important;
+}
+.rh_cm_bt{
+    color: rgba(0, 0, 0, 0) !important;
+    background-color:rgba(231, 76, 60, 1) !important;
+}
+.rh_cm_dv input{
+    display:inline-block;
+    margin-left:20px;
+    border: none;
+    height:40px;
+    font-size: 1.2rem;
+}
+.rh_cm_pg{
+    height:10px;
+}
 @media screen and (min-width: 801px) and (max-width: 1024px) {
     html,body{
         font-size:16px!important ;

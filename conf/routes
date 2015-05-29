@@ -2036,3 +2036,5 @@ POST    /mobile/account/rechargeCB                                              
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
+
+GET   /mobile/account/recharge                                                     mobile.account.RechargeAction.recharge
