@@ -1,16 +1,18 @@
 package controllers.mobile;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
 import business.Bid;
 import business.User;
 import controllers.BaseController;
-import controllers.interceptor.H5Interceptor;
-import net.sf.json.JSONObject;
 import play.Logger;
-import play.mvc.With;
-import utils.CaptchaUtil;
+import utils.JSONUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -58,31 +60,32 @@ public class ProductAction extends BaseController {
 
         render(bid,jsonMap);
     }
-
-
-    public static void productBid(String bidId){
-        Logger.info("current bid :" + bidId);
-        if (bidId == null) {
-            MainContent.moneyMatters();
-        }
-        Long newBidId = Long.valueOf(bidId);
-        Bid bid = new Bid();
-        bid.id = newBidId;
-
-        if (bid.getId() == -1) {
-            MainContent.moneyMatters();
-        }
-
-        String sign = bid.getSign();
-        String uuid = CaptchaUtil.getUUID(); // 防重复提交UUID
-
-        JSONObject map = new JSONObject();
-        double availavleInvestedAmount = bid.amount - bid.hasInvestedAmount;
-        map.put("availavleInvestedAmount", availavleInvestedAmount);
-        map.put("currentUser", User.currUser());
-        map.put("uuid", uuid);
-        map.put("sign", sign);
-
-        ProductAction.render(bid, map);
+    
+    
+    public static void productBid(){
+    	Bid bid = new Bid();
+    	bid.setId(Integer.parseInt(params.get("bidId")));
+    	if (bid.id == -1 ) {
+    		MainContent.moneyMatters();
+    	}
+    	double availavleInvestedAmount = bid.amount - bid.hasInvestedAmount;
+    	Map map = new HashMap();
+    	map.put("availavleInvestedAmount", availavleInvestedAmount);
+    	
+    	map.put("currentUser", User.currUser());
+    	
+    	String jsonBidInstance = null;
+    	try {
+			jsonBidInstance = JSONUtils.printObject(bid);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	ProductAction.render(bid, map);
+    }
+    
+    public static void bidSuccess () {
+    	ProductAction.render();
     }
 }
