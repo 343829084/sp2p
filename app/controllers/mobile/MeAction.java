@@ -3,6 +3,7 @@ package controllers.mobile;
 import business.Bid;
 import business.Invest;
 import business.User;
+import constants.Constants;
 import controllers.BaseController;
 import controllers.SubmitRepeat;
 import controllers.front.account.LoginAndRegisterAction;
@@ -19,6 +20,7 @@ import javax.persistence.Query;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.Logger;
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -32,8 +34,15 @@ import java.util.*;
 @With({H5Interceptor.class, SubmitRepeat.class})
 public class MeAction extends BaseController {
     public static void MeLogout() {
-        User user=new User();
-        user.logout();
+        User user = User.currUser();
+        if (user == null) {
+            LoginAction.login();
+        }
+        ErrorInfo error = new ErrorInfo();
+        user.logout(error);
+        if (error.code < 0) {
+            LoginAction.login();
+        }
         LoginAction.login();
     }
 
