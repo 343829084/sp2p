@@ -45,7 +45,7 @@
        <thead><tr><th>产品名</th><th>投资金额(元)</th><th>待收利益(元)</th><th>到期时间</th></tr></thead>
        <tbody>
        #{list items:bills, as:'bid'}
-       <tr><td><a id="product${bid_index}">${bid?.title}</a></td><td>${(bid?.receive_corpus).format('###,###,###,###,##0.00')}</td><td>${(bid?.income_amounts-bid?.receive_corpus).format('###,###,###,###,##0.00')}</td><td>${bid?.repayment_time.format('yyyy-MM-dd hh:mm:ss')}</td></tr>
+       <tr><td><a id="product${bid_index}">${bid?.title}</a></td><td>${(bid?.receive_corpus).format('###,###,###,###,##0.00')}</td><td>${(bid?.income_amounts-bid?.receive_corpus).format('###,###,###,###,##0.00')}</td><td>${bid?.repayment_time.format('yyyy-MM-dd')}</td></tr>
 <!--
        <tr><td colspan="4" id="d_product${bid_index}" class="pp-pop-width"><div >
        ${bid?.bidStatus}

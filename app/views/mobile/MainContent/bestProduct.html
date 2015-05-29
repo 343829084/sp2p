@@ -7,8 +7,8 @@
     #{/list}
     </ul>
 </div>
-<div>
 
+<div class="clear"></div>
     <div role="main" class="ui-content bt-pd-padding">
         <h3>${bid?.title}</h3>
               <p class="bp_font_p">预期年化收益</p>
@@ -32,19 +32,21 @@
         </div>
     </div><!-- /content -->
 
-
-</div>
 <Script>
+    var banner_height=screen.height/24*7 > 220 ? 220 : screen.height/24*7;
+
     $("#demo1").slideBox(
             {
-                width: screen.width,
                 hideClickBar :false,
-                height:screen.height/24*7,
+                height:banner_height,
                 hideBottomBar :false
 
             });
-    $('img').css('height',screen.height/24*7);
-    $('img').css('width',screen.width);
+
+    $('img').css('height',banner_height);
+    $('img').css('width',"100%");
+    $("#demo1").css("height",$('img').css('height'));
+
 //    *********投资比例图*******************
     var invest='${(bid?.amount-bid?.has_invested_amount)}';
     var amonut='${bid?.amount}'

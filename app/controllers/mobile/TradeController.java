@@ -153,7 +153,7 @@ public class TradeController extends BaseController {
         List<v_bill_invest> billInvestView=new ArrayList<v_bill_invest>();
              for(v_bill_invest b:bills){
                  if(b.bidStatus==4){
-                     totalRemain+=b.income_amounts-b.receive_corpus;
+                     totalRemain+=b.income_amounts;
                      billInvestView.add(b);
                  }
              }

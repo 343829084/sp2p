@@ -45,6 +45,9 @@ body{
 .foot_pos > div{
     width: 25%!important;
 }
+.fm_border{
+    padding-top: 3em!important;
+}
 a[id^=menu]{
     border-color:#FDFDFD!important;
     display:block!important;
@@ -114,7 +117,7 @@ a[id^=menu]:visited{
 /***********************************************轮播************************************************************************/
 @charset "utf-8";
 html, body { font-family:"微软雅黑"}
-div.slideBox{ height:300px; overflow:hidden;dislplay:block;}
+div.slideBox{overflow:hidden;display:block;}
 div.slideBox ul.items{ position:absolute; float:left; background:none; list-style:none; padding:0px; margin:0px;}
 div.slideBox ul.items li{ float:left; background:none; list-style:none; padding:0px; margin:0px;width: 100%;}
 div.slideBox ul.items li a{ float:left; line-height:normal !important; padding:0px !important; border:none/*For IE.ADD.JENA.201206300844*/;}
