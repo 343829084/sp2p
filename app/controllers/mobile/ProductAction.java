@@ -1,12 +1,13 @@
 package controllers.mobile;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import business.Bid;
 import business.User;
 import controllers.BaseController;
+import controllers.interceptor.H5Interceptor;
+import net.sf.json.JSONObject;
 import play.Logger;
+import play.mvc.With;
+import utils.CaptchaUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Map;
  *
  * @author <a href="mailto:jiaming.wang@sunlights.cc">wangJiaMing</a>
  */
+@With(H5Interceptor.class)
 public class ProductAction extends BaseController {
 
     public static void productDetail(){
@@ -30,6 +32,10 @@ public class ProductAction extends BaseController {
         Logger.info(">>bidId:" + bidId);
         Bid bid = new Bid();
         bid.id = bidId;
+        if (bid.getId() == -1) {
+            MainContent.moneyMatters();
+        }
+
         Map jsonMap=new HashMap();
         if(null!=bid.repayment_res && bid.repayment_res.length()>44){
             try{
@@ -52,20 +58,31 @@ public class ProductAction extends BaseController {
 
         render(bid,jsonMap);
     }
-    
-    
-    public static void productBid(){
-    	Bid bid = new Bid();
-    	bid.setId(Integer.parseInt(params.get("bidId")));
-    	if (bid.id == -1 ) {
-    		MainContent.moneyMatters();
-    	}
-    	double availavleInvestedAmount = bid.amount - bid.hasInvestedAmount;
-    	Map map = new HashMap();
-    	map.put("availavleInvestedAmount", availavleInvestedAmount);
-    	
-    	map.put("currentUser", User.currUser());
-    	
-    	ProductAction.render(bid, map);
+
+
+    public static void productBid(String bidId){
+        Logger.info("current bid :" + bidId);
+        if (bidId == null) {
+            MainContent.moneyMatters();
+        }
+        Long newBidId = Long.valueOf(bidId);
+        Bid bid = new Bid();
+        bid.id = newBidId;
+
+        if (bid.getId() == -1) {
+            MainContent.moneyMatters();
+        }
+
+        String sign = bid.getSign();
+        String uuid = CaptchaUtil.getUUID(); // 防重复提交UUID
+
+        JSONObject map = new JSONObject();
+        double availavleInvestedAmount = bid.amount - bid.hasInvestedAmount;
+        map.put("availavleInvestedAmount", availavleInvestedAmount);
+        map.put("currentUser", User.currUser());
+        map.put("uuid", uuid);
+        map.put("sign", sign);
+
+        ProductAction.render(bid, map);
     }
 }

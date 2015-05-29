@@ -1,42 +1,30 @@
 package controllers.front.invest;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import controllers.app.common.Message;
-import controllers.app.common.MessageVo;
-import controllers.app.common.MsgCode;
-import controllers.app.common.Severity;
-import org.apache.commons.lang.StringUtils;
+import business.*;
 import com.shove.security.Encrypt;
 import constants.Constants;
 import constants.IPSConstants.IpsCheckStatus;
 import controllers.BaseController;
+import controllers.app.common.Message;
+import controllers.app.common.MessageVo;
+import controllers.app.common.MsgCode;
+import controllers.app.common.Severity;
 import controllers.front.account.CheckAction;
 import controllers.front.account.LoginAndRegisterAction;
-import net.sf.json.JSONObject;
 import models.v_front_all_bids;
 import models.v_front_user_attention_bids;
 import models.v_invest_records;
-import business.Bid;
-import business.BidQuestions;
-import business.CreditLevel;
-import business.Invest;
-import business.IpsDetail;
-import business.Payment;
-import business.Product;
-import business.User;
-import business.UserAuditItem;
+import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.cache.Cache;
 import play.db.jpa.JPA;
-import utils.CaptchaUtil;
-import utils.ErrorInfo;
-import utils.NumberUtil;
-import utils.PageBean;
-import utils.Security;
+import utils.*;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author liuwenhui
@@ -424,7 +412,7 @@ public class InvestAction extends BaseController {
      */
     public static void confirmInvestApp(){
         ErrorInfo error = new ErrorInfo();
-        Map<String, String> args = buildConfirmInvestAppParams(error);
+        Map<String, String> args = buildConfirmInvestParams(error, ParseClientUtil.PC);
         if (error.code < 0) {
             MessageVo messageVo = new MessageVo(new Message(Severity.ERROR, MsgCode.CONFIRM_INVEST_FAIL, error.msg));
             Logger.info("确认投标返回：" + JSONObject.fromObject(messageVo).toString());
@@ -434,7 +422,7 @@ public class InvestAction extends BaseController {
         renderTemplate("front/account/PaymentAction/registerCreditor.html", args);
     }
 
-    private static Map<String, String> buildConfirmInvestAppParams(ErrorInfo error) {
+    public static Map<String, String> buildConfirmInvestParams(ErrorInfo error, String client) {
         User user = User.currUser();
         if(null == user){
             error.code = -3;
@@ -511,7 +499,7 @@ public class InvestAction extends BaseController {
             return null;
         }
 
-        Map<String, String> args = Payment.registerCreditor(pMerBillNo, user.id, bidId, 1, investAmount, error);
+        Map<String, String> args = Payment.registerCreditorCommon(pMerBillNo, user.id, bidId, 1, investAmount, error, client);
 
         return args;
     }

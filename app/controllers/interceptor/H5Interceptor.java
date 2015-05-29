@@ -13,7 +13,13 @@ public class H5Interceptor extends BaseController {
             "mobile.TradeController.tradeHistory",
             "mobile.TradeController.remainMoney",
             "mobile.MeAction.changePassWord",
-            "mobile.MeAction.accountSafe"})
+            "mobile.MeAction.accountSafe",
+            "mobile.AccountAction.createAcctCB",
+            "mobile.AccountAction.createAcct",
+            "mobile.AccountAction.saveUser",
+            "mobile.ProductAction.productBid",
+            "mobile.InvestAction.confirmInvest"
+    })
     public static void checkLogin() {
         Logger.debug("[checkLogin]" + request.url);
         User user = User.currUser();
