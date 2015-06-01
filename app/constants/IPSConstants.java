@@ -139,6 +139,7 @@ public class IPSConstants {
     public static class IPSH5Url {
         public static final String CREATE_IPS_ACCT = CALLBACK_H5_URL + "account/createAcctCB";					//开户
         public static final String DO_DP_TRADE = CALLBACK_H5_URL + "account/rechargeCB";						//充值
+        public static final String DO_DP_TRADE_SYS = CALLBACK_H5_URL + "account/rechargeCBSys";   		    		//充值
 
         public static final String REGISTER_CREDITOR_SYS = CALLBACK_H5_URL + "account/registerCreditorCBSys";			//投标
         public static final String REGISTER_CREDITOR = CALLBACK_H5_URL + "account/registerCreditorCB";			        //投标
