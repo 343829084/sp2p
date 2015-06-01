@@ -75,7 +75,7 @@ public class ProductDetailAction extends BaseController {
         if(true==bid.isAgency){
             jsonMap.put("project_introduction",bid.description);
             if(null!=bid.description && bid.description.length()>100){
-                    jsonMap.put("project_introduction_short",bid.description.substring(0,100));
+                    jsonMap.put("project_introduction_short",bid.description.substring(0,100)+"......");
             }else{
                 jsonMap.put("project_introduction_short",bid.description);
             }
@@ -86,7 +86,7 @@ public class ProductDetailAction extends BaseController {
         }else{
             jsonMap.put("project_introduction",bid.description);
             if(null!=bid.description && bid.description.length()>100){
-                jsonMap.put("project_introduction_short",bid.description.substring(0,100));
+                jsonMap.put("project_introduction_short",bid.description.substring(0,100)+"......");
             }else{
                 jsonMap.put("project_introduction_short",bid.description);
             }
@@ -142,7 +142,7 @@ public class ProductDetailAction extends BaseController {
         jsonMap.put("msg", "查询成功");
         jsonMap.put("repayment_res", bid.repayment_res);
         if(null!=bid.repayment_res && bid.repayment_res.length()>100){
-            jsonMap.put("repayment_res_short",bid.repayment_res.substring(0,100));
+            jsonMap.put("repayment_res_short",bid.repayment_res.substring(0,100)+"......");
         }else{
             jsonMap.put("repayment_res_short",bid.repayment_res);
         }
