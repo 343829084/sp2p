@@ -53,10 +53,15 @@ public class InvestAction extends BaseController {
         ErrorInfo error = new ErrorInfo();
         Map<String, String> args = controllers.front.invest.InvestAction.buildConfirmInvestParams(error, ParseClientUtil.H5);
         if (error.code < 0) {
-            Logger.info(">>确认投标失败：" + error.msg);
-            flash.error(error.msg);
-            ProductAction.productBid(params.get("bidId"));
+            if (error.code == -999) {//余额不够跳转到充值页面
+                RechargeAction.recharge();
+            }else{
+                Logger.info(">>确认投标失败：" + error.msg);
+                flash.error(error.msg);
+                ProductAction.productBid(params.get("bidId"));
+            }
         }
+
         Logger.info(">>确认投标成功");
         renderTemplate("front/account/PaymentAction/registerCreditor.html", args);
     }
@@ -124,7 +129,7 @@ public class InvestAction extends BaseController {
         }
         Logger.info("投标回调信息 end >>：");
 
-        MainContent.property();//TODO
+        ProductAction.bidSuccess();
     }
 
     /**

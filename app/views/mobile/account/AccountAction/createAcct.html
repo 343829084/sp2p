@@ -66,53 +66,53 @@
     $("#bestProduct").click(function(){
         window.location.href="/mobile/content/bestProduct"
     });
-//    $("#realName").blur(function(){
-//       if(null==$("#realName").val()||""==$("#realName").val().trim()){
-//           $(".error_content").html("真实姓名未填写");
-//             $(".oa_er_bk").css("display","block");
-//           return;
-//       }
-//        result.realName=true;
-//   });
-//    $("#cardId").blur(function(){
-//        if(!$("#cardId").val().isCardId()){
-//            $(".error_content").html("身份证号不正确");
-//            $(".oa_er_bk").css("display","block");
-//            return;
-//        }
-//        result.cardId=true;
-//    });
-//
-//    $("#email").blur(function(){
-//        if(!$("#email").val().isEmail()){
-//            $(".error_content").html("电子邮件不正确");
-//            $(".oa_er_bk").css("display","block");
-//            return;
-//        }
-//        result.email=true;
-//    });
-//    $(".oa_btn_bk").click(function(){
-//      if(result.carId && result.email && result.realName){
-//         //此处提交数据
-//
-//      }else{
-//          if(!result.realName){
-//          $(".error_content").html("真实姓名没有填写");
-//          $(".oa_er_bk").css("display","block");
-//          return false;
-//          }
-//          if(!result.carId){
-//              $(".error_content").html("身份证号不正确");
-//              $(".oa_er_bk").css("display","block");
-//              return false;
-//          }
-//          if(!result.email){
-//              $(".error_content").html("电子邮件不正确");
-//              $(".oa_er_bk").css("display","block");
-//              return false;
-//          }
-//      }
-//    });
+    $("#realName").blur(function(){
+       if(null==$("#realName").val()||""==$("#realName").val().trim()){
+           $(".error_content").html("真实姓名未填写");
+             $(".oa_er_bk").css("display","block");
+           return;
+       }
+        result.realName=true;
+   });
+    $("#cardId").blur(function(){
+        if(!$("#cardId").val().isCardId()){
+            $(".error_content").html("身份证号不正确");
+            $(".oa_er_bk").css("display","block");
+            return;
+        }
+        result.cardId=true;
+    });
+
+    $("#email").blur(function(){
+        if(!$("#email").val().isEmail()){
+            $(".error_content").html("电子邮件不正确");
+            $(".oa_er_bk").css("display","block");
+            return;
+        }
+        result.email=true;
+    });
+    $(".oa_btn_bk").click(function(){
+      if(result.carId && result.email && result.realName){
+         //此处提交数据
+
+      }else{
+          if(!result.realName){
+          $(".error_content").html("真实姓名没有填写");
+          $(".oa_er_bk").css("display","block");
+          return false;
+          }
+          if(!result.carId){
+              $(".error_content").html("身份证号不正确");
+              $(".oa_er_bk").css("display","block");
+              return false;
+          }
+          if(!result.email){
+              $(".error_content").html("电子邮件不正确");
+              $(".oa_er_bk").css("display","block");
+              return false;
+          }
+      }
+    });
 
 </script>
 </body>
