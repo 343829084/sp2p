@@ -300,11 +300,15 @@ em{
 }
 .pp-tb-wd{
     width:100%;
+    margin-bottom: 20px;
 }
 .pp-btn-rt{
     text-align: right;
     padding-top:10px!important;
 
+}
+.pp-div-ps{
+    padding-bottom: 60px;
 }
 .ui-block-e dd{
     padding:0.4rem 0;
