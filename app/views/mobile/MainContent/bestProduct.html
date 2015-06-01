@@ -50,9 +50,9 @@
     $("#demo1").css("height",$('img').css('height'));
 
 //    *********投资比例图*******************
-    var invest='${(bid?.amount-bid?.has_invested_amount)}';
+    var invest='${bid?.has_invested_amount}';
     var amonut='${bid?.amount}'
-    var   percent=1-invest/amonut;
+    var   percent=invest/amonut;
     $("#biddetail").click(function(){
         window.location.href="/mobile/product/detail?bidId=${bid?.id}";
     });
