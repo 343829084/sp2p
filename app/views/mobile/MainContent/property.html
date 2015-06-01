@@ -4,7 +4,7 @@
 <div class="ui-content">
 <div class="ui-block-a ui-header pp-hd-wd">
         <div class="ui-block-a"><div class="ui-body pp-hd-pd">待收收益(元)</div></div>
-        <div class="ui-block-r"><div class="ui-body"><a href="@{mobile.TradeController.tradeHistory()}">交易记录</a></div></div>
+        <div class="ui-block-r"><div class="ui-body"><a id="tradelist" href="javascript:void(0);">交易记录</a></div></div>
     <div class="ui-block-a"><div class="pp-ta-nu"><em>${accountInfo?.repayment_invests?.format('###,##0.00')}</em></div></div>
     <div class="pp-cl-bt"></div>
     <div>
@@ -63,6 +63,10 @@
         $("#freeze").click(function(){
             window.location.href="@{mobile.TradeController.tradeList()}";
         });
+        $("#tradelist").click(function(){
+            window.location.href="@{mobile.TradeController.tradeHistory()}";
+        });
+
     })
 
 </script>
