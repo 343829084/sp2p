@@ -2043,11 +2043,13 @@ POST    /mobile/account/unfreezeInvestAmountCB                                  
 
 #充值
 GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
-POST    /mobile/account/rechargeCB                                               mobile.account.RechargeAction.rechargeCB
-GET		/mobile/account/rechargeSuccess 										 mobile.account.RechargeAction.rechargeSuccess
+POST    /mobile/account/rechargeConfirm                                         mobile.account.RechargeAction.rechargeConfirm
+POST    /mobile/account/rechargeCBSys                                           mobile.account.RechargeAction.rechargeCBSys
+POST    /mobile/account/rechargeCB                                              mobile.account.RechargeAction.rechargeCB
+
+
 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
 
-GET   /mobile/account/recharge                                                     mobile.account.RechargeAction.recharge

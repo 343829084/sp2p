@@ -1271,7 +1271,11 @@ public class Payment implements Serializable {
             jsonObj.put("pChannelType", IPSConstants.CHANNEL_TYPE);
             jsonObj.put("pWebUrl", IPSWebUrl.DO_DP_TRADE);
         }
-		jsonObj.put("pS2SUrl", IPSS2SUrl.DO_DP_TRADE);
+		if (ParseClientUtil.H5.equals(client)) {
+            jsonObj.put("pS2SUrl", IPSH5Url.DO_DP_TRADE_SYS);
+        }else{
+            jsonObj.put("pS2SUrl", IPSS2SUrl.DO_DP_TRADE);
+        }
 		jsonObj.put("pMemo1", "pMemo1");
 		jsonObj.put("pMemo2", "pMemo2");
 		jsonObj.put("pMemo3", "pMemo3");

@@ -85,8 +85,8 @@ public class ProductAction extends BaseController {
 
         ProductAction.render(bid, map);
     }
-    
-    public static void bidSuccess () {
-    	ProductAction.render();
+
+    public static void bidSuccess(){
+        render();
     }
 }
