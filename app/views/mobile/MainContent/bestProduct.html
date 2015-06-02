@@ -48,9 +48,9 @@
     $("#demo1").css("height",$('img').css('height'));
 
 //    *********投资比例图*******************
-    var invest='${(bid?.amount-bid?.has_invested_amount)}';
-    var amonut='${bid?.amount}'
-    var   percent=1-invest/amonut;
+    var hasInvestAmount = '${bid?.has_invested_amount}';
+    var amount = '${bid?.amount}';
+    var percent=hasInvestAmount/amount;
     drawPercent_small("bp_first_pro",percent,0.85,0.85);
 
 </Script>
