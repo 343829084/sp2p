@@ -9,6 +9,8 @@ import play.Logger;
 import play.mvc.With;
 import utils.CaptchaUtil;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +37,6 @@ public class ProductAction extends BaseController {
         if (bid.getId() == -1) {
             MainContent.moneyMatters();
         }
-
         Map jsonMap=new HashMap();
         if(null!=bid.repayment_res && bid.repayment_res.length()>44){
             try{
@@ -56,7 +57,15 @@ public class ProductAction extends BaseController {
 
         Logger.info(">>current bid status:" + bid.status);
 
-        render(bid,jsonMap);
+        int  period =  bid.period;
+        int unit=bid.periodUnit;
+        unit= unit==-1?unit*=-365:unit==0?unit*=30:unit;
+        unit*=period;
+        Calendar ca=Calendar.getInstance();
+        ca.setTime(bid.time);
+        ca.add(Calendar.DAY_OF_YEAR, unit);
+        Date lastTime=ca.getTime();
+        render(bid,jsonMap,lastTime);
     }
 
 

@@ -324,7 +324,7 @@ public class Optimization {
 				Object record = null;
 
 				EntityManager em = JPA.em();
-				Query query = em.createNativeQuery(sql).setParameter(1, Constants.NORMAL_RECEIVABLES).setParameter(2, Constants.ADVANCE_PRINCIIPAL_RECEIVABLES).setParameter(3, Constants.NORMAL_RECEIVABLES).setParameter(4, this.userId);
+				Query query = em.createNativeQuery(sql).setParameter(1, Constants.NORMAL_RECEIVABLES).setParameter(2, Constants.ADVANCE_PRINCIIPAL_RECEIVABLES).setParameter(3, Constants.OVERDUE_RECEIVABLES).setParameter(4, this.userId);
 
 				try {
 					record = query.getResultList().get(0);

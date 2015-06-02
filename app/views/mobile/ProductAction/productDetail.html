@@ -13,7 +13,7 @@
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.tmpl.min.js'}"></script>
-    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.js'}"></script>
 
     *{<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">}*
     *{<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>}*
@@ -39,6 +39,9 @@
             </div>
         </div>
         <div class="productDetail_msg" id="product_status_div">
+            #{if bid?.status == 2}
+            <div id="progressbar" class="fundraising_progressbar" ></div>
+            #{/if}
             *{<div id="progressbar_sellout" style="width:92%;">}*
                 *{<div  class="sellout_progressbar">}*
 
@@ -109,7 +112,7 @@
     <div class="productDetail_refund_font">
         <li>
             <ui>最近还款日:</ui>
-            <ui>2015-05-30</ui>
+            <ui>${bid.recentRepayTime.format('yyyy-MM-dd hh:mm:ss')}</ui>
         </li>
         <li>
             <ui>融资总额:</ui>
@@ -120,7 +123,7 @@
     </div>
 </script>
 <script id="fundraising" type="text/x-jquery-tmpl">
-    <div id="progressbar" class="fundraising_progressbar"></div>
+
 
     <div class="ui-grid-a fundraising_grid">
         <div class="ui-block-a">
@@ -128,7 +131,10 @@
         </div>
         <div class="ui-block-b" style="text-align: right;">已融资：<span>${bid?.loanSchedule}</span>%</div>
     </div>
-    <div class="ui-grid-a">距离购买结束：<span>10天56时29分17秒</span></div>
+    <div class="ui-grid-a">距离购买结束：<span>${lastTime.format('yyyy-MM-dd hh:mm:ss')}</span></div>
+
+
+
 </script>
 
 <script type="text/javascript">
@@ -139,18 +145,19 @@
         //筹款中2  两种 预售及售中
 
         $("#fundraising").tmpl('${bid}').appendTo('#product_status_div');
-                $(function() {
-            $("#progressbar").progressbar({
-                value: '${bid?.loanSchedule}'
-            });
-        });
+
+                $("#progressbar").progressbar({
+                    value: ${bid?.loanSchedule}
+                });
+
     }else  {
         $(function() {
             $( "#progressbar_sellout" ).progressbar({
                 value: 100
+
             });
 
         });
-    }
+    };
 
 </script>

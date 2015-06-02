@@ -178,6 +178,11 @@
 .productDetail_msg{
     width: 100%;
     height: 6rem;
+    padding-top: 20px;
+}
+.progress_back{
+    background-color: red;
+    height:0.8em;
 }
 .productDetail_profit{
     margin-top:1.5rem;
