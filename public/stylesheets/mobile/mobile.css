@@ -248,6 +248,7 @@ em{
 .mm_all_bg{
     background-color: #FDFDFD;
     min-height: 736px;
+    padding-bottom: 100px;
 }
 .mm_title_cn li{
     text-align: center;
@@ -308,7 +309,7 @@ em{
 
 }
 .pp-div-ps{
-    padding-bottom: 60px;
+    padding-bottom: 100px;
 }
 .ui-block-e dd{
     padding:0.4rem 0;
