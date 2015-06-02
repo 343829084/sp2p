@@ -45,7 +45,7 @@ function drawPercent_small(id,percent,scaleX,scaleY){
         ctx.fillStyle = "#646464";
         ctx.font="14px Verdana";
         ctx.textAlign="center";
-        ctx.fillText(parseInt(percent*100)+"%",32,38);
+        ctx.fillText((percent*100)+"%",32,38);
     }
     if(arguments.length == 4){
         var p = percent;
@@ -86,6 +86,6 @@ function drawPercent_small(id,percent,scaleX,scaleY){
         ctx.fillStyle = "#646464";
         ctx.font="14px Verdana";
         ctx.textAlign="center";
-        ctx.fillText(parseInt(percent*100)+"%",32,38);
+        ctx.fillText((percent*100)+"%",32,38);
     }
 }
