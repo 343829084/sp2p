@@ -16,6 +16,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.mvc.With;
+import utils.DateUtil;
 import utils.ErrorInfo;
 import utils.PageBean;
 
@@ -125,20 +126,53 @@ public class MainContent extends BaseController {
         ErrorInfo error = new ErrorInfo();
         List<y_front_show_bids> bidList = new ArrayList<y_front_show_bids>();
         StringBuffer sql = new StringBuffer("");
-        sql.append(SQLTempletes.SELECT);
-        sql.append(SQLTempletes.V_FRONT_HOMEPAGE_SHOW_BID);
+
+        String sqlstr="(SELECT `t_bids`.`id` AS `id`,`t_bids`.`time` AS `time`,CONCAT (( SELECT `t_system_options`.`_value` AS `_value` FROM `t_system_options` " +
+                "WHERE (`t_system_options`.`_key` = 'loan_number')),(`t_bids`.`id` + '')) AS `no`,`t_bids`.`min_invest_amount` AS `min_invest_amount`," +
+                "`t_bids`.`period_unit` AS `period_unit`,`t_bids`.`title` AS `title`,`t_bids`.`amount` AS `amount`,`t_bids`.`is_hot` AS `is_hot`,`t_bids`.`period` AS `period`,`t_bids`.`apr` AS `apr`," +
+                "`t_bids`.`has_invested_amount` AS `has_invested_amount`,`t_bids`.`status` AS `status` FROM `t_bids`" +
+                "  WHERE `t_bids`.`status` IN (1, 2) AND `t_bids`.`is_hot`=1   ORDER BY t_bids.time LIMIT 1)";
+        sql.append(sqlstr);
+        String sqlstr2=" UNION ALL (SELECT `t_bids`.`id` AS `id`,`t_bids`.`time` AS `time`,CONCAT (( SELECT `t_system_options`.`_value` AS `_value` FROM `t_system_options` " +
+                "WHERE (`t_system_options`.`_key` = 'loan_number')),(`t_bids`.`id` + '')) AS `no`,`t_bids`.`min_invest_amount` AS `min_invest_amount`," +
+                "`t_bids`.`period_unit` AS `period_unit`,`t_bids`.`title` AS `title`,`t_bids`.`amount` AS `amount`,`t_bids`.`is_hot` AS `is_hot`,`t_bids`.`period` AS `period`,`t_bids`.`apr` AS `apr`," +
+                "`t_bids`.`has_invested_amount` AS `has_invested_amount`,`t_bids`.`status` AS `status` FROM `t_bids`" +
+                "  WHERE `t_bids`.`status` IN (3,4,5) AND `t_bids`.`is_hot`=1   ORDER BY t_bids.time LIMIT 1)";
+        sql.append(sqlstr2);
         try{
             Query query = JPA.em().createNativeQuery(sql.toString(),y_front_show_bids.class);
+            query.setMaxResults(1);//返回的条数
             bidList = query.getResultList();
+            if(null==bidList){
+                render();
+            }
         }catch (Exception e) {
             e.printStackTrace();
             error.msg = "系统异常，给您带来的不便敬请谅解！";
             error.code = -1;
         }
         y_front_show_bids bid= bidList.get(0);
+        long hours =getHours(bid.time);//时间比较
+        int preSellFlag=0;
+        if(hours<3 && hours>0){
+            preSellFlag=1;
+        }
 
      Object message=   getHttpResult(error);
-        render(bid,message);
+        render(bid,message,preSellFlag);
+    }
+    private static Long getHours(Date date1){
+        Date date=new Date();
+        long time1 = date1.getTime();
+        long time2 = date.getTime();
+        long diff ;
+        if(time1<time2) {
+            diff = time2 - time1;
+        } else {
+            diff = time1 - time2;
+        }
+        long hours =  diff / (1000 * 60 * 60);
+        return hours;
     }
 
     /**
