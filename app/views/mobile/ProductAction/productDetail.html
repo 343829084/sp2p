@@ -118,7 +118,7 @@
         <li>
             <ui>融资总额:</ui>
             <ui class="bp_font_red">
-                ${(bid?.amount).format('###,##0')}元
+                ${bid?.amount?.format('###,##0')}元
             </ui>
         </li>
     </div>
@@ -128,7 +128,7 @@
 
     <div class="ui-grid-a fundraising_grid">
         <div class="ui-block-a">
-            融资金额：${(bid.amount).format('###,##0')}元
+            融资金额：${bid.amount?.format('###,##0')}元
         </div>
         <div class="ui-block-b" style="text-align: right;">已融资：<span>${bid?.loanSchedule}</span>%</div>
     </div>
