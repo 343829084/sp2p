@@ -30,7 +30,7 @@
             <button class="ui-btn ui-corner-all bp_bt_color">立刻投标</button>
             <div class="bp_sec_icon">
               <img  src="@{'/public/images/h5icon/safe.png'}">
-                <span class="bp_fix_font">浦发银行全程保证资金安全</span>
+                <span class="bp_fix_font">中信银行全程保证资金安全</span>
             </div>
     </div><!-- /content -->
 
@@ -53,9 +53,9 @@
     var invest='${bid?.has_invested_amount}';
     var amonut='${bid?.amount}'
     var   percent=invest/amonut;
+    drawPercent_small("bp_first_pro",percent,0.85,0.85);
+    
     $("#biddetail").click(function(){
         window.location.href="/mobile/product/detail?bidId=${bid?.id}";
     });
-    drawPercent_small("bp_first_pro",percent,0.85,0.85);
-
 </Script>

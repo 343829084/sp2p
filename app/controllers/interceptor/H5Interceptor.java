@@ -12,7 +12,6 @@ public class H5Interceptor extends BaseController {
             "mobile.TradeController.tradeList",
             "mobile.TradeController.tradeHistory",
             "mobile.TradeController.remainMoney",
-            "mobile.MeAction.changePassWord",
             "mobile.MeAction.accountSafe",
             "mobile.AccountAction.createAcctCB",
             "mobile.AccountAction.createAcct",

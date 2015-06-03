@@ -13,7 +13,8 @@
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.tmpl.min.js'}"></script>
-    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
 
     *{<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">}*
     *{<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>}*
@@ -35,7 +36,7 @@
             </div>
             <div class="productDetail_bids">
                 <p>起购金额</p>
-                <span >${bid?.minAllowInvestAmount?.format('###,##0.00')}</span>元
+                <span >${bid?.minInvestAmount?.format('###,##0.00')}</span>元
             </div>
         </div>
         <div class="productDetail_msg" id="product_status_div">
@@ -78,7 +79,7 @@
 
     <div class="bp_sec_icon">
         <img  src="@{'/public/images/h5icon/safe.png'}">
-        <span class="bp_fix_font">浦发银行全程保证资金安全</span>
+        <span class="bp_fix_font">中信银行全程保证资金安全</span>
     </div>
 
     <hr/>
@@ -112,18 +113,18 @@
     <div class="productDetail_refund_font">
         <li>
             <ui>最近还款日:</ui>
-            <ui>${bid.recentRepayTime.format('yyyy-MM-dd hh:mm:ss')}</ui>
+            <ui>${bid?.repaymentTime?.format('yyyy-MM-dd')}</ui>
         </li>
         <li>
             <ui>融资总额:</ui>
             <ui class="bp_font_red">
-                ${(bid.amount).format('###,##0')}元
+                ${(bid?.amount).format('###,##0')}元
             </ui>
         </li>
     </div>
 </script>
 <script id="fundraising" type="text/x-jquery-tmpl">
-
+    <div id="progressbar" class="fundraising_progressbar"></div>
 
     <div class="ui-grid-a fundraising_grid">
         <div class="ui-block-a">
@@ -131,13 +132,24 @@
         </div>
         <div class="ui-block-b" style="text-align: right;">已融资：<span>${bid?.loanSchedule}</span>%</div>
     </div>
-    <div class="ui-grid-a">距离购买结束：<span>${lastTime.format('yyyy-MM-dd hh:mm:ss')}</span></div>
-
-
-
+    <input id="countdownTime${bid?.id}" type="hidden" value="${bid?.investExpireTime?.format('yyyy/MM/dd HH:mm:ss')}"></input>
+    <div class="ui-grid-a">距离购买结束：
+		<span id="day${bid?.id}"></span>天
+		<span id="hours${bid?.id}"></span>小时
+		<span id="minutes${bid?.id}"></span>分
+		<span id="seconds${bid?.id}"></span>秒
+    </div>
 </script>
 
 <script type="text/javascript">
+    $(document).ready(function(){
+        if ('${bid?.status}' != '2') {
+            $("#confirmInvestBtn").addClass("oa_btn_disable_bk");
+            $("#confirmInvestBtn").attr("disabled","disabled");
+        }
+    });
+
+
     if ('${bid?.status}' == '4') {
         //还款中4
     　  $("#refund").tmpl('${bid}').appendTo('#product_status_div');
@@ -145,19 +157,23 @@
         //筹款中2  两种 预售及售中
 
         $("#fundraising").tmpl('${bid}').appendTo('#product_status_div');
-
-                $("#progressbar").progressbar({
-                    value: ${bid?.loanSchedule}
-                });
-
+                $(function() {
+            $("#progressbar").progressbar({
+                value: '${bid?.loanSchedule}'
+            });
+        });
     }else  {
         $(function() {
             $( "#progressbar_sellout" ).progressbar({
                 value: 100
-
             });
 
         });
-    };
+    }
 
+</script>
+
+<script type="text/javascript">
+    var i = '${bid.id}';
+    showTime($("#countdownTime"+i), $("#day"+i),$("#hours"+i), $("#minutes"+i), $("#seconds"+i));
 </script>

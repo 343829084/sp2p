@@ -152,6 +152,54 @@ function getValCodeTimeout(seconds,elementId){
     },1000);
 }
 
+
+
+function showTime(timeId, dayId, hoursId, minutesId, secondsId){
+    var time = $(timeId).val();
+    date = new Date(time);
+    var tt = date.getTime();
+    var now = new Date().getTime();
+    var cha = tt-now;
+    var SysSecond=parseInt(cha/1000);
+
+    var timeOutInter = setInterval(function(){
+        SysSecond = SysSecond-1;
+
+        if (SysSecond > 0) {
+            var time = SysSecond;
+            int_day=Math.floor(time/86400);
+            time-=int_day*86400;
+            int_hour=Math.floor(time/3600);
+            time-=int_hour*3600;
+            int_minute=Math.floor(time/60);
+            time-=int_minute*60;
+            int_second=Math.floor(time);
+
+            if(int_hour<10){
+                int_hour="0"+int_hour;
+            }
+
+            if(int_minute<10){
+                int_minute="0"+int_minute;
+            }
+
+            if (int_second<10){
+                int_second="0"+int_second;
+            }
+            $(dayId).html(int_day);
+            $(hoursId).html(int_hour);
+            $(minutesId).html(int_minute);
+            $(secondsId).html(int_second);
+        }else{
+            $(dayId).html("00");
+            $(hoursId).html("00");
+            $(minutesId).html("00");
+            $(secondsId).html("00");
+        }
+    },1000);
+
+}
+
 /*
  checkBox验证
  */
