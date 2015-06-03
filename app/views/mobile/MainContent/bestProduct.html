@@ -27,7 +27,7 @@
             </div>
         </div>
             </div>
-            <button class="ui-btn ui-corner-all bp_bt_color">立刻投标</button>
+            <button class="ui-btn ui-corner-all bp_bt_color" id="confirmInvestBtn">立刻投标</button>
             <div class="bp_sec_icon">
               <img  src="@{'/public/images/h5icon/safe.png'}">
                 <span class="bp_fix_font">中信银行全程保证资金安全</span>
@@ -57,5 +57,8 @@
     
     $("#biddetail").click(function(){
         window.location.href="/mobile/product/detail?bidId=${bid?.id}";
+    });
+    $("#confirmInvestBtn").click(function(){
+        window.location.href="/mobile/product/productBid?bidId=${bid?.id}";
     });
 </Script>
