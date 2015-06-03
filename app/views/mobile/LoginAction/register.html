@@ -153,7 +153,7 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
         try {
             $.ajax({
                 type: "POST",
-                url: getBaseUrl() + "/mobile/register",
+                url: "/mobile/register",
                 data: {
                     name: $("#name").val(),
                     password: $("#password").val(),
@@ -189,7 +189,7 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
             $("#btn_getVerifyCode").attr("disabled", "disabled");
             $.ajax({
                 type: "GET",
-                url: getBaseUrl() + "/mobile/verifyCode",
+                url: "/mobile/verifyCode",
                 data: {"mobile": $("#name").val()},
                 success: function (data) {
                     if (0 == data.error.code) {

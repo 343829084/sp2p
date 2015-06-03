@@ -48,16 +48,17 @@ public class InvestAction extends BaseController {
         ErrorInfo error = new ErrorInfo();
 
         double showInvestMoney = 0.00;
-        User user = User.currUser();
+        User user = (User)Cache.get("userId_"+ Cache.get(params.get("userId")));
 
         if (user != null && params.get("bidId") != null) {
             Long bidId = Long.valueOf(params.get("bidId"));
             Map<String, String> bid = Invest.bidMap(bidId, error);
-            if (error.code == 0) {
-                double averageInvestAmount = Double.parseDouble(bid.get("average_invest_amount") + "");
+            if (error.code >= 0) {
+                double amount = Double.parseDouble(bid.get("amount") + "");
+                double has_invested_amount = Double.parseDouble(bid.get("has_invested_amount") + "");
                 double balance = user.balance;
-                if (balance > averageInvestAmount) {//可以余额>剩余可投金额=剩余可投金额
-                    showInvestMoney = averageInvestAmount;
+                if (balance > amount - has_invested_amount) {//可以余额>剩余可投金额=剩余可投金额
+                    showInvestMoney = amount - has_invested_amount;
                 }else{
                     showInvestMoney = balance;
                 }

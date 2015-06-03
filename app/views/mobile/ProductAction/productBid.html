@@ -44,6 +44,7 @@
                     <input type="hidden" name="uuid" value="${map?.uuid}" id="uuid">
                     <input type="hidden" name="sign" value="${map?.sign}" id="sign">
                     <input type="hidden" name="bidId" value="${bid?.id}" id="bidId">
+                    <input type="hidden" name="userId" value="${map?.userId}" id="userId">
 
                     <div class="account-balance">
                         <p>可用余额：<span>${map?.currentUser?.balance}</span>元</p>
@@ -108,6 +109,27 @@
 
         $("#submit").submit();
     };
+
+    $("#allInBtn").on("click", function () {
+        try {
+            $.ajax({
+                type: "GET",
+                url: "/mobile/account/allInvest",
+                data: {"bidId": '${bid?.id}', "userId": '${map?.userId}'},
+                success: function (data) {
+                    if ('0514' == data.message.code) {
+                        $("#bidAmount").val(data.value);
+                    }
+                },
+                error : function(XMLHttpRequest) {
+                    $(".oa_er_bk").show();
+                    $("#error_content").text("网络错误，请稍后再试",XMLHttpRequest)
+                }
+            });
+        }catch(err){
+            showErr(err);
+        }
+    });
 
 
 </script>
