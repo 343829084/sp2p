@@ -1,10 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1 minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="apple-mobile-web-app-capable" content="no"/>
+    <meta http-equiv='x-dns-prefetch-control' content='on'>
+
+    <title>提现</title>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile.theme-1.4.3.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/enchash.css'}"/>
+
+
+    <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/jweixin-1.0.0.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/sha.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/sign.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/weixin.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/share/defaultshare.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
 </head>
 <body>
-
+    <div data-role="page" id="enchash">
+        <form>
+            <div class="bill-detail-middle">
+                <div>
+                    可提现金额：<span class="prod-name">2000.00</span>元
+                </div>
+                <div class="input-container" data-role="none">
+                    <span>输入提现金额：</span><input data-role="none" type="text"   placeholder="输入金额"/>
+                </div>
+            </div>
+            <div class="btn-container" >
+                <a id="confirmRechargeBtn" href="#" class="ui-btn ui-corner-all">进入汇付页面</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

@@ -2049,6 +2049,8 @@ POST    /mobile/account/rechargeCBSys                                           
 POST    /mobile/account/rechargeCB                                              mobile.account.RechargeAction.rechargeCB
 GET     /mobile/account/rechargeSuccess                                         mobile.account.RechargeAction.rechargeSuccess
 
+#提现
+GET 	/mobile/account/enchash													mobile.account.EnchashAction.enchash
 
 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
