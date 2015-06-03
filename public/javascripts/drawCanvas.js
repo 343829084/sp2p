@@ -20,7 +20,7 @@ function drawPercent_small(id,percent,scaleX,scaleY){
         ctx.stroke();
 
         //var ctx2 = c.getContext("2d");
-        ctx.strokeStyle = "#F68910";
+        ctx.strokeStyle = "rgb(231,76,60)";
         ctx.lineWidth = 6;
         ctx.beginPath();
         if(percent==1){
@@ -30,7 +30,7 @@ function drawPercent_small(id,percent,scaleX,scaleY){
             p = 1;
         }
         ctx.shadowBlur=0;
-        ctx.shadowColor="#F68910";
+        ctx.shadowColor="rgb(231,76,60)";
         ctx.arc(32,32,28,Math.PI*1.5,Math.PI*(2*(p)-0.5));
         ctx.stroke();
 
@@ -61,7 +61,7 @@ function drawPercent_small(id,percent,scaleX,scaleY){
         ctx.stroke();
 
         //var ctx2 = c.getContext("2d");
-        ctx.strokeStyle = "#F68910";
+        ctx.strokeStyle = "rgb(231,76,60)";
         ctx.lineWidth = 6;
         ctx.beginPath();
         if(percent==1){
@@ -71,7 +71,7 @@ function drawPercent_small(id,percent,scaleX,scaleY){
             p = 1;
         }
         ctx.shadowBlur=0;
-        ctx.shadowColor="#F68910";
+        ctx.shadowColor="rgb(231,76,60)";
         ctx.arc(32,32,28,Math.PI*1.5,Math.PI*(2*(p)-0.5));
         ctx.stroke();
 
