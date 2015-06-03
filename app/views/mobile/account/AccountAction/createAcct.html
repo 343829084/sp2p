@@ -11,6 +11,7 @@
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/common.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/mobileCommon.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
 
 </head>
 
@@ -30,7 +31,7 @@
         <div class="ui-content oa_sy">
             <span><s>*</s>电子邮件</span><input type="text" id="email" name="email" placeholder="请输入电子邮件地址" class="oa_ip_na" data-role="none" value="${flash?.email}"/>
         </div>
-        <button data-role="button"  class="oa_btn_bk" id="editUserBtn">完 成</button>
+        <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="saveAcct()">完 成</a>
     </form>
 
     <p class="oa_ft_p">暂不开通会员,<a id="bestProduct" href="../MainContent/bestProduct.html" href="javascript:void(0);">直接跳过</a></p>
@@ -53,66 +54,34 @@
         }
     });
 
-
-    var result={
-        realName:false,
-        cardId:false,
-        email:false
-    }
-    $("#close").click(function(){
-        $(".oa_er_bk").css("display","none");
-        return;
-    });
     $("#bestProduct").click(function(){
         window.location.href="/mobile/content/bestProduct"
     });
-    $("#realName").blur(function(){
-       if(null==$("#realName").val()||""==$("#realName").val().trim()){
-           $(".error_content").html("真实姓名未填写");
-             $(".oa_er_bk").css("display","block");
-           return;
-       }
-        result.realName=true;
-   });
-    $("#cardId").blur(function(){
-        if(!$("#cardId").val().isCardId()){
-            $(".error_content").html("身份证号不正确");
-            $(".oa_er_bk").css("display","block");
+
+    function saveAcct(){
+        var realName = veriUserName($("#realName").val());
+        if (realName != true) {
+            $(".oa_er_bk").show();
+            $("#error_content").text(realName);
             return;
         }
-        result.cardId=true;
-    });
 
-    $("#email").blur(function(){
-        if(!$("#email").val().isEmail()){
-            $(".error_content").html("电子邮件不正确");
-            $(".oa_er_bk").css("display","block");
+        var cardId = veriIdentity($("#cardId").val());
+        if (cardId != true) {
+            $(".oa_er_bk").show();
+            $("#error_content").text(cardId);
             return;
         }
-        result.email=true;
-    });
-    $(".oa_btn_bk").click(function(){
-      if(result.carId && result.email && result.realName){
-         //此处提交数据
 
-      }else{
-          if(!result.realName){
-          $(".error_content").html("真实姓名没有填写");
-          $(".oa_er_bk").css("display","block");
-          return false;
-          }
-          if(!result.cardId){
-              $(".error_content").html("身份证号不正确");
-              $(".oa_er_bk").css("display","block");
-              return false;
-          }
-          if(!result.email){
-              $(".error_content").html("电子邮件不正确");
-              $(".oa_er_bk").css("display","block");
-              return false;
-          }
-      }
-    });
+        var email = veriEmail($("#email").val());
+        if (email != true) {
+            $(".oa_er_bk").show();
+            $("#error_content").text(email);
+            return;
+        }
+
+        $("#submit").submit();
+    };
 
 </script>
 </body>

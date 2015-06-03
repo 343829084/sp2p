@@ -35,6 +35,8 @@ public enum MsgCode {
     SAVE_USER_INFO_SUCC("0511","完善用户资料成功"),
     QUERY_ACC_BALANCE_SUCC("0512", "账户余额查询成功"),
     SEARCH_INVEST_SUCC("0513", "投标查询成功"),
+    ALL_INVEST_SUCC("0514", "全投成功"),
+
 
 
     ACCESS_FAIL("2001", "访问失败", "传入参数不能为空"),

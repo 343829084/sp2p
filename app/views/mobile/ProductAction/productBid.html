@@ -8,10 +8,12 @@
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/product-bid.css'}"/>
+    <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/mobile/product-bid.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/mobileCommon.js'}"></script>
+
 
     <script type="text/javascript">
         var bid = {
@@ -47,7 +49,8 @@
                         <p>可用余额：<span>${map?.currentUser?.balance}</span>元</p>
                     </div>
                     <div class="btn-container clearfix">
-                        <input type="text" class="input-click"  name="investAmount" id="bidAmount" placeholder="至少投${bid?.minInvestAmount?.format('###,##0.00')}元"  maxlength="11" autocomplete="off" > <a id="allInBtn">全投</a>
+                        <input type="text" class="input-click"  name="investAmount" id="bidAmount" placeholder="至少投${bid?.minInvestAmount?.format('###,##0.00')}元"  maxlength="11" autocomplete="off" >
+                        <a id="allInBtn" >全投</a>
                     </div>
                     <p class="predict-price">
                         预计收益&nbsp;<span id="showPredictPrice">0.00</span>元
@@ -83,8 +86,7 @@
 </body>
 </html>
 
-
-<script type="text/javascript">
+<script >
     $(document).ready(function(){
         var error = '${flash?.error}';
         if (error == null || error == undefined || error == '') {
@@ -96,20 +98,16 @@
     });
 
     function confirmInvest(){
-        var investAmount = $("#bidAmount").val();
-        if(isNaN(investAmount) || investAmount < 0){
+        var verifyMinAmount = verificationMinAmount($("#bidAmount").val(), '${bid?.minInvestAmount}', '${map?.availavleInvestedAmount}');
+
+        if(verifyMinAmount != true){
             $(".oa_er_bk").show();
-            $("#error_content").text("您输入的金额格式不正确，请重新输入！");
-            return;
-        }
-        var minInvestAmount = '${bid?.minInvestAmount}';
-        if(parseInt(investAmount) < parseInt(minInvestAmount)){
-            $(".oa_er_bk").show();
-            $("#error_content").text("起购金额为${bid?.minInvestAmount?.format('###,##0.00')}元！");
+            $("#error_content").text(verifyMinAmount);
             return;
         }
 
         $("#submit").submit();
-    }
+    };
+
 
 </script>

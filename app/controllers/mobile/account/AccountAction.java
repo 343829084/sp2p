@@ -45,13 +45,13 @@ public class AccountAction extends BaseController {
             LoginAction.login();
         }
 
-        if (user.realityName != null) {
+        if (flash.get("realName") == null && user.realityName != null) {
             flash("realName", user.realityName);
         }
-        if (user.idNumber != null) {
+        if (flash.get("cardId") == null && user.idNumber != null) {
             flash("cardId", user.idNumber);
         }
-        if (user.email != null) {
+        if (flash.get("email") == null && user.email != null) {
             flash("email", user.email);
         }
 
@@ -70,6 +70,10 @@ public class AccountAction extends BaseController {
         String realName = params.get("realName");
         String idNo = params.get("cardId");
         String email = params.get("email");
+
+        flash.put("realName", realName);
+        flash.put("cardId", idNo);
+        flash.put("email", email);
 
         ErrorInfo error = new ErrorInfo();
         User newUser = new User();

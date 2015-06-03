@@ -207,11 +207,18 @@ function veriCheckBox(checkBoxId){
     if (!$(checkBoxId).is(":checked")){
         return "请勾选选项";
     }
-//    for(var i=0; i<arguments.length; i++){
-//        if(!$("#"+arguments[i]).is(":checked")){
-//            return "请勾选选项";
-//        }
-//    }
+    return true;
+}
+/*
+ checkBox验证
+ */
+function veriEmail(email){
+    if(email.length == 0){
+        return "邮箱不能为空！";
+    }
+    if(!email.isEmail()){
+        return "邮箱格式不正确！";
+    }
     return true;
 }
 /*
@@ -221,28 +228,10 @@ function veriIdentity(arrIdCard){
     if(arrIdCard.length == 0){
         return "身份证信息不能为空！";
     }
-    if(arrIdCard.length == 15){
-        arrIdCard = idCard15To18(arrIdCard);
+    if(!arrIdCard.isCardId()){
+        return "您输入的身份证信息有误，请核对后重新输入！";
     }
-    var tag = false;
-    var sigma = 0;
-    var a = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 );
-    var w = new Array("1", "0", "X", "9", "8", "7", "6", "5", "4", "3", "2");
-    var w2 = new Array("1", "0", "x", "9", "8", "7", "6", "5", "4", "3", "2");
-    for (var i = 0; i < 17; i++) {
-        var ai = parseInt(arrIdCard.substring(i, i + 1));
-        var wi = a[i];
-        sigma += ai * wi;
-    }
-    var number = sigma % 11;
-    var check_number = w[number];
-    var check_number2 = w2[number];
-    if (arrIdCard.substring(17) != check_number&&arrIdCard.substring(17) != check_number2) {
-        tag =  "您输入的身份证信息有误，请核对后重新输入！";
-    } else {
-        tag = true;
-    }
-    return tag;
+    return true;
 }
 /*
  身份证15转18位
@@ -304,6 +293,37 @@ function veriSelect(selectVal,selectName){
     return true;
 }
 
+/*检测最小投资金额*/
+function verificationMinAmount(amount,minAmount,maxAmount){
+    var str = amount.toString();
+    var tamount = Number(amount);
+    var tminAmount = Number(minAmount);
+    var tmaxAmount = Number(maxAmount);
+    if(tamount==0){
+        return "输入金额不能为0";
+    }
+    if(isNaN(str)){
+        return "您输入的金额格式有误";
+    }
+    if(str.match("-")!=null){
+        return "输入金额不能为负数";
+    }
+    if(tamount<tminAmount){
+        return "起投金额最低"+minAmount+"元";
+    }
+    if(arguments.length>2){
+        if(tamount>tmaxAmount&&maxAmount!=""){
+            return "输入金额大于剩余可投金额";
+        }
+    }
+    if(2<(str.length-1-str.indexOf('.'))&&str.indexOf('.')!=-1){
+        return "只能保留2位小数";
+    }
+    if(str.length==0){
+        return "输入金额不能为空";
+    }
+    return true;
+}
 /*
  输入金额校验
  */
@@ -373,34 +393,3 @@ function allFormatMoney(strMoney){
     return resultStr;
 }
 
-/*检测最小投资金额*/
-function veriMinAmount(amount,minAmount,maxAmount){
-    var str = amount.toString();
-    var tamount = Number(amount);
-    var tminAmount = Number(minAmount);
-    var tmaxAmount = Number(maxAmount);
-    if(tamount==0){
-        return "输入金额不能为0";
-    }
-    if(isNaN(str)){
-        return "您输入的金额格式有误";
-    }
-    if(str.match("-")!=null){
-        return "输入金额不能为负数";
-    }
-    if(tamount<tminAmount){
-        return "输入金额少于最小投资金额";
-    }
-    if(arguments.length>2){
-        if(tamount>tmaxAmount&&maxAmount!=""){
-            return "输入金额大于剩余融资金额";
-        }
-    }
-    if(2<(str.length-1-str.indexOf('.'))&&str.indexOf('.')!=-1){
-        return "只能保留2位小数";
-    }
-    if(str.length==0){
-        return "输入金额不能为空";
-    }
-    return true;
-}
