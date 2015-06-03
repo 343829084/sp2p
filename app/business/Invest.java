@@ -2302,10 +2302,17 @@ public class Invest implements Serializable{
 					}
 				}
 			}
+			//send email to supervisor that the bid amount is enough
+			String supervisorEmail = Constants.SUPERVISOR_MAIL;
+			String checkTitle = "满标请审核";
+			String checkContent = "尊敬的管理员：\n        标的" + title +"已经成功满标，请及时审核，谢谢！";
+			ErrorInfo emailError = new ErrorInfo();
+			TemplateEmail.sendEmail(0, supervisorEmail, checkTitle, checkContent, emailError);
 		}
 		 
 		error.msg = "投资成功！";
 		error.code = 1;
+
 	}
 	
 	/**

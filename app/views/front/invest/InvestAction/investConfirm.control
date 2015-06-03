@@ -47,6 +47,11 @@
 			      #{/if}
 			    #{/if}
 			#{/if}
+			
+			<input type="checkbox" class="xf_register_fxk" id="agreement" name="agreement" checked="checked">
+			<span class="xf_register_intext xf_register_intext2">已阅读并同意</span>
+			<a class="xf_membill_cza" id="ht_id" target="_blank" onclick="pact();">理财合同范本</a></br>
+			
 			#{if bid?.status > 0 && bid?.status < 3 && bid?.amount > bid?.hasInvestedAmount}
 			   <a class="xf_con_inputfbjk" onclick="investApplyNow();" >确认投标</a>
 			#{/if}
@@ -106,8 +111,17 @@
 			  }
 			});
 		})
+	function pact(){
+ 		var type = 1;
+ 		var sign = ${bid?.id};
+ 		window.open('@{front.account.InvestAccount.investPactWithoutInvest()}?sign=' + sign + '&type=' + type);
+ 	}
+	function investApplyNow(){
 	
-  function investApplyNow(){
+		if(!$("#agreement").is(":checked")) {
+			alert("投标前须已阅读并同意《理财合同范本》！");
+			return;
+		}
 		var listAction = #{jsAction @front.bid.BidAction.checkUserStatus() /};
 		$.post(listAction(), function(data) {
 			switch(data.status * 1){
@@ -131,7 +145,7 @@
 					showDiv($("#active"));
 					return;
 
-				 case -3: 
+				case -3: 
 					  confirmInvest();
 						break;
 						

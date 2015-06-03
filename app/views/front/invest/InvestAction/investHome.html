@@ -1,5 +1,6 @@
 %{
 	business.BackstageSet  currBackstageSet = business.BackstageSet.getCurrentBackstageSet();
+	double activeApr= constants.Constants.BIDS_ACTIVE_APR;
 }%
 <head>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/new_css/product-list.css'}" />
@@ -39,4 +40,3 @@
 #{include 'front/invest/InvestAction/activeEmail.control'/}	
 
 <script type="text/javascript" src="@{'/public/javascripts/tab/tab_invest.js'}"></script>
-

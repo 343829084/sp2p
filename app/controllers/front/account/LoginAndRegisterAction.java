@@ -560,6 +560,9 @@ public class LoginAndRegisterAction extends BaseController {
         if (Constants.IPS_ENABLE) {
             CheckAction.approve();
         }
+		if (user.isEmailVerified) {
+			AccountHome.home();
+		}*/
 
         if (user.isEmailVerified) {
             AccountHome.home();

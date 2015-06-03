@@ -160,7 +160,8 @@ public class ServiceFee {
 		double interest = 0;
 		
 		if(unit == Constants.DAY){//秒还还款和天标的总利息
-			interest = Arith.div(Arith.mul(Arith.mul(amount, monthRate), period), 30, 2);//天标的总利息
+			//interest = Arith.div(Arith.mul(Arith.mul(amount, monthRate), period), 30, 2);//天标的总利息
+			interest =Arith.round(apr/365/100*period*amount, 2); 
 			
 		}else{
 			if(unit == Constants.YEAR){
