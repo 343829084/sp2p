@@ -1,3 +1,8 @@
 # You can specialize this file for each language.
 # For example, for French create a messages.fr file
 #
+realityName=真实姓名
+idNumber=身份证
+email=邮箱
+validation.required=%s不能为空
+validation.email=请输入正确的邮箱地址

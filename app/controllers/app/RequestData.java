@@ -172,8 +172,11 @@ public class RequestData {
 		String maxLevelStr = (String)parameters.get("maxLevelStr");
 		String orderType = (String)parameters.get("orderType");
 		String keywords = (String)parameters.get("keywords");
-		
-		PageBean<v_front_all_bids> bids = Invest.queryAllBids(Constants.SHOW_TYPE_2, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevelStr, maxLevelStr, orderType, keywords, error);
+
+		String period = (String)parameters.get("period");
+		String status = (String)parameters.get("status");
+
+		PageBean<v_front_all_bids> bids = Invest.queryAllBids(Constants.SHOW_TYPE_2, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevelStr, maxLevelStr, orderType, keywords,period,status, error);
 		if(error.code < 0){
 			jsonMap.put("error", "-4");
 			jsonMap.put("msg",error.msg);
@@ -4460,7 +4463,7 @@ public class RequestData {
 		monRate = apr /1200;
 		
 		if(periodUnit == 1){//天标
-			dayRate = Arith.div(apr, 36000, 2);
+			dayRate = Arith.div(apr, 36500, 2);
 			paySum = amount + Arith.mul(dayRate, period); 
 			monPay = paySum;
 		}else{
@@ -7901,7 +7904,7 @@ public class RequestData {
 		
 		if(loadType == 1){
 			//dayRate = Arith.div(Double.parseDouble(parameters.get("apr")), 36000,4);
-			dayRate = Double.parseDouble(parameters.get("apr"))/36000;
+			dayRate = Double.parseDouble(parameters.get("apr"))/36500;
 			
 			if(repayType == 1){//等额本息还款
 				monPay = Double.valueOf(Arith.mul(amount, monthRate) * Math.pow((1 + monthRate), 1))/ 

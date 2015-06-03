@@ -17,10 +17,16 @@ public class Constants {
 	public static final String HTTP_PATH = Play.configuration.getProperty("http.path");
 	public static final String ENCRYPTION_KEY = Play.configuration.getProperty("fixed.secret");			//加密key
 	public static final String APP_ENCRYPTION_KEY = Play.configuration.getProperty("app.fixed.secret");			//APP加密key
+	public static final String FP_AGREEMENT_URL = Play.configuration.getProperty("fp.agreement.url");	//fp url
 	public static final String FP_REGISTER_URL = Play.configuration.getProperty("fp.register.url");	//fp url that for registering with fp
 	public static final String FP_LOGIN_URL = Play.configuration.getProperty("fp.login.url");	//fp url that for logining with fp
 	public static final String FP_RESETPW_URL = Play.configuration.getProperty("fp.resetpwd.url");	//fp url that for logining with fp
+	public static final String FP_ACTIVITY_IMAG_URL = Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
 	public static final String FP_REGISTER_GIVE_JINDOU =Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆 
+    public static final String FP_AUTHENTICATION =Play.configuration.getProperty("fp.authentication"); //fp认证信息
+	public static final String FP_HOST =Play.configuration.getProperty("static.host"); //fp主机地址
+	public static final double BIDS_ACTIVE_APR =Convert.strToDouble(Play.configuration.getProperty("bids.active.apr"), 0.5); //active apr 
+	public static final String SUPERVISOR_MAIL =Play.configuration.getProperty("supervisor.mail"); //the supervisor's mail address 
 	
 	public static final String BIDS_MOBILE =Play.configuration.getProperty("bids.mobile"); //发标人的手机号码 
 	public static final String BIDS_CREATETIME =Play.configuration.getProperty("bids.createTime"); //标的创建时间 
@@ -255,7 +261,7 @@ public class Constants {
 	public static final int PRODUCT_INTRODUCTION = 1; // 借款产品简介
 	public static final int PRODUCT_DETAIL_INTRODUCTION = 2; // 借款产品详细描述
 	public static final int APPLICANT_CONDITION = 3; // 申请人条件
-	public static final int DAY_INTEREST = 360; // 日利息结算常量
+	public static final int DAY_INTEREST = 365; // 日利息结算常量
 	
 	public static final int PC = 1; // PC端
 	public static final int APP = 2; // APP端
@@ -346,14 +352,14 @@ public class Constants {
 	
 	public static final int BID_AUDIT = 0; // 审核中
 	public static final int BID_ADVANCE_LOAN = 1; // 提前借款
-	public static final int BID_FUNDRAISE = 2; // 筹款中(审核通过)
+	public static final int BID_FUNDRAISE = 2; // 募集中(审核通过)
 	public static final int BID_EAIT_LOAN = 3; // 待放款(放款审核通过);
 	public static final int BID_REPAYMENT = 4; // 还款中(已放款)
 	public static final int BID_COMPENSATE_REPAYMENT = 14; // 本金垫付还款中(已放款)
 	public static final int BID_REPAYMENTS = 5; // 已还款
 	public static final int BID_AUDIT_VERIFY = 10; // 审核中待验证
 	public static final int BID_ADVANCE_LOAN_VERIFY = 11; // 前提借款待验证
-	public static final int BID_FUNDRAISE_VERIFY = 12; // 筹款中待验证
+	public static final int BID_FUNDRAISE_VERIFY = 12; // 募集中待验证
 	public static final int BID_NOT_THROUGH = -1; // 审核不通过 
 	public static final int BID_PEVIEW_NOT_THROUGH = -2;// 借款中不通过
 	public static final int BID_LOAN_NOT_THROUGH = -3;// 放款不通过 
@@ -568,7 +574,7 @@ public class Constants {
 	 */
 	public static final int PAGE_SIMPLE = 1;
 	public static final int PAGE_ASYNCH = 2;
-	
+
 	/**
 	 * 默认风格
 	 */
@@ -1035,7 +1041,10 @@ public class Constants {
 	public static final String [] BID_LOAN_SCHEDULE_CONDITION = { " "," and loan_schedule <= 50 ",
 		" and loan_schedule > 50  and loan_schedule <=80 "," and loan_schedule > 80  and loan_schedule <100 "," and loan_schedule =100 "};
 
-	public static final String [] BID_ORDER_CONDITION  = {" order by loan_schedule,is_hot desc,id desc "," order by amount desc ", " order by amount asc", " order by apr desc ", " order by apr asc", " order by loan_schedule desc ", " order by loan_schedule asc", " order by repayment_time desc ", " order by repayment_time asc"};
+	public static final String [] BID_STATUS_CONDITION = { " "," and loan_schedule <= 50 ",
+		" and loan_schedule > 50  and loan_schedule <=80 "," and loan_schedule > 80  and loan_schedule <100 "," and loan_schedule =100 "};
+
+	public static final String [] BID_ORDER_CONDITION  = {" ORDER BY t_bids.status,t_bids.is_hot desc ,t_bids.is_quality desc,t_bids.time desc"," ORDER BY t_bids.status,t_bids.time desc", " order by t_bids.amount desc,t_bids.time desc", " order by t_bids.apr desc,t_bids.time desc ", " order by t_bids.repayment_time desc,t_bids.time desc"};
 
 	public static final String [] DEBT_AMOUNT_CONDITION = {" ","  and  debt_amount <= 1000 ",
 		"  and  debt_amount > 1000  and debt_amount <=5000 ","  and  debt_amount > 5000   and debt_amount <=10000 ",
@@ -1442,4 +1451,20 @@ public class Constants {
 	
 	public static final int ALREADY_RUN = -11; // 某个操作已执行
 	public static final int REFUND_ITEM_FEE = -12; // 完全资金托管模式退回资料审核费
+
+	public static final Long BASE_USER_COUNT = 1500L; // 用户基数
+	public static final Long BASE_TOTAL_VOLUME = 20000000L; //累计成交量基础
+	public static final Long MEDIA_REPORT_NEWS_TYPE = 34L; // 媒体报道
+	public static final Long LATEST_NEWS_TYPE = 35L; // 最新动态
+
+	public Constants() {
+		System.out.println("[Constants init]");
+		System.out.println("[FP_AGREEMENT_URL]" + FP_AGREEMENT_URL);
+		System.out.println("[FP_LOGIN_URL]" + FP_LOGIN_URL);
+		System.out.println("[FP_REGISTER_URL]" + FP_REGISTER_URL);
+		System.out.println("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
+		System.out.println("[FP_REGISTER_GIVE_JINDOU]" + FP_REGISTER_GIVE_JINDOU);
+		System.out.println("[FP_AUTHENTICATION]" + FP_AUTHENTICATION);
+		System.out.println("[FP_ACTIVITY_IMAG_URL]" + FP_ACTIVITY_IMAG_URL);
+	}
 }

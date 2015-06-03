@@ -16,6 +16,7 @@ public class IPSConstants {
 
 	public static final String ACTION = Play.configuration.getProperty("pay.action");	//资金托管url
 	public static final String CALLBACK_URL = Play.configuration.getProperty("pay.callback.url");		//回调
+    public static final String CALLBACK_H5_URL = Play.configuration.getProperty("pay.callback.h5url");		//h5回调
 	public static final String DOMAIN = Encrypt.encrypt3DES(Play.configuration.getProperty("pay.domain"), Constants.ENCRYPTION_KEY);//p2p平台域名
 	
 	public static final String CACHE_TIME = "1h";	//标，投资等信息缓存时间
@@ -25,6 +26,7 @@ public class IPSConstants {
 	public static final String ACCT_AGENCY = "0";		//账户类型：0#机构
 	public static final String UNFREEZENT_YPE = "1";		//1#解冻借款方;2#解冻担保方
 	public static final String CHANNEL_TYPE = "1";	//充值渠道类型：1#网银充值
+    public static final String CHANNEL_TYPE_MOBILE = "3";	//充值渠道类型：只显示快捷绑卡
 	public static final String IPS_FEE_TYPE = "1";	//谁付ips手续费：1#平台支付，2#用户支付
 	public static final String VALID_TYPE = "N";	//自动还款有限期类型：N#长期有效
 	public static final String VALID_DATE = "0";	//自动还款有效期：0
@@ -46,12 +48,12 @@ public class IPSConstants {
 	public static final String BID_CANCEL = "cancel"; //审核中->撤销
 	public static final String BID_CANCEL_B = "cancelB"; //提前借款->借款中不通过
 	public static final String BID_CANCEL_S = "cancelS"; //审核中->审核不通过
-	public static final String BID_CANCEL_I = "cancelI"; //筹款中->借款中不通过
+	public static final String BID_CANCEL_I = "cancelI"; //募集中->借款中不通过
 	public static final String BID_CANCEL_M = "cancelM"; //满标->放款不通过
 	public static final String BID_CANCEL_F = "cancelF"; //提前借款->撤销
-	public static final String BID_CANCEL_N = "cancelN"; //筹款中->撤销
+	public static final String BID_CANCEL_N = "cancelN"; //募集中->撤销
 	public static final String BID_ADVANCE_LOAN = "flowA"; //提前借款->流标
-	public static final String BID_FUNDRAISE = "flowI"; //筹款中->流标
+	public static final String BID_FUNDRAISE = "flowI"; //募集中->流标
 	
 	public static double MIN_AMOUNT = 1.0;						//标的借款额度限额最小值
 	public static int EXCUTED = -1314;	//已执行
@@ -133,6 +135,22 @@ public class IPSConstants {
 		public static final String TRANSFER_MER_TO_USER = CALLBACK_URL + "transferMerToUserCB";		//转账-商户转用户(WS)
 		public static final String UNFREEZE_INVEST_AMOUNT = CALLBACK_URL + "unfreezeInvestAmountCB";	//解冻投资金额
 	}
+
+    public static class IPSH5Url {
+        public static final String CREATE_IPS_ACCT = CALLBACK_H5_URL + "account/createAcctCB";					//开户
+        public static final String DO_DP_TRADE = CALLBACK_H5_URL + "account/rechargeCB";						//充值
+        public static final String DO_DP_TRADE_SYS = CALLBACK_H5_URL + "account/rechargeCBSys";   		    		//充值
+
+        public static final String REGISTER_CREDITOR_SYS = CALLBACK_H5_URL + "account/registerCreditorCBSys";			//投标
+        public static final String REGISTER_CREDITOR = CALLBACK_H5_URL + "account/registerCreditorCB";			        //投标
+        public static final String UNFREEZE_INVEST_AMOUNT = CALLBACK_H5_URL + "account/unfreezeInvestAmountCB";		    //解冻投资金额
+
+
+        public static final String REPAYMENT_NEW_TRADE = CALLBACK_URL + "repaymentNewTradeCB";		//还款
+        public static final String DO_DW_TRADE = CALLBACK_URL + "doDwTradeCB";						//提现
+        public static final String QUERY_FOR_ACC_BALANCE = CALLBACK_URL + "queryForAccBalanceCB";	//账户余额查询(WS)
+        public static final String GET_BANK_LIST = CALLBACK_URL + "getBankListCB";					//获取银行列表查询(WS)
+    }
 	
 	public static class IPSS2SUrl {
 		public static final String CREATE_IPS_ACCT = CALLBACK_URL + "createAcctCBSys";					//开户

@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -99,6 +99,7 @@ public class Bid implements Serializable{
 	public double amount; // 借款金额
 	public int periodUnit; // 借款期限单位
 	public String strPeriodUnit; // 期限单位字符串 
+	public Date repayDateAbout ;//预计还款日期
 	public int period; // 借款期限
 	public double apr; // 年利率
 	//public double totalInterest; // 总利息
@@ -295,7 +296,30 @@ public class Bid implements Serializable{
 		
 		return this.strPeriodUnit;
 	}
-
+	/**
+	 * 预计还款日期
+	 */
+	public Date getRepayDateAbout() {
+		Calendar cal = Calendar.getInstance();
+		this.repayDateAbout = this.time;
+		cal.setTime(this.repayDateAbout);
+		switch(this.periodUnit){
+			case Constants.YEAR: 
+				cal.add(Calendar.YEAR,this.period);
+				cal.add(Calendar.DATE,this.investPeriod);
+				break;
+			case Constants.MONTH: 
+				cal.add(Calendar.MONTH,this.period);
+				cal.add(Calendar.DATE,this.investPeriod);
+				break;
+			case Constants.DAY: 
+				cal.add(Calendar.DATE,this.period);
+				cal.add(Calendar.DATE,this.investPeriod);
+				break;
+		}
+		this.repayDateAbout = cal.getTime();
+		return this.repayDateAbout;
+	}
 	/**
 	 * 填充自己的用户对象
 	 */
@@ -1060,7 +1084,7 @@ public class Bid implements Serializable{
 			return;
 		}
 		
-		if (StringUtils.isBlank(this.description) || this.description.length() > 300) {
+		if (StringUtils.isBlank(this.description) || this.description.length() > 2000) {
 			error.msg = "借款描述有误!";
 			
 			return;
@@ -7564,5 +7588,58 @@ public class Bid implements Serializable{
 		error.code = 1;
 		
 		return bid;
+	}
+
+	/**
+	 * 累计成交额
+	 *
+	 * @param error
+	 * @return
+	 */
+	public static double findTotalVolumeOfBids(ErrorInfo error) {
+		error.clear();
+		try {
+			String sql = " select sum(b.amount) from t_bids b where b.amount = b.has_invested_amount";
+			BigDecimal totalVolume = (BigDecimal) JPA.em().createNativeQuery(sql).getSingleResult();
+			return formatMillon((totalVolume == null ? 0 : totalVolume.doubleValue()) + Constants.BASE_TOTAL_VOLUME);
+		} catch (Exception e) {
+			e.printStackTrace();
+			error.msg = "对不起！系统异常！请您联系平台管理员！";
+			error.code = -2;
+		}
+		return 0;
+	}
+
+	public static double findLoanLossProvision(ErrorInfo error) {
+		error.clear();
+		try {
+			String sql = " select " +
+					"        sum(CASE" +
+					"            WHEN (b.period_unit = 1)" +
+					"            THEN b.amount * b.apr/100 * b.period/365" +
+					"            WHEN (b.period_unit = 0)" +
+					"            THEN b.amount * b.apr/100 * b.period/12" +
+					"            WHEN (b.period_unit = -1)" +
+					"            THEN b.amount * b.apr/100 * b.period/1" +
+					"            ELSE 0" +
+					"        END) from t_bids b where b.amount = b.has_invested_amount";
+			BigDecimal loanLossProvision = (BigDecimal) JPA.em().createNativeQuery(sql).getSingleResult();
+			return formatMillon((loanLossProvision == null ? 0 : loanLossProvision.doubleValue()) + Constants.BASE_TOTAL_VOLUME * 0.09 * 6 / 12);
+		} catch (Exception e) {
+			e.printStackTrace();
+			error.msg = "对不起！系统异常！请您联系平台管理员！";
+			error.code = -2;
+		}
+		return 0;
+	}
+
+	/**
+	 * 取万元
+	 * @param value
+	 * @return
+	 */
+	private static double formatMillon(double value) {
+		BigDecimal bigDecimal = new BigDecimal(value / 10000);
+		return bigDecimal.setScale(0, BigDecimal.ROUND_CEILING).doubleValue();
 	}
 }

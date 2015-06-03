@@ -174,4 +174,10 @@ public class AppConstants {
 	public static final int APP_FUND_SECURITY=163;   //资金安全
 	public static final int APP_HOMEPAGE_SHOW_BIDS=164;   //首页展示标的
 	public static final int APP_RETURN_MODE=165;  //收益获取接口
+
+    public static final int APP_P2P_AT_TOKEN = 166;//p2p登录授权
+    public static final int APP_P2P_AT_TOKEN_CLEAN = 167;//清除token
+    public static final int APP_EDIT_USER_INFO = 168;//保存用户信息
+    public static final int APP_QUERY_ACC_BALANCE = 169;//用户余额查询
+    public static final int APP_SIGN_INVEST = 170;//获取标的sign
 }

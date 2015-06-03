@@ -87,7 +87,7 @@
 													提前借款
 												#{/elseif}
 												#{elseif _?.status == 2}
-													筹款中
+													募集中
 												#{/elseif}
 												#{elseif _?.status == 3}
 													待放款

@@ -3,8 +3,21 @@
 }%
  <div class="xf_about_box">
 	<div class="xf_about_contet">
-		
-		#{if contentList != null && contentList.size > 0}
+		#{if mediaReportNews != null && mediaReportNews.size > 0}
+			<ul>
+			     #{list mediaReportNews}
+			     	<li><a href="${_?.content}" target="_blank">${_?.title}</a></li>
+			     #{/list}
+			</ul>
+		#{/if}
+		#{elseif latestNews != null && latestNews.size > 0}
+        	 <ul>
+				 #{list latestNews}
+					<li><a href="@{front.home.HomeAction.newsDetail(_?.id)}" target="_blank">${_?.title}</li>
+				 #{/list}
+			</ul>
+		#{/elseif}
+		#{elseif contentList != null && contentList.size > 0}
 		<ul class="xf_about_gltdul">
 			#{list contentList}
 				<li>			  		
@@ -17,7 +30,7 @@
 			  	</li>	
 			#{/list}
 		</ul>
-		#{/if}
+		#{/elseif}
 		#{elseif content == null}
 			暂无
 		#{/elseif}

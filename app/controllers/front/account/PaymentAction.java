@@ -42,6 +42,7 @@ import controllers.supervisor.financeManager.LoanManager;
 import controllers.supervisor.financeManager.PayableBillManager;
 import controllers.supervisor.financeManager.PlatformAccountManager;
 import controllers.supervisor.financeManager.ReceivableBillManager;
+import utils.ParseClientUtil;
 
 /**
  * 资金托管
@@ -54,7 +55,9 @@ public class PaymentAction extends BaseController {
 	 * 开户
 	 */
 	public static void createAcct() {
-		Map<String, String> args = Payment.createAcct();
+        String client = ParseClientUtil.parseClient(request);
+
+		Map<String, String> args = Payment.createAcct(client);
 
 		render(args);
 	}
@@ -64,7 +67,7 @@ public class PaymentAction extends BaseController {
 	 */
 	public static void createAcctCB(String pMerCode, String pErrCode, String pErrMsg, String p3DesXmlPara, String pSign) {
 		ErrorInfo error = new ErrorInfo();
-		
+
 		Payment pay = new Payment();
 		pay.pMerCode = pMerCode;
 		pay.pErrCode = pErrCode;
@@ -77,13 +80,13 @@ public class PaymentAction extends BaseController {
 		
 		CheckAction.approve();
 	}
-	
+
 	/**
 	 * 开户回调（异步）
 	 */
 	public static void createAcctCBSys(String pMerCode, String pErrCode, String pErrMsg, String p3DesXmlPara, String pSign) {
 		ErrorInfo error = new ErrorInfo();
-		
+
 		Logger.info("-----------开户回调（异步）:----------");
 		Payment pay = new Payment();
 		pay.pMerCode = pMerCode;
@@ -1723,7 +1726,7 @@ public class PaymentAction extends BaseController {
 			
 			/* 如果是标详情审核 */
 			if(bidId > 0){
-				int detail = memo.getInt("detail"); // 具体详情页 1.审核中 2.筹款中 3.满标 4.成功的... 5.失败的...
+				int detail = memo.getInt("detail"); // 具体详情页 1.审核中 2.募集中 3.满标 4.成功的... 5.失败的...
 				
 				switch (detail) {
 					case 1: BidPlatformAction.auditingDetail(bidId); break;

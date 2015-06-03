@@ -113,6 +113,7 @@ import play.db.jpa.JPA;
 import play.db.jpa.Model;
 import play.libs.WS;
 import play.mvc.Http.Request;
+import play.mvc.Scope;
 import play.mvc.Scope.Session;
 import utils.Arith;
 import utils.CacheManager;
@@ -1354,13 +1355,13 @@ public class User extends UserBase implements Serializable{
             e.printStackTrace();
             error.code = -1;
             error.msg = "请求FP校验失败 " + e.toString();
-            
+
             return error.code;
         } catch (IOException e) {
             e.printStackTrace();
             error.code = -1;
             error.msg = "请求FP校验失败 " + e.toString();
-            
+
             return error.code;
         }
 		error.clear();
@@ -1369,10 +1370,10 @@ public class User extends UserBase implements Serializable{
 		if(this.isAllowLogin){
 			error.code = -1;
 			error.msg = "你已经被管理员禁止登录";
-			
+
 			return error.code;
 		}
-		
+
 		BackstageSet backstageSet = BackstageSet.getCurrentBackstageSet();
 		String ip = DataUtil.getIp();
 		
@@ -1726,6 +1727,83 @@ public class User extends UserBase implements Serializable{
 		error.msg = "保存基本资料成功";
 		error.code = 0;
 	}
+
+
+    public void appEditUser(User user, ErrorInfo error){
+        error.clear();
+
+        if(StringUtils.isBlank(this.realityName)) {
+            error.code = -1;
+            error.msg = "请输入真实姓名";
+            return ;
+        }
+
+        if(StringUtils.isBlank(this.idNumber)) {
+            error.code = -1;
+            error.msg = "请输入身份证号码";
+            return;
+        }
+
+        if(!"".equals(IDCardValidate.chekIdCard(0, idNumber))) {
+            error.code = -1;
+            error.msg = "请输入正确的身份证号";
+
+            return ;
+        }
+
+        if (StringUtils.isNotBlank(this.email)) {
+            if (RegexUtils.isEmail(this.email) || RegexUtils.isQQEmail(this.email)) {
+            }else{
+                error.code = -1;
+                error.msg = "请输入正确的邮箱";
+                return;
+            }
+        }
+
+        EntityManager em = JPA.em();
+
+        Query query = em.createQuery("update t_users set reality_name=?,id_number=?,email=? where id = ?")
+                .setParameter(1, this.realityName)
+                .setParameter(2, this.idNumber)
+                .setParameter(3, this.email)
+                .setParameter(4, this.id);
+
+        int rows = 0;
+
+        try {
+            rows = query.executeUpdate();
+        } catch(Exception e) {
+            JPA.setRollbackOnly();
+            e.printStackTrace();
+            Logger.info("首次编辑基本信息时,保存用户编辑的信息时："+e.getMessage());
+            error.code = -2;
+            error.msg = "对不起，您的身份证号码已注册！";
+
+            return;
+        }
+
+        if(rows == 0) {
+            JPA.setRollbackOnly();
+            error.code = -1;
+            error.msg = "数据未更新";
+
+            return ;
+        }
+
+        DealDetail.userEvent(this.id, UserEvent.ADD_BASIC_INFORMATION, "添加用户资料", error);
+        if(error.code < 0) {
+            JPA.setRollbackOnly();
+            return ;
+        }
+
+        user.realityName = realityName;
+        user.idNumber = this.idNumber;
+        user.email = this.email;
+        user.isAddBaseInfo = true;
+
+        error.msg = "保存基本资料成功";
+        error.code = 0;
+    }
 	
 	/**
 	 * 安全退出
@@ -3978,7 +4056,7 @@ public class User extends UserBase implements Serializable{
 		} catch(Exception e) {
 			JPA.setRollbackOnly();
 			e.printStackTrace();
-			Logger.info("管理员接收用户的站内信时,更新用户数据时："+e.getMessage());
+			Logger.info("管理员接收用户的站内信时,更新用户数据时：" + e.getMessage());
 			error.code = -3;
 			error.msg = "更新用户数据出现错误";
 			
@@ -4014,7 +4092,26 @@ public class User extends UserBase implements Serializable{
 		List<t_user_recharge_details> list = t_user_recharge_details.find("", id).fetch();
 		return list;
 	}
-	
+	/**
+	 * 充值记录查询
+	 * @param userId 用户id
+	 * @return
+	 */
+	public static List<t_user_recharge_details> queryRechargeRecordByUserId(long userId){
+		EntityManager em = JPA.em();
+		List<Object> params = new ArrayList<Object>();
+		StringBuffer sql =new StringBuffer();
+		sql.append(SQLTempletes.SELECT);
+		sql.append(SQLTempletes.V_RECHARGER);
+		sql.append("and a.user_id = ?");
+		params.add(userId);
+		Query query = em.createNativeQuery(sql.toString(), t_user_recharge_details.class);
+		for(int n = 1; n <= params.size(); n++){
+			query.setParameter(n, params.get(n-1));
+		}
+		List<t_user_recharge_details> list = query.getResultList();
+		return list;
+	}
 	/**
 	 * 手工充值
 	 */
@@ -7214,12 +7311,15 @@ public class User extends UserBase implements Serializable{
 		if (Session.current() == null) {
 			return;
 		}
-		
+		String token = Session.current().getAuthenticityToken();
 		String encryString = Session.current().getId();
 		//设置用户凭证
 		Cache.set("front_"+encryString, user.id, Constants.CACHE_TIME_HOURS_12);
 		//设置用户登录成功信息
 		Cache.set("userId_"+user.id, user, Constants.CACHE_TIME_HOURS_12);
+
+        Logger.debug("当前登录人：userId_"+user.getId());
+        Logger.debug("当前创建authToken：" + token);
 	}
 	
 	/**
@@ -12340,4 +12440,39 @@ public class User extends UserBase implements Serializable{
 		
 		return user;
 	}
+
+	/**
+	 * 客户数量
+	 *
+	 * @param error
+	 * @return
+	 */
+	public static Long findUserCount(ErrorInfo error) {
+		error.clear();
+		try {
+			return t_users.count() + Constants.BASE_USER_COUNT;
+		} catch (Exception e) {
+			e.printStackTrace();
+			error.msg = "对不起！系统异常！请您联系平台管理员！";
+			error.code = -2;
+			return null;
+		}
+	}
+
+	public void saveMyInfo(ErrorInfo error) {
+		error.clear();
+		t_users user = new t_users();
+		user.id = this.id;
+		user.reality_name = this.realityName;
+		user.id_number = this.idNumber;
+		user.email = this.email;
+		try {
+			user.save();
+		} catch (Exception e) {
+			error.code = -1;
+			error.msg = "数据库异常";
+			Logger.error("[完善基本信息失败：]", e);
+		}
+	}
 }
+

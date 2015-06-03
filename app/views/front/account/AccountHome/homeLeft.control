@@ -32,7 +32,7 @@
 			<!--	<a id="child6" class="xf_mem_l_title_zhzlist" href="@{front.account.Message.bidQuestions()}"><span class="xf_memsuba_nav">借款提问<span id="userBidQuestions">#{if userBidQuestions > -1}【${userBidQuestions}】#{/if}</span></span></a> -->
 			</div>
 		</li>
-	#{if currUser?.name != mobile} 
+		#{if currUser?.name == mobile}
 		<li id="li_3">
 			<a class="xf_mem_l_title" href="@{front.account.accountHome.loanAccount()}"
 			   id="lab_3"
@@ -47,7 +47,7 @@
 				<a id="child40" class="xf_mem_l_title_zhzlist" href="@{front.account.accountHome.waitVerifyBids()}"><span class="xf_memsuba_nav">待验证的借款标</span></a>
 				#{/if}
 				<a id="child9" class="xf_mem_l_title_zhzlist" href="@{front.account.accountHome.auditingLoanBids()}"><span class="xf_memsuba_nav">审核中的借款标</span></a>
-				<a id="child10" class="xf_mem_l_title_zhzlist" href="@{front.account.accountHome.loaningBids()}"><span class="xf_memsuba_nav">筹款中的借款标</span></a>
+				<a id="child10" class="xf_mem_l_title_zhzlist" href="@{front.account.accountHome.loaningBids()}"><span class="xf_memsuba_nav">募集中的借款标</span></a>
 				<a id="child38" class="xf_mem_l_title_zhzlist" href="@{front.account.AccountHome.readyReleaseBid()}"><span class="xf_memsuba_nav">待放款的借款标</span></a>
 				<a id="child11" class="xf_mem_l_title_zhzlist" href="@{front.account.accountHome.repaymentBids()}"><span class="xf_memsuba_nav">还款中的借款标</span></a>
 				<a id="child12" class="xf_mem_l_title_zhzlist" href="@{front.account.accountHome.successBids()}"><span class="xf_memsuba_nav">已成功的借款标</span></a>

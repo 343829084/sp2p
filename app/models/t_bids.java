@@ -16,31 +16,31 @@ import utils.Security;
  */
 @Entity
 public class t_bids extends Model {
-	public long user_id;
-	public Date time;
+	public long user_id;                     // 用户ID
+	public Date time;                      //申请时间
 	public String bid_no;
 	public String mer_bill_no;
 	public String ips_bill_no;
-	public long product_id;
-	public String title;
-	public long loan_purpose_id;
-	public long repayment_type_id;
-	public double amount;
-	public int period;
-	public double min_invest_amount;
-	public double average_invest_amount;
-	public int invest_period;
-	public Date invest_expire_time;
-	public Date real_invest_expire_time;
-	public double apr;
-	public long bank_account_id;
-	public int bonus_type;
-	public double bonus;
-	public double award_scale;
-	public String image_filename;
-	public boolean is_quality;
-	public boolean is_hot;
-	public String description;
+	public long product_id;                 // 产品ID
+	public String title;                   //标题
+	public long loan_purpose_id;            // 借款用途
+	public long repayment_type_id;          // 还款类型
+	public double amount;                  //金额
+	public int period;                     //期限
+	public double min_invest_amount;        // 最低金额招标
+	public double average_invest_amount;     // 平均金额招标
+	public int invest_period;              //满标期限
+	public Date invest_expire_time;        // 满标日期
+	public Date real_invest_expire_time;    // 实际满标日期
+	public double apr;                     //年利率
+	public long bank_account_id;            // 绑定银行卡(默认为0)
+	public int bonus_type;                  // 奖励方式:1 固定金额奖励 2按比例奖励
+	public double bonus;                    // 固定奖金
+	public double award_scale;              // 奖励百分比
+	public String image_filename;            // 借款图片
+	public boolean is_quality;                // 优质标(默认false)
+	public boolean is_hot;                    // 火标(默认false)
+	public String description;             //借款描述
 	public String project_introduction;//项目简述
 	public String company_info;//相关企业信息
 	public String repayment_res;//还款来源
@@ -53,28 +53,28 @@ public class t_bids extends Model {
 	public Date qixi_date ;//起息日
 	public Date repayall_date ;//还本结息日
 	public Date moneyback_time ;//预计资金到账时间
-	public double bail;
-	public double service_fees;
-	public boolean is_agency;
-	public int agency_id;
-	public boolean is_show_agency_name;
-	public int status;
-	public double loan_schedule;
-	public double has_invested_amount;
-	public int read_count;
-	public long allocation_supervisor_id;
-	public long manage_supervisor_id;
-	public Date audit_time;
-	public String audit_suggest;
-	public Date repayment_time;
-	public Date last_repay_time;
-	public boolean is_auditmatic_invest_bid;
+	public double bail;                    // 保证金
+	public double service_fees;             // 服务费
+	public boolean is_agency;             // 标示合作机构状态
+	public int agency_id;                  // 合作机构ID
+	public boolean is_show_agency_name;     //是否显示机构合作名称
+	public int status;               //审核状态:0审核中 1募集中（审核通过） 2还款中 3已还款 -1审核不通过 -2流标
+	public double loan_schedule;                    // 借款进度比例
+	public double has_invested_amount;            // 已投总额
+	public int read_count;                         // 阅读次数(默认为0)
+	public long allocation_supervisor_id;            // 审核人(默认为0)
+	public long manage_supervisor_id;                //分配审核人
+	public Date audit_time;                           // 审核时间(默认为null)
+	public String audit_suggest;                      // 审核意见(默认为null)
+	public Date repayment_time;                        //还款日期
+	public Date last_repay_time;                      // 最后放款时间(默认为null)
+	public boolean is_auditmatic_invest_bid;     // 自动投标(默认为false)
 	
-	public int period_unit;
-	public boolean is_sec_bid;
-	public boolean is_deal_password;
-	public int show_type;
-	public String mark;
+	public int period_unit;                  //借款期限单位
+	public boolean is_sec_bid;                // 是否秒还
+	public boolean is_deal_password;          //是否需要交易密码
+	public int show_type;                     // 发布方式
+	public String mark;                       // 产品历史资料唯一标示(缓存字段)
 	public int version;
 	public String qr_code;//二维码标识
 	
@@ -87,13 +87,12 @@ public class t_bids extends Model {
 	}
 
 	/**
-	 * 我要借款,时间最新的未满借款标 
-	 * @param user_id 用户ID
-	 * @param name 用户名称
-	 * @param id 标ID
-	 * @param time 时间
-	 * @param amount 金额
-	 * @param apr 利率
+	 * 我要借款,时间最新的未满借款标
+	 * @param user_id
+	 * @param id
+	 * @param time
+	 * @param amount
+	 * @param apr
 	 */
 	public t_bids(long user_id, long id, Date time, double amount, double apr) {
 		this.user_id = user_id;

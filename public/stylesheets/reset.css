@@ -19,7 +19,7 @@ table{border-collapse:collapse;border-spacing:0}
 .clr { zoom:1;}
 
 /*内容区最大盒子*/
-.xf_con_box{width: 1000px; margin:0 auto;}
+.xf_con_box{width: 1000px; margin:0 auto;min-height: 270px;}
 /*a*/
 a{ text-decoration:none; color:#95a0a8;cursor:pointer;outline:none;}
 a:hover{color:#ff6600;}
@@ -42,7 +42,12 @@ h6 { font-size:9px;}
 /*背景白色有边框*/
 .content_view{width: 1000px; margin:0 auto; border:1px solid #ddd; background: #fff;}
 
+body, button, input, select, textarea {
+    font: 14px/1.5 tahoma,arial,Microsoft YaHei;
+    font-family: "微软雅黑";
+}
 
+/*
 .clearfix:after {
     visibility: hidden;
     display: block;
@@ -50,6 +55,24 @@ h6 { font-size:9px;}
     content: " ";
     clear: both;
     height: 0;
+    line-height: 0;
+}
+*/
+.clearfix:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */
+
+.float-left {
+    float: left;
 }
 
-
+.float-right {
+    float:right;
+}

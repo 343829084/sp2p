@@ -1,7 +1,7 @@
 var RESULT_STATUS = {
-	SUCCESS: "0000"
+	SUCCESS: "0507",
+	FAIL:"2506"
 };
-
 
 
 //var host = "https://api-2.sunlights.me/api";

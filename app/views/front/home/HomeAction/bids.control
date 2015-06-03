@@ -3,6 +3,7 @@
 	String mobile = constants.Constants.BIDS_MOBILE;
 	String bidsCreateTime = constants.Constants.BIDS_CREATETIME;
 	boolean is_bids_need_filter = constants.Constants.IS_BIDS_NEED_FILTER;
+	double activeApr= constants.Constants.BIDS_ACTIVE_APR;
 }%
 <div class="xf_c_idx_4_loaningWrap" id="bids" >
 				<div class="xf_c_idx_4_header">
@@ -74,7 +75,7 @@
 								<div class="xf_c_idx_4_data">
 									<ul class="xf_c_idx_4_dataul">
 										<li><div>年利率</div>
-											<div class="xf_c_idx_4_nhsy">${bid?.apr}%</div>
+											<div class="xf_c_idx_4_nhsy">${bid?.apr-activeApr}%+${activeApr}%</div>
 										</li>
 										<li><div>借款金额</div>
 											<div class="xf_c_idx_4_jkje">￥${bid?.amount?.format('###,##0.00')}</div>

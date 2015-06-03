@@ -93,7 +93,7 @@
 			<marquee>
 			<a target="_blank" href="@{front.invest.investAction.invest(bid?.id)}" ><span class="xf_cfzx_gfgg_left_bsapn">最新理财资讯：</span>
 			
-			会员  ${bid?.userName?.asterisk()},${bid?.time?.format('yyyy-MM-dd hh:mm:ss')}发布了借款金额￥${bid?.amount?.format('###,##0.00')},年息${bid?.apr}%筹款中...
+			会员  ${bid?.userName?.asterisk()},${bid?.time?.format('yyyy-MM-dd hh:mm:ss')}发布了借款金额￥${bid?.amount?.format('###,##0.00')},年息${bid?.apr}%募集中...
 			</a> 
 			</marquee>
 		#{/if} }*
@@ -221,7 +221,7 @@
 					<td align="center"><span class="xf_cfzx_gfgg_order xf_cfzx_gfgg_order_two">${board_index}</span>
 					</td>
 					#{/else}
-					<td align="center">${board?.name?.substring(0,3)+"****"+board?.name?.substring(7,11)}</td>
+					<td align="center">${board?.name?.substring(0,3)+"******"+board?.name?.substring(9,11)}</td>
 					<td align="center"><span class="xf_cfzx_gfgg_tzje">￥#{format money:board?.corpus}#{/format}</span>
 					</td>
 				</tr>

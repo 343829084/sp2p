@@ -30,16 +30,29 @@ public enum MsgCode {
     LOAN_BID_SHOW_QUERY_SUCC("0506","查询首页展示标的成功"),
     LOAN_BID_APR_CALCULATOR_SUCC("0507","查询利率计算器成功"),
     LOAN_BID_RETURN_MODE_SUCC("0508","查询收益获取成功"),
-    
-    
+    AUTH_TOKEN_SUCC("0509","p2p授权登录成功"),
+    AUTH_TOKEN_CLEAN_SUCC("0510","AuthToken清除成功"),
+    SAVE_USER_INFO_SUCC("0511","完善用户资料成功"),
+    QUERY_ACC_BALANCE_SUCC("0512", "账户余额查询成功"),
+    SEARCH_INVEST_SUCC("0513", "投标查询成功"),
+    ALL_INVEST_SUCC("0514", "全投成功"),
+
+
+
+    ACCESS_FAIL("2001", "访问失败", "传入参数不能为空"),
+    CURRENT_USER_FAIL("2500","未获取到当前用户", "请登录后再试"),
+
     LOAN_BID_QUERY_FAIL("2501","查询借款标列表失败"),
     LOAN_BID_DETAIL_QUERY_ID_FAIL("2502","借款id有误"),
     LOAN_BID_DETAIL_QUERY_USERID_FAIL("2503","解析用户id有误"),
     LOAN_BID_DETAIL_QUERY_ERROR("2504","查询出现异常，给您带来的不便敬请谅解"),
     LOAN_BID_SHOW_QUERY_FAIL("2505","查询首页展示标的失败"),
     LOAN_BID_APR_CALCULATOR_FAIL("2506","查询利率计算器失败"),
-    
-    
+    AUTH_TOKEN_FAIL("2507","p2p授权登录失败"),
+    SAVE_USER_INFO_FAIL("2508","完善用户资料失败"),
+    RECHARGE_ERROR("2509", "请输入正确的充值金额"),
+    QUERY_ACC_BALANCE_FAIL("2510", "账户余额查询失败"),
+    CONFIRM_INVEST_FAIL("2511", "确认投标失败"),
 
 	;
 

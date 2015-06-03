@@ -5,6 +5,9 @@ GET     /                             											front.home.HomeAction.home
 GET     /front/home/getStart              										front.home.HomeAction.getStart
 #关于我们
 GET     /front/home/aboutUs              										front.home.HomeAction.aboutUs
+#Promotion页面
+GET     /Application/promotion              								                 Application.promotion
+GET     /front/home/newsDetail              									front.home.HomeAction.newsDetail
 
 GET     /errorFront                   											Application.errorFront
 GET     /errorSupervisor              											Application.errorSupervisor
@@ -52,6 +55,8 @@ POST	/quick/logining								 	 						front.quicklogin.QuickLogin.quickLogining
 #1 		account Home page
 
 GET     /front/account/home                      								front.account.AccountHome.home
+GET     /front/account/userInfo                      							front.account.AccountHome.userInfo
+POST    /front/account/saveMyInfo                      						    front.account.AccountHome.saveMyInfo
 POST    /front/account/queryQualityDebts        					            front.account.AccountHome.queryQualityDebts
 POST    /front/account/queryQualityBids          					            front.account.AccountHome.queryQualityBids
 POST    /front/account/attentionUser											front.account.AccountHome.attentionUser
@@ -276,7 +281,7 @@ GET    /front/account/submitPrepayment                 							front.account.Acco
 GET    /front/account/auditToRepeal                 						    front.account.AccountHome.auditToRepeal
 # 提前借款->撤销
 GET    /front/account/advanceLoanToRepeal                 						front.account.AccountHome.advanceLoanToRepeal
-# 筹款中->撤销
+# 募集中->撤销
 GET    /front/account/fundraiseToRepeal                 						front.account.AccountHome.fundraiseToRepeal
 # 查看层
 POST   /front/account/auditMaterialsSameItem									front.account.AccountHome.auditMaterialsSameItem
@@ -415,6 +420,8 @@ GET    /front/account/directionalDebt                							front.account.Invest
 
 # 借款合同
 *      /front/account/InvestAccount/investPact                                  front.account.InvestAccount.investPact
+# 借款合同(未投资)
+*      /front/account/InvestAccount/investPactWithoutInvest                     front.account.InvestAccount.investPactWithoutInvest
 # 居间服务协议
 *      /front/account/InvestAccount/intermediaryAgreement                       front.account.InvestAccount.intermediaryAgreement
 # 保障涵
@@ -466,6 +473,7 @@ POST   /front/account/creditDetailOverdue                      					front.accoun
 #12 account recharge
 GET    /front/account/recharge                      							front.account.FundsManage.recharge
 GET    /front/account/rechargeApp                      							front.account.FundsManage.rechargeApp
+GET    /front/account/rechargeApp2                      						front.account.FundsManage.rechargeApp2
 GET    /front/account/rechargePay                      							front.account.FundsManage.rechargePay
 GET    /front/account/rechargePayIps                      						front.account.FundsManage.rechargePayIps
 #13 account submitRecharge
@@ -712,6 +720,8 @@ POST   /login                         											front.account.LoginAndRegisterA
 POST   /front/account/codeReturn                         						front.account.LoginAndRegisterAction.codeReturn
 #会员注册
 GET    /register                       											front.account.LoginAndRegisterAction.register
+#发送手机验证码
+POST   /register/verifyCode                       								front.account.LoginAndRegisterAction.getVerifyCode
 #生成验证码
 POST   /front/account/setCode                       							front.account.LoginAndRegisterAction.setCode
 #校验验证码
@@ -785,6 +795,8 @@ POST   /front/invest/checkUserStatus                							front.invest.investAc
 GET    /front/invest/invest                            							front.invest.investAction.invest
 #确认投标
 POST   /front/invest/confirmInvest                      						front.invest.investAction.confirmInvest
+GET    /front/invest/confirmInvestApp                                           front.invest.investAction.confirmInvestApp
+
 
 #确认投标
 POST   /front/invest/confirmInvestBottom                      					front.invest.investAction.confirmInvestBottom
@@ -1150,7 +1162,7 @@ POST    /supervisor/TemplateAction/updatePact          				            superviso
 # -----------------------------------------------平台借款标管理--------------------------------------------------------
 # 审核中的借款标列表
 *       /supervisor/BidPlatformAction/auditingList                   			supervisor.bidManager.BidPlatformAction.auditingList
-# 筹款中的借款标列表
+# 募集中的借款标列表
 *       /supervisor/BidPlatformAction/fundraiseingList                 			supervisor.bidManager.BidPlatformAction.fundraiseingList
 # 满标待放款
 *       /supervisor/BidPlatformAction/fullList                         			supervisor.bidManager.BidPlatformAction.fullList
@@ -1166,7 +1178,7 @@ POST    /supervisor/TemplateAction/updatePact          				            superviso
 *       /supervisor/BidPlatformAction/badList                          			supervisor.bidManager.BidPlatformAction.badList
 # 审核中的借款标详情
 *       /supervisor/BidPlatformAction/auditingDetail							supervisor.bidManager.BidPlatformAction.auditingDetail
-# 筹款中的借款标详情
+# 募集中的借款标详情
 *       /supervisor/BidPlatformAction/fundraiseingDetail						supervisor.bidManager.BidPlatformAction.fundraiseingDetail
 # 满标待放款的借款标详情
 *       /supervisor/BidPlatformAction/fullDetail								supervisor.bidManager.BidPlatformAction.fullDetail
@@ -1198,15 +1210,15 @@ POST    /supervisor/BidPlatformAction/siteHot									supervisor.bidManager.BidP
 GET     /supervisor/BidPlatformAction/print                          			supervisor.bidManager.BidPlatformAction.print
 # 审核中->提前借款 
 *    	/supervisor/BidPlatformAction/auditToadvanceLoan 						supervisor.bidManager.BidPlatformAction.auditToadvanceLoan
-# 审核中->筹款中 
+# 审核中->募集中 
 *    	/supervisor/BidPlatformAction/auditToFundraise 							supervisor.bidManager.BidPlatformAction.auditToFundraise
-# 提前借款->筹款中 
+# 提前借款->募集中 
 *    	/supervisor/BidPlatformAction/advanceLoanToFundraise 					supervisor.bidManager.BidPlatformAction.advanceLoanToFundraise
 # 审核中->审核不通过 
 *    	/supervisor/BidPlatformAction/auditToNotThrough 						supervisor.bidManager.BidPlatformAction.auditToNotThrough
 # 提前借款->借款中不通过 
 *    	/supervisor/BidPlatformAction/advanceLoanToPeviewNotThrough 			supervisor.bidManager.BidPlatformAction.advanceLoanToPeviewNotThrough
-# 筹款中->借款中不通过 
+# 募集中->借款中不通过 
 *    	/supervisor/BidPlatformAction/fundraiseToPeviewNotThrough 				supervisor.bidManager.BidPlatformAction.fundraiseToPeviewNotThrough
 # 满标->待放款 
 *    	/supervisor/BidPlatformAction/fundraiseToEaitLoan 						supervisor.bidManager.BidPlatformAction.fundraiseToEaitLoan
@@ -1979,3 +1991,73 @@ POST    /front/PaymentAction/repaymentNewTradePost			                    front.a
 #*  	/supervisor/{<[\s\S]*>action}         									Application.error2
 #*  	/{<[\s\S]*>action}         												Application.error
 GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommit
+
+
+
+
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^mobile^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+GET   /mobile/login                                                  mobile.LoginAction.login
+POST   /mobile/login                                                  mobile.LoginAction.doLogin
+GET   /mobile/register                                                  mobile.LoginAction.register
+POST   /mobile/register                                                  mobile.LoginAction.doRegister
+GET   /mobile/verifyCode                                                  mobile.CheckAction.sendVerifyCode
+#首页金品
+GET  /mobile/content/bestProduct                                     mobile.MainContent.bestProduct
+#财富
+GET  /mobile/content/property                                         mobile.MainContent.property
+#理财
+GET  /mobile/content/moneyMatters                                     mobile.MainContent.moneyMatters
+#我
+GET  /mobile/content/me                                               mobile.MainContent.me
+#冻结金额
+GET  /mobile/content/tradeList                                        mobile.TradeController.tradeList
+#待收金额
+GET  /mobile/content/remainMoney                                      mobile.TradeController.remainMoney
+#交易记录
+GET  /mobile/content/tradeHistory                                     mobile.TradeController.tradeHistory
+
+#产品
+GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
+GET     /mobile/product/productBid												mobile.ProductAction.productBid
+GET     /mobile/product/bidRecords                                              mobile.ProductDetailAction.bidRecords
+GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
+GET     /mobile/product/fundSecurity                                            mobile.ProductDetailAction.fundSecurity
+GET     /mobile/product/returnMode                                              mobile.ProductDetailAction.returnMode
+
+#我
+GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord
+POST    /mobile/me/modifypwd                                                    mobile.MeAction.modifyPassWord
+GET     /mobile/me/aboutOur                                                     mobile.MeAction.aboutOur
+GET     /mobile/me/safety                                                       mobile.MeAction.safety
+GET     /mobile/me/melogout                                                     mobile.MeAction.MeLogout
+GET     /mobile/me/accountsafe                                                  mobile.MeAction.accountSafe
+
+#开户
+GET     /mobile/account/createAcct                                              mobile.account.AccountAction.createAcct
+POST    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
+POST    /mobile/account/saveUser                                                mobile.account.AccountAction.saveUser
+
+#投标
+GET     /mobile/account/allInvest                                               mobile.account.InvestAction.allInvest
+POST    /mobile/account/confirmInvest                                           mobile.account.InvestAction.confirmInvest
+POST    /mobile/account/registerCreditorCBSys                                   mobile.account.InvestAction.registerCreditorCBSys
+POST    /mobile/account/registerCreditorCB                                      mobile.account.InvestAction.registerCreditorCB
+POST    /mobile/account/unfreezeInvestAmountCB                                  mobile.account.InvestAction.unfreezeInvestAmountCB
+GET		/mobile/account/investSuccess									        mobile.account.InvestAction.investSuccess
+
+#充值
+GET     /mobile/account/recharge                                                mobile.account.RechargeAction.recharge
+POST    /mobile/account/rechargeConfirm                                         mobile.account.RechargeAction.rechargeConfirm
+POST    /mobile/account/rechargeCBSys                                           mobile.account.RechargeAction.rechargeCBSys
+POST    /mobile/account/rechargeCB                                              mobile.account.RechargeAction.rechargeCB
+GET     /mobile/account/rechargeSuccess                                         mobile.account.RechargeAction.rechargeSuccess
+
+#提现
+GET 	/mobile/account/enchash													mobile.account.EnchashAction.enchash
+
+
+GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
+
+GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
+

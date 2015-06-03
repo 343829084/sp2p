@@ -101,7 +101,7 @@
 				<font color="red">提前借款</font>
 			#{/if}
 			#{elseif _?.status == 2}
-				筹款中
+				募集中
 			#{/elseif}
  		  #{/td}
  		  #{td}

@@ -47,16 +47,18 @@ public class Optimization {
         public int untreatedInvestBillsCount; // 未处理理财账单
         public int overdueBillsCount; // 逾期借款账单
         public int lackSuditItemCount; // 须上传的审核资料
-        
-        public double user_account;  //账户总额  
+        //累计收益
+        public double user_account;  //账户总额   财富总额
         public double freeze;  //冻结金额
         public double user_account2;  //平台账户可用余额（资金托管模式）
         public double invest_amount;  //投标总额
         public int invest_count;  //投标数量
-        public double receive_amount;  //应收账款
+        public double receive_amount;  //应收账款 待收金额
         public double bid_amount;  //借款总额
         public int bid_count;  //借款标数量
         public double repayment_amount;  //应还账款
+		public double repayment_invests;  //待收收益
+		public double  accumulative_invests;  //累计收益
         
         public UserOZ(){}
         
@@ -74,7 +76,7 @@ public class Optimization {
 			} catch (Exception e) { 
 				Logger.error("查询用户信息时：" + e.getMessage());
 			}
-        	
+        	this.getRrepayment_invests();
         	if (maps != null && maps.size() > 0) {
         		
         		Map<?, ?> map = maps.get(0);
@@ -316,6 +318,48 @@ public class Optimization {
 			return this.receive_amount;
 		}
 
+		public Double getAccumulative_invests() {
+			if (this.accumulative_invests == 0) {
+				String sql = "SELECT SUM(a.real_receive_interest) FROM t_bill_invests a WHERE a.`status` IN (?, ?,?) AND  a.user_id = ? ";
+				Object record = null;
+
+				EntityManager em = JPA.em();
+				Query query = em.createNativeQuery(sql).setParameter(1, Constants.NORMAL_RECEIVABLES).setParameter(2, Constants.ADVANCE_PRINCIIPAL_RECEIVABLES).setParameter(3, Constants.OVERDUE_RECEIVABLES).setParameter(4, this.userId);
+
+				try {
+					record = query.getResultList().get(0);
+				} catch (Exception e) {
+					Logger.error("查询用户待收收益时：" + e.getMessage());
+
+					return 0d;
+				}
+
+				this.accumulative_invests= record == null ? 0 : Double.parseDouble(record.toString());
+			}
+
+			return this.accumulative_invests;
+		}
+		public Double getRrepayment_invests() {
+			if (this.repayment_invests == 0) {
+				String sql = "SELECT SUM(a.receive_interest) FROM t_bill_invests a WHERE a.`status` IN (?, ?) AND  a.user_id = ? ";
+				Object record = null;
+
+				EntityManager em = JPA.em();
+				Query query = em.createNativeQuery(sql).setParameter(1, Constants.NO_RECEIVABLES).setParameter(2, Constants.OVERDUE_NORECEIVABLES).setParameter(3, this.userId);
+
+				try {
+					record = query.getResultList().get(0);
+				} catch (Exception e) {
+					Logger.error("查询用户待收收益时：" + e.getMessage());
+
+					return 0d;
+				}
+
+				this.repayment_invests = record == null ? 0 : Double.parseDouble(record.toString());
+			}
+
+			return this.repayment_invests;
+		}
 		public Double getBid_amount() {
 			if (0 == this.bid_amount) {
 				String sql = "SELECT SUM(a.amount) FROM t_bids a WHERE a.`status` IN (?, ?, ?) AND a.user_id = ?";
