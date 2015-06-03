@@ -484,6 +484,10 @@ em{
     background-color: rgb(231,76,60)!important;
     color:white!important;
 }
+.oa_btn_disable_bk{
+    background-color: rgba(62, 70, 67, 0.72) !important;
+    color:white!important;
+}
 .oa_ft_p{
     text-align: right;
     padding-right:30px;
