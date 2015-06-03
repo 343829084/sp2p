@@ -26,21 +26,21 @@
 <body>
     <div class="ui-content rh_mg" data-role="content ">
         <p>可用余额(元):</p>
-        <p><em>200000</em></p>
-        <p>您准投资(元):<em>210000</em></p>
+        <p><em>${paramJson?.balance}</em></p>
+        <p>您准投资(元):<em>${paramJson?.investAmount}</em></p>
 
     </div>
 
     <form method="post" id="submit" data-ajax="false" action="/mobile/account/rechargeConfirm">
         <div class="rh_cm_dv">
             <label><strong>充值金额</strong></label>
-            <input type="tel" class="mobile_login_shurk" data-role="none" id="recharge" name="money" placeholder="请输入充值金额">
+            <input type="tel" class="mobile_login_shurk" data-role="none" id="recharge" name="money" placeholder="请输入充值金额" >
         </div>
         <div class="ui-content">
 
             <button class="rh_cm_bt" data-role="button">确定充值</button>
 
-            <p>充值后可用余额为<em>2100000</em>元</p>
+            <p>充值后可用余额为<em><span id="allAmount">${paramJson?.balance}</span></em>元</p>
         </div>
     </form>
 
@@ -51,3 +51,11 @@
     </div>
 </body>
 </html>
+
+<script>
+    $("#recharge").keyup(function(){
+        var money = $("#recharge").val();
+
+        $("#allAmount").html(Number(money) + Number(${paramJson?.balance}));
+    });
+</script>

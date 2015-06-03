@@ -1,5 +1,6 @@
 package controllers.mobile.account;
 
+import business.Invest;
 import business.IpsDetail;
 import business.Payment;
 import business.User;
@@ -9,18 +10,25 @@ import com.shove.security.Encrypt;
 import constants.Constants;
 import constants.IPSConstants;
 import controllers.BaseController;
+import controllers.app.common.Message;
+import controllers.app.common.MessageVo;
+import controllers.app.common.MsgCode;
+import controllers.app.common.Severity;
 import controllers.interceptor.H5Interceptor;
 import controllers.mobile.LoginAction;
 import controllers.mobile.MainContent;
 import controllers.mobile.ProductAction;
+import models.t_bids;
 import net.sf.json.JSONObject;
 import play.Logger;
 import play.cache.Cache;
 import play.mvc.With;
 import utils.Converter;
+import utils.DateUtil;
 import utils.ErrorInfo;
 import utils.ParseClientUtil;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -35,6 +43,33 @@ import java.util.Map;
 
 @With(H5Interceptor.class)
 public class InvestAction extends BaseController {
+
+    public static void allInvest(){
+        ErrorInfo error = new ErrorInfo();
+
+        double showInvestMoney = 0.00;
+        User user = (User)Cache.get("userId_"+ Cache.get(params.get("userId")));
+
+        if (user != null && params.get("bidId") != null) {
+            Long bidId = Long.valueOf(params.get("bidId"));
+            Map<String, String> bid = Invest.bidMap(bidId, error);
+            if (error.code >= 0) {
+                double amount = Double.parseDouble(bid.get("amount") + "");
+                double has_invested_amount = Double.parseDouble(bid.get("has_invested_amount") + "");
+                double balance = user.balance;
+                if (balance > amount - has_invested_amount) {//可以余额>剩余可投金额=剩余可投金额
+                    showInvestMoney = amount - has_invested_amount;
+                }else{
+                    showInvestMoney = balance;
+                }
+            }
+        }
+
+        MessageVo messageVo = new MessageVo(new Message(Severity.INFO, MsgCode.ALL_INVEST_SUCC));
+        messageVo.setValue(showInvestMoney);
+
+        renderJSON(JSONObject.fromObject(messageVo));
+    }
 
     public static void confirmInvest(){
         User user = User.currUser();
@@ -54,7 +89,7 @@ public class InvestAction extends BaseController {
         Map<String, String> args = controllers.front.invest.InvestAction.buildConfirmInvestParams(error, ParseClientUtil.H5);
         if (error.code < 0) {
             if (error.code == -999) {//余额不够跳转到充值页面
-                RechargeAction.recharge();
+                RechargeAction.recharge(params.get("investAmount"));
             }else{
                 Logger.info(">>确认投标失败：" + error.msg);
                 flash.error(error.msg);
@@ -95,6 +130,7 @@ public class InvestAction extends BaseController {
         resultJson.put("msg", error.msg);
         resultJson.put("pPostUrl", pPostUrl);
         resultJson.put("oldMerBillNo", pay.jsonPara.getString("pMerBillNo"));
+        resultJson.put("pTrdAmt", pay.jsonPara.getString("pTrdAmt"));
 
         Logger.info("----------登记债权人(异步)-------------:"+resultJson.toString());
         Logger.info("----------登记债权人(异步) end-------------");
@@ -129,7 +165,11 @@ public class InvestAction extends BaseController {
         }
         Logger.info("投标回调信息 end >>：");
 
-        ProductAction.bidSuccess();
+        String pTrdAmt = json.getString("pTrdAmt");
+        t_bids tbid = t_bids.findById(bidId);
+        String pTrdTime = DateUtil.dateToString3(new Date());
+
+        investSuccess(tbid.title, pTrdAmt, pTrdTime);
     }
 
     /**
@@ -166,6 +206,16 @@ public class InvestAction extends BaseController {
 
         MainContent.property();//TODO
 
+    }
+
+
+    public static void investSuccess(String bidTitle, String pTrdAmt, String pTrdTime){
+        JSONObject paramsJson = new JSONObject();
+        paramsJson.put("pBidTitle", bidTitle);
+        paramsJson.put("pTrdAmt", pTrdAmt);
+        paramsJson.put("pTrdTime", pTrdTime);
+
+        render(paramsJson);
     }
 
 

@@ -1,19 +1,23 @@
 package controllers.mobile.account;
 
 import business.Payment;
-import com.shove.security.Encrypt;
+import business.User;
 import constants.Constants;
 import constants.IPSConstants;
 import controllers.BaseController;
 import controllers.app.common.MsgCode;
 import controllers.interceptor.H5Interceptor;
+import controllers.mobile.LoginAction;
 import net.sf.json.JSONObject;
 import play.Logger;
+import play.libs.Encrypt;
 import play.mvc.With;
 import utils.Converter;
+import utils.DateUtil;
 import utils.ErrorInfo;
 import utils.ParseClientUtil;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -29,37 +33,44 @@ import java.util.Map;
 @With(H5Interceptor.class)
 public class RechargeAction extends BaseController {
 
-    public static void recharge(){
-
-        render();
+    public static void recharge(String investAmount){
+        User user = User.currUser();
+        if (user == null) {
+            LoginAction.login();
+        }
+        JSONObject paramJson = new JSONObject();
+        paramJson.put("balance", user.balance);
+        paramJson.put("investAmount", investAmount == null ? "0.00" : investAmount);
+        render(paramJson);
     }
 
     public static void rechargeConfirm(){
         ErrorInfo errorInfo = new ErrorInfo();
         String bankCode = params.get("bankCode");//非必填
+        String rechargeAmount = params.get("money");
         double money = 0;
 
         try {
-            if (params.get("money") == null) {//必填
+            if (rechargeAmount == null) {//必填
                 errorInfo.code = -1;
                 errorInfo.msg = MsgCode.RECHARGE_ERROR.getMessage();
                 flash.error(errorInfo.msg);
-                recharge();
+                recharge(rechargeAmount);
             }
-            money = Double.valueOf(params.get("money"));
+            money = Double.valueOf(rechargeAmount);
         }catch(Exception e){
             e.printStackTrace();
             errorInfo.code = -1;
             errorInfo.msg = MsgCode.RECHARGE_ERROR.getMessage();
             flash.error(errorInfo.msg);
-            recharge();
+            recharge(rechargeAmount);
         }
 
         if (money <= 0) {
             errorInfo.code = -1;
             errorInfo.msg = MsgCode.RECHARGE_ERROR.getMessage();
             flash.error(errorInfo.msg);
-            recharge();
+            recharge(rechargeAmount);
         }
 
         Map<String, String> args = Payment.doDpTrade(money, bankCode, errorInfo, ParseClientUtil.H5);
@@ -91,6 +102,8 @@ public class RechargeAction extends BaseController {
         resultJson.put("msg", error.msg);
         resultJson.put("pMemo1", pay.jsonPara.getString("pMemo1"));
         resultJson.put("pPostUrl", IPSConstants.IPSH5Url.DO_DP_TRADE);
+        resultJson.put("pTrdAmt",  pay.jsonPara.getString("pTrdAmt"));
+        resultJson.put("pIpsBillNo",  pay.jsonPara.getString("pIpsBillNo"));
 
         Logger.info("----------充值异步(ws处理业务逻辑)-------------:"+resultJson.toString());
         Logger.info("---------充值异步(ws处理业务逻辑) end-------------");
@@ -115,9 +128,19 @@ public class RechargeAction extends BaseController {
 
         if (error.code < 0 && error.code != Constants.ALREADY_RUN) {
             flash.error(error.msg);
-            recharge();
+            recharge(null);
         }
-        renderTemplate("mobile/account/RechargeAction/rechargeSuccess.html");
+
+        rechargeSuccess(json.getString("pTrdAmt"), json.getString("pIpsBillNo"), DateUtil.dateToString3(new Date()));
+    }
+
+    public static void rechargeSuccess(String trdAmt, String billNo, String pTrdTime){
+        JSONObject paramsJson = new JSONObject();
+        paramsJson.put("pTrdAmt", trdAmt);
+        paramsJson.put("pIpsBillNo", billNo);
+        paramsJson.put("pTrdTime", pTrdTime);
+
+        render(paramsJson);
     }
 
 }

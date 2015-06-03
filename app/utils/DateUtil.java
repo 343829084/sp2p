@@ -32,12 +32,19 @@ public class DateUtil {
 	}
 	
 	public static String dateToString2(Date date){
-		if(null == date)
-			return "";
-		
-		return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date);
-	}
-	
+        if(null == date)
+            return "";
+
+        return new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").format(date);
+    }
+
+    public static String dateToString3(Date date){
+        if(null == date)
+            return "";
+
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(date);
+    }
+
 	public static String simple(Date date) {
 		if(null == date)
 			return "";
