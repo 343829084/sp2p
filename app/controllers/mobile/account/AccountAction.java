@@ -1,5 +1,6 @@
 package controllers.mobile.account;
 
+import business.Payment;
 import controllers.interceptor.H5Interceptor;
 import models.t_users;
 import play.Logger;
@@ -37,6 +38,24 @@ public class AccountAction extends BaseController {
         Logger.info("开户回调信息 end >>：");
 
         render();
+    }
+
+    /**
+     * 开户回调（异步）
+     */
+    public static void createAcctCBSys() {
+        ErrorInfo error = new ErrorInfo();
+
+        Logger.info("-----------开户回调（异步）:----------");
+        Payment pay = new Payment();
+        pay.pMerCode = params.get("pMerCode");
+        pay.pErrCode = params.get("pErrCode");
+        pay.pErrMsg = params.get("pErrMsg");
+        pay.p3DesXmlPara = params.get("p3DesXmlPara");
+        pay.pSign =  params.get("pSign");
+        pay.createAcctCB(error);
+
+        renderText("{\"code\":\""+error.code+"\"}");
     }
 
     public static void createAcct() {

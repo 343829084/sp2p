@@ -430,7 +430,7 @@
 		switch (unit) {
 		case -1: ymdapr = apr; break;
 		case 0: ymdapr = apr / 12; break;
-		case 1: ymdapr = apr / 360; break;
+		case 1: ymdapr = apr / 365; break;
 		default: return 0; }
 		var interest = (ymdapr * period * amount / 100).toFixed(2);
 		return interest;

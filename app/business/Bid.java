@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -98,6 +99,7 @@ public class Bid implements Serializable{
 	public double amount; // 借款金额
 	public int periodUnit; // 借款期限单位
 	public String strPeriodUnit; // 期限单位字符串 
+	public Date repayDateAbout ;//预计还款日期
 	public int period; // 借款期限
 	public double apr; // 年利率
 	//public double totalInterest; // 总利息
@@ -294,7 +296,30 @@ public class Bid implements Serializable{
 		
 		return this.strPeriodUnit;
 	}
-
+	/**
+	 * 预计还款日期
+	 */
+	public Date getRepayDateAbout() {
+		Calendar cal = Calendar.getInstance();
+		this.repayDateAbout = this.time;
+		cal.setTime(this.repayDateAbout);
+		switch(this.periodUnit){
+			case Constants.YEAR: 
+				cal.add(Calendar.YEAR,this.period);
+				cal.add(Calendar.DATE,this.investPeriod);
+				break;
+			case Constants.MONTH: 
+				cal.add(Calendar.MONTH,this.period);
+				cal.add(Calendar.DATE,this.investPeriod);
+				break;
+			case Constants.DAY: 
+				cal.add(Calendar.DATE,this.period);
+				cal.add(Calendar.DATE,this.investPeriod);
+				break;
+		}
+		this.repayDateAbout = cal.getTime();
+		return this.repayDateAbout;
+	}
 	/**
 	 * 填充自己的用户对象
 	 */
@@ -1059,7 +1084,7 @@ public class Bid implements Serializable{
 			return;
 		}
 		
-		if (StringUtils.isBlank(this.description) || this.description.length() > 300) {
+		if (StringUtils.isBlank(this.description) || this.description.length() > 2000) {
 			error.msg = "借款描述有误!";
 			
 			return;

@@ -16,9 +16,6 @@
     <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
 
-    *{<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">}*
-    *{<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>}*
-
 </head>
 <body>
 
@@ -43,25 +40,8 @@
             #{if bid?.status == 2}
             <div id="progressbar" class="fundraising_progressbar" ></div>
             #{/if}
-            *{<div id="progressbar_sellout" style="width:92%;">}*
-                *{<div  class="sellout_progressbar">}*
-
-                *{</div>}*
-            *{</div>}*
-            *{<img  src="@{'/public/images/ad.png'}" >}*
-
-            *{<div class="ui-grid-a fundraising_grid">}*
-                *{<div class="ui-block-a">总额：<span>230,000元</span></div>}*
-                *{<div class="ui-block-b" style="text-align: right;">剩余：<span>0.00</span>元</div>}*
-            *{</div>}*
         </div>
-
-
     </div>
-    <div class="productDetail_activity">
-        活动期间：额外增加2%，年化收益达到${bid?.apr}%
-    </div>
-
 
     <div class="productDetail_ref">
         <input type="hidden" value="${bid?.id}" id="bid_Id">
@@ -84,7 +64,7 @@
 
     <hr/>
 
-    <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk" id="confirmInvestBtn" type="submit" >购买</a>
+    <button class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk" id="confirmInvestBtn" type="submit" >购买</button>
 
 </body>
 </html>
@@ -132,7 +112,6 @@
         </div>
         <div class="ui-block-b" style="text-align: right;">已融资：<span>${bid?.loanSchedule}</span>%</div>
     </div>
-    <input id="countdownTime${bid?.id}" type="hidden" value="${bid?.investExpireTime?.format('yyyy/MM/dd HH:mm:ss')}"></input>
     <div class="ui-grid-a">距离购买结束：
 		<span id="day${bid?.id}"></span>天
 		<span id="hours${bid?.id}"></span>小时
@@ -143,12 +122,11 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        if ('${bid?.status}' != '2') {
+        if (!${jsonMap?.bidCanBuyFlag}) {
             $("#confirmInvestBtn").addClass("oa_btn_disable_bk");
             $("#confirmInvestBtn").attr("disabled","disabled");
         }
     });
-
 
     if ('${bid?.status}' == '4') {
         //还款中4
@@ -157,7 +135,6 @@
         //筹款中2  两种 预售及售中
 
         $("#fundraising").tmpl('${bid}').appendTo('#product_status_div');
-
             $("#progressbar").progressbar({
                 value: ${bid?.loanSchedule}
             });
@@ -172,7 +149,7 @@
 
 </script>
 
-<script type="text/javascript">
+<script>
     var i = '${bid.id}';
-    showTime($("#countdownTime"+i), $("#day"+i),$("#hours"+i), $("#minutes"+i), $("#seconds"+i));
+    showTime('${jsonMap?.balanceTime}', $("#day"+i),$("#hours"+i), $("#minutes"+i), $("#seconds"+i));
 </script>

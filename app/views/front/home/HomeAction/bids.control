@@ -3,6 +3,7 @@
 	String mobile = constants.Constants.BIDS_MOBILE;
 	String bidsCreateTime = constants.Constants.BIDS_CREATETIME;
 	boolean is_bids_need_filter = constants.Constants.IS_BIDS_NEED_FILTER;
+	double activeApr= constants.Constants.BIDS_ACTIVE_APR;
 }%
 <div class="xf_c_idx_4_loaningWrap" id="bids" >
 				<div class="xf_c_idx_4_header">
@@ -17,13 +18,13 @@
 								        #{if is_bids_need_filter }
 								           #{if  _?.userName == mobile && _?.time?.format('yyyy-MM-dd HH:mm:ss') > bidsCreateTime }
                                               <span class="xf_c_idx_4_mebersNews">最新理财资讯：</span>
-                                              <span style="padding-bottom:8px; display: inline-block;">会员  ${_?.userName?.substring(0,3)+"****"+_?.userName?.substring(7,11)},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}发布了借款金额￥${_?.amount?.format('###,##0.00')},年息${_?.apr}%募集中...</span>
+                                              <span style="padding-bottom:8px; display: inline-block;">会员  ${_?.userName?.substring(0,3)+"****"+_?.userName?.substring(7,11)},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}发布了借款金额￥${_?.amount?.format('###,##0.00')},年息${_?.apr}%筹款中...</span>
                                           #{/if}
                                        #{/if}
                                        
 						               #{else}
 						                  <span class="xf_c_idx_4_mebersNews">最新理财资讯：</span>
-                                          <span style="padding-bottom:8px; display: inline-block;">会员  ${_?.userName?.substring(0,3)+"****"+_?.userName?.substring(7,11)},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}发布了借款金额￥${_?.amount?.format('###,##0.00')},年息${_?.apr}%募集中...</span>
+                                          <span style="padding-bottom:8px; display: inline-block;">会员  ${_?.userName?.substring(0,3)+"****"+_?.userName?.substring(7,11)},${_?.time?.format('yyyy-MM-dd HH:mm:ss')}发布了借款金额￥${_?.amount?.format('###,##0.00')},年息${_?.apr}%筹款中...</span>
 						               #{/else}
                                  </a>
 							</li>
@@ -74,7 +75,7 @@
 								<div class="xf_c_idx_4_data">
 									<ul class="xf_c_idx_4_dataul">
 										<li><div>年利率</div>
-											<div class="xf_c_idx_4_nhsy">${bid?.apr}%</div>
+											<div class="xf_c_idx_4_nhsy">${bid?.apr-activeApr}%+${activeApr}%</div>
 										</li>
 										<li><div>借款金额</div>
 											<div class="xf_c_idx_4_jkje">￥${bid?.amount?.format('###,##0.00')}</div>

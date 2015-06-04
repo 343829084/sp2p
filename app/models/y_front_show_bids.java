@@ -23,6 +23,7 @@ public class y_front_show_bids extends Model{
 	public Double apr;
 	public Double has_invested_amount;
 	public String no;
+    public Date time;
 
 
 

@@ -10,10 +10,7 @@ import play.mvc.Scope;
 import play.mvc.With;
 import utils.CaptchaUtil;
 
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -38,35 +35,40 @@ public class ProductAction extends BaseController {
         if (bid.getId() == -1) {
             MainContent.moneyMatters();
         }
-        Map jsonMap=new HashMap();
-        if(null!=bid.repayment_res && bid.repayment_res.length()>44){
+
+        JSONObject jsonMap = new JSONObject();
+        if(bid.repayment_res != null && bid.repayment_res.length() > 44){
             try{
-                String project=bid.repayment_res.split(";")[0];
-                jsonMap.put("repayment_res_short",project.substring(0,44));//短的资金安全
+                String project = bid.repayment_res.split(";")[0];
+                jsonMap.put("repayment_res_short", project.substring(0,44) + "...");//短的资金安全
             }catch (Exception e) {
-                jsonMap.put("repayment_res_short",bid.repayment_res.substring(0,44));//短的资金安全
+                jsonMap.put("repayment_res_short", bid.repayment_res.substring(0,44) + "...");//短的资金安全
             }
         }else{
-            jsonMap.put("repayment_res_short",bid.repayment_res);
+            jsonMap.put("repayment_res_short", bid.repayment_res);
         }
 
-        if(null!=bid.description && bid.description.length()>44){
-            jsonMap.put("project_introduction_short",bid.description.substring(0,44));
+        if(bid.description != null && bid.description.length() > 44){
+            jsonMap.put("project_introduction_short", bid.description.substring(0,44) + "...");
         }else{
-            jsonMap.put("project_introduction_short",bid.description);
+            jsonMap.put("project_introduction_short", bid.description);
         }
+
+        boolean bidCanBuyFlag = false;//是否可以购买
+        if (bid.status == 2) {//筹款中
+            Long balanceTime = (bid.investExpireTime.getTime() - new Date().getTime()) / 1000;
+            jsonMap.put("balanceTime", balanceTime);//倒计时时间
+
+            double canInvestAmount = bid.amount - bid.hasInvestedAmount;
+            if (canInvestAmount > 0) {
+                bidCanBuyFlag = true;
+            }
+        }
+        jsonMap.put("bidCanBuyFlag", bidCanBuyFlag);
 
         Logger.info(">>current bid status:" + bid.status);
 
-        int  period =  bid.period;
-        int unit=bid.periodUnit;
-        unit= unit==-1?unit*=-365:unit==0?unit*=30:unit;
-        unit*=period;
-        Calendar ca=Calendar.getInstance();
-        ca.setTime(bid.time);
-        ca.add(Calendar.DAY_OF_YEAR, unit);
-        Date lastTime=ca.getTime();
-        render(bid,jsonMap,lastTime);
+        render(bid, jsonMap);
     }
 
 

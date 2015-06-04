@@ -13,8 +13,9 @@
 				<tbody>
 					<tr>
 						<td align="left" valign="middle" width="74" >会员名称：</td>
-						<td >${bid?.user?.name?.substring(0,3)+"****"+bid?.user?.name?.substring(7,11)}</td>
+						<td >${bid?.user?.name?.substring(0,3)+"******"+bid?.user?.name?.substring(9,11)}</td>
 					</tr>
+					<!--
 					<tr>
 						<td align="left" valign="middle">信用等级：</td>
 						<td>#{img width:"25px",height:"25px",src:"${bid?.user?.myCredit?.imageFilename}",alt:""}#{/img}
@@ -24,6 +25,7 @@
 						<td align="left" valign="middle">信用积分：</td>
 						<td>${bid?.user?.creditScore?.format('0')}分</td>
 					</tr>
+					-->
 					<tr>
 						<td align="left" valign="middle">借贷记录：</td>
 						<!--<td>${historySituationMap?.successBidCount}次成功，${historySituationMap?.flowBids}次流标</td>-->

@@ -305,7 +305,7 @@ public class Bill implements Serializable{
 				
 			} else {
 				
-				this.addDayBills(bid.title, deadline, borrowSum, monthRate, bid.id, 
+				this.addDayBills(bid.title, deadline, borrowSum, bid.apr, bid.id, 
 						bid.repayment.id, bid.userId, bid.isSecBid, error);//生成天标借款账单和投资账单
 				
 				return error.code;
@@ -364,7 +364,7 @@ public class Bill implements Serializable{
 				  
         	  } else {
         		  
-        		  this.addDayBills(bid.title, deadline, borrowSum, monthRate, bid.id, 
+        		  this.addDayBills(bid.title, deadline, borrowSum, bid.apr, bid.id, 
         				  bid.repayment.id, bid.userId, bid.isSecBid, error);//生成天标借款账单和投资账单
         		  
         		  return error.code;
@@ -411,7 +411,7 @@ public class Bill implements Serializable{
 			   
     	   } else {
     		   
-    		   this.addDayBills(bid.title, deadline, borrowSum, monthRate, 
+    		   this.addDayBills(bid.title, deadline, borrowSum, bid.apr, 
     				   bid.id, bid.repayment.id, bid.userId, bid.isSecBid, error);//生成天标借款账单和投资账单
     		   
     		   return error.code;
@@ -428,12 +428,13 @@ public class Bill implements Serializable{
  	 * @param monthRate  月利率
  	 * @param bidId   标id
  	 */
- 	public int addDayBills(String title, int deadline, double borrowSum, double monthRate,
+ 	public int addDayBills(String title, int deadline, double borrowSum, double apr,
  			long bidId, long repaymentId, long userId, boolean isSecBid,  ErrorInfo error){
  		error.clear();
- 		
 	    t_bills bills = new t_bills();
-		double monPayInterest = Arith.div(Arith.mul(Arith.mul(borrowSum, monthRate), deadline), 30, 2);//天标的总利息
+		double monPayInterest = Arith.round(apr/365/100*deadline*borrowSum, 2); 
+		//monPayInterest = Arith.div(Arith.mul(Arith.mul(borrowSum, monthRate), deadline), 30, 2);//天标的总利息
+		//      interest = Arith.div(Arith.mul(Arith.mul(amount,    monthRate), period)  , 30, 2);//天标的总利息
 
 		//1.生成借款账单
 		bills.bid_id = bidId;
