@@ -17,7 +17,8 @@ public class H5Interceptor extends BaseController {
             "mobile.AccountAction.createAcct",
             "mobile.AccountAction.saveUser",
             "mobile.ProductAction.productBid",
-            "mobile.InvestAction.confirmInvest"
+            "mobile.InvestAction.confirmInvest",
+            "mobile.EnchashAction.enchash"
     })
     public static void checkLogin() {
         Logger.debug("[checkLogin]" + request.url);
