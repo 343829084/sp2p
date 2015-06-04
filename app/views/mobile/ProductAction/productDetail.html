@@ -13,7 +13,7 @@
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.tmpl.min.js'}"></script>
-    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
 
 </head>
@@ -98,17 +98,17 @@
         <li>
             <ui>融资总额:</ui>
             <ui class="bp_font_red">
-                ${(bid?.amount).format('###,##0')}元
+                ${bid?.amount?.format('###,##0')}元
             </ui>
         </li>
     </div>
 </script>
 <script id="fundraising" type="text/x-jquery-tmpl">
-    <div id="progressbar" class="fundraising_progressbar"></div>
+
 
     <div class="ui-grid-a fundraising_grid">
         <div class="ui-block-a">
-            融资金额：${(bid.amount).format('###,##0')}元
+            融资金额：${bid.amount?.format('###,##0')}元
         </div>
         <div class="ui-block-b" style="text-align: right;">已融资：<span>${bid?.loanSchedule}</span>%</div>
     </div>
@@ -136,11 +136,10 @@
         //筹款中2  两种 预售及售中
 
         $("#fundraising").tmpl('${bid}').appendTo('#product_status_div');
-                $(function() {
+
             $("#progressbar").progressbar({
-                value: '${bid?.loanSchedule}'
+                value: ${bid?.loanSchedule}
             });
-        });
     }else  {
         $(function() {
             $( "#progressbar_sellout" ).progressbar({
