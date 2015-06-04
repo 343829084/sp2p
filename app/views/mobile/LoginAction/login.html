@@ -30,12 +30,12 @@
 
             <input type="password" class="mobile_login_shurk" id="password" maxlength="20" name="password" value="${flash?.password}" placeholder="请输入登录密码">
         </div>
-        <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="login()"  >立即登录</a>
+        <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="login()" >立即登录</a>
     </form>
 
         <div class="ui-field-contain ui-grid-a">
-            <div class="ui-block-a"><a href="/mobile/register">立即注册</a></div>
-            <div class="ui-block-b text-right"><a href="/mobile/me/changepwd">忘记密码</a></div>
+            <div class="ui-block-a"><a id="register" href="#">立即注册</a></div>
+            <div class="ui-block-b text-right"><a id="changePwd" href="#">忘记密码</a></div>
         </div>
 
         <div class="oa_er_bk">
@@ -61,11 +61,18 @@
 
         var error = '${flash?.error}';
         if (error == null || error == undefined || error == '') {
-            $("#error_tips").hide();
+            $(".oa_er_bk").hide();
         }else{
             $(".oa_er_bk").show();
             $("#error_content").text(error);
         }
+    });
+
+    $("#register").click(function(){
+        window.location.href="/mobile/register";
+    });
+    $("#changePwd").click(function(){
+        window.location.href="/mobile/me/changepwd";
     });
 
 
