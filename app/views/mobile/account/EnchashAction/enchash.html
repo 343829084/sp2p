@@ -31,9 +31,12 @@
                 <div>
                     可提现金额：<span class="prod-name">${paramsJson?.balance}</span>元
                 </div>
+
                 <div class="input-container" data-role="none">
                     <span>输入提现金额：</span><input data-role="none" type="text" name="money" id="money" placeholder="输入金额" value="${paramsJson?.money}"/>
                 </div>
+
+                <div id="day_tips_show">提示：直接充值款项须<span id="withdrawal_day"></span>个工作日方可申请提现！</div>
             </div>
             <div class="btn-container" >
                 <a id="confirmRechargeBtn" href="#" class="ui-btn ui-corner-all" onclick="enchashConfirm();">进入汇付页面</a>
@@ -53,6 +56,24 @@
 </html>
 
 <script>
+    $(document).ready(function(){
+        var day = '${paramsJson?.withdrawal_day}';
+        if (day != null && Number(day) > 0) {
+            $("#day_tips_show").show();
+            $("#withdrawal_day").text(day);
+        }else{
+            $("#day_tips_show").hide();
+        }
+
+        var error = '${flash?.error}';
+        if (error == null || error == undefined || error == '') {
+            $(".oa_er_bk").hide();
+        }else{
+            $(".oa_er_bk").show();
+            $("#error_content").text(error);
+        }
+    });
+
     function enchashConfirm(){
         var money = $("#money").val();
         var enchaseMoney = veriMoney(money, -1, '${paramsJson?.balance}');

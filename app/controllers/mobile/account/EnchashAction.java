@@ -23,8 +23,19 @@ public class EnchashAction extends BaseController {
         User user = User.currUser();
 
         JSONObject paramsJson = new JSONObject();
-        paramsJson.put("balance", user.balance);
+
+        ErrorInfo error = new ErrorInfo();
+        double rechargeAmount = User.queryRechargeIn(user.id, error);//限制时间内充值的金额不能提现
+        if (error.code < 0) {
+            flash.error(error.msg);
+            enchash(money);
+        }
+
+        double cashMoney = user.balance - rechargeAmount;
+        paramsJson.put("balance", cashMoney < 0 ? 0.00 : cashMoney);
         paramsJson.put("money", money);
+        paramsJson.put("withdrawal_day" , Constants.WITHDRAWAL_DAY);
+
         render(paramsJson);
 	}
 
@@ -36,7 +47,7 @@ public class EnchashAction extends BaseController {
             error.code = -1;
             error.msg = "请输入提现金额";
             flash.error(error.msg);
-            return;
+            enchash(null);
         }
         try {
             amount = Double.valueOf(params.get("money"));
@@ -44,31 +55,31 @@ public class EnchashAction extends BaseController {
                 error.code = -1;
                 error.msg = "已超过最大充值金额" +Constants.MAX_VALUE+ "元";
                 flash.error(error.msg);
-                return;
+                enchash(amount + "");
             }
         }catch (Exception e){
             e.printStackTrace();
             error.code = -1;
             error.msg = "提现金额格式不正确";
             flash.error(error.msg);
-            return;
+            enchash(amount+"");
         }
 
         User user = new User();
-        user.id = User.currUser().id;
+        user.id = User.currUser().getId();
 
         long withdrawalId = user.withdrawal(amount, 0, null, 0, true, error);
 
         if(error.code < 0) {
             flash.error(error.msg);
-            return;
+            enchash(amount+"");
         }
 
         Map<String, String> args= Payment.doDwTrade(withdrawalId, amount, error, ParseClientUtil.H5);
 
         if (error.code < 0) {
             flash.error(error.msg);
-            return;
+            enchash(amount+"");
         }
 
         render("@front.account.PaymentAction.doDwTrade", args);
