@@ -492,6 +492,7 @@ POST   /front/account/gCallbackSys                      						front.account.Fund
 POST   /front/account/QueryBankInfo                      						front.account.FundsManage.QueryBankInfo
 # 确认提现
 POST   /front/account/submitWithdrawal                      					front.account.FundsManage.submitWithdrawal
+GET    /front/account/enchashApp                                                front.account.FundsManage.enchashApp
 #15 account applyWithdrawal
 GET    /front/account/applyWithdrawal                      						front.account.FundsManage.applyWithdrawal
 #16 account submitTransfer
