@@ -59,8 +59,17 @@ public class MeAction extends BaseController {
     }
 
     public static void changePassWord() {
-        User user = User.currUser();
-        render(user);
+
+        String name=params.get("name");
+        if (null!=name){
+            User user =new User();
+            user.setName(name);
+            render(user);
+        }else {
+            User user = User.currUser();
+            render(user);
+        }
+
     }
     /**
      * 保存重设的密码
