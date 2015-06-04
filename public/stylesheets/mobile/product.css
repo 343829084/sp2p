@@ -167,7 +167,7 @@
     border-radius: 0px;
     overflow: hidden;
     border-top: 1px solid #e6e6e6;
-    border-bottom: 1px solid #e6e6e6;
+    border-bottom: 1px;
     margin-left: 0.9rem;
 
     background:#fff url(/public/images/ad.png) no-repeat 99% 2px;

@@ -43,25 +43,8 @@
             #{if bid?.status == 2}
             <div id="progressbar" class="fundraising_progressbar" ></div>
             #{/if}
-            *{<div id="progressbar_sellout" style="width:92%;">}*
-                *{<div  class="sellout_progressbar">}*
-
-                *{</div>}*
-            *{</div>}*
-            *{<img  src="@{'/public/images/ad.png'}" >}*
-
-            *{<div class="ui-grid-a fundraising_grid">}*
-                *{<div class="ui-block-a">总额：<span>230,000元</span></div>}*
-                *{<div class="ui-block-b" style="text-align: right;">剩余：<span>0.00</span>元</div>}*
-            *{</div>}*
         </div>
-
-
     </div>
-    <div class="productDetail_activity">
-        活动期间：额外增加2%，年化收益达到${bid?.apr}%
-    </div>
-
 
     <div class="productDetail_ref">
         <input type="hidden" value="${bid?.id}" id="bid_Id">
