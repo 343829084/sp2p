@@ -2056,3 +2056,7 @@ GET   /mobile/quickRegister                                                     
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
 
 GET   /mobile/weixin/coreService                                                   mobile.CoreService.serviceauth
+
+POST   /mobile/weixin/coreService                                                   mobile.CoreService.serviceprocess
+
+GET   /mobile/weixin/openId                                                         mobile.CoreService.getOpenId
