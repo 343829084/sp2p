@@ -21,15 +21,15 @@
 							<div class="xf_login_inputsrul_r">
 								<input class="xf_login_shurk" type="password" value="${flash?.password}">
 							</div>
-						</li>}*
+						</li>
 						<li>
 							<div class="xf_login_inputsrul_l">邮箱：</div>
 							<div class="xf_login_inputsrul_r"><input class="xf_login_shurk" type="text" value="${flash?.email}"></div>
-						</li>
+						</li>}*
 						<li>
 							<div class="xf_login_inputsrul_l">&nbsp;</div>
 							<div class="xf_login_inputsrul_r xf_login_inputsrul_r2">
-								<a href="javascript:void(0);" class="xf_con_inputfbjk" id="xf_con_inputfbjk">激活账户</a>
+								<!--  <a href="javascript:void(0);" class="xf_con_inputfbjk" id="xf_con_inputfbjk">激活账户</a>-->
 								<a href="@{front.account.AccountHome.home()}" class="xf_con_inputfbqux" onclick="goHome()">浏览网站</a>
 							</div>
 						</li>
@@ -44,6 +44,7 @@
 			</div>
 		</div>
 		<!-- 激活用户 -->
+		<!--
 		<div class="xf_zqzrtb_4_window" id="xf_zqzrtb_4_window">
 			<div class="xf_register_4_windowInner">
 				<div class="xf_zqzr_4_windowClose"></div>
@@ -63,17 +64,18 @@
 				</div>
 			</div>
 		</div>
+		 -->
 <script type="text/javascript">
 	$(function(){
 		//激活用户
-		$("#xf_zqzrtb_4_window").center();
+		//$("#xf_zqzrtb_4_window").center();
 
-		$("#xf_con_inputfbjk").click(function(){				
+		/*$("#xf_con_inputfbjk").click(function(){				
 			$("#xf_zqzrtb_4_window").show();
 		});
 		$(".xf_zqzr_4_windowClose,.xf_con_inputfbqux").click(function(){
 			$("#xf_zqzrtb_4_window").hide();
-		});
+		});*/
 		
 	});
 	

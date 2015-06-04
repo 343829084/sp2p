@@ -4463,7 +4463,7 @@ public class RequestData {
 		monRate = apr /1200;
 		
 		if(periodUnit == 1){//天标
-			dayRate = Arith.div(apr, 36000, 2);
+			dayRate = Arith.div(apr, 36500, 2);
 			paySum = amount + Arith.mul(dayRate, period); 
 			monPay = paySum;
 		}else{
@@ -7904,7 +7904,7 @@ public class RequestData {
 		
 		if(loadType == 1){
 			//dayRate = Arith.div(Double.parseDouble(parameters.get("apr")), 36000,4);
-			dayRate = Double.parseDouble(parameters.get("apr"))/36000;
+			dayRate = Double.parseDouble(parameters.get("apr"))/36500;
 			
 			if(repayType == 1){//等额本息还款
 				monPay = Double.valueOf(Arith.mul(amount, monthRate) * Math.pow((1 + monthRate), 1))/ 

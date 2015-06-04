@@ -154,13 +154,8 @@ function getValCodeTimeout(seconds,elementId){
 
 
 
-function showTime(timeId, dayId, hoursId, minutesId, secondsId){
-    var time = $(timeId).val();
-    date = new Date(time);
-    var tt = date.getTime();
-    var now = new Date().getTime();
-    var cha = tt-now;
-    var SysSecond=parseInt(cha/1000);
+function showTime(balanceTime, dayId, hoursId, minutesId, secondsId){
+    var SysSecond=parseInt(balanceTime);
 
     var timeOutInter = setInterval(function(){
         SysSecond = SysSecond-1;

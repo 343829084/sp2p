@@ -1,5 +1,6 @@
 package utils;
 
+import constants.IPSConstants;
 import org.apache.commons.lang3.StringUtils;
 
 import play.Logger;
@@ -34,11 +35,17 @@ public class ParseClientUtil {
             String userAgent = userAgentHeader.value();
             Logger.info("User-Agent:" + userAgent);
             if (userAgent.contains("Mobile") || userAgent.contains("mobile")) {
-                if (userAgent.contains("jindoujialicai")) {
-                    return APP;
-                }else{
-                    return H5;
+                String appNames = IPSConstants.APP_AGENT_NAMES;
+                if (StringUtils.isNotEmpty(appNames)) {
+                    String[] appAgents = appNames.split(";");
+                    for (String appAgent : appAgents) {
+                        if (userAgent.contains(appAgent)) {
+                            return APP;
+                        }
+                    }
                 }
+
+                return H5;
             }
         }
 

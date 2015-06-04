@@ -35,8 +35,8 @@
         <dd><em>${(accountInfo?.user_account-accountInfo?.freeze)?.format('###,##0.00')}</em></dd>
     </div>
     <div class="ui-block-b ui-block-e pp-btn-rt">
-        <button class="ui-btn ui-btn-inline pp-bt-ft pp-bt-bk_1" data-inline="true">充值</button>
-        <button class="ui-btn ui-btn-inline pp-bt-ft pp-bt-bk_2" data-inline="true">取现</button>
+        <button class="ui-btn ui-btn-inline pp-bt-ft pp-bt-bk_1" id="rechargeBtn" data-inline="true">充值</button>
+        <button class="ui-btn ui-btn-inline pp-bt-ft pp-bt-bk_2" id="enchashBtn" data-inline="true">取现</button>
     </div>
 
 </div>
@@ -66,7 +66,12 @@
         $("#tradelist").click(function(){
             window.location.href="@{mobile.TradeController.tradeHistory()}";
         });
-
+        $("#rechargeBtn").click(function(){
+            window.location.href="/mobile/account/recharge";
+        });
+        $("#enchashBtn").click(function(){
+            window.location.href="/mobile/account/enchash";
+        });
     })
 
 </script>

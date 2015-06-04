@@ -58,7 +58,12 @@ public class Application extends BaseController {
 		String randomID = Codec.UUID();
 		renderText(randomID);
 	}
-	
+	/**
+	 * 宣传页面
+	 */
+	public static void promotion(){
+		render();
+	}
 	/**
 	 * 生成验证码图片
 	 * @param id
