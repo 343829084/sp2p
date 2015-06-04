@@ -6,6 +6,7 @@ import controllers.BaseController;
 import controllers.interceptor.H5Interceptor;
 import net.sf.json.JSONObject;
 import play.Logger;
+import play.mvc.Scope;
 import play.mvc.With;
 import utils.CaptchaUtil;
 
@@ -91,11 +92,10 @@ public class ProductAction extends BaseController {
         map.put("currentUser", User.currUser());
         map.put("uuid", uuid);
         map.put("sign", sign);
+        map.put("userId", "front_"+Scope.Session.current().getId());
 
         ProductAction.render(bid, map);
     }
 
-    public static void bidSuccess(){
-        render();
-    }
+
 }
