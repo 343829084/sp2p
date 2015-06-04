@@ -26,7 +26,7 @@
 <body>
     <div class="ui-content rh_mg" data-role="content ">
         <p>可用余额(元):</p>
-        <p><em>${paramJson?.balance}</em></p>
+        <p><em>${paramJson?.balance?.format('###,##0.00')}</em></p>
         <p>您准投资(元):<em>${paramJson?.investAmount}</em></p>
 
     </div>
@@ -40,7 +40,7 @@
 
             <button class="rh_cm_bt" data-role="button">确定充值</button>
 
-            <p>充值后可用余额为<em><span id="allAmount">${paramJson?.balance}</span></em>元</p>
+            <p>充值后可用余额为<em><span id="allAmount">${paramJson?.balance?.format('###,##0.00')}</span></em>元</p>
         </div>
     </form>
 
