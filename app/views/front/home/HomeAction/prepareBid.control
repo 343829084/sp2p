@@ -1,3 +1,6 @@
+%{
+	java.util.Date currentDate = utils.DateUtil.currentDate();
+}%
 <div class="item">
     <div class="top">
         <a href="@{front.invest.InvestAction.invest(bid?.id)}" target="_blank"><p>${bid?.title}</p></a>
@@ -42,7 +45,7 @@
             </table>
         </div>
     </div>
-    <div class="bottom clearfix">
-         <span class="text-panel">${(bid.time-currentDate).format('yyyy-MM-dd hh:mm:ss')}后起投</span>
+    <div class="bottom clearfix" style="height: 35px;">
+         <span class="text-panel">${utils.DateUtil.remainDateToString(currentDate, bid?.time)}后起投</span>
     </div>
 </div>
