@@ -13,7 +13,7 @@
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.tmpl.min.js'}"></script>
-    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.min.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
 
     *{<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">}*
@@ -124,7 +124,7 @@
     </div>
 </script>
 <script id="fundraising" type="text/x-jquery-tmpl">
-    <div id="progressbar" class="fundraising_progressbar"></div>
+
 
     <div class="ui-grid-a fundraising_grid">
         <div class="ui-block-a">
@@ -157,11 +157,10 @@
         //筹款中2  两种 预售及售中
 
         $("#fundraising").tmpl('${bid}').appendTo('#product_status_div');
-                $(function() {
+
             $("#progressbar").progressbar({
-                value: '${bid?.loanSchedule}'
+                value: ${bid?.loanSchedule}
             });
-        });
     }else  {
         $(function() {
             $( "#progressbar_sellout" ).progressbar({
