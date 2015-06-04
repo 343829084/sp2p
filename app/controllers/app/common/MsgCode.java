@@ -36,6 +36,7 @@ public enum MsgCode {
     QUERY_ACC_BALANCE_SUCC("0512", "账户余额查询成功"),
     SEARCH_INVEST_SUCC("0513", "投标查询成功"),
     ALL_INVEST_SUCC("0514", "全投成功"),
+    ENCHASH_SUCC("0515", "取现成功"),
 
 
 
@@ -53,8 +54,10 @@ public enum MsgCode {
     RECHARGE_ERROR("2509", "请输入正确的充值金额"),
     QUERY_ACC_BALANCE_FAIL("2510", "账户余额查询失败"),
     CONFIRM_INVEST_FAIL("2511", "确认投标失败"),
+    ENCHASH_ERROR("2512", "取现失败"),
 
-	;
+
+    ;
 
 
 

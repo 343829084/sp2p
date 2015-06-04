@@ -1605,6 +1605,58 @@ public class FundsManage extends BaseController {
 		
 		withdrawal();
 	}
+
+
+    public static void enchashApp(){
+        ErrorInfo error = new ErrorInfo();
+        double amount = 0;
+
+        if(params.get("money") == null) {
+            error.code = -1;
+            error.msg = "请输入提现金额";
+        }
+        try {
+            Double.valueOf(params.get("money"));
+            if(amount > Constants.MAX_VALUE) {
+                error.code = -1;
+                error.msg = "已超过最大充值金额" +Constants.MAX_VALUE+ "元";
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            error.code = -1;
+            error.msg = "提现金额格式不正确";
+            MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.ENCHASH_ERROR, error.msg));
+            renderJSON(MessageUtil.getInstance().toStr());
+        }
+
+        if (error.code < 0) {
+            MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.ENCHASH_ERROR, error.msg));
+            renderJSON(MessageUtil.getInstance().toStr());
+        }
+
+        User user = new User();
+        if (user == null) {
+            MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.CURRENT_USER_FAIL));
+            renderJSON(MessageUtil.getInstance().toStr());
+        }
+        user.id = User.currUser().id;
+
+        long withdrawalId = user.withdrawal(amount, 0, null, 0, true, error);
+
+        if(error.code < 0) {
+            MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.ENCHASH_ERROR, error.msg));
+            renderJSON(MessageUtil.getInstance().toStr());
+        }
+
+        Map<String, String> args= Payment.doDwTrade(withdrawalId, amount, error);
+
+        if (error.code < 0) {
+            MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.ENCHASH_ERROR, error.msg));
+            renderJSON(MessageUtil.getInstance().toStr());
+        }
+
+        render("@front.account.PaymentAction.doDwTrade", args);
+    }
 	
 	//转账
 	public static void transfer(){
