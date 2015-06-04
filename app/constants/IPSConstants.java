@@ -18,7 +18,8 @@ public class IPSConstants {
 	public static final String CALLBACK_URL = Play.configuration.getProperty("pay.callback.url");		//回调
     public static final String CALLBACK_H5_URL = Play.configuration.getProperty("pay.callback.h5url");		//h5回调
 	public static final String DOMAIN = Encrypt.encrypt3DES(Play.configuration.getProperty("pay.domain"), Constants.ENCRYPTION_KEY);//p2p平台域名
-	
+    public static final String APP_AGENT_NAMES = Play.configuration.getProperty("app.agent.names");		//h5回调
+
 	public static final String CACHE_TIME = "1h";	//标，投资等信息缓存时间
 	
 	public static final String INDENT_TYPE = "1";		//证件类型：1#身份证
