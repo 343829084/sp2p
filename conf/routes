@@ -2025,6 +2025,8 @@ GET     /mobile/product/bidRecords                                              
 GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
 GET     /mobile/product/fundSecurity                                            mobile.ProductDetailAction.fundSecurity
 GET     /mobile/product/returnMode                                              mobile.ProductDetailAction.returnMode
+GET		/mobile/product/bidAgreement											mobile.ProductAction.bidAgreement
+GET 	/mobile/product/getAgreementContent										mobile.ProductAction.getAgreementContent
 
 #我
 GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord

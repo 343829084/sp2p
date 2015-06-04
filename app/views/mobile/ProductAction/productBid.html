@@ -17,6 +17,7 @@
 
     <script type="text/javascript">
         var bid = {
+            id  : '${bid?.id}',
             apr : '${bid?.apr}',
             period : '${bid?.period}',
             periodUnit : '${bid?.periodUnit}',
@@ -68,7 +69,7 @@
                         <label for="agreeTerms"  data-role="none" id="tep"></label>
                     </div>
                 </label>
-                <label for="agreeTerms" style="margin-left:5px;display:inline-block;font-size: 13px">我已经阅读并同意<a href="" class="fg-cblue" target="_self">《投资理财服务协议》</a></label>
+                <label for="agreeTerms" style="margin-left:5px;display:inline-block;font-size: 13px">我已经阅读并同意<a href="javascript:void (0);" id="agreementLinkBtn" onclick="pact()" class="fg-cblue" target="_self">《投资理财服务协议》</a></label>
             </div>
 
             <div class="oa_er_bk">
@@ -112,6 +113,7 @@
 
     $("#allInBtn").on("click", function () {
         try {
+            Contorller.predictPrice();
             $.ajax({
                 type: "GET",
                 url: "/mobile/account/allInvest",
@@ -131,5 +133,9 @@
         }
     });
 
-
+    function pact(){
+        var type = 1;
+        var sign = '${bid?.id}';
+        window.location.href = "/mobile/product/bidAgreement?sign=" + sign + '&type=' + type;
+    }
 </script>
