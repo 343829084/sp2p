@@ -16,9 +16,6 @@
     <script type="text/javascript" src="@{'/public/javascripts/kindeditor-4.1.7/examples/jquery-ui/js/jquery-ui-1.9.2.custom.min.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/verification.js'}"></script>
 
-    *{<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">}*
-    *{<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>}*
-
 </head>
 <body>
 
@@ -115,7 +112,6 @@
         </div>
         <div class="ui-block-b" style="text-align: right;">已融资：<span>${bid?.loanSchedule}</span>%</div>
     </div>
-    <input id="countdownTime${bid?.id}" type="hidden" value="${bid?.investExpireTime?.format('yyyy/MM/dd HH:mm:ss')}"></input>
     <div class="ui-grid-a">距离购买结束：
 		<span id="day${bid?.id}"></span>天
 		<span id="hours${bid?.id}"></span>小时
@@ -158,5 +154,5 @@
 
 <script type="text/javascript">
     var i = '${bid.id}';
-    showTime($("#countdownTime"+i), $("#day"+i),$("#hours"+i), $("#minutes"+i), $("#seconds"+i));
+    showTime('${jsonMap?.balanceTime}', $("#day"+i),$("#hours"+i), $("#minutes"+i), $("#seconds"+i));
 </script>
