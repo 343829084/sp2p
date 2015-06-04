@@ -137,19 +137,18 @@ public class IPSConstants {
 	}
 
     public static class IPSH5Url {
-        public static final String CREATE_IPS_ACCT = CALLBACK_H5_URL + "account/createAcctCB";					//开户
-        public static final String DO_DP_TRADE = CALLBACK_H5_URL + "account/rechargeCB";						//充值
+        public static final String CREATE_IPS_ACCT_SYS = CALLBACK_H5_URL + "account/createAcctCBSys";					//开户
+        public static final String CREATE_IPS_ACCT = CALLBACK_H5_URL + "account/createAcctCB";					    //开户
+
+        public static final String DO_DP_TRADE = CALLBACK_H5_URL + "account/rechargeCB";						    //充值
         public static final String DO_DP_TRADE_SYS = CALLBACK_H5_URL + "account/rechargeCBSys";   		    		//充值
 
-        public static final String REGISTER_CREDITOR_SYS = CALLBACK_H5_URL + "account/registerCreditorCBSys";			//投标
-        public static final String REGISTER_CREDITOR = CALLBACK_H5_URL + "account/registerCreditorCB";			        //投标
-        public static final String UNFREEZE_INVEST_AMOUNT = CALLBACK_H5_URL + "account/unfreezeInvestAmountCB";		    //解冻投资金额
+        public static final String REGISTER_CREDITOR_SYS = CALLBACK_H5_URL + "account/registerCreditorCBSys";		//投标
+        public static final String REGISTER_CREDITOR = CALLBACK_H5_URL + "account/registerCreditorCB";
+        public static final String UNFREEZE_INVEST_AMOUNT = CALLBACK_H5_URL + "account/unfreezeInvestAmountCB";		//解冻投资金额
 
-
-        public static final String REPAYMENT_NEW_TRADE = CALLBACK_URL + "repaymentNewTradeCB";		//还款
-        public static final String DO_DW_TRADE = CALLBACK_URL + "doDwTradeCB";						//提现
-        public static final String QUERY_FOR_ACC_BALANCE = CALLBACK_URL + "queryForAccBalanceCB";	//账户余额查询(WS)
-        public static final String GET_BANK_LIST = CALLBACK_URL + "getBankListCB";					//获取银行列表查询(WS)
+        public static final String DO_DW_TRADE = CALLBACK_H5_URL + "account/enchashCB";						    //提现
+        public static final String DO_DW_TRADE_SYS = CALLBACK_H5_URL + "account/enchashCBSys";
     }
 	
 	public static class IPSS2SUrl {

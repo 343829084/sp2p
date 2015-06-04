@@ -1590,7 +1590,7 @@ public class FundsManage extends BaseController {
 				withdrawal();
 			}
 			
-			Map<String, String> args= Payment.doDwTrade(withdrawalId, amount, error);
+			Map<String, String> args= Payment.doDwTrade(withdrawalId, amount, error, ParseClientUtil.PC);
 			
 			if (error.code < 0) {
 				flash.error(error.msg);
@@ -1616,7 +1616,7 @@ public class FundsManage extends BaseController {
             error.msg = "请输入提现金额";
         }
         try {
-            Double.valueOf(params.get("money"));
+            amount = Double.valueOf(params.get("money"));
             if(amount > Constants.MAX_VALUE) {
                 error.code = -1;
                 error.msg = "已超过最大充值金额" +Constants.MAX_VALUE+ "元";
@@ -1648,7 +1648,7 @@ public class FundsManage extends BaseController {
             renderJSON(MessageUtil.getInstance().toStr());
         }
 
-        Map<String, String> args= Payment.doDwTrade(withdrawalId, amount, error);
+        Map<String, String> args= Payment.doDwTrade(withdrawalId, amount, error, ParseClientUtil.PC);
 
         if (error.code < 0) {
             MessageUtil.getInstance().setMessage(new controllers.app.common.Message(Severity.ERROR, MsgCode.ENCHASH_ERROR, error.msg));

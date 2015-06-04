@@ -114,10 +114,11 @@ public class Payment implements Serializable {
 
         if (ParseClientUtil.H5.equals(clientConstant)) {
             jsonObj.put("pWebUrl", IPSH5Url.CREATE_IPS_ACCT);
+            jsonObj.put("pS2SUrl", IPSH5Url.CREATE_IPS_ACCT_SYS);
         }else{
             jsonObj.put("pWebUrl", IPSWebUrl.CREATE_IPS_ACCT);
+            jsonObj.put("pS2SUrl", IPSS2SUrl.CREATE_IPS_ACCT);
         }
-        jsonObj.put("pS2SUrl", IPSS2SUrl.CREATE_IPS_ACCT);
         jsonObj.put("pMemo1", "pMemo1");
         jsonObj.put("pMemo2", "pMemo2");
         jsonObj.put("pMemo3", "pMemo3");
@@ -2743,94 +2744,98 @@ public class Payment implements Serializable {
 	 * 提现
 	 * @return
 	 */
-	public static Map<String, String> doDwTrade(long withdrawalId, double pTrdAmt, ErrorInfo error) {
-		User user = User.currUser();
-		String pMerBillNo = createBillNo(user.id, IPSOperation.DO_DW_TRADE);
-		double pFee = Arith.round(withdrawalFee(pTrdAmt), 2);
-		
-		IpsDetail.addMerNo(pMerBillNo, error);
-		
-		if (error.code < 0) {
-			return null;
-		}
-		
-		IpsDetail detail = new IpsDetail();
-		detail.merBillNo = pMerBillNo;
-		detail.userName = user.name;
-		detail.time = new Date();
-		detail.type = IPSOperation.DO_DW_TRADE;
-		detail.status = Status.FAIL;
-		
-		JSONObject memo = new JSONObject();
-		memo.put("withdrawId", String.valueOf(withdrawalId));
-		memo.put("serviceFee", String.valueOf(pFee));
-		
-		detail.memo = memo.toString();
-		
-		detail.create(error);
-		
-		if (error.code < 0) {
-			return null;
-		}
-		
-		Cache.set("doDwTrade"+pMerBillNo, pFee, "30min");
-		
-		JSONObject jsonObj = new JSONObject();
-		jsonObj.put("pMerBillNo", pMerBillNo);
-		jsonObj.put("pAcctType", IPSConstants.ACCT_TYPE);
-		jsonObj.put("pOutType", IPSConstants.OUT_TYPE);
-		jsonObj.put("pBidNo", "");
-		jsonObj.put("pContractNo", "");
-		jsonObj.put("pDwTo", "");
-		jsonObj.put("pIdentNo", user.idNumber);
-		jsonObj.put("pRealName", user.realityName);
-		jsonObj.put("pIpsAcctNo", user.ipsAcctNo);
-		jsonObj.put("pDwDate", DateUtil.simple(new Date()));
-		jsonObj.put("pTrdAmt", String.format("%.2f", pTrdAmt));
-		jsonObj.put("pMerFee", String.format("%.2f", pFee));
-		jsonObj.put("pIpsFeeType", IPSConstants.IPS_FEE_TYPE);
-		jsonObj.put("pWebUrl", IPSWebUrl.DO_DW_TRADE);
-		jsonObj.put("pS2SUrl", IPSS2SUrl.DO_DW_TRADE);
-		jsonObj.put("pMemo1", "pMemo1");
-		jsonObj.put("pMemo2", "pMemo2");
-		jsonObj.put("pMemo3", withdrawalId+"");
+    public static Map<String, String> doDwTrade(long withdrawalId, double pTrdAmt, ErrorInfo error, String client) {
+        User user = User.currUser();
+        String pMerBillNo = createBillNo(user.id, IPSOperation.DO_DW_TRADE);
+        double pFee = Arith.round(withdrawalFee(pTrdAmt), 2);
 
-		String strXml = Converter.jsonToXml(jsonObj.toString(), "pReq", null, null, null);
-		
-		String arg3DesXmlPara = Encrypt.encrypt3DES(strXml, Constants.ENCRYPTION_KEY);
-		arg3DesXmlPara = arg3DesXmlPara.replaceAll("\r", "");
-		arg3DesXmlPara = arg3DesXmlPara.replaceAll("\n", "");
-		
-		JSONObject jsonObjExtra = new JSONObject();
-		jsonObjExtra.put("mobile", user.mobile);
-		jsonObjExtra.put("pWSUrl", IPSWSUrl.DO_DW_TRADE);
-		jsonObjExtra.put("tranIP", DataUtil.getIp());
-		
-		String strXmlExtra = Converter.jsonToXml(jsonObjExtra.toString(), "pExtra", null, null, null);
-		String argeXtraPara = Encrypt.encrypt3DES(strXmlExtra, Constants.ENCRYPTION_KEY);
-		String argSign = "";
-		
-		if("1.0".equals(BackstageSet.getCurrentBackstageSet().entrustVersion)) {
-			argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + Constants.ENCRYPTION_KEY);
-		}else {
-			argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + argeXtraPara +Constants.ENCRYPTION_KEY);
-		}
+        IpsDetail.addMerNo(pMerBillNo, error);
 
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("action", IPSConstants.ACTION);
-		map.put("domain", IPSConstants.DOMAIN);
-		map.put("platform", IPSConstants.PLATFORM);
-		map.put("memberId", user.id+"");
-		map.put("type", IPSOperation.DO_DW_TRADE+"");
-		map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
-		map.put("argMerCode", IPSConstants.MER_CODE);
-		map.put("arg3DesXmlPara", arg3DesXmlPara);
-		map.put("argeXtraPara", argeXtraPara);
-		map.put("argSign", argSign);
-		
-		return map;
-	}
-	
+        if (error.code < 0) {
+            return null;
+        }
+
+        IpsDetail detail = new IpsDetail();
+        detail.merBillNo = pMerBillNo;
+        detail.userName = user.name;
+        detail.time = new Date();
+        detail.type = IPSOperation.DO_DW_TRADE;
+        detail.status = Status.FAIL;
+
+        JSONObject memo = new JSONObject();
+        memo.put("withdrawId", String.valueOf(withdrawalId));
+        memo.put("serviceFee", String.valueOf(pFee));
+
+        detail.memo = memo.toString();
+
+        detail.create(error);
+
+        if (error.code < 0) {
+            return null;
+        }
+
+        Cache.set("doDwTrade"+pMerBillNo, pFee, "30min");
+
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("pMerBillNo", pMerBillNo);
+        jsonObj.put("pAcctType", IPSConstants.ACCT_TYPE);
+        jsonObj.put("pOutType", IPSConstants.OUT_TYPE);
+        jsonObj.put("pBidNo", "");
+        jsonObj.put("pContractNo", "");
+        jsonObj.put("pDwTo", "");
+        jsonObj.put("pIdentNo", user.idNumber);
+        jsonObj.put("pRealName", user.realityName);
+        jsonObj.put("pIpsAcctNo", user.ipsAcctNo);
+        jsonObj.put("pDwDate", DateUtil.simple(new Date()));
+        jsonObj.put("pTrdAmt", String.format("%.2f", pTrdAmt));
+        jsonObj.put("pMerFee", String.format("%.2f", pFee));
+        jsonObj.put("pIpsFeeType", IPSConstants.IPS_FEE_TYPE);
+        if (ParseClientUtil.H5.equals(client)) {
+            jsonObj.put("pWebUrl", IPSH5Url.DO_DW_TRADE);
+            jsonObj.put("pS2SUrl", IPSH5Url.DO_DW_TRADE_SYS);
+        }else{
+            jsonObj.put("pWebUrl", IPSWebUrl.DO_DW_TRADE);
+            jsonObj.put("pS2SUrl", IPSS2SUrl.DO_DW_TRADE);
+        }
+        jsonObj.put("pMemo1", "pMemo1");
+        jsonObj.put("pMemo2", "pMemo2");
+        jsonObj.put("pMemo3", withdrawalId+"");
+
+        String strXml = Converter.jsonToXml(jsonObj.toString(), "pReq", null, null, null);
+
+        String arg3DesXmlPara = Encrypt.encrypt3DES(strXml, Constants.ENCRYPTION_KEY);
+        arg3DesXmlPara = arg3DesXmlPara.replaceAll("\r", "");
+        arg3DesXmlPara = arg3DesXmlPara.replaceAll("\n", "");
+
+        JSONObject jsonObjExtra = new JSONObject();
+        jsonObjExtra.put("mobile", user.mobile);
+        jsonObjExtra.put("pWSUrl", IPSWSUrl.DO_DW_TRADE);
+        jsonObjExtra.put("tranIP", DataUtil.getIp());
+
+        String strXmlExtra = Converter.jsonToXml(jsonObjExtra.toString(), "pExtra", null, null, null);
+        String argeXtraPara = Encrypt.encrypt3DES(strXmlExtra, Constants.ENCRYPTION_KEY);
+        String argSign = "";
+
+        if("1.0".equals(BackstageSet.getCurrentBackstageSet().entrustVersion)) {
+            argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + Constants.ENCRYPTION_KEY);
+        }else {
+            argSign = Encrypt.MD5(IPSConstants.MER_CODE + arg3DesXmlPara + argeXtraPara +Constants.ENCRYPTION_KEY);
+        }
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("action", IPSConstants.ACTION);
+        map.put("domain", IPSConstants.DOMAIN);
+        map.put("platform", IPSConstants.PLATFORM);
+        map.put("memberId", user.id+"");
+        map.put("type", IPSOperation.DO_DW_TRADE+"");
+        map.put("version", BackstageSet.getCurrentBackstageSet().entrustVersion);
+        map.put("argMerCode", IPSConstants.MER_CODE);
+        map.put("arg3DesXmlPara", arg3DesXmlPara);
+        map.put("argeXtraPara", argeXtraPara);
+        map.put("argSign", argSign);
+
+        return map;
+    }
 	/**
 	 * 提现回调
 	 * @param userId

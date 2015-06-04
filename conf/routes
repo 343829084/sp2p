@@ -2036,8 +2036,9 @@ GET     /mobile/me/accountsafe                                                  
 
 #开户
 GET     /mobile/account/createAcct                                              mobile.account.AccountAction.createAcct
-POST    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
 POST    /mobile/account/saveUser                                                mobile.account.AccountAction.saveUser
+POST    /mobile/account/createAcctCBSys                                         mobile.account.AccountAction.createAcctCBSys
+POST    /mobile/account/createAcctCB                                            mobile.account.AccountAction.createAcctCB
 
 #投标
 GET     /mobile/account/allInvest                                               mobile.account.InvestAction.allInvest
@@ -2056,6 +2057,9 @@ GET     /mobile/account/rechargeSuccess                                         
 
 #提现
 GET 	/mobile/account/enchash													mobile.account.EnchashAction.enchash
+POST    /mobile/account/enchashConfirm                                          mobile.account.EnchashAction.enchashConfirm
+POST    /mobile/account/enchashCBSys                                            mobile.account.EnchashAction.enchashCBSys
+POST    /mobile/account/enchashCB                                               mobile.account.EnchashAction.enchashCB
 
 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
