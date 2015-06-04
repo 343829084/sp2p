@@ -12,20 +12,20 @@ public class CoreService extends BaseController {
    public static void serviceauth() throws IOException {
        play.mvc.Http.Response.current().setHeader("contentType", "text/html; charset=utf-8");
        /** 读取接收到的xml消息 */
-       StringBuffer sb = new StringBuffer();
-       InputStream is = Http.Request.current().body;
-       InputStreamReader isr = null;
-       try {
-           isr = new InputStreamReader(is, "UTF-8");
-       } catch (UnsupportedEncodingException e) {
-           e.printStackTrace();
-       }
-       BufferedReader br = new BufferedReader(isr);
-       String s = "";
-       while ((s = br.readLine()) != null) {
-           sb.append(s);
-       }
-       String xml = sb.toString(); //次即为接收到微信端发送过来的xml数据
+//       StringBuffer sb = new StringBuffer();
+//       InputStream is = Http.Request.current().body;
+//       InputStreamReader isr = null;
+//       try {
+//           isr = new InputStreamReader(is, "UTF-8");
+//       } catch (UnsupportedEncodingException e) {
+//           e.printStackTrace();
+//       }
+//       BufferedReader br = new BufferedReader(isr);
+//       String s = "";
+//       while ((s = br.readLine()) != null) {
+//           sb.append(s);
+//       }
+//       String xml = sb.toString(); //次即为接收到微信端发送过来的xml数据
 
        String result = "";
        /** 判断是否是微信接入激活验证，只有首次接入验证时才会收到echostr参数，此时需要把它直接返回 */
