@@ -64,7 +64,7 @@
 
     <hr/>
 
-    <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk" id="confirmInvestBtn" type="submit" >购买</a>
+    <button class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk" id="confirmInvestBtn" type="submit" >购买</button>
 
 </body>
 </html>
@@ -122,12 +122,11 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        if ('${bid?.status}' != '2') {
+        if (!${jsonMap?.bidCanBuyFlag}) {
             $("#confirmInvestBtn").addClass("oa_btn_disable_bk");
-            $("#confirmInvestBtn").attr("disabled","true");
+            $("#confirmInvestBtn").attr("disabled","disabled");
         }
     });
-
 
     if ('${bid?.status}' == '4') {
         //还款中4
@@ -136,7 +135,6 @@
         //筹款中2  两种 预售及售中
 
         $("#fundraising").tmpl('${bid}').appendTo('#product_status_div');
-
             $("#progressbar").progressbar({
                 value: ${bid?.loanSchedule}
             });
@@ -151,7 +149,7 @@
 
 </script>
 
-<script type="text/javascript">
+<script>
     var i = '${bid.id}';
     showTime('${jsonMap?.balanceTime}', $("#day"+i),$("#hours"+i), $("#minutes"+i), $("#seconds"+i));
 </script>
