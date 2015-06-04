@@ -59,13 +59,12 @@ public class ProductAction extends BaseController {
             Long balanceTime = (bid.investExpireTime.getTime() - new Date().getTime()) / 1000;
             jsonMap.put("balanceTime", balanceTime);//倒计时时间
 
-            double balanceAmount = bid.amount - bid.hasInvestedAmount;
-            if (balanceAmount > 0) {
+            double canInvestAmount = bid.amount - bid.hasInvestedAmount;
+            if (canInvestAmount > 0) {
                 bidCanBuyFlag = true;
             }
-            jsonMap.put("bidCanBuyFlag", bidCanBuyFlag);
         }
-
+        jsonMap.put("bidCanBuyFlag", bidCanBuyFlag);
 
         Logger.info(">>current bid status:" + bid.status);
 
