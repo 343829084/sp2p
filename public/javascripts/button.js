@@ -1,9 +1,10 @@
 //下面的配置在部署的时候需要改变
 
-baseUrl = 'https://api-2.sunlights.me';
+
 apiBaseUrl = baseUrl + '/api';
 var shareUrl=null;
 sourceBaseUrl=baseUrl;
+var loadurl=sourceBaseUrl+"/share/downloadRouter.html";
 officialsite=baseUrl+'/appdown';
 
 weiXinRedirectUrl = "https://mp.weixin.qq.com/mp/redirect?url=";

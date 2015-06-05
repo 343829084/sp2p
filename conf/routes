@@ -2064,6 +2064,8 @@ POST    /mobile/account/enchashCB                                               
 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 
+GET   /mobile/qrredirect                                                       mobile.QuickRegister.qrredirect
+
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
 
 GET   /mobile/weixin/coreService                                                   mobile.CoreService.serviceauth

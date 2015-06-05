@@ -18,12 +18,7 @@ public  class WebChartUtil {
     //01184441bb65fbd817c6996609e6e4dQ
     static class Constants{
         static final String appId="wx320badb1a6f6b806";
-        static final String appsecret="6b4fe8bb2a14522e2391984b3f303a9a";
-        private String get_access_token_url="https://api.weixin.qq.com/sns/oauth2/access_token?" +
-                "appid=APPID" +
-                "&secret=SECRET&" +
-                "code=CODE&grant_type=authorization_code";
-        private static String  BINDURL="http://p2pv2.sunlights.me/mobile/quickRegister";
+        static final String appsecret="6b4fe8bb2a14522e2391984b3f303a9a";;
         private static String  BINDURLBACK="http://p2pv2.sunlights.me/mobile/weixin/openId";
         private static String OPENIDURL= "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=redUrl&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
         private static String GETUERINFO="https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
@@ -43,11 +38,12 @@ public  class WebChartUtil {
 
         Constants.CODEEXCHANGEOPENID= Constants.CODEEXCHANGEOPENID.replace("APPID", urlEnodeUTF8(Constants.appId));
         Constants.CODEEXCHANGEOPENID= Constants.CODEEXCHANGEOPENID.replace("SECRET", urlEnodeUTF8(Constants.appsecret));
+
         Constants.CODEEXCHANGEOPENID= Constants.CODEEXCHANGEOPENID.replace("CODE", urlEnodeUTF8(code));
         return Constants.CODEEXCHANGEOPENID;
     }
 
-    public static String getOpenIdAuth(String code) throws IOException {
+    public static JSONObject getOpenIdAuth(String code) throws IOException {
 
         String url= setUrl(code);
         HttpClient httpClient = new HttpClient();
@@ -56,7 +52,7 @@ public  class WebChartUtil {
         httpClient.setTimeout(3000);
         int statusCode = httpClient.executeMethod(getMethod);
 
-        String resultStr = getMethod.getResponseBodyAsString();
+        JSONObject resultStr = JSONObject.fromObject(getMethod.getResponseBodyAsString());
      return resultStr;
 
     }

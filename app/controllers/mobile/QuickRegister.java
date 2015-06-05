@@ -10,21 +10,25 @@ import play.mvc.Http;
  */
 public class QuickRegister extends BaseController {
     public static void quickRegister(){
-//       String fpHots= Constants.FP_HOST;
-//        render(fpHots);
+       String fpHots= Constants.FP_HOST;
 
         Http.Request reuqets = Http.Request.current();
         Logger.info(reuqets.params.toString());
         String code=reuqets.params.get("code");
         Logger.info(code);
-        render(code);
+        render(code,fpHots);
     }
 
-    public static void registerSuccess(){
-//        String fpHots= Constants.FP_HOST;
-//        render(fpHots);
+    public static void qrredirect(){
 
-        render();
+        String fpHots= Constants.FP_HOST;
+        render(fpHots);
+
+
+    }
+    public static void registerSuccess(){
+        String fpHots= Constants.FP_HOST;
+        render(fpHots);
 
     }
 }

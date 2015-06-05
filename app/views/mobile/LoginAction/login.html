@@ -23,7 +23,8 @@
 
 <div data-role="page">
     <div data-role="content " class="ui-content">
-
+    ${openId}
+    ${status}
     <form method="post" id="submit" data-ajax="false" action="/mobile/login">
         <div class="ui-field-contain">
             <input type="tel" class="mobile_login_shurk" id="name" name="name" maxlength="11" value="${flash?.name}" placeholder="请输入您的手机号" >

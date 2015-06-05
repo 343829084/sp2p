@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import play.Logger;
 import play.mvc.Http;
+import play.mvc.results.Redirect;
 import utils.WebChartUtil;
 
 import java.io.*;
@@ -60,17 +61,37 @@ public class CoreService extends BaseController {
     public static void getOpenId() throws IOException {
 
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
-        String code= Http.Request.current().params.get("code");
-        String openid=WebChartUtil.getOpenIdAuth(code);
-//        String resulit = getOpenIdAuth();
         Logger.info("用户进入：");
-        Logger.info("参数：" + request.toString());
-//        String code=request.params.get("code");
-        OutputStream os = Http.Response.current().out;
-        os.write(openid.getBytes("UTF-8"));
-        os.flush();
-        os.close();
-
+        String code= Http.Request.current().params.get("code");
+        String status= Http.Request.current().params.get("status");
+        Logger.info("code为："+code+"status:"+status);
+        JSONObject authInfo=WebChartUtil.getOpenIdAuth(code);
+        Object openid = authInfo.get("openid");
+        Logger.info("openid为："+openid);
+        if(null!=openid && openid.toString().trim()!=""){
+         if(status.equals("1")){
+             LoginAction.login(openid.toString());
+             return;
+         }
+            if(status.equals("2")){
+                Logger.info("绑定用户openid");
+                LoginAction.register(openid.toString());
+                return;
+            }
+            /**
+             * 1.验证user表里面有没有用户
+             * 2.有直接抓取用户信息登录-->2.1然后跳转到固定页面？？
+             * 3.没有-->带上参数跳转到相应的页面
+             */
+        }else{
+         render();
+        }
+//        Logger.info("用户进入：");
+//        Logger.info("参数：" + request.toString());
+//        OutputStream os = Http.Response.current().out;
+//        os.write(openid.getBytes("UTF-8"));
+//        os.flush();
+//        os.close();
     }
     public static void serviceprocess() throws IOException {
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");

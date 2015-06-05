@@ -12,6 +12,7 @@ import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.cache.Cache;
 import play.libs.WS;
+import play.mvc.Http;
 import utils.ErrorInfo;
 import utils.RegexUtils;
 
@@ -34,9 +35,12 @@ public class LoginAction extends BaseController {
     /*
      * 跳转到登录页面
      */
-    public static void login() {
+    public static void login(String ...openid) {
+        String openId= openid[0];
+        String status= Http.Request.current().params.get("status");
+        Logger.info("openId为："+openId+"status:"+status);
         flash.keep("url");
-        render();
+        render(openId,status);
     }
 
     public static void doLogin() {
@@ -100,8 +104,9 @@ public class LoginAction extends BaseController {
     /**
      * 跳转到注册页面
      */
-    public static void register() {
-        render();
+    public static void register(String ...openid) {
+        String openId= openid[0];
+        render(openId);
     }
 
     public static void doRegister() {

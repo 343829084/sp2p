@@ -1,5 +1,4 @@
-var apiBaseUrl="https://api-2.sunlights.me/api";
-var sourceBaseUrl="https://api-2.sunlights.me";
+
 var createNonceStr = function() {
     return Math.random().toString(36).substr(2, 15);
 };

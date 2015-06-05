@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>ladding</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}" />
+    <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}" />
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+</head>
+<body>
+<button id="login" data-role="button">登录</button>
+<button id="register" data-role="button">注册</button>
+<script>
+    $("#login").click(function(){
+        window.location="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2FopenId&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
+    })
+    $("#register").click(function(){
+        window.location="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2FopenId&response_type=code&scope=snsapi_base&state=2#wechat_redirect";
+    })
+</script>
+</body>
+</html>
