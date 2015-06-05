@@ -2002,7 +2002,11 @@ GET   /mobile/login                                                  mobile.Logi
 POST   /mobile/login                                                  mobile.LoginAction.doLogin
 GET   /mobile/register                                                  mobile.LoginAction.register
 POST   /mobile/register                                                  mobile.LoginAction.doRegister
-GET   /mobile/verifyCode                                                  mobile.CheckAction.sendVerifyCode
+
+#验证码
+GET      /mobile/searchVerifyCode                                                mobile.CheckAction.searchVerifyCode
+GET      /mobile/verifyCode                                                      mobile.CheckAction.sendVerifyCode
+
 #首页金品
 GET  /mobile/content/bestProduct                                     mobile.MainContent.bestProduct
 #财富

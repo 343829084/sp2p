@@ -16,7 +16,6 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
 import play.db.jpa.JPA;
 import play.mvc.With;
-import utils.DateUtil;
 import utils.ErrorInfo;
 import utils.PageBean;
 
@@ -260,7 +259,7 @@ public class MainContent extends BaseController {
         }
 
         PageBean<v_front_all_bids> pageBean = new PageBean<v_front_all_bids>();
-        pageBean= Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, 100, null, null, null, null, null, null, null, null, "0", null,null, null, error);
+        pageBean= Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, 100, null, null, null, null, null, null, null, null, "3", null,null, null, error);
         render(pageBean);
 
     }
