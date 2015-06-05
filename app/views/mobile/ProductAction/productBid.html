@@ -48,7 +48,7 @@
                     <input type="hidden" name="userId" value="${map?.userId}" id="userId">
 
                     <div class="account-balance">
-                        <p>可用余额：<span>${map?.currentUser?.balance}</span>元</p>
+                        <p>可用余额：<span>${map?.currentUser?.balance?.format('###,##0.00')}</span>元</p>
                     </div>
                     <div class="btn-container clearfix">
                         <input type="text" class="input-click"  name="investAmount" id="bidAmount" placeholder="至少投${bid?.minInvestAmount?.format('###,##0.00')}元"  maxlength="11" autocomplete="off" >

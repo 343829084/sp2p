@@ -29,7 +29,7 @@
         <form method="post" id="submit" data-ajax="false" action="/mobile/account/enchashConfirm">
             <div class="bill-detail-middle">
                 <div>
-                    可提现金额：<span class="prod-name">${paramsJson?.balance}</span>元
+                    可提现金额：<span class="prod-name">${paramsJson?.balance?.format('###,##0.00')}</span>元
                 </div>
 
                 <div class="input-container" data-role="none">

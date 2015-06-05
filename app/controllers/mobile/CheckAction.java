@@ -1,9 +1,13 @@
 package controllers.mobile;
 
+import controllers.app.common.Message;
+import controllers.app.common.MessageVo;
+import controllers.app.common.MsgCode;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 
+import play.cache.Cache;
 import utils.ErrorInfo;
 import utils.RegexUtils;
 import utils.SMSUtil;
@@ -47,4 +51,15 @@ public class CheckAction extends BaseController {
         json.put("error",error);
         renderJSON(json);
     }
+
+
+
+    public static void searchVerifyCode(String mobile){
+        MessageVo messageVo = new MessageVo();
+        messageVo.setMessage(new Message(MsgCode.OPERATE_SUCC));
+        messageVo.setValue(Cache.get(mobile));
+
+        renderJSON(JSONObject.fromObject(messageVo));
+    }
+
 }
