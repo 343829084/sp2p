@@ -37,10 +37,12 @@ public class LoginAction extends BaseController {
      */
     public static void login(String ...openid) {
         String openId="";
+        String status="";
         if(null!=openid){
-             openId= openid[0];
+            openId=openid[0];
+            status=openid[1];
+            Logger.info("openid:"+openId+"status"+status);
         }
-        String status= Http.Request.current().params.get("state");
         Logger.info("openId为："+openId+"status:"+status);
         flash.keep("url");
         render(openId,status);
@@ -51,9 +53,10 @@ public class LoginAction extends BaseController {
 
         String name = params.get("name");
         String password = params.get("password");
+        String openId = params.get("openId");
         flash.put("name", name);
         flash.put("password", password);
-
+        flash.put("openId", openId);
         boolean validate = true;
 
         if (StringUtils.isBlank(name)) {
@@ -85,6 +88,11 @@ public class LoginAction extends BaseController {
         }
 
         if (validate) {
+
+            if(null!=openId){
+                //bindweixin
+            }
+
             String url = flash.get("url");
             if (StringUtils.isNotBlank(url)) {
                 redirect(url);
@@ -93,6 +101,7 @@ public class LoginAction extends BaseController {
                 if (t_users.ips_acct_no == null) {//未开户
                     AccountAction.createAcct();
                 }else{
+
                     MainContent.moneyMatters();
                 }
             }
@@ -123,6 +132,7 @@ public class LoginAction extends BaseController {
         String password = params.get("password");
         String verifyCode = params.get("verifyCode");
         String recommendUserName = params.get("recommended");
+        String openId = params.get("openId");
 
         registerValidation(error, mobile, password, verifyCode);
 
@@ -155,7 +165,9 @@ public class LoginAction extends BaseController {
         }
 
         registerGiveJinDou(error, mobile);
-
+        if(null!=openId){
+            //bindweixin
+        }
         json.put("error", error);
         renderJSON(json);
     }

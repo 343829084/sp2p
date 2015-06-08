@@ -168,18 +168,18 @@
      width:100%;
      min-height:80px;
  }
- /*.bk-img{*/
-     /*background-image: url(../../resources/img/app/h5/share/point_1.png);*/
-     /*background-repeat: no-repeat;*/
-     /*background-position:right bottom ;*/
-     /*background-size: 50px 50px;*/
- /*}*/
- /*.bk-img-two{*/
-     /*background-image: url(../../resources/img/app/h5/share/point_2.png);*/
-     /*background-repeat: no-repeat;*/
-     /*background-position:right bottom ;*/
-     /*background-size: 50px 50px;*/
- /*}*/
+ .bk-img{
+     background-image: url(../images/h5icon/point_1.png);
+     background-repeat: no-repeat;
+     background-position:right bottom ;
+     background-size: 50px 50px;
+ }
+ .bk-img-two{
+     background-image: url(../images/h5icon/point_2.png);
+     background-repeat: no-repeat;
+     background-position:right bottom ;
+     background-size: 50px 50px;
+ }
  .imag-sal-lt{
      height: 80px!important;
      width: 80px!important;

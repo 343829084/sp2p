@@ -1,6 +1,7 @@
 package controllers.mobile;
 
 import business.Token;
+import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
@@ -25,6 +26,7 @@ public class CoreService extends BaseController {
      *
      *
      */
+
     private static Token token =new Token();
     public static String  GetCodeRequest = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
     public static String  GETTOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
@@ -59,7 +61,7 @@ public class CoreService extends BaseController {
     }
 
     public static void getcode() {
-//02120b5d7cf7eeb6c6fc4e09c487c9bB
+
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
         Logger.info("用户进入：");
         String code = Http.Request.current().params.get("code");
@@ -67,7 +69,7 @@ public class CoreService extends BaseController {
         Logger.info("code："+code+"state"+status);
     }
     public static void getOpenId() throws IOException {
-//02120b5d7cf7eeb6c6fc4e09c487c9bB
+
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
         Logger.info("用户进入：");
         String code= Http.Request.current().params.get("code");
@@ -81,21 +83,29 @@ public class CoreService extends BaseController {
         }
         Logger.info("openid为："+openId);
         if(null!=openid && openId.trim()!=""){
-            if(status.equals("1")){
-                LoginAction.login(openId);
-             }else
-            if(status.equals("2")){
-                Logger.info("绑定用户openid");
-                LoginAction.register(openId);
-            }else
-            if(status.equals("3")){
+            if(status.equals(Constants.WEIXINSTATUS.LOGIN)){
                 Logger.info("openid:"+openId+"status:"+status);
-                QuickRegister.registerSuccess(openId,status);
+
+                LoginAction.login(openId, status);
+             }else
+            if(status.equals(Constants.WEIXINSTATUS.REGISTER)){
+
+                Logger.info("openid:"+openId+"status:"+status);
+                LoginAction.register(openId, status);
             }else
-            if(status.equals("4")){
+            if(status.equals(Constants.WEIXINSTATUS.QUICKREGISTERSUCCESS)){
+                Logger.info("openid:"+openId+"status:"+status);
+                QuickRegister.registerSuccess(openId, status);
+            }else
+            if(status.equals(Constants.WEIXINSTATUS.MOBILEHADREGISTER)){
                 Logger.info("openid:"+openId+"status:"+status);
                 QuickRegister.registerSuccess(openId,status);
             }
+            if(status.equals(Constants.WEIXINSTATUS.INTERCEPTORREDIRECT)){
+                Logger.info("openid:" + openId + "status:" + status);
+                    MainContent.moneyMatters();
+                }
+
             /**
              * 1.验证user表里面有没有用户
              * 2.有直接抓取用户信息登录-->2.1然后跳转到固定页面？？
@@ -104,12 +114,6 @@ public class CoreService extends BaseController {
         }else{
          render();
         }
-//        Logger.info("用户进入：");
-//        Logger.info("参数：" + request.toString());
-//        OutputStream os = Http.Response.current().out;
-//        os.write(openid.getBytes("UTF-8"));
-//        os.flush();
-//        os.close();
     }
     public static void serviceprocess() throws IOException {
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");

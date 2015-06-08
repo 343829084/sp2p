@@ -64,6 +64,13 @@ public class Constants {
 		public static final int SHARED = 3;			//通过共享资金托管账户网关
 		public static final int IPS = 4;			//资金托管网关
 	}
+	public class WEIXINSTATUS {
+		public static final String LOGIN = "1";			//登录绑定
+		public static final String REGISTER = "2";	//注册绑定
+		public static final  String QUICKREGISTERSUCCESS = "3";		//快速注册成功绑定
+		public static final  String MOBILEHADREGISTER = "4";	//快速注册手机号已经注册绑定并且跳转跳转
+		public static final  String INTERCEPTORREDIRECT = "5";	//拦截器跳转
+	}
 	
 	/**
 	 * 不同支付平台差异性融合
