@@ -16,6 +16,7 @@ package controllers.app.common;
 public enum MsgCode {
 
     //operation platform
+    OPERATE_SUCC("0000", "操作成功", ""),
 	CREATE_SUCCESS("0001", "创建成功", ""),
     UPDATE_SUCCESS("0002", "更新成功", ""),
     DELETE_SUCCESS("0003", "删除成功", ""),

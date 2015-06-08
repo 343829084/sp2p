@@ -447,6 +447,15 @@ public class RequestDataExtend {
             obj.put("pLock", formatMoney((String)jsonObj.get("pLock")));//托管冻结
             obj.put("pAccBalance", formatMoney((String)jsonObj.get("pAccBalance")));//托管账户余额 （总额）
 
+            ErrorInfo error = new ErrorInfo();
+            double rechargeAmount = User.queryRechargeIn(user.id, error);//限制时间内充值的金额不能提现
+            if (error.code < 0) {
+                MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.QUERY_ACC_BALANCE_FAIL, error.msg));
+                return MessageUtil.getInstance().toStr();
+            }
+            double withdrawalBalance = user.balanceDetail.user_amount - rechargeAmount;
+            obj.put("withdrawalBalance", withdrawalBalance > 0 ? withdrawalBalance : 0);//能提现金额
+
             MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.QUERY_ACC_BALANCE_SUCC), obj);
         }else{
             String pErrMsg = (String)jsonObj.get("pErrMsg");
