@@ -26,9 +26,11 @@ public class QuickRegister extends BaseController {
 
 
     }
-    public static void registerSuccess(){
+    public static void registerSuccess(String ...openid){
         String fpHots= Constants.FP_HOST;
-        render(fpHots);
+        String openId=openid[0];
+        String status=openid[1];
+        render(fpHots,openId,status);
 
     }
 }

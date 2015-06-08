@@ -113,8 +113,12 @@ var result=isPhone(recommendPhone);
                 },
                 success: function (data) {
                     if (0 == data.error.code) {
-                        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2FopenId&response_type=code&scope=snsapi_base&state=2#wechat_redirect";
-                    }else {
+                        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2FopenId&response_type=code&scope=snsapi_base&state=3#wechat_redirect";
+
+                    }if(-2 == data.error.code){
+                        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2FopenId&response_type=code&scope=snsapi_base&state=4#wechat_redirect";
+                    }else
+                    {
                         $("#phoneNumerrorinfo").html("<span>" + data.error.msg + "</span>");
                     }
                 },

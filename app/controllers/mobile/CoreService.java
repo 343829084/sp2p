@@ -69,14 +69,20 @@ public class CoreService extends BaseController {
         Object openid = authInfo.get("openid");
         Logger.info("openid为："+openid);
         if(null!=openid && openid.toString().trim()!=""){
-         if(status.equals("1")){
+            if(status.equals("1")){
              LoginAction.login(openid.toString());
-             return;
-         }
+             }else
             if(status.equals("2")){
                 Logger.info("绑定用户openid");
                 LoginAction.register(openid.toString());
-                return;
+            }else
+            if(status.equals("3")){
+                Logger.info("openid:"+openid+"status:"+status);
+                QuickRegister.registerSuccess(openid.toString(),status);
+            }else
+            if(status.equals("4")){
+                Logger.info("openid:"+openid+"status:"+status);
+                QuickRegister.registerSuccess(openid.toString(),status);
             }
             /**
              * 1.验证user表里面有没有用户

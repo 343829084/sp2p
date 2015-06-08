@@ -13,16 +13,18 @@ $("img[data-load='load']").click(function () {
 
 var b=redirect(redirectLink);
     $("#rg_ss").click(function(){
-        window.location.href="/mobile/content/bestProduct";
+        window.location.href="/mobile/content/moneyMatters";
     })
 if(b){
     $("#rg_bk").show();
     $("#rg_ss").hide();
 };
-    $("#go_register").click(function(){
-        window.location.href = "/mobile/quickRegister?mobile="+rph;
-    });
 
+    if(status !='4') {
+        $("#go_register").click(function () {
+            window.location.href = "/mobile/quickRegister?mobile=" + rph;
+        });
+    }
     function show(){
         if($("#go_register").hasClass("bk-img")){
             $("#go_register").removeClass("bk-img");

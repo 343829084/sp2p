@@ -15,6 +15,35 @@
 <button id="login" data-role="button">登录</button>
 <button id="register" data-role="button">注册</button>
 <script>
+
+        function getCookie(name)
+        {
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+
+            if(arr=document.cookie.match(reg))
+
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+        var existToken =getCookie("SPSP_SESSION");
+
+
+
+    function inWeixin(){
+        var ua = navigator.userAgent.toLowerCase();
+        if(/MicroMessenger/ig.test(ua)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+        if(!existToken){
+            if(inWeixin()){
+
+            }
+        }
     $("#login").click(function(){
         window.location="https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2FopenId&response_type=code&scope=snsapi_base&state=1#wechat_redirect";
     })
