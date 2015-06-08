@@ -1,23 +1,19 @@
 package controllers.mobile;
 
 import business.User;
-import com.google.gson.JsonObject;
 import constants.Constants;
 import controllers.BaseController;
+import controllers.app.common.MsgCode;
 import controllers.mobile.account.AccountAction;
 import models.t_users;
 import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
-import play.Logger;
 import play.cache.Cache;
-import play.libs.WS;
 import utils.ErrorInfo;
+import utils.JSONUtils;
 import utils.RegexUtils;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -72,7 +68,7 @@ public class LoginAction extends BaseController {
             validate = false;
         }
 
-        if (user.login(password, false, error) < 0) {
+        if (user.loginFromH5(password, error) < 0) {
             flash.error(error.msg);
             validate = false;
         }
@@ -94,6 +90,81 @@ public class LoginAction extends BaseController {
             login();
         }
 
+    }
+
+    public static void loginBySocial(){
+        ErrorInfo error = new ErrorInfo();
+
+        String name = params.get("mobilePhoneNo");
+        String socialType = params.get("socialType");
+
+        if (StringUtils.isBlank(name)) {
+            error.code = -1;
+            error.msg = "手机号不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
+        }
+        if (StringUtils.isBlank(socialType)) {
+            error.code = -1;
+            error.msg = "社交类型不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
+        }
+
+        User user = new User();
+        user.name = name;
+
+        if (user.id < 0) {
+            error.code = -1;
+            error.msg = "该用户名不存在";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
+        }
+
+        user.loginBySocial(socialType, error);
+
+        if (error.code < 0) {
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
+        }
+
+        renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_SUCC));
+    }
+
+    public static void bindingSocial(){
+        ErrorInfo error = new ErrorInfo();
+
+        String name = params.get("mobilePhoneNo");
+        String socialType = params.get("socialType");
+        String socialNo = params.get("socialNo");
+
+        if (StringUtils.isBlank(name)) {
+            error.code = -1;
+            error.msg = "手机号不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+        if (StringUtils.isBlank(socialType)) {
+            error.code = -1;
+            error.msg = "社交类型不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+        if (StringUtils.isBlank(socialNo)) {
+            error.code = -1;
+            error.msg = "社交号不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+
+        User user = new User();
+        user.name = name;
+
+        if (user.id < 0) {
+            error.code = -1;
+            error.msg = "该用户名不存在";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+        user.bindingSocial(socialType, socialNo, error);
+
+        if (error.code < 0) {
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+
+        renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_SUCC));
     }
 
 
@@ -120,7 +191,7 @@ public class LoginAction extends BaseController {
             renderJSON(json);
         }
 
-        String authentication_id = registerToFp(error, mobile, password);
+        String authentication_id = User.registerToFp(error, mobile, password);
 
         if (error.code < 0) {
             json.put("error", error);
@@ -143,7 +214,7 @@ public class LoginAction extends BaseController {
             renderJSON(json);
         }
 
-        registerGiveJinDou(error, mobile);
+        User.registerGiveJinDou(error, mobile);
 
         json.put("error", error);
         renderJSON(json);
@@ -186,69 +257,6 @@ public class LoginAction extends BaseController {
         User.isNameExist(mobile, error);
     }
 
-    private static String registerToFp(ErrorInfo error, String mobile, String password) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("mobilePhoneNo", mobile);
-        params.put("passWord", password);
-        params.put("channel", "1");
-
-        String authentication_id = null;
-
-        try {
-            WS.HttpResponse httpResponse = WS.url(Constants.FP_REGISTER_URL).setParameters(params).post();
-            Object value = parseFpResponse(httpResponse, error);
-            if(value!= null && value instanceof JSONObject){
-                authentication_id = ((JSONObject)value).getString("authenticationId");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            Logger.error(e.getMessage());
-            error.code = -1;
-            error.msg = "注册成功,送金豆失败,请联系客服！";
-        }
-       
-        return authentication_id;
-    }
-
-    /**
-     * 注册送金豆
-     */
-    private static void registerGiveJinDou(ErrorInfo error,String name){
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("mobilePhoneNo", name);
-
-        try {
-            WS.HttpResponse httpResponse = WS.url(Constants.FP_REGISTER_GIVE_JINDOU).setParameters(params).post();
-            parseFpResponse(httpResponse, error);
-        }catch (Exception e){
-            e.printStackTrace();
-            Logger.error(e.getMessage());
-            error.code = -1;
-            error.msg = "注册失败";
-        }
-
-    }
-
-    private static Object parseFpResponse(WS.HttpResponse httpResponse, ErrorInfo error) {
-        Object value = null;
-        Logger.info("fp response statusCode:" + httpResponse.getStatus());
-        if (httpResponse.getStatus() == HttpStatus.SC_OK) {
-            JsonObject jsonResult = httpResponse.getJson().getAsJsonObject();
-            Logger.info("fp response result:" + jsonResult);
-
-            Object message = jsonResult.get("message");
-            if(message!= null && message instanceof JSONObject){
-                String severity = ((JSONObject)message).getString("severity");
-                if(!severity.equals("0")){
-                    error.code = -1;
-                    error.msg = ((JSONObject)message).getString("summary");
-                }
-            }
-            value = jsonResult.get("value");
-
-        }
-        return value;
-    }
 
 
 

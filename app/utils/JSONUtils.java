@@ -1,9 +1,14 @@
 package utils;
 
-import java.io.IOException;
-import java.util.List;
+import controllers.app.common.Message;
+import controllers.app.common.MessageVo;
+import controllers.app.common.MsgCode;
+import controllers.app.common.Severity;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+
+import java.io.IOException;
+import java.util.List;
 
 public class JSONUtils {
 
@@ -29,5 +34,23 @@ public class JSONUtils {
         JSONArray jsonArray = JSONArray.fromObject(list);
 
         return jsonArray.toString();
+    }
+
+
+    public static JSONObject toJSONString(ErrorInfo errorInfo, MsgCode msgCode){
+        return toJSONString(errorInfo, msgCode, null);
+    }
+
+    public static JSONObject toJSONString(ErrorInfo errorInfo, MsgCode msgCode, Object value){
+        MessageVo messageVo = new MessageVo();
+
+        if (errorInfo.code == 0) {
+            messageVo.setMessage(new Message(Severity.INFO, msgCode, errorInfo.msg));
+        }else{
+            messageVo.setMessage(new Message(Severity.ERROR, msgCode, errorInfo.msg));
+        }
+        messageVo.setValue(value);
+
+        return JSONObject.fromObject(messageVo);
     }
 }
