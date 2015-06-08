@@ -28,8 +28,12 @@ public class QuickRegister extends BaseController {
     }
     public static void registerSuccess(String ...openid){
         String fpHots= Constants.FP_HOST;
-        String openId=openid[0];
-        String status=openid[1];
+        String openId="";
+        String status="";
+        if(null!=openid[0]){
+            openId=openid[0];
+            status=openid[1];
+        }
         render(fpHots,openId,status);
 
     }

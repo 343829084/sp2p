@@ -36,8 +36,11 @@ public class LoginAction extends BaseController {
      * 跳转到登录页面
      */
     public static void login(String ...openid) {
-        String openId= openid[0];
-        String status= Http.Request.current().params.get("status");
+        String openId="";
+        if(null!=openid[0]){
+             openId= openid[0];
+        }
+        String status= Http.Request.current().params.get("state");
         Logger.info("openId为："+openId+"status:"+status);
         flash.keep("url");
         render(openId,status);

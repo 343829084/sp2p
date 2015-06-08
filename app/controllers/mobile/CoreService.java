@@ -59,30 +59,34 @@ public class CoreService extends BaseController {
     }
 
     public static void getOpenId() throws IOException {
-
+//02120b5d7cf7eeb6c6fc4e09c487c9bB
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
         Logger.info("用户进入：");
         String code= Http.Request.current().params.get("code");
-        String status= Http.Request.current().params.get("status");
+        String status= Http.Request.current().params.get("state");
         Logger.info("code为："+code+"status:"+status);
         JSONObject authInfo=WebChartUtil.getOpenIdAuth(code);
         Object openid = authInfo.get("openid");
-        Logger.info("openid为："+openid);
-        if(null!=openid && openid.toString().trim()!=""){
+       String openId="";
+        if(null!=openid){
+            openId= openid.toString();
+        }
+        Logger.info("openid为："+openId);
+        if(null!=openid && openId.trim()!=""){
             if(status.equals("1")){
-             LoginAction.login(openid.toString());
+                LoginAction.login(openId);
              }else
             if(status.equals("2")){
                 Logger.info("绑定用户openid");
-                LoginAction.register(openid.toString());
+                LoginAction.register(openId);
             }else
             if(status.equals("3")){
-                Logger.info("openid:"+openid+"status:"+status);
-                QuickRegister.registerSuccess(openid.toString(),status);
+                Logger.info("openid:"+openId+"status:"+status);
+                QuickRegister.registerSuccess(openId,status);
             }else
             if(status.equals("4")){
-                Logger.info("openid:"+openid+"status:"+status);
-                QuickRegister.registerSuccess(openid.toString(),status);
+                Logger.info("openid:"+openId+"status:"+status);
+                QuickRegister.registerSuccess(openId,status);
             }
             /**
              * 1.验证user表里面有没有用户
