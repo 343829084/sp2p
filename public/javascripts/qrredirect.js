@@ -15,7 +15,7 @@ var imgUrl = sourceBaseUrl + "/resources/img/activity/logo_icon.png";
             $("#image-pop").attr("src", image.src);
         }
     }
-    var downLoadURL =window.location.protocol+"//"+window.location.host+'/mobile/share/quickRegister.html';
+    var downLoadURL =window.location.protocol+"//"+window.location.host+'/mobile/quickRegister';
     var mobile = $.getQueryString("mobile");
     if (mobile) {
         if (mobile != "99999999999") {
