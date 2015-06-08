@@ -27,12 +27,15 @@ public class QuickRegister extends BaseController {
 
     }
     public static void registerSuccess(String ...openid){
+        Http.Request reuqets = Http.Request.current();
         String fpHots= Constants.FP_HOST;
         String openId="";
         String status="";
-        if(null!=openid[0]){
+
+        if(null!=openid){
             openId=openid[0];
             status=openid[1];
+            Logger.info("openid:"+openId+"status"+status);
         }
         render(fpHots,openId,status);
 

@@ -58,6 +58,14 @@ public class CoreService extends BaseController {
         Logger.info("url：" + url);
     }
 
+    public static void getcode() {
+//02120b5d7cf7eeb6c6fc4e09c487c9bB
+        Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
+        Logger.info("用户进入：");
+        String code = Http.Request.current().params.get("code");
+        String status= Http.Request.current().params.get("state");
+        Logger.info("code："+code+"state"+status);
+    }
     public static void getOpenId() throws IOException {
 //02120b5d7cf7eeb6c6fc4e09c487c9bB
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");

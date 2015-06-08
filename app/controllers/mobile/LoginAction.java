@@ -37,7 +37,7 @@ public class LoginAction extends BaseController {
      */
     public static void login(String ...openid) {
         String openId="";
-        if(null!=openid[0]){
+        if(null!=openid){
              openId= openid[0];
         }
         String status= Http.Request.current().params.get("state");
@@ -108,7 +108,10 @@ public class LoginAction extends BaseController {
      * 跳转到注册页面
      */
     public static void register(String ...openid) {
-        String openId= openid[0];
+        String openId="";
+        if(null!=openid) {
+            openId = openid[0];
+        }
         render(openId);
     }
 
