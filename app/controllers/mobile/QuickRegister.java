@@ -36,6 +36,8 @@ public class QuickRegister extends BaseController {
             openId=openid[0];
             status=openid[1];
             Logger.info("openid:"+openId+"status"+status);
+        }else{
+            status=request.params.get("status");
         }
         render(fpHots,openId,status);
 

@@ -10,7 +10,7 @@ officialsite=baseUrl+'/appdown';
 weiXinRedirectUrl = "https://mp.weixin.qq.com/mp/redirect?url=";
 
 var ua = navigator.userAgent.toLowerCase();
-var redirectLink=["share/registerSuccess"];
+var redirectLink=["mobile/registerSuccess"];
 var service = function(){
     isWeiXin= function() {
 

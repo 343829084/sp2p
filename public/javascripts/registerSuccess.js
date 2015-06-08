@@ -3,7 +3,6 @@
 var recommendPhone = $.getQueryString("mobile");
 var result=isPhone(recommendPhone);
 var rph=result.mobile;
-shareUrl=sourceBaseUrl+"/share/share.html?mobile="+result.mobile;
 
 $("img[data-load='load']").click(function () {
     window.location.href = sourceBaseUrl + "/share/downloadRouter.html?mobile="+rph;
@@ -20,7 +19,12 @@ if(b){
     $("#rg_ss").hide();
 };
 
-    if(status !='4') {
+   if(status =='4'){
+       $("#rg_bk").show();
+        $("#go_register").click(function(){
+            window.location.href = "/mobile/login?mobile="+rph;
+        });
+    }else{
         $("#go_register").click(function () {
             window.location.href = "/mobile/quickRegister?mobile=" + rph;
         });

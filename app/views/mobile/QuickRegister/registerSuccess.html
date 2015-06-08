@@ -14,6 +14,9 @@
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/main.css'}" />
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/simpleregist.css'}" />
     <!-- endbuild -->
+    <script>
+        baseUrl = '${fpHots}';
+    </script>
 </head>
 
 <body style="background-color: rgb(230, 230, 230)">
@@ -45,12 +48,20 @@
               <img src="@{'/public/images/h5icon/webchart.jpg'}"  class="imag-sal"/>
                 <p>扫一扫或者长按关注金豆荚微信号</p>
             </div>
-            <div id="rg_bk" style=" width:100%;text-align: center;margin-top: 15px;display:none">
-                <button type="button" id="go_register" class='btn-height  button-font-sh bk-img'>点击注册</button>
-            </div>
-            <div id="rg_ss" style=" width:100%;text-align: center;margin-top: 15px;">
-                <button type="button" id="go_register" class='btn-height  button-font-sh bk-img'>去金豆荚看看</button>
-            </div>
+          #{if status =='4'}
+              <div id="rg_bk" style=" width:100%;text-align: center;margin-top: 15px;display:none">
+                  <button type="button" id="go_register" class='btn-height  button-font-sh bk-img'>点击登录</button>
+              </div>
+           #{/if}
+            #{else}
+                <div id="rg_bk" style=" width:100%;text-align: center;margin-top: 15px;display:none">
+                    <button type="button" id="go_register" class='btn-height  button-font-sh bk-img'>点击注册</button>
+                </div>
+                <div id="rg_ss" style=" width:100%;text-align: center;margin-top: 15px;">
+                    <button type="button" id="go_register" class='btn-height  button-font-sh bk-img'>去金豆荚看看</button>
+                </div>
+            #{/else}
+
             <div style="height:80px;">
                 <ul class="rs-ul-pos">
                     <li> <img src="@{'/public/images/h5icon/apple.png'}" data-load="load" class="imag-sal-lt"/></li>
@@ -65,12 +76,7 @@
         </div>
 <script>
     var status= '${status}';
-if(status =='4'){
-    $("#go_register").text("点击登录");
-    $("#go_register").click(function(){
-        window.location.href = "/mobile/login?mobile="+rph;
-    });
-}
+
 </script>
 
 
