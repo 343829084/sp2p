@@ -1,14 +1,22 @@
 package controllers.mobile;
 
 import business.Bid;
+import business.TemplatePact;
 import business.User;
+import constants.Constants;
+import constants.Templets;
 import controllers.BaseController;
 import controllers.interceptor.H5Interceptor;
+import models.t_bids;
+import models.t_system_options;
+import models.t_users;
 import net.sf.json.JSONObject;
 import play.Logger;
 import play.mvc.Scope;
 import play.mvc.With;
 import utils.CaptchaUtil;
+import utils.DateUtil;
+import utils.ErrorInfo;
 
 import java.util.Date;
 
@@ -98,6 +106,44 @@ public class ProductAction extends BaseController {
 
         ProductAction.render(bid, map);
     }
-
-
+    
+    public static void bidAgreement (String sign, int type) {
+    	render (sign, type);
+    }
+    
+    public static void getAgreementContent(String sign, int type){
+		ErrorInfo error = new ErrorInfo();
+		
+		TemplatePact pact = new TemplatePact();
+		pact.id = Templets.BID_PACT_INVEST;
+		
+		t_bids bid = new t_bids();
+		t_users bidUser = new t_users();
+		String company_name = "";
+		String sql1 = "select _value from t_system_options where _key = ?";
+		try {
+			bid = t_bids.findById(Long.parseLong(sign));
+			bidUser = t_users.findById(bid.user_id);
+			company_name = t_system_options.find(sql1, "company_name").first();
+		} catch (Exception e) {
+			error.msg = "系统异常";
+			error.code = -1;
+			e.printStackTrace();
+			return;
+		}
+		
+		Date date = new Date();
+		String pact_no = sign + DateUtil.simple(date);
+		String content = pact.content;
+		content = content.replace(Templets.PACT_NO,pact_no)
+		.replace(Templets.LOAN_NAME, bidUser.reality_name)
+		.replace(Templets.ID_NUMBER, bidUser.id_number)
+		.replace(Templets.COMPANY_NAME,company_name)
+		.replace(Templets.DATE,DateUtil.dateToString(new Date()));	
+		if(error.code < 0){
+			renderJSON(Constants.ERROR_PAGE_PATH_FRONT);
+		}
+		
+		renderText(content);
+	}
 }

@@ -4,6 +4,7 @@ import business.User;
 import com.google.gson.JsonObject;
 import constants.Constants;
 import controllers.BaseController;
+import controllers.app.common.MsgCode;
 import controllers.mobile.account.AccountAction;
 import models.t_users;
 import net.sf.json.JSONObject;
@@ -14,6 +15,7 @@ import play.cache.Cache;
 import play.libs.WS;
 import play.mvc.Http;
 import utils.ErrorInfo;
+import utils.JSONUtils;
 import utils.RegexUtils;
 
 import java.util.Date;
@@ -82,7 +84,7 @@ public class LoginAction extends BaseController {
             validate = false;
         }
 
-        if (user.login(password, false, error) < 0) {
+        if (user.loginFromH5(password, error) < 0) {
             flash.error(error.msg);
             validate = false;
         }
@@ -110,6 +112,81 @@ public class LoginAction extends BaseController {
             login();
         }
 
+    }
+
+    public static void loginBySocial(){
+        ErrorInfo error = new ErrorInfo();
+
+        String name = params.get("mobilePhoneNo");
+        String socialType = params.get("socialType");
+
+        if (StringUtils.isBlank(name)) {
+            error.code = -1;
+            error.msg = "手机号不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
+        }
+        if (StringUtils.isBlank(socialType)) {
+            error.code = -1;
+            error.msg = "社交类型不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
+        }
+
+        User user = new User();
+        user.name = name;
+
+        if (user.id < 0) {
+            error.code = -1;
+            error.msg = "该用户名不存在";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
+        }
+
+        user.loginBySocial(socialType, error);
+
+        if (error.code < 0) {
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
+        }
+
+        renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_SUCC));
+    }
+
+    public static void bindingSocial(){
+        ErrorInfo error = new ErrorInfo();
+
+        String name = params.get("mobilePhoneNo");
+        String socialType = params.get("socialType");
+        String socialNo = params.get("socialNo");
+
+        if (StringUtils.isBlank(name)) {
+            error.code = -1;
+            error.msg = "手机号不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+        if (StringUtils.isBlank(socialType)) {
+            error.code = -1;
+            error.msg = "社交类型不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+        if (StringUtils.isBlank(socialNo)) {
+            error.code = -1;
+            error.msg = "社交号不能为空";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+
+        User user = new User();
+        user.name = name;
+
+        if (user.id < 0) {
+            error.code = -1;
+            error.msg = "该用户名不存在";
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+        user.bindingSocial(socialType, socialNo, error);
+
+        if (error.code < 0) {
+            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
+        }
+
+        renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_SUCC));
     }
 
 
@@ -141,7 +218,7 @@ public class LoginAction extends BaseController {
             renderJSON(json);
         }
 
-        String authentication_id = registerToFp(error, mobile, password);
+        String authentication_id = User.registerToFp(error, mobile, password);
 
         if (error.code < 0) {
             json.put("error", error);
