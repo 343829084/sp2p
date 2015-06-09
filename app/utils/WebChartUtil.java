@@ -20,7 +20,8 @@ public  class WebChartUtil {
         static final String appId="wx320badb1a6f6b806";
         static final String appsecret="6b4fe8bb2a14522e2391984b3f303a9a";;
         private static String  BINDURLBACK="http://p2pv2.sunlights.me/mobile/weixin/openId";
-        private static String OPENIDURL= "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=redUrl&response_type=code&scope=snsapi_base&state=123#wechat_redirect";
+        private static String OPENIDURL= "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=redUrl&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+        private static String CODECHANGETOKEN="https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
         private static String GETUERINFO="https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN";
         public static String  GETCODEURL = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=REDIRECT_URI&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
         public static String  GETTOKEN = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
@@ -33,7 +34,7 @@ public  class WebChartUtil {
         return Constants.OPENIDURL;
     }
 
-    public  static String setUrl(String code){
+    public  static String setOPENIDUrl(String code){
 //        String newUrl = URLEncoder.encode(redurl);
 
         Constants.CODEEXCHANGEOPENID= Constants.CODEEXCHANGEOPENID.replace("APPID", urlEnodeUTF8(Constants.appId));
@@ -42,10 +43,31 @@ public  class WebChartUtil {
         Constants.CODEEXCHANGEOPENID= Constants.CODEEXCHANGEOPENID.replace("CODE", urlEnodeUTF8(code));
         return Constants.CODEEXCHANGEOPENID;
     }
+    public  static String setTOKENUrl(String code){
+//        String newUrl = URLEncoder.encode(redurl);
 
+        Constants.CODECHANGETOKEN= Constants.CODECHANGETOKEN.replace("APPID", urlEnodeUTF8(Constants.appId));
+        Constants.CODECHANGETOKEN= Constants.CODECHANGETOKEN.replace("SECRET", urlEnodeUTF8(Constants.appsecret));
+
+        Constants.CODECHANGETOKEN= Constants.CODECHANGETOKEN.replace("CODE", urlEnodeUTF8(code));
+        return Constants.CODECHANGETOKEN;
+    }
+    public static JSONObject getTOKENANDOPENID(String code) throws IOException {
+
+        String url= setOPENIDUrl(code);
+        HttpClient httpClient = new HttpClient();
+        GetMethod getMethod = new GetMethod(url);
+        getMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");// 在头文件中设置转码
+        httpClient.setTimeout(3000);
+        int statusCode = httpClient.executeMethod(getMethod);
+
+        JSONObject resultStr = JSONObject.fromObject(getMethod.getResponseBodyAsString());
+        return resultStr;
+
+    }
     public static JSONObject getOpenIdAuth(String code) throws IOException {
 
-        String url= setUrl(code);
+        String url= setOPENIDUrl(code);
         HttpClient httpClient = new HttpClient();
         GetMethod getMethod = new GetMethod(url);
         getMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");// 在头文件中设置转码
@@ -87,8 +109,6 @@ public static JSONObject getReqMethod(String url) throws IOException {
     HttpClient httpClient = new HttpClient();
     GetMethod getMethod = new GetMethod(url);
     getMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=gbk");// 在头文件中设置转码
-
-
     httpClient.setTimeout(3000);
     int statusCode = httpClient.executeMethod(getMethod);
     JSONObject jsonResult=new JSONObject();

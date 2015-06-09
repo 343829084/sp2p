@@ -3,6 +3,7 @@ package controllers.mobile;
 import business.User;
 import com.google.gson.JsonObject;
 import constants.Constants;
+import constants.WEIXINUtil;
 import controllers.BaseController;
 import controllers.app.common.MsgCode;
 import controllers.mobile.account.AccountAction;
@@ -22,6 +23,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import static constants.WEIXINUtil.authCode;
+
 /**
  * <p>Project: com.shovesoft.sp2p</p>
  * <p>Title: LoginController.java</p>
@@ -37,17 +40,16 @@ public class LoginAction extends BaseController {
     /*
      * 跳转到登录页面
      */
-    public static void login(String ...openid) {
-        String openId="";
-        String status="";
-        if(null!=openid){
-            openId=openid[0];
-            status=openid[1];
-            Logger.info("openid:"+openId+"status"+status);
+    public static void login() {
+       User user=User.currUser();
+        if(user!=null){
+            if(WEIXINUtil.isWeiXin()){
+                redirect(authCode);
+            }
         }
-        Logger.info("openId为："+openId+"status:"+status);
+
         flash.keep("url");
-        render(openId,status);
+        render();
     }
 
     public static void doLogin() {

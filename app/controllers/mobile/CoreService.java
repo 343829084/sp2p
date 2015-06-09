@@ -60,13 +60,21 @@ public class CoreService extends BaseController {
         Logger.info("url：" + url);
     }
 
-    public static void getcode() {
+    public static void getCode() {
 
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
         Logger.info("用户进入：");
         String code = Http.Request.current().params.get("code");
         String status= Http.Request.current().params.get("state");
         Logger.info("code："+code+"state"+status);
+        try {
+            OutputStream os = Http.Response.current().out;
+            os.write(code.getBytes());
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public static void getOpenId() throws IOException {
 
@@ -87,10 +95,9 @@ public class CoreService extends BaseController {
             if(status.equals(Constants.WEIXINSTATUS.LOGIN)){
                 Logger.info("openid:"+openId+"status:"+status);
 
-                LoginAction.login(openId, status);
+                LoginAction.login();
              }else
             if(status.equals(Constants.WEIXINSTATUS.REGISTER)){
-
                 Logger.info("openid:"+openId+"status:"+status);
                 LoginAction.register(openId, status);
             }else
@@ -110,6 +117,9 @@ public class CoreService extends BaseController {
         }else{
          render();
         }
+    }
+    public static void landding(){
+        render();
     }
     public static void serviceprocess() throws IOException {
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");

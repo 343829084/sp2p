@@ -2085,3 +2085,7 @@ POST   /mobile/weixin/coreService                                               
 GET   /mobile/weixin/openId                                                         mobile.CoreService.getOpenId
 
 GET   /mobile/weixin/gateUrl                                                         mobile.CoreService.getGateUrl
+
+GET   /mobile/weixin/landding                                                         mobile.CoreService.landding
+
+GET   /mobile/weixin/getcode                                                         mobile.CoreService.getCode
