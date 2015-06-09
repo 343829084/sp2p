@@ -29,11 +29,11 @@ public class H5Interceptor extends BaseController {
         Logger.debug("[checkLogin]" + request.url);
         User user = User.currUser();
         if (user == null) {
-            if(isWeiXin()){
-                if(null==flash.get("openId")){
-                    redirect(authCode);
-                }
-            }
+//            if(isWeiXin()){
+//                if(null==flash.get("openId")){
+//                    redirect(authCode);
+//                }
+//            }
             flash.put("url", request.url);
             LoginAction.login();
         }

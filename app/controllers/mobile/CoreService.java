@@ -76,6 +76,16 @@ public class CoreService extends BaseController {
             e.printStackTrace();
         }
     }
+    public static void getUserToken() throws IOException {
+
+        Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
+        Logger.info("用户进入：");
+        String code = Http.Request.current().params.get("code");
+        String status = Http.Request.current().params.get("state");
+        Logger.info("code为：" + code + "status:" + status);
+        JSONObject authInfo = WebChartUtil.getTOKENANDOPENID(code);
+    }
+
     public static void getOpenId() throws IOException {
 
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");

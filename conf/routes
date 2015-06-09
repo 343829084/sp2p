@@ -2089,3 +2089,5 @@ GET   /mobile/weixin/gateUrl                                                    
 GET   /mobile/weixin/landding                                                         mobile.CoreService.landding
 
 GET   /mobile/weixin/getcode                                                         mobile.CoreService.getCode
+
+GET   /mobile/weixin/gettoken                                                         mobile.CoreService.getUserToken
