@@ -17,14 +17,21 @@ public class Constants {
 	public static final String HTTP_PATH = Play.configuration.getProperty("http.path");
 	public static final String ENCRYPTION_KEY = Play.configuration.getProperty("fixed.secret");			//加密key
 	public static final String APP_ENCRYPTION_KEY = Play.configuration.getProperty("app.fixed.secret");			//APP加密key
-	public static final String FP_AGREEMENT_URL = Play.configuration.getProperty("fp.agreement.url");	//fp url
-	public static final String FP_REGISTER_URL = Play.configuration.getProperty("fp.register.url");	//fp url that for registering with fp
-	public static final String FP_LOGIN_URL = Play.configuration.getProperty("fp.login.url");	//fp url that for logining with fp
-	public static final String FP_RESETPW_URL = Play.configuration.getProperty("fp.resetpwd.url");	//fp url that for logining with fp
-	public static final String FP_ACTIVITY_IMAG_URL = Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
-	public static final String FP_REGISTER_GIVE_JINDOU =Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆 
-    public static final String FP_AUTHENTICATION =Play.configuration.getProperty("fp.authentication"); //fp认证信息
-	public static final String FP_HOST =Play.configuration.getProperty("static.host"); //fp主机地址
+
+    //*****************************************fp interface************************************
+    public static final String FP_HOST_URI = Play.configuration.getProperty("fp.host.uri");
+	public static final String FP_AGREEMENT_URL = FP_HOST_URI + Play.configuration.getProperty("fp.agreement.url");	//fp url
+	public static final String FP_REGISTER_URL = FP_HOST_URI + Play.configuration.getProperty("fp.register.url");	//fp url that for registering with fp
+	public static final String FP_LOGIN_URL = FP_HOST_URI + Play.configuration.getProperty("fp.login.url");	//fp url that for logining with fp
+	public static final String FP_RESETPW_URL = FP_HOST_URI + Play.configuration.getProperty("fp.resetpwd.url");	//fp url that for logining with fp
+	public static final String FP_ACTIVITY_IMAG_URL = FP_HOST_URI + Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
+	public static final String FP_REGISTER_GIVE_JINDOU = FP_HOST_URI + Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆
+    public static final String FP_AUTHENTICATION = FP_HOST_URI + Play.configuration.getProperty("fp.authentication.url"); //fp认证信息
+    public static final String FP_LOGIN_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.login.social.url"); //fp认证信息
+    public static final String FP_BINDING_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.binding.social.url"); //fp认证信息
+
+
+    public static final String FP_HOST =Play.configuration.getProperty("static.host"); //fp主机地址
 	public static final double BIDS_ACTIVE_APR =Convert.strToDouble(Play.configuration.getProperty("bids.active.apr"), 0.5); //active apr 
 	public static final String SUPERVISOR_MAIL =Play.configuration.getProperty("supervisor.mail"); //the supervisor's mail address 
 	
