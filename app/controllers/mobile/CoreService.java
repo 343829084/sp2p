@@ -77,6 +77,7 @@ public class CoreService extends BaseController {
         Logger.info("code为："+code+"status:"+status);
         JSONObject authInfo=WebChartUtil.getOpenIdAuth(code);
         Object openid = authInfo.get("openid");
+
        String openId="";
         if(null!=openid){
             openId= openid.toString();
@@ -103,14 +104,9 @@ public class CoreService extends BaseController {
             }
             if(status.equals(Constants.WEIXINSTATUS.INTERCEPTORREDIRECT)){
                 Logger.info("openid:" + openId + "status:" + status);
+                flash.put("openId",openId);
                     MainContent.moneyMatters();
                 }
-
-            /**
-             * 1.验证user表里面有没有用户
-             * 2.有直接抓取用户信息登录-->2.1然后跳转到固定页面？？
-             * 3.没有-->带上参数跳转到相应的页面
-             */
         }else{
          render();
         }

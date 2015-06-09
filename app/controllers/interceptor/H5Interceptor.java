@@ -30,7 +30,9 @@ public class H5Interceptor extends BaseController {
         User user = User.currUser();
         if (user == null) {
             if(isWeiXin()){
-           redirect(authCode);
+                if(null==flash.get("openId")){
+                    redirect(authCode);
+                }
             }
             flash.put("url", request.url);
             LoginAction.login();
