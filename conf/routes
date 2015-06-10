@@ -2001,7 +2001,6 @@ GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommi
 #登录 注册
 GET      /mobile/login                                                           mobile.LoginAction.login
 POST     /mobile/login                                                           mobile.LoginAction.doLogin
-POST     /mobile/loginBySocial                                                   mobile.LoginAction.loginBySocial
 POST     /mobile/bindingSocial                                                   mobile.LoginAction.bindingSocial
 
 GET      /mobile/register                                                        mobile.LoginAction.register
@@ -2071,6 +2070,9 @@ POST    /mobile/account/enchashConfirm                                          
 POST    /mobile/account/enchashCBSys                                            mobile.account.EnchashAction.enchashCBSys
 POST    /mobile/account/enchashCB                                               mobile.account.EnchashAction.enchashCB
 
+GET    /mobile/weixin/weChatGate                                                mobile.WeChatAction.weChatGate
+GET    /mobile/weixin/weChatCB                                                  mobile.WeChatAction.weChatCB
+GET    /mobile/weixin/authentication                                            mobile.WeChatAction.authentication
 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 
@@ -2078,16 +2080,6 @@ GET   /mobile/qrredirect                                                       m
 
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
 
-GET   /mobile/weixin/coreService                                                   mobile.CoreService.serviceauth
 
-POST   /mobile/weixin/coreService                                                   mobile.CoreService.serviceprocess
 
-GET   /mobile/weixin/openId                                                         mobile.CoreService.getOpenId
 
-GET   /mobile/weixin/gateUrl                                                         mobile.CoreService.getGateUrl
-
-GET   /mobile/weixin/landding                                                         mobile.CoreService.landding
-
-GET   /mobile/weixin/getcode                                                         mobile.CoreService.getCode
-
-GET   /mobile/weixin/gettoken                                                         mobile.CoreService.getUserToken

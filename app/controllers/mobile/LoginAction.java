@@ -3,27 +3,21 @@ package controllers.mobile;
 import business.User;
 import com.google.gson.JsonObject;
 import constants.Constants;
-import constants.WEIXINUtil;
 import controllers.BaseController;
-import controllers.app.common.MsgCode;
-import controllers.mobile.account.AccountAction;
-import models.t_users;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.cache.Cache;
 import play.libs.WS;
-import play.mvc.Http;
 import utils.ErrorInfo;
-import utils.JSONUtils;
+import utils.ParseClientUtil;
 import utils.RegexUtils;
+import utils.WebChartUtil;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-import static constants.WEIXINUtil.authCode;
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -41,15 +35,27 @@ public class LoginAction extends BaseController {
      * 跳转到登录页面
      */
     public static void login() {
-       User user=User.currUser();
-        if(user!=null){
-            if(WEIXINUtil.isWeiXin()){
-                redirect(authCode);
-            }
+        User user = User.currUser();
+        if (user != null) {
+            MainContent.property();
         }
 
+        params.put("status", Constants.WEIXINSTATUS.LOGIN);
+
+        if (ParseClientUtil.isWeiXin()) {
+            WeChatAction.weChatGate();
+        }
+
+        String openId = params.get("openId");
+
+        Logger.info("openId为："+openId);
         flash.keep("url");
-        render();
+
+        JSONObject paramsJson = new JSONObject();
+        paramsJson.put("openId", openId);
+        paramsJson.put("status", Constants.WEIXINSTATUS.LOGIN);
+
+        render(paramsJson);
     }
 
     public static void doLogin() {
@@ -92,22 +98,15 @@ public class LoginAction extends BaseController {
         }
 
         if (validate) {
-
-            if(null!=openId){
-                //bindweixin
+            if(StringUtils.isNotEmpty(openId)){//bindweixin
+                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
             }
 
             String url = flash.get("url");
             if (StringUtils.isNotBlank(url)) {
                 redirect(url);
             }else {
-                t_users t_users = user.queryUser2ByUserId(user.getId(), error);
-                if (t_users.ips_acct_no == null) {//未开户
-                    AccountAction.createAcct();
-                }else{
-
-                    MainContent.moneyMatters();
-                }
+                MainContent.moneyMatters();
             }
         } else {
             flash.keep("url");
@@ -116,91 +115,19 @@ public class LoginAction extends BaseController {
 
     }
 
-    public static void loginBySocial(){
-        ErrorInfo error = new ErrorInfo();
-
-        String name = params.get("mobilePhoneNo");
-        String socialType = params.get("socialType");
-
-        if (StringUtils.isBlank(name)) {
-            error.code = -1;
-            error.msg = "手机号不能为空";
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
-        }
-        if (StringUtils.isBlank(socialType)) {
-            error.code = -1;
-            error.msg = "社交类型不能为空";
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
-        }
-
-        User user = new User();
-        user.name = name;
-
-        if (user.id < 0) {
-            error.code = -1;
-            error.msg = "该用户名不存在";
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
-        }
-
-        user.loginBySocial(socialType, error);
-
-        if (error.code < 0) {
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_FAIL));
-        }
-
-        renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_LOGIN_SUCC));
-    }
-
-    public static void bindingSocial(){
-        ErrorInfo error = new ErrorInfo();
-
-        String name = params.get("mobilePhoneNo");
-        String socialType = params.get("socialType");
-        String socialNo = params.get("socialNo");
-
-        if (StringUtils.isBlank(name)) {
-            error.code = -1;
-            error.msg = "手机号不能为空";
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
-        }
-        if (StringUtils.isBlank(socialType)) {
-            error.code = -1;
-            error.msg = "社交类型不能为空";
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
-        }
-        if (StringUtils.isBlank(socialNo)) {
-            error.code = -1;
-            error.msg = "社交号不能为空";
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
-        }
-
-        User user = new User();
-        user.name = name;
-
-        if (user.id < 0) {
-            error.code = -1;
-            error.msg = "该用户名不存在";
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
-        }
-        user.bindingSocial(socialType, socialNo, error);
-
-        if (error.code < 0) {
-            renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_FAIL));
-        }
-
-        renderJSON(JSONUtils.toJSONString(error, MsgCode.SOCIAL_BINDING_SUCC));
-    }
-
-
     /**
      * 跳转到注册页面
      */
-    public static void register(String ...openid) {
-        String openId="";
-        if(null!=openid) {
-            openId = openid[0];
-        }
-        render(openId);
+    public static void register() {
+        params.put("status", Constants.WEIXINSTATUS.REGISTER);
+
+        String openId = params.get("openId");
+
+        JSONObject paramsJson = new JSONObject();
+        paramsJson.put("openId", openId);
+        paramsJson.put("status", Constants.WEIXINSTATUS.REGISTER);
+
+        render(paramsJson);
     }
 
     public static void doRegister() {
@@ -244,8 +171,8 @@ public class LoginAction extends BaseController {
         }
 
         registerGiveJinDou(error, mobile);
-        if(null!=openId){
-            //bindweixin
+        if(StringUtils.isNotEmpty(openId)){//bindweixin
+            user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
         }
         json.put("error", error);
         renderJSON(json);

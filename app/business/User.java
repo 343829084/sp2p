@@ -1328,25 +1328,7 @@ public class User extends UserBase implements Serializable{
         return loginCommon(error);
     }
 
-    public int loginBySocial(String socialType, ErrorInfo error){
-        loginBySocialToFp(socialType, error);
-        if (error.code < 0) {
-            return error.code;
-        }
-
-        return loginCommon(error);
-    }
-
-    public int bindingSocial(String socialType, String socialNo, ErrorInfo error){
-        bindingSocialToFp(socialType, socialNo, error);
-        if (error.code < 0) {
-            return error.code;
-        }
-
-        return loginCommon(error);
-    }
-
-    private void bindingSocialToFp(String socialType, String socialNo, ErrorInfo error){
+    public void bindingSocialToFp(String socialType, String socialNo, ErrorInfo error){
         Map<String, String> params = new HashMap<String, String>();
         params.put("mobilePhoneNo", this._name);
         params.put("socialType", socialType);
@@ -1384,20 +1366,27 @@ public class User extends UserBase implements Serializable{
     }
 
 
-    private void loginBySocialToFp(String socialType, ErrorInfo error){
+    public String findBySocialToFp(String socialType, String socialNo, ErrorInfo error){
+        String name = null;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("mobilePhoneNo", this._name);
+        params.put("socialNo", socialNo);
         params.put("socialType", socialType);
 
         try {
-            WS.HttpResponse httpResponse = WS.url(Constants.FP_LOGIN_SOCIAL_URL).setParameters(params).post();
-            parseFpResponse(httpResponse, error);
+            WS.HttpResponse httpResponse = WS.url(Constants.FP_FIND_SOCIAL_URL).setParameters(params).post();
+            String result = parseFpResponse(httpResponse, error);
+            if (error.code == 0) {
+                JSONObject value = JSONObject.fromObject(result);
+                name = value.getString("mobilePhoneNo");
+            }
         }catch (Exception e){
             e.printStackTrace();
             Logger.error(e.getMessage());
             error.code = -1;
-            error.msg = "登录失败！";
+            error.msg = "查询失败！";
         }
+
+        return name;
     }
 
     public static String registerToFp(ErrorInfo error, String mobile, String password) {

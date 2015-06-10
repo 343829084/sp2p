@@ -10,7 +10,9 @@ import play.mvc.Http;
  */
 public class QuickRegister extends BaseController {
     public static void quickRegister(){
-       String fpHots= Constants.FP_HOST;
+        params.put("status", Constants.WEIXINSTATUS.MOBILEHADREGISTER);
+
+        String fpHots= Constants.FP_HOST;
 
         Http.Request reuqets = Http.Request.current();
         Logger.info(reuqets.params.toString());
@@ -27,6 +29,8 @@ public class QuickRegister extends BaseController {
 
     }
     public static void registerSuccess(String ...openid){
+        params.put("status", Constants.WEIXINSTATUS.QUICKREGISTERSUCCESS);
+
         Http.Request reuqets = Http.Request.current();
         String fpHots= Constants.FP_HOST;
         String openId="";

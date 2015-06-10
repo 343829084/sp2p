@@ -11,12 +11,13 @@ import play.Play;
  * @created 2014-4-7 下午04:07:56
  */
 public class Constants {
-	
+    public static final String SP2P_URL = Play.configuration.getProperty("application.baseUrl");
 	public static final String BASE_URL = Play.configuration.getProperty("test.application.baseUrl") + Play.configuration.getProperty("http.path") + "/";
 	public static final String SQL_PATH = Play.configuration.getProperty("sql.path");					//数据库备份文件路径
 	public static final String HTTP_PATH = Play.configuration.getProperty("http.path");
 	public static final String ENCRYPTION_KEY = Play.configuration.getProperty("fixed.secret");			//加密key
 	public static final String APP_ENCRYPTION_KEY = Play.configuration.getProperty("app.fixed.secret");			//APP加密key
+    public static final String APP_AGENT_NAMES = Play.configuration.getProperty("app.agent.names");
 
     //*****************************************fp interface************************************
     public static final String FP_HOST_URI = Play.configuration.getProperty("fp.host.uri");
@@ -27,8 +28,13 @@ public class Constants {
 	public static final String FP_ACTIVITY_IMAG_URL = FP_HOST_URI + Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
 	public static final String FP_REGISTER_GIVE_JINDOU = FP_HOST_URI + Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆
     public static final String FP_AUTHENTICATION = FP_HOST_URI + Play.configuration.getProperty("fp.authentication.url"); //fp认证信息
-    public static final String FP_LOGIN_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.login.social.url"); //fp认证信息
+    public static final String FP_FIND_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.find.social.url"); //fp认证信息
     public static final String FP_BINDING_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.binding.social.url"); //fp认证信息
+
+    //************************************weChat******************************************************
+    public static final String WECHAT_APPID = Play.configuration.getProperty("wechat_appId");
+    public static final String WECHAT_APPSECRET = Play.configuration.getProperty("wechat_appsecret");
+    public static final String WECHAT_CALLBACK_URL = SP2P_URL + Play.configuration.getProperty("wechat_callback_url");
 
 
     public static final String FP_HOST =Play.configuration.getProperty("static.host"); //fp主机地址

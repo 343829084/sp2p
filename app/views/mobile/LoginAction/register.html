@@ -47,7 +47,7 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
 <div data-role="page" id="index">
 
     <div data-role="content " class="ui-content">
-        <input  type="hidden" name="openId" value="${openId}">
+        <input  type="hidden" name="openId" value="${paramsJson?.openId}">
         <div class="ui-field-contain">
             <input type="tel" class="mobile_login_shurk" id="name" name="name" value="${flash?.name}" maxlength="11"
                    placeholder="请输入您的手机号">
