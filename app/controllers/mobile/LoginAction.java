@@ -15,6 +15,7 @@ import utils.ParseClientUtil;
 import utils.RegexUtils;
 import utils.WebChartUtil;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,15 +36,16 @@ public class LoginAction extends BaseController {
      * 跳转到登录页面
      */
     public static void login() {
+
         User user = User.currUser();
         if (user != null) {
             MainContent.property();
         }
 
-        params.put("status", Constants.WEIXINSTATUS.LOGIN);
-
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("status","1");
         if (ParseClientUtil.isWeiXin()) {
-            WeChatAction.weChatGate();
+            weChatGate(map);
         }
 
         String openId = params.get("openId");
@@ -58,6 +60,21 @@ public class LoginAction extends BaseController {
         render(paramsJson);
     }
 
+    /**
+     * 进入微信统一入口
+     * @throws IOException
+     *
+     * @param map
+     */
+    private static void weChatGate(Map<String, String> map) {
+        Logger.info("进入");
+        String status =  map.get("status");
+        String mobile =map.get("mobile");
+        Logger.info("WeChatAction.weChatGate.status:"+status+"mobile:"+mobile);
+        String url = WebChartUtil.buildWeChatGateUrl(status, mobile);
+        Logger.info("url：" + url);
+        redirect(url);
+    }
     public static void doLogin() {
         ErrorInfo error = new ErrorInfo();
 
@@ -119,9 +136,10 @@ public class LoginAction extends BaseController {
      * 跳转到注册页面
      */
     public static void register() {
-        params.put("status", Constants.WEIXINSTATUS.REGISTER);
         if (ParseClientUtil.isWeiXin()) {
-            WeChatAction.weChatGate();
+            Map<String,String> map=new HashMap<String,String>();
+            map.put("status","2");
+            weChatGate(map);
         }
         render();
     }

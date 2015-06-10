@@ -5,12 +5,15 @@ import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
 import play.Logger;
+import play.mvc.Controller;
 import play.mvc.Http;
+import play.mvc.Scope;
 import utils.ErrorInfo;
 import utils.WebChartUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 /**
  * Created by libaozhong on 2015/6/4.
@@ -39,19 +42,6 @@ public class WeChatAction extends BaseController {
    }
 
 
-    /**
-     * 进入微信统一入口
-     * @throws IOException
-     */
-    public static void weChatGate() {
-
-        String status = params.get("status");
-        String mobile = params.get("mobile");
-        Logger.info("WeChatAction.weChatGate.status:"+status+"mobile:"+mobile);
-        String url = WebChartUtil.buildWeChatGateUrl(status, mobile);
-        Logger.info("url：" + url);
-        redirect(url);
-    }
 
     /**
      * 微信回调

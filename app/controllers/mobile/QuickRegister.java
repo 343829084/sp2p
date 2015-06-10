@@ -11,6 +11,10 @@ import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.WebChartUtil;
 
+import java.util.HashMap;
+import java.util.Map;
+
+
 /**
  * Created by libaozhong on 2015/5/27.
  */
@@ -18,12 +22,11 @@ public class QuickRegister extends BaseController {
     public static void quickRegister(){
        String mobile= params.get("mobile");
         String fpHots= Constants.FP_HOST;
-            params.put("status", Constants.WEIXINSTATUS.QUICKREGISTERSUCCESS);
-            params.put("mobile", mobile);
             if (ParseClientUtil.isWeiXin()) {
-                WeChatAction.weChatGate();
-            }
-
+                String url = WebChartUtil.buildWeChatGateUrl("3", mobile);
+                Logger.info("url：" + url);
+                redirect(url);
+           }
         render(fpHots);
     }
 
