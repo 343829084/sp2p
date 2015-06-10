@@ -5,6 +5,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.lang3.StringUtils;
+import play.Logger;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -27,11 +28,13 @@ public  class WebChartUtil {
         WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
         WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("redUrl", urlEnodeUTF8(Constants.WECHAT_CALLBACK_URL));
         if (StringUtils.isNotEmpty(status)) {
+            Logger.info("WebChartUtil.buildWeChatGateUrl.status:" + status);
             WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("STATUS", status);
         }
         if (StringUtils.isNotEmpty(mobile)) {
             WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("MOBILE", mobile);
         }
+        Logger.info("链接为:"+WeChatConstants.OPENIDURL );
         return WeChatConstants.OPENIDURL;
     }
 

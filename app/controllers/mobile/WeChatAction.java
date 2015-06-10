@@ -44,11 +44,12 @@ public class WeChatAction extends BaseController {
      * @throws IOException
      */
     public static void weChatGate() {
+
         String status = params.get("status");
         String mobile = params.get("mobile");
-        String url = WebChartUtil.buildWeChatGateUrl(status,mobile);
+        Logger.info("WeChatAction.weChatGate.status:"+status+"mobile:"+mobile);
+        String url = WebChartUtil.buildWeChatGateUrl(status, mobile);
         Logger.info("url：" + url);
-
         redirect(url);
     }
 
@@ -63,8 +64,7 @@ public class WeChatAction extends BaseController {
         String status= params.get("state");
         String mobile= params.get("mobile");
         Logger.info("code为："+code+"status:"+status);
-        String openId=code;
-//        String openId = WebChartUtil.getOpenIdAuth(code);
+       String openId = WebChartUtil.getOpenIdAuth(code);
         Logger.info("处理微信openid为："+openId+"code:"+code+"status:"+status+"mobile:"+mobile);
 
         if (openId == null) {//请求过期失效
@@ -86,7 +86,7 @@ public class WeChatAction extends BaseController {
             weChatLogin(user, name, paramsJson, error);
          }else if(status.equals(Constants.WEIXINSTATUS.REGISTER)){
             Logger.info("openid:"+openId+"status:"+status);
-            LoginAction.register();
+            weChatRegister(user, name, openId, error);
         }else if(status.equals(Constants.WEIXINSTATUS.QUICKREGISTERSUCCESS)){
             Logger.info("快速注册openid:"+openId+"status:"+status+"name:"+name);
          webChartQuickRegister(user,name, openId,mobile);
@@ -99,6 +99,14 @@ public class WeChatAction extends BaseController {
 
         }
     }
+
+    private static void weChatRegister(User user, String name, String openId, ErrorInfo error) {
+        JSONObject jsonOne = new JSONObject();
+        jsonOne.put("openId",openId);
+        jsonOne.put("name",name);
+        renderTemplate("mobile/LoginAction/register.html", jsonOne);
+    }
+
     private static void  webChartQuickRegister(User user, String name, String openId,String mobile){
         String fpHots= Constants.FP_HOST;
         JSONObject jsonOne = new JSONObject();

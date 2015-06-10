@@ -30,8 +30,8 @@
 
             <input type="password" class="mobile_login_shurk" id="password" maxlength="20" name="password" value="${flash?.password}" placeholder="请输入登录密码">
         </div>
-        <input  type="hidden" name="openId" value="${paramsJson?.openId}">
-        <input  type="hidden" name="status" value="${paramsJson?.status}">
+        <input  type="hidden" id="openId" name="openId" value="${paramsJson?.openId}">
+        <input  type="hidden" id="status" name="status" value="${paramsJson?.status}">
         <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="login()" >立即登录</a>
     </form>
 
