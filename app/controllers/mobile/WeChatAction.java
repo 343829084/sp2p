@@ -54,7 +54,7 @@ public class WeChatAction extends BaseController {
         String status= params.get("state");
         String mobile= params.get("mobile");
         Logger.info("code为："+code+"status:"+status);
-       String openId = WebChartUtil.getOpenIdAuth(code);
+        String openId = WebChartUtil.getOpenIdAuth(code);
         Logger.info("处理微信openid为："+openId+"code:"+code+"status:"+status+"mobile:"+mobile);
 
         if (openId == null) {//请求过期失效

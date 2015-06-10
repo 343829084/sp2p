@@ -84,6 +84,7 @@ public class LoginAction extends BaseController {
         flash.put("name", name);
         flash.put("password", password);
         flash.put("openId", openId);
+        Logger.info("name"+name+"openId"+openId);
         boolean validate = true;
 
         if (StringUtils.isBlank(name)) {
@@ -116,7 +117,9 @@ public class LoginAction extends BaseController {
 
         if (validate) {
             if(StringUtils.isNotEmpty(openId)){//bindweixin
+                Logger.info("绑定开始:name"+name+"openId"+openId);
                 user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                Logger.info("绑定结束:name" + name + "openId" + openId);
             }
 
             String url = flash.get("url");

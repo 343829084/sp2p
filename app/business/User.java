@@ -1375,7 +1375,7 @@ public class User extends UserBase implements Serializable{
         try {
             WS.HttpResponse httpResponse = WS.url(Constants.FP_FIND_SOCIAL_URL).setParameters(params).post();
             String result = parseFpResponse(httpResponse, error);
-            if (error.code == 0) {
+            if (error.code == 0 && result != null) {
                 JSONObject value = JSONObject.fromObject(result);
                 name = value.getString("mobilePhoneNo");
             }
