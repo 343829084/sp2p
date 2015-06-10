@@ -73,7 +73,7 @@ public class WeChatAction extends BaseController {
 
         if(status.equals(Constants.WEIXINSTATUS.LOGIN)){
             Logger.info("登录openid:"+openId+"status:"+status);
-            weChatLogin(user, name, paramsJson, error);
+            weChatLogin(user, name, openId, error);
          }else if(status.equals(Constants.WEIXINSTATUS.REGISTER)){
             Logger.info("openid:"+openId+"status:"+status);
             weChatRegister(user, name, openId, error);
@@ -85,7 +85,7 @@ public class WeChatAction extends BaseController {
             QuickRegister.registerSuccess(openId,status);
         }else{
             //TODO
-            weChatLogin(user, name, paramsJson, error);
+            weChatLogin(user, name, openId, error);
 
         }
     }
@@ -106,22 +106,22 @@ public class WeChatAction extends BaseController {
         renderTemplate("mobile/QuickRegister/quickRegister.html", jsonOne,fpHots);
     }
 
-    private static void weChatLogin(User user, String name,JSONObject paramsJson, ErrorInfo error){
-               Logger.info("weChatLogin:"+paramsJson.get("openId").toString());
+    private static void weChatLogin(User user, String name,String openId, ErrorInfo error){
+               Logger.info("weChatLogin:"+openId);
         if (name == null) {
             Logger.info("weChatLogin:name为空");
-            renderTemplate("mobile/LoginAction/login.html", paramsJson);
+            renderTemplate("mobile/LoginAction/login.html", openId);
         }
         user.name = name;
         if (user.id < 0) {
             error.code = -1;
             error.msg = "该用户名不存在";
-            renderTemplate("mobile/LoginAction/register.html", paramsJson);
+            renderTemplate("mobile/LoginAction/register.html", openId);
         }
 
         user.loginCommon(error);
         if (error.code < 0) {
-            renderTemplate("mobile/LoginAction/login.html", paramsJson);
+            renderTemplate("mobile/LoginAction/login.html", openId);
         }
 
         MainContent.property();
