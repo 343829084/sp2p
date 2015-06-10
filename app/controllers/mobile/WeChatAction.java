@@ -45,7 +45,8 @@ public class WeChatAction extends BaseController {
      */
     public static void weChatGate() {
         String status = params.get("status");
-        String url = WebChartUtil.buildWeChatGateUrl(status);
+        String mobile = params.get("mobile");
+        String url = WebChartUtil.buildWeChatGateUrl(status,mobile);
         Logger.info("url：" + url);
 
         redirect(url);
@@ -60,10 +61,11 @@ public class WeChatAction extends BaseController {
         Logger.info("用户进入：");
         String code= params.get("code");
         String status= params.get("state");
+        String mobile= params.get("mobile");
         Logger.info("code为："+code+"status:"+status);
-
-        String openId = WebChartUtil.getOpenIdAuth(code);
-        Logger.info("openid为："+openId);
+        String openId=code;
+//        String openId = WebChartUtil.getOpenIdAuth(code);
+        Logger.info("处理微信openid为："+openId+"code:"+code+"status:"+status+"mobile:"+mobile);
 
         if (openId == null) {//请求过期失效
             renderTemplate("mobile/WeChatAction/weChatFailTip.html");
@@ -77,15 +79,17 @@ public class WeChatAction extends BaseController {
         ErrorInfo error = new ErrorInfo();
         User user = new User();
         String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
+        Logger.info("查询结果：name"+name);
 
         if(status.equals(Constants.WEIXINSTATUS.LOGIN)){
+            Logger.info("登录openid:"+openId+"status:"+status);
             weChatLogin(user, name, paramsJson, error);
          }else if(status.equals(Constants.WEIXINSTATUS.REGISTER)){
             Logger.info("openid:"+openId+"status:"+status);
             LoginAction.register();
         }else if(status.equals(Constants.WEIXINSTATUS.QUICKREGISTERSUCCESS)){
-            Logger.info("openid:"+openId+"status:"+status);
-            QuickRegister.registerSuccess(openId, status);
+            Logger.info("快速注册openid:"+openId+"status:"+status+"name:"+name);
+         webChartQuickRegister(user,name, openId,mobile);
         }else if(status.equals(Constants.WEIXINSTATUS.MOBILEHADREGISTER)){
             Logger.info("openid:"+openId+"status:"+status);
             QuickRegister.registerSuccess(openId,status);
@@ -95,10 +99,19 @@ public class WeChatAction extends BaseController {
 
         }
     }
-
+    private static void  webChartQuickRegister(User user, String name, String openId,String mobile){
+        String fpHots= Constants.FP_HOST;
+        JSONObject jsonOne = new JSONObject();
+        jsonOne.put("mobile",mobile);
+        jsonOne.put("openId",openId);
+        jsonOne.put("name",name);
+        renderTemplate("mobile/QuickRegister/quickRegister.html", jsonOne,fpHots);
+    }
 
     private static void weChatLogin(User user, String name,JSONObject paramsJson, ErrorInfo error){
+
         if (name == null) {
+
             renderTemplate("mobile/LoginAction/login.html", paramsJson);
         }
         user.name = name;
@@ -114,6 +127,9 @@ public class WeChatAction extends BaseController {
         }
 
         MainContent.property();
+    }
+    public static void ladding(){
+        render();
     }
 
 }

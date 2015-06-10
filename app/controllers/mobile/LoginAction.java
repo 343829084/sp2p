@@ -133,12 +133,13 @@ public class LoginAction extends BaseController {
     public static void doRegister() {
         JSONObject json = new JSONObject();
         ErrorInfo error = new ErrorInfo();
-
+            json.put("error", error);
         String mobile = params.get("name");//the user name is mobile
         String password = params.get("password");
         String verifyCode = params.get("verifyCode");
         String recommendUserName = params.get("recommended");
         String openId = params.get("openId");
+        String queryName = params.get("queryName");
 
         registerValidation(error, mobile, password, verifyCode);
 
@@ -147,9 +148,10 @@ public class LoginAction extends BaseController {
             renderJSON(json);
         }
 
-        String authentication_id = User.registerToFp(error, mobile, password);
 
-        if (error.code < 0) {
+         String authentication_id = User.registerToFp(error, mobile, password);
+
+        if (error.code < 0 && error.code!=-2) {
             json.put("error", error);
             renderJSON(json);
         }
@@ -162,21 +164,24 @@ public class LoginAction extends BaseController {
         user.isMobileVerified = true;
         user.authentication_id = authentication_id;
         user.recommendUserName = recommendUserName;
+          if(error.code!=-2) {
+              user.register(error);
 
-        user.register(error);
-
-        if (error.code < 0) {
-            json.put("error", error);
-            renderJSON(json);
+                if (error.code < 0) {
+                    json.put("error", error);
+                    renderJSON(json);
+                }
+              registerGiveJinDou(error, mobile);
+          }
+        if(!StringUtils.isNotEmpty(queryName)){
+            if(StringUtils.isNotEmpty(openId)){//bindweixin
+            ErrorInfo error2=new ErrorInfo();
+            user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
         }
-
-        registerGiveJinDou(error, mobile);
-        if(StringUtils.isNotEmpty(openId)){//bindweixin
-            user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
         }
-        json.put("error", error);
         renderJSON(json);
     }
+
 
     private static void registerValidation(ErrorInfo error, String mobile, String password, String verifyCode) {
         if (StringUtils.isBlank(mobile)) {

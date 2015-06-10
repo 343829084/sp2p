@@ -18,16 +18,19 @@ public  class WebChartUtil {
 
     //01184441bb65fbd817c6996609e6e4dQ
     static class WeChatConstants {
-        private static String OPENIDURL =  "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=redUrl&response_type=code&scope=snsapi_base&state=STATUS#wechat_redirect";
+        private static String OPENIDURL =  "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=redUrl&response_type=code&scope=snsapi_base&state=STATUS&mobile=MOBILE#wechat_redirect";
         public static String  GETTOKEN =   "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
         public static String CODEEXCHANGEOPENID="https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
     }
-    public  static String buildWeChatGateUrl(String status){
+    public  static String buildWeChatGateUrl(String status,String mobile){
         WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
         WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
         WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("redUrl", urlEnodeUTF8(Constants.WECHAT_CALLBACK_URL));
         if (StringUtils.isNotEmpty(status)) {
             WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("STATUS", status);
+        }
+        if (StringUtils.isNotEmpty(mobile)) {
+            WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("MOBILE", mobile);
         }
         return WeChatConstants.OPENIDURL;
     }
