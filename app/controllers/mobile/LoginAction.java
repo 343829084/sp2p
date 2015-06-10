@@ -120,14 +120,10 @@ public class LoginAction extends BaseController {
      */
     public static void register() {
         params.put("status", Constants.WEIXINSTATUS.REGISTER);
-
-        String openId = params.get("openId");
-
-        JSONObject paramsJson = new JSONObject();
-        paramsJson.put("openId", openId);
-        paramsJson.put("status", Constants.WEIXINSTATUS.REGISTER);
-
-        render(paramsJson);
+        if (ParseClientUtil.isWeiXin()) {
+            WeChatAction.weChatGate();
+        }
+        render();
     }
 
     public static void doRegister() {

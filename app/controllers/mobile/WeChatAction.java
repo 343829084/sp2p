@@ -128,7 +128,7 @@ public class WeChatAction extends BaseController {
 
         MainContent.property();
     }
-    public static void ladding(){
+    public static void landding(){
         render();
     }
 
