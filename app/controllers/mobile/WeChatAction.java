@@ -107,9 +107,9 @@ public class WeChatAction extends BaseController {
     }
 
     private static void weChatLogin(User user, String name,JSONObject paramsJson, ErrorInfo error){
-
+               Logger.info("weChatLogin:"+paramsJson.get("openId").toString());
         if (name == null) {
-
+            Logger.info("weChatLogin:name为空");
             renderTemplate("mobile/LoginAction/login.html", paramsJson);
         }
         user.name = name;

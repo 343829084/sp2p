@@ -48,8 +48,7 @@ public class LoginAction extends BaseController {
             weChatGate(map);
         }
 
-        String openId = params.get("openId");
-
+       String openId = params.get("openId");
         Logger.info("openId为："+openId);
         flash.keep("url");
 
