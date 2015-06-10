@@ -50,6 +50,7 @@ public class WeChatAction extends BaseController {
     public static void weChatCB() throws IOException {
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
         Logger.info("用户进入：");
+
         String code= params.get("code");
         String status= params.get("state");
         String mobile= params.get("mobile");

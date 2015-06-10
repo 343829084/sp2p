@@ -59,7 +59,7 @@ public  class WebChartUtil {
         if (resultStr == null || resultStr.get("openid") == null) {
             return null;
         }
-
+     Logger.info("openid最初值为："+resultStr.get("openid").toString());
         return resultStr.get("openid").toString();
     }
 
