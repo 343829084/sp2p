@@ -191,7 +191,7 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
             $.ajax({
                 type: "GET",
                 url: "/mobile/verifyCode",
-                data: {"mobile": $("#name").val()},
+                data: {"mobile": $("#name").val(),"type":"0"},
                 success: function (data) {
                     if (0 == data.error.code) {
                         getValCodeTimeout(60, "btn_getVerifyCode");

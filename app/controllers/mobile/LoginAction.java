@@ -206,6 +206,7 @@ public class LoginAction extends BaseController {
         }
 
         String cacheVerifyCode = Cache.get(mobile) + "";
+        Cache.delete(mobile);
         if (Constants.CHECK_CODE && !verifyCode.equals(cacheVerifyCode)) {
             error.code = -1;
             error.msg = "验证码输入有误";

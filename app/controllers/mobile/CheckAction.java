@@ -1,5 +1,6 @@
 package controllers.mobile;
 
+import business.User;
 import controllers.app.common.Message;
 import controllers.app.common.MessageVo;
 import controllers.app.common.MsgCode;
@@ -30,11 +31,18 @@ public class CheckAction extends BaseController {
     public static void sendVerifyCode() {
         JSONObject json = new JSONObject();
         String mobile = params.get("mobile");
+        String type = params.get("type");//0 注册 1修改密码
         ErrorInfo error = new ErrorInfo();
 
         if(StringUtils.isBlank(mobile) ) {
             error.code = -1;
             error.msg = "手机号码不能为空";
+            json.put("error",error);
+            renderJSON(json);
+        }
+        if(StringUtils.isBlank(type) ) {
+            error.code = -1;
+            error.msg = "类型不能为空";
             json.put("error",error);
             renderJSON(json);
         }
@@ -44,6 +52,23 @@ public class CheckAction extends BaseController {
             error.msg = "请输入正确的手机号码";
             json.put("error",error);
             renderJSON(json);
+        }
+
+        if ("0".equals(type)) {//注册
+            User.isNameExist(mobile, error);
+            if (error.code < 0) {
+                json.put("error",error);
+                renderJSON(json);
+            }
+        }
+        else if ("1".equals(type)) {
+            User.isNameExist(mobile, error);
+            if (error.code == 0) {
+                error.code = -2;
+                error.msg = "该用户名不存在";
+                json.put("error",error);
+                renderJSON(json);
+            }
         }
 
         SMSUtil.sendCode(mobile, error);

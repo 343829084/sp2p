@@ -2369,15 +2369,23 @@ public class User extends UserBase implements Serializable{
 		}
 		
 		if(Constants.CHECK_CODE) {
-			String cCode = (Cache.get(mobile)).toString();
-			
+            String cCode=null;
+            try{
+                 cCode = (Cache.get(mobile)).toString();
+            }catch (Exception e){
+                error.code = -1;
+                error.msg = "验证码输入有误";
+
+                return;
+            }
+
 			if(cCode == null) {
 				error.code = -1;
 				error.msg = "验证码已失效，请重新点击发送验证码";
 				
 				return;
 			}
-			
+            Cache.delete(mobile);
 			if(!code.equals(cCode)) {
 				error.code = -1;
 				error.msg = "手机验证错误";
