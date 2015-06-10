@@ -18,7 +18,7 @@
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
 </head>
 <script>
-alert('${paramsJson?.openId}');
+alert('${openId}');
 </script>
 <body>
 
@@ -32,7 +32,7 @@ alert('${paramsJson?.openId}');
 
             <input type="password" class="mobile_login_shurk" id="password" maxlength="20" name="password" value="${flash?.password}" placeholder="请输入登录密码">
         </div>
-        <input  type="hidden" id="openId" name="openId" value="${paramsJson?.openId}">
+        <input  type="hidden" id="openId" name="openId" value="${openId}">
         <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="login()" >立即登录</a>
     </form>
 
