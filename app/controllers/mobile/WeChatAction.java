@@ -120,7 +120,7 @@ public class WeChatAction extends BaseController {
     }
 
     private static void showOpenId(String openId) {
-        render("mobile/WebChatAction/weChatGate.html",openId);
+        renderJSON(openId);
     }
 
     private static String getOpenIdAndSessionToken(String code) throws IOException {
