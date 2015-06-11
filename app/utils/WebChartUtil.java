@@ -44,18 +44,19 @@ public  class WebChartUtil {
         public static String CODEEXCHANGEOPENID="https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
     }
     public  static String buildWeChatGateUrl(String status,String mobile){
-        WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
-        WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
-        WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("redUrl", urlEnodeUTF8(Constants.WECHAT_CALLBACK_URL));
+        String url=WeChatConstants.OPENIDURL;
+        url = url.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
+        url = url.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
+        url= url.replace("redUrl", urlEnodeUTF8(Constants.WECHAT_CALLBACK_URL));
         if (StringUtils.isNotEmpty(status)) {
             Logger.info("WebChartUtil.buildWeChatGateUrl.status:" + status);
-            WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("STATUS", status);
+            url = url.replace("STATUS", status);
         }
         if (StringUtils.isNotEmpty(mobile)) {
-            WeChatConstants.OPENIDURL = WeChatConstants.OPENIDURL.replace("MOBILE", mobile);
+            url= url.replace("MOBILE", mobile);
         }
-        Logger.info("链接为:"+WeChatConstants.OPENIDURL );
-        return WeChatConstants.OPENIDURL;
+        Logger.info("链接为:"+url);
+        return url;
     }
 
     public  static String buildRequestOpenIdUrl(String code){

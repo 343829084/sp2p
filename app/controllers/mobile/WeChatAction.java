@@ -108,7 +108,7 @@ public class WeChatAction extends BaseController {
             Logger.info("登录openid:"+openId+"status:"+status);
             weChatLogin(user, name, openId, error);
          }else if(status.equals(Constants.WEIXINSTATUS.REGISTER)){
-            Logger.info("openid:"+openId+"status:"+status);
+            Logger.info("注册openid:"+openId+"status:"+status);
             weChatRegister(user, name, openId, error);
         }else if(status.equals(Constants.WEIXINSTATUS.QUICKREGISTERSUCCESS)){
             Logger.info("快速注册openid:"+openId+"status:"+status+"name:"+name);
