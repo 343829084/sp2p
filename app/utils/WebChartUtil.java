@@ -59,11 +59,12 @@ public  class WebChartUtil {
     }
 
     public  static String buildRequestOpenIdUrl(String code){
-        WeChatConstants.CODEEXCHANGEOPENID = WeChatConstants.CODEEXCHANGEOPENID.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
+        String url = WeChatConstants.CODEEXCHANGEOPENID;
+        url=url.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
         WeChatConstants.CODEEXCHANGEOPENID = WeChatConstants.CODEEXCHANGEOPENID.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
         WeChatConstants.CODEEXCHANGEOPENID = WeChatConstants.CODEEXCHANGEOPENID.replace("CODE", urlEnodeUTF8(code));
         Logger.info( WeChatConstants.CODEEXCHANGEOPENID );
-        return WeChatConstants.CODEEXCHANGEOPENID;
+        return url;
     }
 
     public static JSONObject getOpenIdAuth(String code) throws IOException {
