@@ -61,9 +61,9 @@ public  class WebChartUtil {
     public  static String buildRequestOpenIdUrl(String code){
         String url = WeChatConstants.CODEEXCHANGEOPENID;
         url=url.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
-        WeChatConstants.CODEEXCHANGEOPENID = WeChatConstants.CODEEXCHANGEOPENID.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
-        WeChatConstants.CODEEXCHANGEOPENID = WeChatConstants.CODEEXCHANGEOPENID.replace("CODE", urlEnodeUTF8(code));
-        Logger.info( WeChatConstants.CODEEXCHANGEOPENID );
+        url= url.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
+        url =url.replace("CODE", urlEnodeUTF8(code));
+        Logger.info( url);
         return url;
     }
 
