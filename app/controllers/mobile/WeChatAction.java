@@ -111,6 +111,7 @@ public class WeChatAction extends BaseController {
             QuickRegister.registerSuccess(openId,status);
         }else if(status.equals(6)){
             Logger.info("openid:" + openId + "status:" + status);
+            showOpenid(openId);
             try {
                 OutputStream os = Http.Response.current().out;
                 os.write(openId.getBytes("UTF-8"));
@@ -124,6 +125,10 @@ public class WeChatAction extends BaseController {
             weChatLogin(user, name, openId, error);
 
         }
+    }
+
+    private static void showOpenid(String openId) {
+        render("mobile/WebChatAction/weChatGate.html",openId);
     }
 
     private static String getOpenIdAndSessionToken(String code) throws IOException {
