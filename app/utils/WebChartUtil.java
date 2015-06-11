@@ -67,16 +67,15 @@ public  class WebChartUtil {
     }
 
     public static JSONObject getOpenIdAuth(String code) throws IOException {
-
+               Logger.info("code开始拼接url" + code);
         String url= buildRequestOpenIdUrl(code);
-
+        Logger.info("code拼接的url"+url);
         HttpClient httpClient = new HttpClient();
         GetMethod getMethod = new GetMethod(url);
         getMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");// 在头文件中设置转码
         int statusCode = httpClient.executeMethod(getMethod);
-
         JSONObject resultStr = JSONObject.fromObject(getMethod.getResponseBodyAsString());
-         Logger.info("getOpenIdAuth"+String.valueOf(resultStr==null));
+         Logger.info("getOpenIdAuth"+resultStr.toString());
         if (resultStr == null || resultStr.get("openid") == null) {
             Logger.info("getOpenIdAuth:opendid为空");
             return null;
