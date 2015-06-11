@@ -159,18 +159,20 @@ public class WeChatAction extends BaseController {
             renderTemplate("mobile/LoginAction/login.html", openId);
         }
         user.name = name;
+        Logger.info("userId"+user.id);
         if (user.id < 0) {
             error.code = -1;
             error.msg = "该用户名不存在";
             renderTemplate("mobile/LoginAction/register.html", openId);
         }
-
+        Logger.info("userId"+user.id+"登录");
         user.loginCommon(error);
         if (error.code < 0) {
+            Logger.info("userId"+user.id+"登录错误");
             renderTemplate("mobile/LoginAction/login.html", openId);
         }
-
-        MainContent.property();
+        Logger.info("返回产品列表");
+        MainContent.moneyMatters();
     }
     public static void landding(){
         render();
