@@ -16,6 +16,7 @@
 
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/mobile/commonPlugin/maskPopupWindow.js'}"></script>
 </head>
 
 <body>
@@ -27,8 +28,9 @@
     <form method="post" id="submit" data-ajax="false" action="/mobile/login">
         <div class="ui-field-contain">
             <input type="tel" class="mobile_login_shurk" id="name" name="name" maxlength="11" value="${flash?.name}" placeholder="请输入您的手机号" >
-
+            <p id="errorLogMsg" class="error-msg"></p>
             <input type="password" class="mobile_login_shurk" id="password" maxlength="20" name="password" value="${flash?.password}" placeholder="请输入登录密码">
+            <p id="errorPwdMsg" class="error-msg"></p>
         </div>
         <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="login()"  >立即登录</a>
     </form>
@@ -47,7 +49,6 @@
         </div>
 
     </div>
-
 </div>
 
 </body>
@@ -63,24 +64,36 @@
         if (error == null || error == undefined || error == '') {
             $("#error_tips").hide();
         }else{
-            $(".oa_er_bk").show();
-            $("#error_content").text(error);
+//            $(".oa_er_bk").show();
+//            $("#error_content").text(error);
+            $.alertWindow.show(error);
         }
     });
 
+//    function test() {
+//        $.alertWindow.show("用户名或密码错误");
+//    }
 
     function login(){
+        $("#errorLogMsg").css({
+            "display":"none"
+        });
         var PhoneNumber = veriPhoneNumber($("#name").val());
         if (PhoneNumber != true) {
-            $(".oa_er_bk").show();
-            $("#error_content").text(PhoneNumber);
+            $("#errorLogMsg").html(PhoneNumber).css({
+                "display":"block"
+            });
             return;
         }
 
+        $("#errorPwdMsg").css({
+            "display":"none"
+        });
         var password = veriPassword($("#password").val());
         if (password != true) {
-            $(".oa_er_bk").show();
-            $("#error_content").text(password);
+            $("#errorPwdMsg").html(password).css({
+                "display":"block"
+            });
             return;
         }
         $("#submit").submit();

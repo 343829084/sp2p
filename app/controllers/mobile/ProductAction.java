@@ -139,4 +139,9 @@ public class ProductAction extends BaseController {
 		
 		renderText(content);
 	}
+    
+    public static void productList() {
+    	render();
+    };
+    
 }

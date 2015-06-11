@@ -4,6 +4,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.lang.StringUtils;
 
+import business.User;
 import utils.ErrorInfo;
 import utils.RegexUtils;
 import utils.SMSUtil;
@@ -41,7 +42,14 @@ public class CheckAction extends BaseController {
             json.put("error",error);
             renderJSON(json);
         }
-
+        
+        if (User.isNameExist(mobile, error) != 0 ){
+        	error.code = -1;
+            error.msg = "用户名已经存在";
+        	json.put("error",error);
+            renderJSON(json);
+        }
+        
         SMSUtil.sendCode(mobile, error);
 
         json.put("error",error);

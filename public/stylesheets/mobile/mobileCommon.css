@@ -9,6 +9,13 @@
     z-index:10009;
     display: none;
 }
+
+.error-msg {
+    color: #F2683E;
+    display: none;
+    text-align: center;
+}
+
 .error_tips{
     position:fixed;
     z-index:10000;
@@ -89,6 +96,10 @@ p.close_error_tips a{
     font-size:1.4rem;
     line-height:2rem;
     color:#666;
+}
+
+.ui-page-theme-a .disable-status {
+    background-color: #666 !important;
 }
 
 .agree{text-align:left; font-size:1.3rem; padding:5px 0 0 15px; color:#666;}
