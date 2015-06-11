@@ -1,11 +1,7 @@
 /**
  * Created by libaozhong on 2015/2/4.
  */
-baseUrl = '${fpHots}';
-apiBaseUrl = baseUrl + '/api';
-var shareUrl=null;
-sourceBaseUrl=baseUrl;
-var loadurl=sourceBaseUrl+"/share/downloadRouter.html";
+
 (function($, window) {
     var ua = navigator.userAgent.toLocaleLowerCase();
 

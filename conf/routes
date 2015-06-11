@@ -1998,11 +1998,18 @@ GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommi
 
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^mobile^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-GET   /mobile/login                                                  mobile.LoginAction.login
-POST   /mobile/login                                                  mobile.LoginAction.doLogin
-GET   /mobile/register                                                  mobile.LoginAction.register
-POST   /mobile/register                                                  mobile.LoginAction.doRegister
-GET   /mobile/verifyCode                                                  mobile.CheckAction.sendVerifyCode
+#登录 注册
+GET      /mobile/login                                                           mobile.LoginAction.login
+POST     /mobile/login                                                           mobile.LoginAction.doLogin
+POST     /mobile/bindingSocial                                                   mobile.LoginAction.bindingSocial
+
+GET      /mobile/register                                                        mobile.LoginAction.register
+POST     /mobile/register                                                        mobile.LoginAction.doRegister
+
+#验证码
+GET      /mobile/searchVerifyCode                                                mobile.CheckAction.searchVerifyCode
+GET      /mobile/verifyCode                                                      mobile.CheckAction.sendVerifyCode
+
 #首页金品
 GET  /mobile/content/bestProduct                                     mobile.MainContent.bestProduct
 #财富
@@ -2064,9 +2071,16 @@ POST    /mobile/account/enchashConfirm                                          
 POST    /mobile/account/enchashCBSys                                            mobile.account.EnchashAction.enchashCBSys
 POST    /mobile/account/enchashCB                                               mobile.account.EnchashAction.enchashCB
 
+GET    /mobile/weixin/weChatGate                                                mobile.WeChatAction.weChatGate
+GET    /mobile/weixin/weChatCB                                                  mobile.WeChatAction.weChatCB
+GET    /mobile/weixin/authentication                                            mobile.WeChatAction.authentication
 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 
+GET   /mobile/qrredirect                                                       mobile.QuickRegister.qrredirect
+
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
 
-GET   /mobile/weixin/coreService                                                   mobile.CoreService.serviceauth
+
+
+

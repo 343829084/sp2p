@@ -4,8 +4,6 @@ import business.User;
 import com.google.gson.JsonObject;
 import constants.Constants;
 import controllers.BaseController;
-import controllers.mobile.account.AccountAction;
-import models.t_users;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +11,9 @@ import play.Logger;
 import play.cache.Cache;
 import play.libs.WS;
 import utils.ErrorInfo;
+import utils.ParseClientUtil;
 import utils.RegexUtils;
+import utils.WebChartUtil;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -35,8 +35,27 @@ public class LoginAction extends BaseController {
      * 跳转到登录页面
      */
     public static void login() {
+        User user = User.currUser();
+        if (user != null) {
+            MainContent.property();
+        }
+
+        params.put("status", Constants.WEIXINSTATUS.LOGIN);
+
+        if (ParseClientUtil.isWeiXin()) {
+            WeChatAction.weChatGate();
+        }
+
+        String openId = params.get("openId");
+
+        Logger.info("openId为："+openId);
         flash.keep("url");
-        render();
+
+        JSONObject paramsJson = new JSONObject();
+        paramsJson.put("openId", openId);
+        paramsJson.put("status", Constants.WEIXINSTATUS.LOGIN);
+
+        render(paramsJson);
     }
 
     public static void doLogin() {
@@ -44,9 +63,10 @@ public class LoginAction extends BaseController {
         
         String name = params.get("name");
         String password = params.get("password");
+        String openId = params.get("openId");
         flash.put("name", name);
         flash.put("password", password);
-
+        flash.put("openId", openId);
         boolean validate = true;
         
         if (StringUtils.isBlank(name)) {
@@ -86,22 +106,21 @@ public class LoginAction extends BaseController {
             validate = false;
         }
 
-        if (user.login(password, false, error) < 0) {
+        if (user.loginFromH5(password, error) < 0) {
             flash.error(error.msg);
             validate = false;
         }
 
         if (validate) {
+            if(StringUtils.isNotEmpty(openId)){//bindweixin
+                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+            }
+
             String url = flash.get("url");
             if (StringUtils.isNotBlank(url)) {
                 redirect(url);
             }else {
-                t_users t_users = user.queryUser2ByUserId(user.getId(), error);
-                if (t_users.ips_acct_no == null) {//未开户
-                    AccountAction.createAcct();
-                }else{
-                    MainContent.moneyMatters();
-                }
+                MainContent.moneyMatters();
             }
         } else {
             flash.keep("url");
@@ -110,12 +129,19 @@ public class LoginAction extends BaseController {
 
     }
 
-
     /**
      * 跳转到注册页面
      */
     public static void register() {
-        render();
+        params.put("status", Constants.WEIXINSTATUS.REGISTER);
+
+        String openId = params.get("openId");
+
+        JSONObject paramsJson = new JSONObject();
+        paramsJson.put("openId", openId);
+        paramsJson.put("status", Constants.WEIXINSTATUS.REGISTER);
+
+        render(paramsJson);
     }
 
     public static void doRegister() {
@@ -126,6 +152,7 @@ public class LoginAction extends BaseController {
         String password = params.get("password");
         String verifyCode = params.get("verifyCode");
         String recommendUserName = params.get("recommended");
+        String openId = params.get("openId");
 
         registerValidation(error, mobile, password, verifyCode);
 
@@ -134,7 +161,7 @@ public class LoginAction extends BaseController {
             renderJSON(json);
         }
 
-        String authentication_id = registerToFp(error, mobile, password);
+        String authentication_id = User.registerToFp(error, mobile, password);
 
         if (error.code < 0) {
             json.put("error", error);
@@ -158,7 +185,9 @@ public class LoginAction extends BaseController {
         }
 
         registerGiveJinDou(error, mobile);
-
+        if(StringUtils.isNotEmpty(openId)){//bindweixin
+            user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+        }
         json.put("error", error);
         renderJSON(json);
     }
@@ -191,6 +220,7 @@ public class LoginAction extends BaseController {
         }
 
         String cacheVerifyCode = Cache.get(mobile) + "";
+        Cache.delete(mobile);
         if (Constants.CHECK_CODE && !verifyCode.equals(cacheVerifyCode)) {
             error.code = -1;
             error.msg = "验证码输入有误";
@@ -263,6 +293,7 @@ public class LoginAction extends BaseController {
         }
         return value;
     }
+
 
 
 

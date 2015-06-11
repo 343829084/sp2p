@@ -47,7 +47,7 @@
     $(document).ready(function(){
         var error = '${flash?.error}';
         if (error == null || error == undefined || error == '') {
-            $("#oa_er_bk").hide();
+            $(".oa_er_bk").hide();
         }else{
             $(".oa_er_bk").show();
             $("#error_content").text(error);

@@ -47,7 +47,7 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
 <div data-role="page" id="index">
 
     <div data-role="content " class="ui-content">
-
+        <input  type="hidden" name="openId" value="${paramsJson?.openId}">
         <div class="ui-field-contain">
             <input type="tel" class="mobile_login_shurk" id="name" name="name" value="${flash?.name}" maxlength="11"
                    placeholder="请输入您的手机号">
@@ -59,7 +59,7 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
                     <p id="errorVerfiyCode" class="error-msg"></p>
                 </div>
                 <div class="ui-block-b">
-                    <a href="#" data-role="button" id="btn_getVerifyCode">获取验证码</a>
+                    <button id="btn_getVerifyCode">获取验证码</button>
                 </div>
             </div>
             <div class="row-width rel-pos">
@@ -186,7 +186,8 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
                     name: $("#name").val(),
                     password: $("#password").val(),
                     verifyCode: $("#verifyCode").val(),
-                    recommended: $("#recommended").val()
+                    recommended: $("#recommended").val(),
+                    openId: $("#OpenId").val()
                 },
                 success: function (data) {
                     if (0 == data.error.code) {
@@ -222,7 +223,7 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
             $.ajax({
                 type: "GET",
                 url: "/mobile/verifyCode",
-                data: {"mobile": $("#name").val()},
+                data: {"mobile": $("#name").val(),"type":"0"},
                 success: function (data) {
                     if (0 == data.error.code) {
                         getValCodeTimeout(60, "btn_getVerifyCode");

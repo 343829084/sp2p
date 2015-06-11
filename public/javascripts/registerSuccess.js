@@ -3,7 +3,6 @@
 var recommendPhone = $.getQueryString("mobile");
 var result=isPhone(recommendPhone);
 var rph=result.mobile;
-shareUrl=sourceBaseUrl+"/share/share.html?mobile="+result.mobile;
 
 $("img[data-load='load']").click(function () {
     window.location.href = sourceBaseUrl + "/share/downloadRouter.html?mobile="+rph;
@@ -13,16 +12,23 @@ $("img[data-load='load']").click(function () {
 
 var b=redirect(redirectLink);
     $("#rg_ss").click(function(){
-        window.location.href="/mobile/content/bestProduct";
+        window.location.href="/mobile/content/moneyMatters";
     })
 if(b){
     $("#rg_bk").show();
     $("#rg_ss").hide();
 };
-    $("#go_register").click(function(){
-        window.location.href = "/mobile/quickRegister?mobile="+rph;
-    });
 
+   if(status =='4'){
+       $("#rg_bk").show();
+        $("#go_register").click(function(){
+            window.location.href = "/mobile/login?mobile="+rph;
+        });
+    }else{
+        $("#go_register").click(function () {
+            window.location.href = "/mobile/quickRegister?mobile=" + rph;
+        });
+    }
     function show(){
         if($("#go_register").hasClass("bk-img")){
             $("#go_register").removeClass("bk-img");

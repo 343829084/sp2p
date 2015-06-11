@@ -8,7 +8,9 @@ import play.mvc.Before;
 
 public class H5Interceptor extends BaseController {
 
-    @Before(only = {"mobile.MainContent.property",
+    @Before(only = {"mobile.MainContent.moneyMatters",
+            "mobile.MainContent.me",
+            "mobile.MainContent.property",
             "mobile.TradeController.tradeList",
             "mobile.TradeController.tradeHistory",
             "mobile.TradeController.remainMoney",

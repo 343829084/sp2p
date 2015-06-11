@@ -11,20 +11,33 @@ import play.Play;
  * @created 2014-4-7 下午04:07:56
  */
 public class Constants {
-	
+    public static final String SP2P_URL = Play.configuration.getProperty("application.baseUrl");
 	public static final String BASE_URL = Play.configuration.getProperty("test.application.baseUrl") + Play.configuration.getProperty("http.path") + "/";
 	public static final String SQL_PATH = Play.configuration.getProperty("sql.path");					//数据库备份文件路径
 	public static final String HTTP_PATH = Play.configuration.getProperty("http.path");
 	public static final String ENCRYPTION_KEY = Play.configuration.getProperty("fixed.secret");			//加密key
 	public static final String APP_ENCRYPTION_KEY = Play.configuration.getProperty("app.fixed.secret");			//APP加密key
-	public static final String FP_AGREEMENT_URL = Play.configuration.getProperty("fp.agreement.url");	//fp url
-	public static final String FP_REGISTER_URL = Play.configuration.getProperty("fp.register.url");	//fp url that for registering with fp
-	public static final String FP_LOGIN_URL = Play.configuration.getProperty("fp.login.url");	//fp url that for logining with fp
-	public static final String FP_RESETPW_URL = Play.configuration.getProperty("fp.resetpwd.url");	//fp url that for logining with fp
-	public static final String FP_ACTIVITY_IMAG_URL = Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
-	public static final String FP_REGISTER_GIVE_JINDOU =Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆 
-    public static final String FP_AUTHENTICATION =Play.configuration.getProperty("fp.authentication"); //fp认证信息
-	public static final String FP_HOST =Play.configuration.getProperty("static.host"); //fp主机地址
+    public static final String APP_AGENT_NAMES = Play.configuration.getProperty("app.agent.names");
+
+    //*****************************************fp interface************************************
+    public static final String FP_HOST_URI = Play.configuration.getProperty("fp.host.uri");
+	public static final String FP_AGREEMENT_URL = FP_HOST_URI + Play.configuration.getProperty("fp.agreement.url");	//fp url
+	public static final String FP_REGISTER_URL = FP_HOST_URI + Play.configuration.getProperty("fp.register.url");	//fp url that for registering with fp
+	public static final String FP_LOGIN_URL = FP_HOST_URI + Play.configuration.getProperty("fp.login.url");	//fp url that for logining with fp
+	public static final String FP_RESETPW_URL = FP_HOST_URI + Play.configuration.getProperty("fp.resetpwd.url");	//fp url that for logining with fp
+	public static final String FP_ACTIVITY_IMAG_URL = FP_HOST_URI + Play.configuration.getProperty("fp.activity.imag.url");	//fp url that for logining with fp
+	public static final String FP_REGISTER_GIVE_JINDOU = FP_HOST_URI + Play.configuration.getProperty("fp.give.register.bean.url"); //p2p注册送金豆
+    public static final String FP_AUTHENTICATION = FP_HOST_URI + Play.configuration.getProperty("fp.authentication.url"); //fp认证信息
+    public static final String FP_FIND_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.find.social.url"); //fp认证信息
+    public static final String FP_BINDING_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.binding.social.url"); //fp认证信息
+
+    //************************************weChat******************************************************
+    public static final String WECHAT_APPID = Play.configuration.getProperty("wechat_appId");
+    public static final String WECHAT_APPSECRET = Play.configuration.getProperty("wechat_appsecret");
+    public static final String WECHAT_CALLBACK_URL = SP2P_URL + Play.configuration.getProperty("wechat_callback_url");
+
+
+    public static final String FP_HOST =Play.configuration.getProperty("static.host"); //fp主机地址
 	public static final double BIDS_ACTIVE_APR =Convert.strToDouble(Play.configuration.getProperty("bids.active.apr"), 0.5); //active apr 
 	public static final String SUPERVISOR_MAIL =Play.configuration.getProperty("supervisor.mail"); //the supervisor's mail address 
 	
@@ -63,6 +76,13 @@ public class Constants {
 		public static final int INDEPENDENT = 2;	//通过独立普通网关
 		public static final int SHARED = 3;			//通过共享资金托管账户网关
 		public static final int IPS = 4;			//资金托管网关
+	}
+	public class WEIXINSTATUS {
+		public static final String LOGIN = "1";			//登录绑定
+		public static final String REGISTER = "2";	//注册绑定
+		public static final  String QUICKREGISTERSUCCESS = "3";		//快速注册成功绑定
+		public static final  String MOBILEHADREGISTER = "4";	//快速注册手机号已经注册绑定并且跳转跳转
+		public static final  String INTERCEPTORREDIRECT = "5";	//拦截器跳转
 	}
 	
 	/**

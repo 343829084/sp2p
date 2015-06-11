@@ -1,5 +1,6 @@
 package business;
 
+import com.google.gson.JsonObject;
 import interfaces.UserBase;
 import java.io.File;
 import java.io.IOException;
@@ -86,6 +87,7 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.lang.StringUtils;
@@ -115,22 +117,7 @@ import play.libs.WS;
 import play.mvc.Http.Request;
 import play.mvc.Scope;
 import play.mvc.Scope.Session;
-import utils.Arith;
-import utils.CacheManager;
-import utils.CharUtil;
-import utils.DataUtil;
-import utils.DateUtil;
-import utils.EmailUtil;
-import utils.ErrorInfo;
-import utils.GopayUtils;
-import utils.IDCardValidate;
-import utils.JPAUtil;
-import utils.NumberUtil;
-import utils.PageBean;
-import utils.QueryUtil;
-import utils.RegexUtils;
-import utils.Security;
-import utils.ServiceFee;
+import utils.*;
 
 
 /**
@@ -1323,249 +1310,242 @@ public class User extends UserBase implements Serializable{
 	 * @param password
 	 * @return
 	 */
-	public int login(String password,boolean encrypt, ErrorInfo error){
-        //invoke fp login function that check the user for table "c_authentication" and "c_customer"
-        String severity = null;
-        try {
-            HttpClient httpClient = new HttpClient();
-            PostMethod postMethod = new PostMethod(Constants.FP_LOGIN_URL);
-            postMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=gbk");// 在头文件中设置转码
-
-            NameValuePair[] data = {
-                     new NameValuePair("mobilePhoneNo", this._name),
-                     new NameValuePair("passWord", password),
-                     new NameValuePair("channel", "1")};
-            postMethod.setRequestBody(data);
-            int statusCode = httpClient.executeMethod(postMethod);
-
-            String result = postMethod.getResponseBodyAsString();
-            JSONObject jsonResult = JSONObject.fromObject(result);
-            Object message = jsonResult.get("message");
-            if(message!= null && message instanceof JSONObject){
-                severity = ((JSONObject)message).getString("severity");
-                if(!severity.equals("0")){
-                    error.code = -1;
-                    error.msg = ((JSONObject)message).getString("summary");
-                    return error.code;
-                }
-            }
-            Logger.info("statusCode:"+statusCode+", result:"+result+"");
-            postMethod.releaseConnection();
-        } catch (HttpException e) {
-            e.printStackTrace();
-            error.code = -1;
-            error.msg = "请求FP校验失败 " + e.toString();
-
+    public int login(String password,boolean encrypt, ErrorInfo error){
+        loginToFp(password, ParseClientUtil.PC, error);
+        if (error.code < 0) {
             return error.code;
-        } catch (IOException e) {
+        }
+
+        return loginCommon(error);
+    }
+
+    public int loginFromH5(String password, ErrorInfo error){
+        loginToFp(password, ParseClientUtil.H5, error);
+        if (error.code < 0) {
+            return error.code;
+        }
+
+        return loginCommon(error);
+    }
+
+    public void bindingSocialToFp(String socialType, String socialNo, ErrorInfo error){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("mobilePhoneNo", this._name);
+        params.put("socialType", socialType);
+        params.put("socialNo", socialNo);
+
+        try {
+            WS.HttpResponse httpResponse = WS.url(Constants.FP_BINDING_SOCIAL_URL).setParameters(params).post();
+            parseFpResponse(httpResponse, error);
+        }catch (Exception e){
             e.printStackTrace();
+            Logger.error(e.getMessage());
             error.code = -1;
-            error.msg = "请求FP校验失败 " + e.toString();
+            error.msg = "绑定失败！";
+        }
+    }
+
+    /**
+     * fp登录
+     */
+    private void loginToFp(String password, String channel, ErrorInfo error){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("mobilePhoneNo", this._name);
+        params.put("passWord", password);
+        params.put("channel", channel);
+
+        try {
+            WS.HttpResponse httpResponse = WS.url(Constants.FP_LOGIN_URL).setParameters(params).post();
+            parseFpResponse(httpResponse, error);
+        }catch (Exception e){
+            e.printStackTrace();
+            Logger.error(e.getMessage());
+            error.code = -1;
+            error.msg = "登录失败！";
+        }
+    }
+
+
+    public String findBySocialToFp(String socialType, String socialNo, ErrorInfo error){
+        String name = null;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("socialNo", socialNo);
+        params.put("socialType", socialType);
+
+        try {
+            WS.HttpResponse httpResponse = WS.url(Constants.FP_FIND_SOCIAL_URL).setParameters(params).post();
+            String result = parseFpResponse(httpResponse, error);
+            if (error.code == 0) {
+                JSONObject value = JSONObject.fromObject(result);
+                name = value.getString("mobilePhoneNo");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            Logger.error(e.getMessage());
+            error.code = -1;
+            error.msg = "查询失败！";
+        }
+
+        return name;
+    }
+
+    public static String registerToFp(ErrorInfo error, String mobile, String password) {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("mobilePhoneNo", mobile);
+        params.put("passWord", password);
+        params.put("channel", ParseClientUtil.H5);
+
+        String authentication_id = null;
+
+        try {
+            WS.HttpResponse httpResponse = WS.url(Constants.FP_REGISTER_URL).setParameters(params).post();
+            String result = parseFpResponse(httpResponse, error);
+            JSONObject value = JSONObject.fromObject(result);
+            authentication_id = value.getString("authenticationId");
+        }catch (Exception e){
+            e.printStackTrace();
+            Logger.error(e.getMessage());
+            error.code = -1;
+            error.msg = "注册成功,送金豆失败,请联系客服！";
+        }
+
+        return authentication_id;
+    }
+
+    /**
+     * 注册送金豆
+     */
+    public static void registerGiveJinDou(ErrorInfo error,String name){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("mobilePhoneNo", name);
+
+        try {
+            WS.HttpResponse httpResponse = WS.url(Constants.FP_REGISTER_GIVE_JINDOU).setParameters(params).post();
+            parseFpResponse(httpResponse, error);
+        }catch (Exception e){
+            e.printStackTrace();
+            Logger.error(e.getMessage());
+            error.code = -1;
+            error.msg = "注册成功,送金豆失败,请联系客服！";
+        }
+
+    }
+
+    public int loginCommon(ErrorInfo error){
+        error.clear();
+        int rows = 0;
+
+        if(this.isAllowLogin){
+            error.code = -1;
+            error.msg = "你已经被管理员禁止登录";
 
             return error.code;
         }
-		error.clear();
-		int rows = 0;
-		
-		if(this.isAllowLogin){
-			error.code = -1;
-			error.msg = "你已经被管理员禁止登录";
 
-			return error.code;
-		}
+        BackstageSet backstageSet = BackstageSet.getCurrentBackstageSet();
+        String ip = DataUtil.getIp();
+        EntityManager em = JPA.em();
 
-		BackstageSet backstageSet = BackstageSet.getCurrentBackstageSet();
-		String ip = DataUtil.getIp();
-		
-		/*if(backstageSet.isOpenPasswordErrorLimit == Constants.OPEN_LOCK && this.isPasswordErrorLocked) {
-			
-			long lockTimes = backstageSet.lockingTime*60*1000;
-			long leftTime = lockTimes - (System.currentTimeMillis() - this.passwordErrorLockedTime.getTime());	
-			
-			if(leftTime > 0) {
-				error.code = -2;
-				error.msg = "由于连续输入错误密码达到上限，用户已经被锁定";
-				
-				return error.code;
-			}
-			
-			this.isPasswordErrorLocked = Constants.FALSE;
-			this.passwordContinuousErrors = Constants.ZERO;
-			this.passwordErrorLockedTime = null;
-			
-			DealDetail.userEvent(this.id, UserEvent.LOGIN, "解除锁定", error);
-			
-			if(error.code < 0) {
-				JPA.setRollbackOnly();
-				return error.code;
-			}
-			
-		}*/
-		
-		EntityManager em = JPA.em();
-		
-		/*if(!encrypt){
-			//密码传入为明文则进行加密处理
-			password = Encrypt.MD5(password+Constants.ENCRYPTION_KEY);
-		}
-		
-		if(!password.equalsIgnoreCase(this._password)) {
-			error.msg = "对不起，您的密码有误!";
-			
-			if(backstageSet.isOpenPasswordErrorLimit == Constants.OPEN_LOCK) {
-				this.passwordContinuousErrors += 1;
-				
-				if(this.passwordContinuousErrors >= backstageSet.passwordErrorCounts) {
-							
-					Query query = em.createQuery("update t_users set last_login_time = ?, last_login_ip = ?,"
-							+ "password_continuous_errors = ?, is_password_error_locked = ?,"
-							+ "password_error_locked_time = ? where id = ?").setParameter(1, new Date())
-							.setParameter(2, ip).setParameter(3, this.passwordContinuousErrors)
-							.setParameter(4, Constants.TRUE).setParameter(5, new Date()).setParameter(6, this.id);
-					
-					try {
-						rows = query.executeUpdate();
-					} catch(Exception e) {
-						JPA.setRollbackOnly();
-						e.printStackTrace();
-						Logger.info("登录密码错误,锁定用户时："+e.getMessage());
-						error.code = -3;
-						error.msg = "对不起，由于平台出现故障，此次登录失败！";
-						
-						return error.code;
-					}
-					
-					if(rows == 0) {
-						JPA.setRollbackOnly();
-						error.code = -1;
-						error.msg = "数据未更新";
-						
-						return error.code;
-					}
-					
-					DealDetail.userEvent(this.id, UserEvent.LOGIN, "连续登录错误锁定", error);
-					
-					if(error.code < 0) {
-						JPA.setRollbackOnly();
-						return error.code;
-					}
-					
-					error.code = -3;
-					error.msg = "由于连续输入错误密码达到上限，账号已被锁定，请于"+backstageSet.lockingTime+"分钟后登录";
-					
-					return error.code;
-					
-				}
-				
-				Query query = em.createQuery("update t_users set last_login_time = ?, last_login_ip = ?,"
-						+ "password_continuous_errors = ?, is_password_error_locked = ?,"
-						+ "password_error_locked_time = ? where id = ?").setParameter(1, new Date())
-						.setParameter(2, "127.0.0.1").setParameter(3, this.passwordContinuousErrors)
-						.setParameter(4, this.isPasswordErrorLocked).setParameter(5, null).setParameter(6, this.id);
-				
-				try {
-					rows = query.executeUpdate();
-				} catch(Exception e) {
-					JPA.setRollbackOnly();
-					e.printStackTrace();
-					Logger.info("登录密码错误,更新用户错误次数时："+e.getMessage());
-					error.code = -5;
-					error.msg = "对不起，由于平台出现故障，此次登录失败！";
-					
-					return error.code;
-				}
-				
-				if(rows == 0) {
-					JPA.setRollbackOnly();
-					error.code = -1;
-					error.msg = "数据未更新";
-					
-					return error.code;
-				}
-				
-				error.code = -6;
-				
-				return error.code;
-			}
-			
-			error.code = -7;
-			
-			return error.code;
-		}*/
-		
-		if(backstageSet.isOpenPasswordErrorLimit == Constants.OPEN_LOCK) {
-			Query saveUser = em.createQuery("update t_users set last_login_time = ?, last_login_ip = ?,"
-					+ "login_count = login_count + 1, password_continuous_errors = ?, is_password_error_locked = ?,"
-					+ "password_error_locked_time = ? where id = ?").setParameter(1, new Date())
-					.setParameter(2, ip).setParameter(3, Constants.ZERO).setParameter(4, Constants.FALSE)
-					.setParameter(5, null).setParameter(6, this.id);
-			
-			try {
-				rows = saveUser.executeUpdate();
-			} catch(Exception e) {
-				JPA.setRollbackOnly();
-				e.printStackTrace();
-				Logger.info("登录时,更新用户登录信息时："+e.getMessage());
-				error.code = -5;
-				error.msg = "对不起，由于平台出现故障，此次登录失败！";
-				
-				return error.code;
-			}
-			
-			if(rows == 0) {
-				JPA.setRollbackOnly();
-				error.code = -1;
-				error.msg = "数据未更新";
-				
-				return error.code;
-			}
-		} else {
-			Query saveUser = em.createQuery("update t_users set last_login_time = ?, last_login_ip = ?"
-					+ ",login_count = login_count + 1 where id = ?").setParameter(1, new Date())
-					.setParameter(2, ip).setParameter(3, this.id);
-			
-			try {
-				rows = saveUser.executeUpdate();
-			} catch(Exception e) {
-				JPA.setRollbackOnly();
-				e.printStackTrace();
-				Logger.info("登录时,更新用户登录信息时："+e.getMessage());
-				error.code = -6;
-				error.msg = "对不起，由于平台出现故障，此次登录失败！";
-				
-				return error.code;
-			}
-			
-			if(rows == 0) {
-				JPA.setRollbackOnly();
-				error.code = -1;
-				error.msg = "数据未更新";
-				
-				return error.code;
-			}
-		}
-		
-		DealDetail.userEvent(this.id, UserEvent.LOGIN, "登录成功", error);
-		
-		if(error.code < 0) {
-			JPA.setRollbackOnly();
-			return error.code;
-		}
-		
-		setCurrUser(this);
-		
-		utils.Cache cache = CacheManager.getCacheInfo("online_user_" + this.id + "");
-		
-		if (null == cache) {
-			cache = new utils.Cache();
-			long timeout = 1800000;//单位毫秒
-			CacheManager.putCacheInfo("online_user_" + this.id, cache, timeout);
-		}
-		
-		error.code = 0;
-		
-		return error.code;
-	}
+        if(backstageSet.isOpenPasswordErrorLimit == Constants.OPEN_LOCK) {
+            Query saveUser = em.createQuery("update t_users set last_login_time = ?, last_login_ip = ?,"
+                    + "login_count = login_count + 1, password_continuous_errors = ?, is_password_error_locked = ?,"
+                    + "password_error_locked_time = ? where id = ?").setParameter(1, new Date())
+                    .setParameter(2, ip).setParameter(3, Constants.ZERO).setParameter(4, Constants.FALSE)
+                    .setParameter(5, null).setParameter(6, this.id);
+
+            try {
+                rows = saveUser.executeUpdate();
+            } catch(Exception e) {
+                JPA.setRollbackOnly();
+                e.printStackTrace();
+                Logger.info("登录时,更新用户登录信息时："+e.getMessage());
+                error.code = -5;
+                error.msg = "对不起，由于平台出现故障，此次登录失败！";
+
+                return error.code;
+            }
+
+            if(rows == 0) {
+                JPA.setRollbackOnly();
+                error.code = -1;
+                error.msg = "数据未更新";
+
+                return error.code;
+            }
+        } else {
+            Query saveUser = em.createQuery("update t_users set last_login_time = ?, last_login_ip = ?"
+                    + ",login_count = login_count + 1 where id = ?").setParameter(1, new Date())
+                    .setParameter(2, ip).setParameter(3, this.id);
+
+            try {
+                rows = saveUser.executeUpdate();
+            } catch(Exception e) {
+                JPA.setRollbackOnly();
+                e.printStackTrace();
+                Logger.info("登录时,更新用户登录信息时："+e.getMessage());
+                error.code = -6;
+                error.msg = "对不起，由于平台出现故障，此次登录失败！";
+
+                return error.code;
+            }
+
+            if(rows == 0) {
+                JPA.setRollbackOnly();
+                error.code = -1;
+                error.msg = "数据未更新";
+
+                return error.code;
+            }
+        }
+
+        DealDetail.userEvent(this.id, UserEvent.LOGIN, "登录成功", error);
+
+        if(error.code < 0) {
+            JPA.setRollbackOnly();
+            return error.code;
+        }
+
+        setCurrUser(this);
+
+        utils.Cache cache = CacheManager.getCacheInfo("online_user_" + this.id + "");
+
+        if (null == cache) {
+            cache = new utils.Cache();
+            long timeout = 1800000;//单位毫秒
+            CacheManager.putCacheInfo("online_user_" + this.id, cache, timeout);
+        }
+
+        error.code = 0;
+
+        return error.code;
+    }
+
+    private static String parseFpResponse(WS.HttpResponse httpResponse, ErrorInfo error) {
+        String value = null;
+        Logger.info("fp response statusCode:" + httpResponse.getStatus());
+        if (httpResponse.getStatus() == HttpStatus.SC_OK) {
+            String jsonResult = httpResponse.getJson().getAsJsonObject().toString();
+            Logger.info("fp response result:" + jsonResult);
+
+            JSONObject json = JSONObject.fromObject(jsonResult);
+            if(json!= null){
+                JSONObject message = JSONObject.fromObject(json.getString("message"));
+                String severity = message.getString("severity");
+                if(severity.equals("0")){
+                    error.code = 0;
+                }else{
+                    error.code = -1;
+                }
+                String summary = message.getString("summary");
+                String detail = message.getString("detail");
+                error.msg = summary + (StringUtils.isEmpty(detail) ? "" : "，" + detail);
+                Logger.info("fp response info msg:" + error.msg);
+
+                value = json.getString("value");
+            }
+        }
+        return value;
+    }
 	
 	/**
 	 * 编辑信息
@@ -2389,15 +2369,23 @@ public class User extends UserBase implements Serializable{
 		}
 		
 		if(Constants.CHECK_CODE) {
-			String cCode = (Cache.get(mobile)).toString();
-			
+            String cCode=null;
+            try{
+                 cCode = (Cache.get(mobile)).toString();
+            }catch (Exception e){
+                error.code = -1;
+                error.msg = "验证码输入有误";
+
+                return;
+            }
+
 			if(cCode == null) {
 				error.code = -1;
 				error.msg = "验证码已失效，请重新点击发送验证码";
 				
 				return;
 			}
-			
+            Cache.delete(mobile);
 			if(!code.equals(cCode)) {
 				error.code = -1;
 				error.msg = "手机验证错误";

@@ -13,6 +13,9 @@
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/bootstrap.min.css'}" />
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/main.css'}" />
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/simpleregist.css'}" />
+    <script>
+        baseUrl = '${fpHots}';
+    </script>
     <!-- endbuild -->
 </head>
 
@@ -39,14 +42,11 @@
                     <div class="row-fluid-width ">
                     <div class="row-width">
                     <label class="field" style="display: block;"></label>
-                    <input type="tel" class="input-text-user input-click" maxlength="11" placeholder="请输入手机号" id="phoneNum" name="phoneNum">
+                    <input type="tel" class="input-text-user input-click" maxlength="11" placeholder="请输入手机号" id="phoneNum" name="phoneNum" value="${code}">
                         </div>
                     </div>
 
                 </div>
-
-
-
                 <label id="ipvcerrorinfo" data-error="error" class="fg-er"></label>
 
                     <div class="row-validator-width">
@@ -75,7 +75,7 @@
                 <div class="row-fluid-width  ">
                     <div class="row-width">
                         <label class="field" style="display: block;"></label>
-                        <input type="tel"   class="input-text-rp input-click" placeholder="请输入推荐人手机号(选填)" id="recommendPhone"  maxlength="11">
+                        <input type="tel"   class="input-text-rp input-click" placeholder="请输入推荐人手机号(选填)" id="recommendPhone"  maxlength="11" >
                     </div>
                 </div>
 
@@ -90,7 +90,7 @@
                                 <label for="agreeTerms" id="tep"></label>
                             </div>
                         </label>
-                        <label for="agreeTerms" style="margin-left:5px;display:inline-block;font-size: 13px">同意<a href="${fpHots}/agreement/privacy.html" class="fg-cblue" target="_self">《注册服务协议》</a></label>
+                        <label for="agreeTerms" style="margin-left:5px;display:inline-block;font-size: 13px">同意<a href="privacy.html" class="fg-cblue" target="_self">《加薪猫注册服务协议》</a></label>
                     </div>
 
 

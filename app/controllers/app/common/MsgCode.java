@@ -16,6 +16,7 @@ package controllers.app.common;
 public enum MsgCode {
 
     //operation platform
+    OPERATE_SUCC("0000", "操作成功", ""),
 	CREATE_SUCCESS("0001", "创建成功", ""),
     UPDATE_SUCCESS("0002", "更新成功", ""),
     DELETE_SUCCESS("0003", "删除成功", ""),
@@ -37,6 +38,8 @@ public enum MsgCode {
     SEARCH_INVEST_SUCC("0513", "投标查询成功"),
     ALL_INVEST_SUCC("0514", "全投成功"),
     ENCHASH_SUCC("0515", "取现成功"),
+    SOCIAL_LOGIN_SUCC("0516", "社交登录成功"),
+    SOCIAL_BINDING_SUCC("0517", "社交绑定成功"),
 
 
 
@@ -55,6 +58,8 @@ public enum MsgCode {
     QUERY_ACC_BALANCE_FAIL("2510", "账户余额查询失败"),
     CONFIRM_INVEST_FAIL("2511", "确认投标失败"),
     ENCHASH_ERROR("2512", "取现失败"),
+    SOCIAL_LOGIN_FAIL("2513", "社交登录失败"),
+    SOCIAL_BINDING_FAIL("2514", "社交绑定失败"),
 
 
     ;

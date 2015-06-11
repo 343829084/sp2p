@@ -49,7 +49,7 @@ public class MeAction extends BaseController {
     public static void accountSafe() {
         User user = User.currUser();
         Map map = new HashMap();
-        if(null!=user) {
+        if(null!=user && null!=user.idNumber) {
             String idNumber = user.idNumber.substring(0, 6) + "****";
             String name = user.name.substring(0, 3) + "***" + user.name.substring(7, 11);
             map.put("idNumber",idNumber);
@@ -59,8 +59,17 @@ public class MeAction extends BaseController {
     }
 
     public static void changePassWord() {
-        User user = User.currUser();
-        render(user);
+
+        String name=params.get("name");
+        if (null!=name){
+            User user =new User();
+            user.setName(name);
+            render(user);
+        }else {
+            User user = User.currUser();
+            render(user);
+        }
+
     }
     /**
      * 保存重设的密码

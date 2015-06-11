@@ -16,7 +16,6 @@
 
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
-    <script type="text/javascript" src="@{'/public/javascripts/mobile/commonPlugin/maskPopupWindow.js'}"></script>
 </head>
 
 <body>
@@ -32,12 +31,14 @@
             <input type="password" class="mobile_login_shurk" id="password" maxlength="20" name="password" value="${flash?.password}" placeholder="请输入登录密码">
             <p id="errorPwdMsg" class="error-msg"></p>
         </div>
-        <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="login()"  >立即登录</a>
+        <input  type="hidden" name="openId" value="${paramsJson?.openId}">
+        <input  type="hidden" name="status" value="${paramsJson?.status}">
+        <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="login()" >立即登录</a>
     </form>
 
         <div class="ui-field-contain ui-grid-a">
-            <div class="ui-block-a"><a href="/mobile/register">立即注册</a></div>
-            <div class="ui-block-b text-right"><a href="/mobile/me/changepwd">忘记密码</a></div>
+            <div class="ui-block-a"><a id="register" href="#">立即注册</a></div>
+            <div class="ui-block-b text-right"><a id="changePwd" href="#">忘记密码</a></div>
         </div>
 
         <div class="oa_er_bk">
@@ -70,9 +71,13 @@
         }
     });
 
-//    function test() {
-//        $.alertWindow.show("用户名或密码错误");
-//    }
+    $("#register").click(function(){
+        window.location.href="/mobile/register";
+    });
+    $("#changePwd").click(function(){
+        window.location.href="/mobile/me/changepwd?name="+$("#name").val();
+    });
+
 
     function login(){
         $("#errorLogMsg").css({

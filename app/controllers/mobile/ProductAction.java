@@ -62,10 +62,17 @@ public class ProductAction extends BaseController {
             jsonMap.put("project_introduction_short", bid.description);
         }
 
-        if (bid.status == 2) {
+        boolean bidCanBuyFlag = false;//是否可以购买
+        if (bid.status == 2) {//筹款中
             Long balanceTime = (bid.investExpireTime.getTime() - new Date().getTime()) / 1000;
-            jsonMap.put("balanceTime", balanceTime);
+            jsonMap.put("balanceTime", balanceTime);//倒计时时间
+
+            double canInvestAmount = bid.amount - bid.hasInvestedAmount;
+            if (canInvestAmount > 0) {
+                bidCanBuyFlag = true;
+            }
         }
+        jsonMap.put("bidCanBuyFlag", bidCanBuyFlag);
 
         Logger.info(">>current bid status:" + bid.status);
 
