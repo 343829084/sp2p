@@ -1,5 +1,6 @@
 package utils;
 
+import com.sun.org.apache.commons.collections.LRUMap;
 import constants.Constants;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
@@ -15,6 +16,7 @@ import java.net.URLEncoder;
  * Created by libaozhong on 2015/6/4.
  */
 public  class WebChartUtil {
+    private static LRUMap cache=new LRUMap();
     public static final String WECHAT = "FP.SOCIAL.TYPE.1";
 
     //01184441bb65fbd817c6996609e6e4dQ
@@ -48,18 +50,19 @@ public  class WebChartUtil {
     public static String getOpenIdAuth(String code) throws IOException {
 
         String url= buildRequestOpenIdUrl(code);
+
         HttpClient httpClient = new HttpClient();
         GetMethod getMethod = new GetMethod(url);
         getMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");// 在头文件中设置转码
-        httpClient.setTimeout(3000);
+        httpClient.setTimeout(1000);
         int statusCode = httpClient.executeMethod(getMethod);
 
         JSONObject resultStr = JSONObject.fromObject(getMethod.getResponseBodyAsString());
-
+         Logger.info("getOpenIdAuth"+String.valueOf(resultStr==null));
         if (resultStr == null || resultStr.get("openid") == null) {
             return null;
         }
-     Logger.info("openid最初值为："+resultStr.get("openid").toString());
+     Logger.info("openid最初值为："+resultStr.get("openid").toString()+"token:"+resultStr.get("access_token"));
         return resultStr.get("openid").toString();
     }
 
