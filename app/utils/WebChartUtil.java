@@ -19,8 +19,26 @@ public  class WebChartUtil {
     private static LRUMap cache=new LRUMap();
     public static final String WECHAT = "FP.SOCIAL.TYPE.1";
 
+    public static String getOpenIdByToken(String access_token) throws IOException {
+        WeChatConstants.REFRESHTOKEN = WeChatConstants.REFRESHTOKEN.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
+        WeChatConstants.REFRESHTOKEN = WeChatConstants.REFRESHTOKEN.replace("REFRESH_TOKEN", urlEnodeUTF8(access_token));
+        HttpClient httpClient = new HttpClient();
+        GetMethod getMethod = new GetMethod(WeChatConstants.REFRESHTOKEN);
+        getMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");// 在头文件中设置转码
+        int statusCode = httpClient.executeMethod(getMethod);
+        JSONObject resultStr = JSONObject.fromObject(getMethod.getResponseBodyAsString());
+        Logger.info("getOpenIdAuth"+String.valueOf(resultStr==null));
+        if (resultStr == null || resultStr.get("openid") == null) {
+            Logger.info("getOpenIdAuth:opendid为空");
+            return null;
+        }
+        Logger.info("openid最初值为："+resultStr.get("openid").toString()+"token:"+resultStr.get("access_token"));
+        return resultStr.get("openid").toString();
+    }
+
     //01184441bb65fbd817c6996609e6e4dQ
     static class WeChatConstants {
+        private static String REFRESHTOKEN = "https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN";
         private static String OPENIDURL =  "https://open.weixin.qq.com/connect/oauth2/authorize?appid=APPID&redirect_uri=redUrl&response_type=code&scope=snsapi_base&state=STATUS&mobile=MOBILE#wechat_redirect";
         public static String  GETTOKEN =   "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=APPID&secret=APPSECRET";
         public static String CODEEXCHANGEOPENID="https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code";
@@ -44,26 +62,27 @@ public  class WebChartUtil {
         WeChatConstants.CODEEXCHANGEOPENID = WeChatConstants.CODEEXCHANGEOPENID.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
         WeChatConstants.CODEEXCHANGEOPENID = WeChatConstants.CODEEXCHANGEOPENID.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
         WeChatConstants.CODEEXCHANGEOPENID = WeChatConstants.CODEEXCHANGEOPENID.replace("CODE", urlEnodeUTF8(code));
+        Logger.info( WeChatConstants.CODEEXCHANGEOPENID );
         return WeChatConstants.CODEEXCHANGEOPENID;
     }
 
-    public static String getOpenIdAuth(String code) throws IOException {
+    public static JSONObject getOpenIdAuth(String code) throws IOException {
 
         String url= buildRequestOpenIdUrl(code);
 
         HttpClient httpClient = new HttpClient();
         GetMethod getMethod = new GetMethod(url);
         getMethod.addRequestHeader("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");// 在头文件中设置转码
-        httpClient.setTimeout(1000);
         int statusCode = httpClient.executeMethod(getMethod);
 
         JSONObject resultStr = JSONObject.fromObject(getMethod.getResponseBodyAsString());
          Logger.info("getOpenIdAuth"+String.valueOf(resultStr==null));
         if (resultStr == null || resultStr.get("openid") == null) {
+            Logger.info("getOpenIdAuth:opendid为空");
             return null;
         }
      Logger.info("openid最初值为："+resultStr.get("openid").toString()+"token:"+resultStr.get("access_token"));
-        return resultStr.get("openid").toString();
+        return resultStr;
     }
 
 

@@ -4,15 +4,22 @@ import business.User;
 import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
+import play.Play;
+import play.cache.Cache;
 import play.mvc.Controller;
 import play.mvc.Http;
 import play.mvc.Scope;
+import sun.beans.editors.LongEditor;
 import utils.ErrorInfo;
 import utils.WebChartUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -50,12 +57,37 @@ public class WeChatAction extends BaseController {
     public static void weChatCB() throws IOException {
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
         Logger.info("用户进入：");
-
         String code= params.get("code");
         String status= params.get("state");
         String mobile= params.get("mobile");
-        Logger.info("code为："+code+"status:"+status);
-        String openId = WebChartUtil.getOpenIdAuth(code);
+        Logger.info("code为：" + code + "status:" + status);
+        String openId= null;
+        String refresh_token=null;
+        String time="";
+        Http.Cookie cookie = (Http.Cookie) Http.Request.current().cookies.get("refresh_token");
+        Http.Cookie expireDate = (Http.Cookie) Http.Request.current().cookies.get("expireDate");
+        if(cookie != null && Play.started && cookie.value != null && !cookie.value.trim().equals("")) {
+            refresh_token = cookie.value;
+            time=expireDate.value;
+        }
+        if(refresh_token==null||refresh_token.toString().trim()==""){
+            openId= getOpenIdAndSessionToken(code);
+        }else{
+            if(StringUtils.isNotEmpty(time)) {
+                long expire = Long.parseLong(time);
+                Calendar ca=Calendar.getInstance();
+               ca.setTime(new Date(expire));
+                ca.add(Calendar.MINUTE,2);
+                if(ca.getTime().before(new Date())){
+                    Http.Response.current().setCookie("refresh_token", null);
+                    Http.Response.current().setCookie("expireDate", null);
+                    openId= getOpenIdAndSessionToken(code);
+                }else{
+                   openId= WebChartUtil.getOpenIdByToken(refresh_token);
+                    Logger.info("session refresh_token");
+                }
+            }
+        }
         Logger.info("处理微信openid为："+openId+"code:"+code+"status:"+status+"mobile:"+mobile);
 
         if (openId == null) {//请求过期失效
@@ -89,6 +121,19 @@ public class WeChatAction extends BaseController {
             weChatLogin(user, name, openId, error);
 
         }
+    }
+
+    private static String getOpenIdAndSessionToken(String code) throws IOException {
+        JSONObject auth = WebChartUtil.getOpenIdAuth(code);
+        if(auth!=null) {
+            Logger.info("session 不存在access_token");
+            String openId = auth.get("openid").toString();
+            String  access_token=auth.get("refresh_token").toString();
+            Http.Response.current().setCookie("refresh_token",access_token);
+            Http.Response.current().setCookie("expireDate", String.valueOf(new Date().getTime()));
+            return openId;
+        }
+        return null;
     }
 
     private static void weChatRegister(User user, String name, String openId, ErrorInfo error) {

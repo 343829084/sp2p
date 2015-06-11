@@ -1377,7 +1377,12 @@ public class User extends UserBase implements Serializable{
             String result = parseFpResponse(httpResponse, error);
             if (error.code == 0 && result != null) {
                 JSONObject value = JSONObject.fromObject(result);
-                name = value.getString("mobilePhoneNo");
+				if(value!=null && value.size()>0){
+					name = value.getString("mobilePhoneNo");
+				}else{
+					name=null;
+				}
+
             }
         }catch (Exception e){
             e.printStackTrace();
