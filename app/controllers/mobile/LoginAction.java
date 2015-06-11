@@ -99,7 +99,10 @@ public class LoginAction extends BaseController {
 
         if (validate) {
             if(StringUtils.isNotEmpty(openId)){//bindweixin
-                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                String hasBindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
+                if (hasBindingName == null) {
+                    user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                }
             }
 
             String url = flash.get("url");
@@ -172,7 +175,10 @@ public class LoginAction extends BaseController {
 
         registerGiveJinDou(error, mobile);
         if(StringUtils.isNotEmpty(openId)){//bindweixin
-            user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+            String hasBindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
+            if (hasBindingName == null) {
+                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+            }//TODO 微信已绑定，再点击注册。是否需要提示？
         }
         json.put("error", error);
         renderJSON(json);
