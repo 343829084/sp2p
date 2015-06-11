@@ -47,7 +47,25 @@ public class WeChatAction extends BaseController {
            e.printStackTrace();
        }
    }
+    public static void getOpenId() throws IOException {
+        Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
+        Logger.info("用户进入：");
+        String code = params.get("code");
+        String status = params.get("state");
+        String mobile = params.get("mobile");
+        Logger.info("code为：" + code + "status:" + status);
+        String openId = null;
 
+        openId = getOpenIdAndSessionToken(code);
+        try {
+            OutputStream os = Http.Response.current().out;
+            os.write(openId.getBytes("UTF-8"));
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     /**
@@ -62,33 +80,8 @@ public class WeChatAction extends BaseController {
         String mobile= params.get("mobile");
         Logger.info("code为：" + code + "status:" + status);
         String openId= null;
-//        String refresh_token=null;
-//        String time="";
-//        Http.Cookie cookie = (Http.Cookie) Http.Request.current().cookies.get("refresh_token");
-//        Http.Cookie expireDate = (Http.Cookie) Http.Request.current().cookies.get("expireDate");
-//        if(cookie != null && Play.started && cookie.value != null && !cookie.value.trim().equals("")) {
-//            refresh_token = cookie.value;
-//            time=expireDate.value;
-//        }
-//        if(refresh_token==null||refresh_token.toString().trim()==""){
+
             openId= getOpenIdAndSessionToken(code);
-//        }else{
-//            if(StringUtils.isNotEmpty(time)) {
-//                long expire = Long.parseLong(time);
-//                Calendar ca=Calendar.getInstance();
-//               ca.setTime(new Date(expire));
-//                ca.add(Calendar.MINUTE,2);
-//                if(ca.getTime().before(new Date())){
-//                    Http.Response.current().setCookie("refresh_token", null);
-//                    Http.Response.current().setCookie("expireDate", null);
-//                    openId= getOpenIdAndSessionToken(code);
-//                }else{
-//                   openId= WebChartUtil.getOpenIdByToken(refresh_token);
-//                    Logger.info("session refresh_token");
-//                }
-//            }
-//        }
-//        Logger.info("处理微信openid为："+openId+"code:"+code+"status:"+status+"mobile:"+mobile);
 
         if (openId == null) {//请求过期失效
             renderTemplate("mobile/WeChatAction/weChatFailTip.html");
@@ -116,6 +109,16 @@ public class WeChatAction extends BaseController {
         }else if(status.equals(Constants.WEIXINSTATUS.MOBILEHADREGISTER)){
             Logger.info("openid:"+openId+"status:"+status);
             QuickRegister.registerSuccess(openId,status);
+        }else if(status.equals(6)){
+            Logger.info("openid:" + openId + "status:" + status);
+            try {
+                OutputStream os = Http.Response.current().out;
+                os.write(openId.getBytes("UTF-8"));
+                os.flush();
+                os.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }else{
             //TODO
             weChatLogin(user, name, openId, error);

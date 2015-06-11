@@ -58,7 +58,11 @@ public class LoginAction extends BaseController {
 
         render(paramsJson);
     }
-
+    public static void getOpenId() {
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("status","6");
+            weChatGate(map);
+    }
     /**
      * 进入微信统一入口
      * @throws IOException
@@ -189,6 +193,7 @@ public class LoginAction extends BaseController {
                 }
               registerGiveJinDou(error, mobile);
           }
+        Logger.info("queryName"+queryName);
         if(!StringUtils.isNotEmpty(queryName)){
             if(StringUtils.isNotEmpty(openId)){//bindweixin
             ErrorInfo error2=new ErrorInfo();
