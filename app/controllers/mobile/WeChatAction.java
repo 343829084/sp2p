@@ -109,8 +109,8 @@ public class WeChatAction extends BaseController {
         }else if(status.equals(Constants.WEIXINSTATUS.MOBILEHADREGISTER)){
             Logger.info("openid:"+openId+"status:"+status);
             QuickRegister.registerSuccess(openId,status);
-        }else if(status.equals(6)){
-            Logger.info("openid:" + openId + "status:" + status);
+        }else if(status.equals("6")){
+            Logger.info("showOpenId openid:" + openId + "status:" + status);
             showOpenId(openId);
         }else{
             //TODO
