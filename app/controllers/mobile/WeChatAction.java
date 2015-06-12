@@ -28,25 +28,25 @@ import java.util.Map;
 public class WeChatAction extends BaseController {
 
     public static void authentication() throws IOException {
-       play.mvc.Http.Response.current().setHeader("contentType", "text/html; charset=utf-8");
+        play.mvc.Http.Response.current().setHeader("contentType", "text/html; charset=utf-8");
 
-       String result = "";
-       /** 判断是否是微信接入激活验证，只有首次接入验证时才会收到echostr参数，此时需要把它直接返回 */
-       Http.Request reuqets = Http.Request.current();
-       String echostr =reuqets.params.get("echostr");
-       if (echostr != null && echostr.length() > 1) {
-           result = echostr;
-       }
+        String result = "";
+        /** 判断是否是微信接入激活验证，只有首次接入验证时才会收到echostr参数，此时需要把它直接返回 */
+        Http.Request reuqets = Http.Request.current();
+        String echostr =reuqets.params.get("echostr");
+        if (echostr != null && echostr.length() > 1) {
+            result = echostr;
+        }
 
-       try {
-           OutputStream os = Http.Response.current().out;
-           os.write(result.getBytes("UTF-8"));
-           os.flush();
-           os.close();
-       } catch (Exception e) {
-           e.printStackTrace();
-       }
-   }
+        try {
+            OutputStream os = Http.Response.current().out;
+            os.write(result.getBytes("UTF-8"));
+            os.flush();
+            os.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void getOpenId() throws IOException {
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
         Logger.info("用户进入：");
@@ -81,7 +81,7 @@ public class WeChatAction extends BaseController {
         Logger.info("code为：" + code + "status:" + status);
         String openId= null;
 
-            openId= getOpenIdAndSessionToken(code);
+        openId= getOpenIdAndSessionToken(code);
 
         if (openId == null) {//请求过期失效
             renderTemplate("mobile/WeChatAction/weChatFailTip.html");
@@ -100,7 +100,7 @@ public class WeChatAction extends BaseController {
         if(status.equals(Constants.WEIXINSTATUS.LOGIN)){
             Logger.info("登录openid:"+openId+"status:"+status);
             weChatLogin(user, name, openId, error);
-         }else if(status.equals(Constants.WEIXINSTATUS.REGISTER)){
+        }else if(status.equals(Constants.WEIXINSTATUS.REGISTER)){
             Logger.info("注册openid:"+openId+"status:"+status);
             weChatRegister(user, name, openId, error);
         }else if(status.equals(Constants.WEIXINSTATUS.QUICKREGISTERSUCCESS)){

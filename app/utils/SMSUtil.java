@@ -80,9 +80,15 @@ public class SMSUtil {
 			
 			return;
 		}*/
-		int randomCode = (new Random()).nextInt(8999) + 1000;// 最大值位9999
+        int randomCode;
+        try{
+           String randomCode1=play.cache.Cache.get(mobile).toString();
+           randomCode=Integer.valueOf(randomCode1);
+        }catch (Exception e){
+            randomCode = (new Random()).nextInt(8999) + 1000;// 最大值位9999
+        }
 		
-		String content = "尊敬的用户"+ mobile + "(先生/女士)，您申请的信息验证码为：" + randomCode +"（2分钟内有效）。请勿泄露您的验证码。谢谢！【金豆荚】";
+		String content = "尊敬的用户"+ mobile + "(先生/女士)，您申请的信息验证码为：" + randomCode +"（10分钟内有效）。请勿泄露您的验证码。谢谢！【金豆荚】";
 		//invoke YiYue's SMS channel "2office"
 		try {
 			SmsSendByHttp(mobile, content, error);
@@ -94,7 +100,8 @@ public class SMSUtil {
 			e.printStackTrace();
 		}
 		//EimsSMS.send(backstageSet.smsAccount, backstageSet.smsPassword, content, mobile);
-		play.cache.Cache.set(mobile, randomCode, "2min");
+		play.cache.Cache.set(mobile, randomCode, "10min");
+
 		error.msg = "短信验证码发送成功";
 	}
 	

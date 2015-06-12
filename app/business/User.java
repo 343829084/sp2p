@@ -1366,11 +1366,12 @@ public class User extends UserBase implements Serializable{
     }
 
 
-    public String findBySocialToFp(String socialType, String socialNo, ErrorInfo error){
+    public String findBySocialToFp(String socialType, String socialNo, String mobile, ErrorInfo error){
         String name = null;
         Map<String, String> params = new HashMap<String, String>();
         params.put("socialNo", socialNo);
         params.put("socialType", socialType);
+        params.put("mobilePhoneNo", mobile);
 
         try {
             WS.HttpResponse httpResponse = WS.url(Constants.FP_FIND_SOCIAL_URL).setParameters(params).post();
@@ -2374,15 +2375,23 @@ public class User extends UserBase implements Serializable{
 		}
 		
 		if(Constants.CHECK_CODE) {
-			String cCode = (Cache.get(mobile)).toString();
-			
+            String cCode=null;
+            try{
+                 cCode = (Cache.get(mobile)).toString();
+            }catch (Exception e){
+                error.code = -1;
+                error.msg = "验证码输入有误";
+
+                return;
+            }
+
 			if(cCode == null) {
 				error.code = -1;
 				error.msg = "验证码已失效，请重新点击发送验证码";
 				
 				return;
 			}
-			
+            Cache.delete(mobile);
 			if(!code.equals(cCode)) {
 				error.code = -1;
 				error.msg = "手机验证错误";

@@ -48,7 +48,7 @@ public class LoginAction extends BaseController {
     public static void getOpenId() {
         Map<String,String> map=new HashMap<String,String>();
         map.put("status","6");
-            weChatGate(map);
+        weChatGate(map);
     }
     /**
      * 进入微信统一入口
@@ -70,7 +70,7 @@ public class LoginAction extends BaseController {
 
     public static void doLogin() {
         ErrorInfo error = new ErrorInfo();
-
+        
         String name = params.get("name");
         String password = params.get("password");
         String openId = params.get("openId");
@@ -79,7 +79,7 @@ public class LoginAction extends BaseController {
         flash.put("openId", openId);
         Logger.info("name"+name+"openId"+openId);
         boolean validate = true;
-
+        
         if (StringUtils.isBlank(name)) {
             error.code = -1;
             error.msg = "请输入用户名";
@@ -87,10 +87,24 @@ public class LoginAction extends BaseController {
             validate = false;
         }
         if (StringUtils.isBlank(password)) {
-            error.code = -1;
+        	error.code = -1;
             error.msg = "请输入密码";
             flash.error(error.msg);
             validate = false;
+//        	if (flash.get("pwdErrorCount") != null) {
+//            	int pwdErrorCount = Integer.parseInt(flash.get("pwdErrorCount"));
+//            	flash.put("pwdErrorCount", ++pwdErrorCount);
+//            	if (pwdErrorCount == Constants.LOGIN_ERROR_COUNT) {
+//            		flash.remove("pwdErrorCount");
+//            		error.code = -1;
+//                    error.msg = "输错密码超过5次，";
+//                    flash.error(error.msg);
+//                    validate = false;
+//            	}
+//            }else{
+//            	int pwdErrorCount = 0;
+//            	flash.put("pwdErrorCount", ++pwdErrorCount);
+//            }
         }
 
         User user = new User();
@@ -138,7 +152,7 @@ public class LoginAction extends BaseController {
     public static void doRegister() {
         JSONObject json = new JSONObject();
         ErrorInfo error = new ErrorInfo();
-            json.put("error", error);
+        json.put("error", error);
         String mobile = params.get("name");//the user name is mobile
         String password = params.get("password");
         String verifyCode = params.get("verifyCode");
@@ -154,7 +168,7 @@ public class LoginAction extends BaseController {
         }
 
 
-         String authentication_id = User.registerToFp(error, mobile, password);
+        String authentication_id = User.registerToFp(error, mobile, password);
 
         if (error.code < 0 && error.code!=-2) {
             json.put("error", error);
@@ -169,15 +183,15 @@ public class LoginAction extends BaseController {
         user.isMobileVerified = true;
         user.authentication_id = authentication_id;
         user.recommendUserName = recommendUserName;
-          if(error.code!=-2) {
-              user.register(error);
+        if(error.code!=-2) {
+            user.register(error);
 
-                if (error.code < 0) {
-                    json.put("error", error);
-                    renderJSON(json);
-                }
-              registerGiveJinDou(error, mobile);
-          }
+            if (error.code < 0) {
+                json.put("error", error);
+                renderJSON(json);
+            }
+            registerGiveJinDou(error, mobile);
+        }
         Logger.info("queryName"+queryName);
         if(!StringUtils.isNotEmpty(queryName)){
             if(StringUtils.isNotEmpty(openId)){//bindweixin
@@ -187,7 +201,6 @@ public class LoginAction extends BaseController {
                 play.mvc.Http.Cookie cookie= new play.mvc.Http.Cookie();
                 cookie.value=openId;
                 Http.Request.current().cookies.put("openId", cookie);
-        }
         }
         renderJSON(json);
     }
@@ -221,6 +234,7 @@ public class LoginAction extends BaseController {
         }
 
         String cacheVerifyCode = Cache.get(mobile) + "";
+        Cache.delete(mobile);
         if (Constants.CHECK_CODE && !verifyCode.equals(cacheVerifyCode)) {
             error.code = -1;
             error.msg = "验证码输入有误";
@@ -250,7 +264,7 @@ public class LoginAction extends BaseController {
             error.code = -1;
             error.msg = "注册成功,送金豆失败,请联系客服！";
         }
-       
+
         return authentication_id;
     }
 

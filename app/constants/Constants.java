@@ -1368,6 +1368,7 @@ public class Constants {
 	 * 登录注册标识
 	 */
 	public static final String LOGIN_AREAL_FLAG = "loginOrRegister";
+	public static final int LOGIN_ERROR_COUNT = 5;
 
 	/**
 	 * 用户默认头像
