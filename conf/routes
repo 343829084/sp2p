@@ -2005,6 +2005,7 @@ POST     /mobile/bindingSocial                                                  
 
 GET      /mobile/register                                                        mobile.LoginAction.register
 POST     /mobile/register                                                        mobile.LoginAction.doRegister
+POST     /cfp/Register                                                           mobile.LoginAction.cfpRegister
 
 #验证码
 GET      /mobile/searchVerifyCode                                                mobile.CheckAction.searchVerifyCode

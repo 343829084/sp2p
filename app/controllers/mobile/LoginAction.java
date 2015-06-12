@@ -60,7 +60,7 @@ public class LoginAction extends BaseController {
         Logger.info("进入");
         String status =  map.get("status");
         String mobile =map.get("mobile");
-        Logger.info("WeChatAction.weChatGate.status:"+status+"mobile:"+mobile);
+        Logger.info("WeChatAction.weChatGate.status:" + status + "mobile:" + mobile);
         String url = WebChartUtil.buildWeChatGateUrl(status, mobile);
         Logger.info("url：" + url);
         redirect(url);
@@ -77,7 +77,7 @@ public class LoginAction extends BaseController {
         flash.put("name", name);
         flash.put("password", password);
         flash.put("openId", openId);
-        Logger.info("name"+name+"openId"+openId);
+        Logger.info("name" + name + "openId" + openId);
         boolean validate = true;
         
         if (StringUtils.isBlank(name)) {
@@ -170,7 +170,7 @@ public class LoginAction extends BaseController {
 
         String authentication_id = User.registerToFp(error, mobile, password);
 
-        if (error.code < 0 && error.code!=-2) {
+        if (error.code < 0 && error.code != -2) {
             json.put("error", error);
             renderJSON(json);
         }
@@ -183,7 +183,7 @@ public class LoginAction extends BaseController {
         user.isMobileVerified = true;
         user.authentication_id = authentication_id;
         user.recommendUserName = recommendUserName;
-        if(error.code!=-2) {
+        if (error.code != -2) {
             user.register(error);
 
             if (error.code < 0) {
@@ -192,19 +192,19 @@ public class LoginAction extends BaseController {
             }
             registerGiveJinDou(error, mobile);
         }
-        Logger.info("queryName"+queryName);
-        if(!StringUtils.isNotEmpty(queryName)){
-            if(StringUtils.isNotEmpty(openId)){//bindweixin
-            ErrorInfo error2=new ErrorInfo();
-            user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
+        Logger.info("queryName" + queryName);
+        if (!StringUtils.isNotEmpty(queryName)) {
+            if (StringUtils.isNotEmpty(openId)) {//bindweixin
+                ErrorInfo error2 = new ErrorInfo();
+                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
                 Logger.info("doRegister  openId放到cookie 中");
-                play.mvc.Http.Cookie cookie= new play.mvc.Http.Cookie();
-                cookie.value=openId;
+                play.mvc.Http.Cookie cookie = new play.mvc.Http.Cookie();
+                cookie.value = openId;
                 Http.Request.current().cookies.put("openId", cookie);
+            }
+            renderJSON(json);
         }
-        renderJSON(json);
     }
-
 
     private static void registerValidation(ErrorInfo error, String mobile, String password, String verifyCode) {
         if (StringUtils.isBlank(mobile)) {
@@ -308,7 +308,46 @@ public class LoginAction extends BaseController {
         return value;
     }
 
+    /**
+     * 理财师注册
+     */
+    public static void cfpRegister() {
+        JSONObject json = new JSONObject();
+        ErrorInfo error = new ErrorInfo();
+        String mobile = params.get("name");//the user name is mobile
+        String password = params.get("password");
+        String verifyCode = params.get("verifyCode");
+        String recommendUserName = params.get("recommended");
+        registerValidation(error, mobile, password, verifyCode);
 
+        if (error.code < 0) {
+            json.put("error", error);
+            renderJSON(json);
+        }
+        String authentication_id = User.registerToFp(error, mobile, password);
+        if (error.code < 0) {
+            json.put("error", error);
+            renderJSON(json);
+        }
+        User user = new User();
+        user.time = new Date();
+        user.name = mobile;
+        user.password = password;
+        user.mobile = mobile;
+        user.isMobileVerified = true;
+        user.authentication_id = authentication_id;
+        user.recommendUserName = recommendUserName;
+        user.cfpflag=true;//是理财师注册
+        user.register(error);
 
+        if (error.code < 0) {
+            json.put("error", error);
+            renderJSON(json);
+        }
+
+        registerGiveJinDou(error, mobile);
+        json.put("error", error);
+        renderJSON(json);
+    }
 
 }
