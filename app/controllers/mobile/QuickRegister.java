@@ -11,9 +11,6 @@ import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.WebChartUtil;
 
-import java.util.HashMap;
-import java.util.Map;
-
 
 /**
  * Created by libaozhong on 2015/5/27.
@@ -88,14 +85,20 @@ public class QuickRegister extends BaseController {
         }
 
         if (validate) {
-            if(StringUtils.isNotEmpty(openId)){
-                Logger.info("绑定开始:name" + name + "openId" + openId);
-                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
-                Logger.info("绑定结束:name" + name + "openId" + openId);
-                play.mvc.Http.Cookie cookie= new play.mvc.Http.Cookie();
-                cookie.value=openId;
-                Logger.info("把doQuickLogin  openId放到cookie 中");
-                Http.Request.current().cookies.put("openId", cookie);
+            if (StringUtils.isNotEmpty(openId)) {//bindweixin
+                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, name, error);
+                if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
+                    user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                    if (error.code < 0) {
+                        flash.error(error.msg);
+                        quickLogin();
+                    }else{
+                        Logger.info("doRegister  openId放到cookie 中");
+                        play.mvc.Http.Cookie cookie = new play.mvc.Http.Cookie();
+                        cookie.value = openId;
+                        Http.Request.current().cookies.put("openId", cookie);
+                    }
+                }
             }
 
             String url = flash.get("url");
