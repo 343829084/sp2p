@@ -11,12 +11,12 @@ public class ProductVo {
     private Long prodId;                                //产品id
     private String prodName;                            //产品名
     private String interestRate;                        //年化收益率
-    private Date deadline;                              //期限
+    private String deadline;                            //期限
     private BigDecimal bidMoney;                        //起投金额
     private boolean isNewUser;                          //是否新手标
     private BigDecimal remainingAvailableMoney;         //剩余可投金额
     private BigDecimal availableMoney;                  //可投金额
-    private String sellTime;                            //距离开售时间
+    private Date sellTime;                              //开售时间
     private String duringTime;                          //理财期限 （理财冻结时间）
     private String predictDeadline;                     //预计到期时间
     private BigDecimal totalBidMoney;                   //累计可投金额
@@ -46,12 +46,20 @@ public class ProductVo {
         this.interestRate = interestRate;
     }
 
-    public Date getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    public Date getSellTime() {
+        return sellTime;
+    }
+
+    public void setSellTime(Date sellTime) {
+        this.sellTime = sellTime;
     }
 
     public BigDecimal getBidMoney() {
@@ -84,14 +92,6 @@ public class ProductVo {
 
     public void setAvailableMoney(BigDecimal availableMoney) {
         this.availableMoney = availableMoney;
-    }
-
-    public String getSellTime() {
-        return sellTime;
-    }
-
-    public void setSellTime(String sellTime) {
-        this.sellTime = sellTime;
     }
 
     public String getDuringTime() {
