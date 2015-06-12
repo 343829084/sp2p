@@ -6,6 +6,7 @@ import constants.Constants;
 import constants.IPSConstants;
 import controllers.BaseController;
 import controllers.interceptor.H5Interceptor;
+import controllers.mobile.LoginAction;
 import controllers.mobile.MainContent;
 import net.sf.json.JSONObject;
 import play.Logger;
@@ -21,11 +22,14 @@ import java.util.Map;
 public class EnchashAction extends BaseController {
 	public static void enchash(String money){
         User user = User.currUser();
+        if (user == null) {
+            LoginAction.login();
+        }
 
         JSONObject paramsJson = new JSONObject();
 
         ErrorInfo error = new ErrorInfo();
-        double rechargeAmount = User.queryRechargeIn(user.id, error);//限制时间内充值的金额不能提现
+        double rechargeAmount = User.queryRechargeIn(user.getId(), error);//限制时间内充值的金额不能提现
         if (error.code < 0) {
             flash.error(error.msg);
             enchash(money);
