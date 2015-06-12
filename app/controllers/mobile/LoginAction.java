@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.cache.Cache;
 import play.libs.WS;
+import play.mvc.Http;
 import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.RegexUtils;
@@ -32,6 +33,7 @@ import java.util.Map;
 
 public class LoginAction extends BaseController {
 
+
     /*
      * 跳转到登录页面
      */
@@ -41,22 +43,7 @@ public class LoginAction extends BaseController {
         if (user != null) {
             MainContent.property();
         }
-
-        Map<String,String> map=new HashMap<String,String>();
-        map.put("status","1");
-        if (ParseClientUtil.isWeiXin()) {
-            weChatGate(map);
-        }
-
-       String openId = params.get("openId");
-        Logger.info("openId为："+openId);
-        flash.keep("url");
-
-        JSONObject paramsJson = new JSONObject();
-        paramsJson.put("openId", openId);
-        paramsJson.put("status", Constants.WEIXINSTATUS.LOGIN);
-
-        render(paramsJson);
+        render();
     }
     public static void getOpenId() {
         Map<String,String> map=new HashMap<String,String>();
@@ -78,6 +65,9 @@ public class LoginAction extends BaseController {
         Logger.info("url：" + url);
         redirect(url);
     }
+
+
+
     public static void doLogin() {
         ErrorInfo error = new ErrorInfo();
 
@@ -119,11 +109,11 @@ public class LoginAction extends BaseController {
         }
 
         if (validate) {
-            if(StringUtils.isNotEmpty(openId)){//bindweixin
-                Logger.info("绑定开始:name"+name+"openId"+openId);
-                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
-                Logger.info("绑定结束:name" + name + "openId" + openId);
-            }
+//            if(StringUtils.isNotEmpty(openId)){//bindweixin
+//                Logger.info("绑定开始:name"+name+"openId"+openId);
+//                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+//                Logger.info("绑定结束:name" + name + "openId" + openId);
+//            }
 
             String url = flash.get("url");
             if (StringUtils.isNotBlank(url)) {
@@ -142,11 +132,6 @@ public class LoginAction extends BaseController {
      * 跳转到注册页面
      */
     public static void register() {
-        if (ParseClientUtil.isWeiXin()) {
-            Map<String,String> map=new HashMap<String,String>();
-            map.put("status","2");
-            weChatGate(map);
-        }
         render();
     }
 
@@ -198,6 +183,10 @@ public class LoginAction extends BaseController {
             if(StringUtils.isNotEmpty(openId)){//bindweixin
             ErrorInfo error2=new ErrorInfo();
             user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
+                Logger.info("doRegister  openId放到cookie 中");
+                play.mvc.Http.Cookie cookie= new play.mvc.Http.Cookie();
+                cookie.value=openId;
+                Http.Request.current().cookies.put("openId", cookie);
         }
         }
         renderJSON(json);

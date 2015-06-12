@@ -81,7 +81,7 @@ public class Constants {
 		public static final String LOGIN = "1";			//登录绑定
 		public static final String REGISTER = "2";	//注册绑定
 		public static final  String QUICKREGISTERSUCCESS = "3";		//快速注册成功绑定
-		public static final  String MOBILEHADREGISTER = "4";	//快速注册手机号已经注册绑定并且跳转跳转
+		public static final  String QUICKLOGIN = "4";	//快速登录
 		public static final  String INTERCEPTORREDIRECT = "5";	//拦截器跳转
 	}
 	

@@ -95,7 +95,7 @@ public class WeChatAction extends BaseController {
         ErrorInfo error = new ErrorInfo();
         User user = new User();
         String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
-        Logger.info("查询结果：name"+name);
+        Logger.info("查询结果：name" + name);
 
         if(status.equals(Constants.WEIXINSTATUS.LOGIN)){
             Logger.info("登录openid:"+openId+"status:"+status);
@@ -106,9 +106,9 @@ public class WeChatAction extends BaseController {
         }else if(status.equals(Constants.WEIXINSTATUS.QUICKREGISTERSUCCESS)){
             Logger.info("快速注册openid:"+openId+"status:"+status+"name:"+name);
          webChartQuickRegister(user,name, openId,mobile);
-        }else if(status.equals(Constants.WEIXINSTATUS.MOBILEHADREGISTER)){
+        }else if(status.equals(Constants.WEIXINSTATUS.QUICKLOGIN)){
             Logger.info("openid:"+openId+"status:"+status);
-            QuickRegister.registerSuccess(openId,status);
+            webChartQuickLogin(user, name, openId, error);
         }else if(status.equals("6")){
             Logger.info("showOpenId openid:" + openId + "status:" + status);
             showOpenId(openId);
@@ -117,6 +117,29 @@ public class WeChatAction extends BaseController {
             weChatLogin(user, name, openId, error);
 
         }
+    }
+
+    private static void webChartQuickLogin(User user, String name,String openId, ErrorInfo error) {
+        Logger.info("weChatLogin:openid"+openId);
+        if (name == null) {
+            Logger.info("weChatLogin:name为空");
+            renderTemplate("mobile/QuickRegister/quickLogin.html", openId);
+        }
+        user.name = name;
+        Logger.info("userId"+user.id);
+        if (user.id < 0) {
+            error.code = -1;
+            error.msg = "该用户名不存在";
+            renderTemplate("mobile/QuickRegister/quickLogin.html", openId);
+        }
+        Logger.info("userId"+user.id+"登录");
+        user.loginCommon(error);
+        if (error.code < 0) {
+            Logger.info("userId"+user.id+"登录错误");
+            renderTemplate("mobile/QuickRegister/quickLogin.html", openId);
+        }
+        Logger.info("返回产品列表");
+        MainContent.moneyMatters();
     }
 
     private static void showOpenId(String openId) {

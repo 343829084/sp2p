@@ -15,6 +15,7 @@ import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 import play.Logger;
 import play.db.jpa.JPA;
+import play.mvc.Http;
 import play.mvc.With;
 import utils.ErrorInfo;
 import utils.PageBean;
@@ -250,17 +251,24 @@ public class MainContent extends BaseController {
      * 跳转到理财页面
      */
     public static void moneyMatters() {
-
+        Object openId = Http.Request.current().cookies.get("openId");
+        Logger.info("cookie中拿出.openid:"+openId);
+        String openid="1";
+        if (openId != null && openId.toString().length() >8) {
+            Logger.info("moneyMatters.openid:"+openId.toString());
+             openid = "2";
+        }
+      Http.Request.current().cookies.remove("openId");
         ErrorInfo error = new ErrorInfo();
         int currPage = 1;
 
-        if(params.get("currPage")!=null) {
+        if (params.get("currPage") != null) {
             currPage = Integer.parseInt(params.get("currPage"));
         }
 
         PageBean<v_front_all_bids> pageBean = new PageBean<v_front_all_bids>();
-        pageBean= Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, 100, null, null, null, null, null, null, null, null, "3", null,null, null, error);
-        render(pageBean);
+        pageBean = Invest.queryAllBids(Constants.SHOW_TYPE_1, currPage, 100, null, null, null, null, null, null, null, null, "3", null, null, null, error);
+        render(pageBean,openid);
 
     }
     /**

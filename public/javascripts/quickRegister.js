@@ -7,7 +7,7 @@ var success = "/share/registerSuccess.html";
 
     var recommendPhone = $.getQueryString("mobile");
     var rp="";
-
+var recomMobile=recomMobile|{};
 var result=isPhone(recommendPhone);
     if(!result.is && recomMobile){
         result.mobile=recomMobile;
@@ -124,10 +124,10 @@ var result=isPhone(recommendPhone);
                 },
                 success: function (data) {
                     if (0 == data.error.code) {
-                        window.location.href = "/mobile/registerSuccess?errorcode=0&mobile="+custmobile;
+                        window.location.href = "/mobile/registerSuccess?errorcode=0@mobile="+custmobile;
 
                     }if(-2 == data.error.code){
-                        window.location.href = "/mobile/registerSuccess?errorcode=-2&mobile="+custmobile;
+                        window.location.href = "/mobile/registerSuccess?errorcode=-2@mobile="+custmobile;
                     }else
                     {
                         $("#phoneNumerrorinfo").html("<span>" + data.error.msg + "</span>");
