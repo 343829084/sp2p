@@ -15,6 +15,7 @@ import utils.ParseClientUtil;
 import utils.RegexUtils;
 import utils.WebChartUtil;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,19 +36,19 @@ public class LoginAction extends BaseController {
      * 跳转到登录页面
      */
     public static void login() {
+
         User user = User.currUser();
         if (user != null) {
             MainContent.property();
         }
 
-        params.put("status", Constants.WEIXINSTATUS.LOGIN);
-
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("status","1");
         if (ParseClientUtil.isWeiXin()) {
-            WeChatAction.weChatGate();
+            weChatGate(map);
         }
 
         String openId = params.get("openId");
-
         Logger.info("openId为："+openId);
         flash.keep("url");
 
@@ -57,7 +58,26 @@ public class LoginAction extends BaseController {
 
         render(paramsJson);
     }
-
+    public static void getOpenId() {
+        Map<String,String> map=new HashMap<String,String>();
+        map.put("status","6");
+        weChatGate(map);
+    }
+    /**
+     * 进入微信统一入口
+     * @throws IOException
+     *
+     * @param map
+     */
+    private static void weChatGate(Map<String, String> map) {
+        Logger.info("进入");
+        String status =  map.get("status");
+        String mobile =map.get("mobile");
+        Logger.info("WeChatAction.weChatGate.status:"+status+"mobile:"+mobile);
+        String url = WebChartUtil.buildWeChatGateUrl(status, mobile);
+        Logger.info("url：" + url);
+        redirect(url);
+    }
     public static void doLogin() {
         ErrorInfo error = new ErrorInfo();
 
@@ -67,6 +87,7 @@ public class LoginAction extends BaseController {
         flash.put("name", name);
         flash.put("password", password);
         flash.put("openId", openId);
+        Logger.info("name"+name+"openId"+openId);
         boolean validate = true;
 
         if (StringUtils.isBlank(name)) {
@@ -99,9 +120,11 @@ public class LoginAction extends BaseController {
 
         if (validate) {
             if(StringUtils.isNotEmpty(openId)){//bindweixin
-                String hasBindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
-                if (hasBindingName == null) {
+                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, name, error);
+                if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
+                    Logger.info("绑定开始:name"+name+"openId"+openId);
                     user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                    Logger.info("绑定结束:name" + name + "openId" + openId);
                 }
             }
 
@@ -122,26 +145,24 @@ public class LoginAction extends BaseController {
      * 跳转到注册页面
      */
     public static void register() {
-        params.put("status", Constants.WEIXINSTATUS.REGISTER);
-
-        String openId = params.get("openId");
-
-        JSONObject paramsJson = new JSONObject();
-        paramsJson.put("openId", openId);
-        paramsJson.put("status", Constants.WEIXINSTATUS.REGISTER);
-
-        render(paramsJson);
+        if (ParseClientUtil.isWeiXin()) {
+            Map<String,String> map=new HashMap<String,String>();
+            map.put("status","2");
+            weChatGate(map);
+        }
+        render();
     }
 
     public static void doRegister() {
         JSONObject json = new JSONObject();
         ErrorInfo error = new ErrorInfo();
-
+        json.put("error", error);
         String mobile = params.get("name");//the user name is mobile
         String password = params.get("password");
         String verifyCode = params.get("verifyCode");
         String recommendUserName = params.get("recommended");
         String openId = params.get("openId");
+        String queryName = params.get("queryName");
 
         registerValidation(error, mobile, password, verifyCode);
 
@@ -150,9 +171,10 @@ public class LoginAction extends BaseController {
             renderJSON(json);
         }
 
+
         String authentication_id = User.registerToFp(error, mobile, password);
 
-        if (error.code < 0) {
+        if (error.code < 0 && error.code!=-2) {
             json.put("error", error);
             renderJSON(json);
         }
@@ -165,24 +187,27 @@ public class LoginAction extends BaseController {
         user.isMobileVerified = true;
         user.authentication_id = authentication_id;
         user.recommendUserName = recommendUserName;
+        if(error.code!=-2) {
+            user.register(error);
 
-        user.register(error);
-
-        if (error.code < 0) {
-            json.put("error", error);
-            renderJSON(json);
+            if (error.code < 0) {
+                json.put("error", error);
+                renderJSON(json);
+            }
+            registerGiveJinDou(error, mobile);
         }
-
-        registerGiveJinDou(error, mobile);
-        if(StringUtils.isNotEmpty(openId)){//bindweixin
-            String hasBindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
-            if (hasBindingName == null) {
+        Logger.info("queryName"+queryName);
+        if(!StringUtils.isNotEmpty(queryName)){
+            String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, mobile, error);
+            if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
+                Logger.info("绑定开始:name"+mobile+"openId"+openId);
                 user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
-            }//TODO 微信已绑定，再点击注册。是否需要提示？
+                Logger.info("绑定结束:name" + mobile + "openId" + openId);
+            }
         }
-        json.put("error", error);
         renderJSON(json);
     }
+
 
     private static void registerValidation(ErrorInfo error, String mobile, String password, String verifyCode) {
         if (StringUtils.isBlank(mobile)) {
@@ -242,7 +267,7 @@ public class LoginAction extends BaseController {
             error.code = -1;
             error.msg = "注册成功,送金豆失败,请联系客服！";
         }
-       
+
         return authentication_id;
     }
 

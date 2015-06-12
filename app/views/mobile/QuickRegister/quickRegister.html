@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/simpleregist.css'}" />
     <script>
         baseUrl = '${fpHots}';
+        var recomMobile='${jsonOne?.mobile}'
     </script>
     <!-- endbuild -->
 </head>
@@ -36,6 +37,10 @@
 
         <div class="qr-back-pos">
             <form  class="form-horizontal" autocomplete="off">
+
+                <input type="hidden" id="name" value="${jsonOne?.name}">
+                <input type="hidden" id="openId" value="${jsonOne?.openId}">
+
                 <input type="hidden" id="user1" value="">
                 <label id="phoneNumerrorinfo" data-error="error" class="fg-er"></label>
                 <div>

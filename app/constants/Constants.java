@@ -34,7 +34,7 @@ public class Constants {
     //************************************weChat******************************************************
     public static final String WECHAT_APPID = Play.configuration.getProperty("wechat_appId");
     public static final String WECHAT_APPSECRET = Play.configuration.getProperty("wechat_appsecret");
-    public static final String WECHAT_CALLBACK_URL = SP2P_URL + Play.configuration.getProperty("wechat_callback_url");
+    public static final String WECHAT_CALLBACK_URL = SP2P_URL +"/"+ Play.configuration.getProperty("wechat_callback_url");
 
 
     public static final String FP_HOST =Play.configuration.getProperty("static.host"); //fp主机地址

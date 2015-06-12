@@ -19,7 +19,7 @@ if(b){
     $("#rg_ss").hide();
 };
 
-   if(status =='4'){
+   if(errorCode =='-2'){
        $("#rg_bk").show();
         $("#go_register").click(function(){
             window.location.href = "/mobile/login?mobile="+rph;
