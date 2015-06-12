@@ -2037,6 +2037,8 @@ GET		/mobile/product/bidAgreement											mobile.ProductAction.bidAgreement
 GET 	/mobile/product/getAgreementContent										mobile.ProductAction.getAgreementContent
 GET		/mobile/product/productList												mobile.ProductAction.productList
 
+POST    /mobile/products                                                        mobile.ProductAction.findProductsBy
+
 #我
 GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord
 POST    /mobile/me/modifypwd                                                    mobile.MeAction.modifyPassWord

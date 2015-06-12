@@ -1,8 +1,7 @@
 package controllers.mobile;
 
-import business.Bid;
-import business.TemplatePact;
-import business.User;
+import business.*;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import constants.Constants;
 import constants.Templets;
 import controllers.BaseController;
@@ -19,6 +18,8 @@ import utils.DateUtil;
 import utils.ErrorInfo;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * <p>Project: com.shovesoft.sp2p</p>
@@ -102,7 +103,7 @@ public class ProductAction extends BaseController {
         map.put("currentUser", User.currUser());
         map.put("uuid", uuid);
         map.put("sign", sign);
-        map.put("userId", "front_"+Scope.Session.current().getId());
+        map.put("userId", "front_" + Scope.Session.current().getId());
 
         ProductAction.render(bid, map);
     }
@@ -151,4 +152,14 @@ public class ProductAction extends BaseController {
     	render();
     };
     
+
+    public static void findProductsBy() {
+        Map<String, String> map = params.allSimple();
+        map.remove("body");
+        ObjectMapper objectMapper = new ObjectMapper();
+        PageVo pageVo = objectMapper.convertValue(map, PageVo.class);
+        List<ProductVo> productVos = Invest.findProductsBy(pageVo);
+        pageVo.setList(productVos);
+        renderJSON(pageVo);
+    }
 }
