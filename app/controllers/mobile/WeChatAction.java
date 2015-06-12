@@ -4,23 +4,13 @@ import business.User;
 import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.lang3.StringUtils;
 import play.Logger;
-import play.Play;
-import play.cache.Cache;
-import play.mvc.Controller;
 import play.mvc.Http;
-import play.mvc.Scope;
-import sun.beans.editors.LongEditor;
 import utils.ErrorInfo;
 import utils.WebChartUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
 
 /**
  * Created by libaozhong on 2015/6/4.
@@ -94,7 +84,7 @@ public class WeChatAction extends BaseController {
 
         ErrorInfo error = new ErrorInfo();
         User user = new User();
-        String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
+        String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, null, error);
         Logger.info("查询结果：name" + name);
 
         if(status.equals(Constants.WEIXINSTATUS.LOGIN)){

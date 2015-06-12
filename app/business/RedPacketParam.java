@@ -1,23 +1,11 @@
 package business;
 
-import constants.Constants;
-import net.sf.json.JSONObject;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.TrustStrategy;
-import org.apache.http.util.EntityUtils;
 import utils.MD5Util;
 
-import javax.net.ssl.*;
-import java.net.URL;
-import java.security.*;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+import java.io.InputStream;
+import java.security.KeyStore;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.io.*;
-import utils.MyX509TrustManager;
 
 /**
  * Created by libaozhong on 2015/6/11.

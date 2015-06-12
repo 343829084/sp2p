@@ -1,18 +1,14 @@
 package controllers.mobile;
 
 import business.User;
-import com.google.gson.JsonObject;
 import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.cache.Cache;
-import play.libs.WS;
 import play.mvc.Http;
 import utils.ErrorInfo;
-import utils.ParseClientUtil;
 import utils.RegexUtils;
 import utils.WebChartUtil;
 
@@ -91,20 +87,6 @@ public class LoginAction extends BaseController {
             error.msg = "请输入密码";
             flash.error(error.msg);
             validate = false;
-//        	if (flash.get("pwdErrorCount") != null) {
-//            	int pwdErrorCount = Integer.parseInt(flash.get("pwdErrorCount"));
-//            	flash.put("pwdErrorCount", ++pwdErrorCount);
-//            	if (pwdErrorCount == Constants.LOGIN_ERROR_COUNT) {
-//            		flash.remove("pwdErrorCount");
-//            		error.code = -1;
-//                    error.msg = "输错密码超过5次，";
-//                    flash.error(error.msg);
-//                    validate = false;
-//            	}
-//            }else{
-//            	int pwdErrorCount = 0;
-//            	flash.put("pwdErrorCount", ++pwdErrorCount);
-//            }
         }
 
         User user = new User();
@@ -123,12 +105,6 @@ public class LoginAction extends BaseController {
         }
 
         if (validate) {
-//            if(StringUtils.isNotEmpty(openId)){//bindweixin
-//                Logger.info("绑定开始:name"+name+"openId"+openId);
-//                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
-//                Logger.info("绑定结束:name" + name + "openId" + openId);
-//            }
-
             String url = flash.get("url");
             if (StringUtils.isNotBlank(url)) {
                 redirect(url);
@@ -190,17 +166,23 @@ public class LoginAction extends BaseController {
                 json.put("error", error);
                 renderJSON(json);
             }
-            registerGiveJinDou(error, mobile);
+            user.registerGiveJinDou(error, mobile);
         }
         Logger.info("queryName" + queryName);
         if (!StringUtils.isNotEmpty(queryName)) {
             if (StringUtils.isNotEmpty(openId)) {//bindweixin
-                ErrorInfo error2 = new ErrorInfo();
-                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
-                Logger.info("doRegister  openId放到cookie 中");
-                play.mvc.Http.Cookie cookie = new play.mvc.Http.Cookie();
-                cookie.value = openId;
-                Http.Request.current().cookies.put("openId", cookie);
+                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, mobile, error);
+                if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
+                    user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                    if (error.code < 0) {
+                        json.put("error", error);
+                        renderJSON(json);
+                    }
+                    Logger.info("doRegister  openId放到cookie 中");
+                    play.mvc.Http.Cookie cookie = new play.mvc.Http.Cookie();
+                    cookie.value = openId;
+                    Http.Request.current().cookies.put("openId", cookie);
+                }
             }
             renderJSON(json);
         }
@@ -244,69 +226,6 @@ public class LoginAction extends BaseController {
         User.isNameExist(mobile, error);
     }
 
-    private static String registerToFp(ErrorInfo error, String mobile, String password) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("mobilePhoneNo", mobile);
-        params.put("passWord", password);
-        params.put("channel", "1");
-
-        String authentication_id = null;
-
-        try {
-            WS.HttpResponse httpResponse = WS.url(Constants.FP_REGISTER_URL).setParameters(params).post();
-            Object value = parseFpResponse(httpResponse, error);
-            if(value!= null && value instanceof JSONObject){
-                authentication_id = ((JSONObject)value).getString("authenticationId");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            Logger.error(e.getMessage());
-            error.code = -1;
-            error.msg = "注册成功,送金豆失败,请联系客服！";
-        }
-
-        return authentication_id;
-    }
-
-    /**
-     * 注册送金豆
-     */
-    private static void registerGiveJinDou(ErrorInfo error,String name){
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("mobilePhoneNo", name);
-
-        try {
-            WS.HttpResponse httpResponse = WS.url(Constants.FP_REGISTER_GIVE_JINDOU).setParameters(params).post();
-            parseFpResponse(httpResponse, error);
-        }catch (Exception e){
-            e.printStackTrace();
-            Logger.error(e.getMessage());
-            error.code = -1;
-            error.msg = "注册失败";
-        }
-
-    }
-
-    private static Object parseFpResponse(WS.HttpResponse httpResponse, ErrorInfo error) {
-        Object value = null;
-        Logger.info("fp response statusCode:" + httpResponse.getStatus());
-        if (httpResponse.getStatus() == HttpStatus.SC_OK) {
-            JsonObject jsonResult = httpResponse.getJson().getAsJsonObject();
-            Logger.info("fp response result:" + jsonResult);
-
-            Object message = jsonResult.get("message");
-            if(message!= null && message instanceof JSONObject){
-                String severity = ((JSONObject)message).getString("severity");
-                if(!severity.equals("0")){
-                    error.code = -1;
-                    error.msg = ((JSONObject)message).getString("summary");
-                }
-            }
-            value = jsonResult.get("value");
-
-        }
-        return value;
-    }
 
     /**
      * 理财师注册
@@ -345,7 +264,7 @@ public class LoginAction extends BaseController {
             renderJSON(json);
         }
 
-        registerGiveJinDou(error, mobile);
+        user.registerGiveJinDou(error, mobile);
         json.put("error", error);
         renderJSON(json);
     }
