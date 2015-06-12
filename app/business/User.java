@@ -1366,11 +1366,12 @@ public class User extends UserBase implements Serializable{
     }
 
 
-    public String findBySocialToFp(String socialType, String socialNo, ErrorInfo error){
+    public String findBySocialToFp(String socialType, String socialNo, String mobile, ErrorInfo error){
         String name = null;
         Map<String, String> params = new HashMap<String, String>();
         params.put("socialNo", socialNo);
         params.put("socialType", socialType);
+        params.put("mobilePhoneNo", mobile);
 
         try {
             WS.HttpResponse httpResponse = WS.url(Constants.FP_FIND_SOCIAL_URL).setParameters(params).post();

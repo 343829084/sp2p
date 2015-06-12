@@ -120,9 +120,12 @@ public class LoginAction extends BaseController {
 
         if (validate) {
             if(StringUtils.isNotEmpty(openId)){//bindweixin
-                Logger.info("绑定开始:name"+name+"openId"+openId);
-                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
-                Logger.info("绑定结束:name" + name + "openId" + openId);
+                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, name, error);
+                if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
+                    Logger.info("绑定开始:name"+name+"openId"+openId);
+                    user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                    Logger.info("绑定结束:name" + name + "openId" + openId);
+                }
             }
 
             String url = flash.get("url");
@@ -195,10 +198,12 @@ public class LoginAction extends BaseController {
           }
         Logger.info("queryName"+queryName);
         if(!StringUtils.isNotEmpty(queryName)){
-            if(StringUtils.isNotEmpty(openId)){//bindweixin
-            ErrorInfo error2=new ErrorInfo();
-            user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
-        }
+            String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, mobile, error);
+            if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
+                Logger.info("绑定开始:name"+mobile+"openId"+openId);
+                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                Logger.info("绑定结束:name" + mobile + "openId" + openId);
+            }
         }
         renderJSON(json);
     }
