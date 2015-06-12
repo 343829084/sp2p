@@ -26,8 +26,9 @@
     <form method="post" id="submit" data-ajax="false" action="/mobile/login">
         <div class="ui-field-contain">
             <input type="tel" class="mobile_login_shurk" id="name" name="name" maxlength="11" value="${flash?.name}" placeholder="请输入您的手机号" >
-
+            <p id="errorLogMsg" class="error-msg"></p>
             <input type="password" class="mobile_login_shurk" id="password" maxlength="20" name="password" value="${flash?.password}" placeholder="请输入登录密码">
+            <p id="errorPwdMsg" class="error-msg"></p>
         </div>
         <input  type="hidden" id="openId" name="openId" value="${openId}">
         <a class="ui-btn ui-corner-all ui-shadow ui-btn-b oa_btn_bk"  type="submit" onclick="login()" >立即登录</a>
@@ -47,7 +48,6 @@
         </div>
 
     </div>
-
 </div>
 
 </body>
@@ -56,17 +56,16 @@
 
 <script type="text/javascript">
 
-//
-
     $(document).ready(function(){
         veriChangeVal("submit","#name","#password");
 
         var error = '${flash?.error}';
         if (error == null || error == undefined || error == '') {
-            $(".oa_er_bk").hide();
+            $("#error_tips").hide();
         }else{
-            $(".oa_er_bk").show();
-            $("#error_content").text(error);
+//            $(".oa_er_bk").show();
+//            $("#error_content").text(error);
+            $.alertWindow.show(error);
         }
     });
 
@@ -79,17 +78,25 @@
 
 
     function login(){
+        $("#errorLogMsg").css({
+            "display":"none"
+        });
         var PhoneNumber = veriPhoneNumber($("#name").val());
         if (PhoneNumber != true) {
-            $(".oa_er_bk").show();
-            $("#error_content").text(PhoneNumber);
+            $("#errorLogMsg").html(PhoneNumber).css({
+                "display":"block"
+            });
             return;
         }
 
+        $("#errorPwdMsg").css({
+            "display":"none"
+        });
         var password = veriPassword($("#password").val());
         if (password != true) {
-            $(".oa_er_bk").show();
-            $("#error_content").text(password);
+            $("#errorPwdMsg").html(password).css({
+                "display":"block"
+            });
             return;
         }
         $("#submit").submit();

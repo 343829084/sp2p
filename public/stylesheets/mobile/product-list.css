@@ -1,0 +1,86 @@
+/* advertisement banner */
+.adv_banner {
+    height: 10rem;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+}
+.adv_banner ul {
+    height: 10rem;
+    position: absolute;
+    width: 50000px;
+}
+
+.adv_banner .btnBg {
+    background: none repeat scroll 0 0 #000;
+    bottom: 0;
+    height: 20px;
+    left: 0;
+    position: absolute;
+}
+
+.adv_banner .btn {
+    bottom: 10px;
+    height: 10px;
+    padding: 5px 10px;
+    position: absolute;
+    text-align: center;
+}
+
+.adv_banner .btn span {
+    background: url("../../images/index_bg.png") no-repeat scroll -438px -7px rgba(0, 0, 0, 0);
+    cursor: pointer;
+    display: inline-block;
+    height: 15px;
+    margin-left: 5px;
+    width: 15px;
+}
+.adv_banner .btn span.active {
+    background: url("../../images/index_bg.png") no-repeat scroll -455px -6px rgba(0, 0, 0, 0);
+    height: 16px;
+    width: 15px;
+}
+
+.scroll-box {
+    height: 356px;
+    overflow: hidden;
+    position: relative;
+    width: 1920px;
+}
+
+.banul li {
+    float: left;
+    height: 362px;
+    width: auto;
+}
+
+.banul {
+    height: 362px;
+    width: auto;
+}
+
+
+
+/*      loading part        */
+.loading-container {
+    position: absolute;
+    z-index:  0;
+}
+
+
+/*      product list       */
+.product-list{
+    position: absolute;
+    z-index: 10;
+    top: 0;
+}
+
+.product-list .item {
+
+}
+
+.item li {
+    float: left;
+    margin-right: 3rem;
+}

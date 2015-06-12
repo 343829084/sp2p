@@ -80,7 +80,7 @@ public class LoginAction extends BaseController {
     }
     public static void doLogin() {
         ErrorInfo error = new ErrorInfo();
-
+        
         String name = params.get("name");
         String password = params.get("password");
         String openId = params.get("openId");
@@ -89,7 +89,7 @@ public class LoginAction extends BaseController {
         flash.put("openId", openId);
         Logger.info("name"+name+"openId"+openId);
         boolean validate = true;
-
+        
         if (StringUtils.isBlank(name)) {
             error.code = -1;
             error.msg = "请输入用户名";
@@ -97,10 +97,24 @@ public class LoginAction extends BaseController {
             validate = false;
         }
         if (StringUtils.isBlank(password)) {
-            error.code = -1;
+        	error.code = -1;
             error.msg = "请输入密码";
             flash.error(error.msg);
             validate = false;
+//        	if (flash.get("pwdErrorCount") != null) {
+//            	int pwdErrorCount = Integer.parseInt(flash.get("pwdErrorCount"));
+//            	flash.put("pwdErrorCount", ++pwdErrorCount);
+//            	if (pwdErrorCount == Constants.LOGIN_ERROR_COUNT) {
+//            		flash.remove("pwdErrorCount");
+//            		error.code = -1;
+//                    error.msg = "输错密码超过5次，";
+//                    flash.error(error.msg);
+//                    validate = false;
+//            	}
+//            }else{
+//            	int pwdErrorCount = 0;
+//            	flash.put("pwdErrorCount", ++pwdErrorCount);
+//            }
         }
 
         User user = new User();

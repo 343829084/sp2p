@@ -93,7 +93,8 @@ var Contorller = (function () {
 		bindEvent ();
 	};
 	return {
-		init: init
+		init: init,
+		predictPrice:predictPrice
 	};
 })();
 

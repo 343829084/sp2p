@@ -2034,6 +2034,7 @@ GET     /mobile/product/fundSecurity                                            
 GET     /mobile/product/returnMode                                              mobile.ProductDetailAction.returnMode
 GET		/mobile/product/bidAgreement											mobile.ProductAction.bidAgreement
 GET 	/mobile/product/getAgreementContent										mobile.ProductAction.getAgreementContent
+GET		/mobile/product/productList												mobile.ProductAction.productList
 
 #我
 GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord
