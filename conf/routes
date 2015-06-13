@@ -2075,6 +2075,7 @@ POST    /mobile/account/enchashCB                                               
 GET    /mobile/weixin/weChatGate                                                mobile.WeChatAction.weChatGate
 GET    /mobile/weixin/weChatCB                                                  mobile.WeChatAction.weChatCB
 GET    /mobile/weixin/authentication                                            mobile.WeChatAction.authentication
+GET    /mobile/weixin/sendRedpact                                               mobile.WeChatAction.sendPacket
 GET    /mobile/weixin/landding                                                   mobile.WeChatAction.landding
 GET    /mobile/weixin/getOpenId                                                   mobile.LoginAction.getOpenId
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
