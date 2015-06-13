@@ -193,14 +193,15 @@ public class LoginAction extends BaseController {
             registerGiveJinDou(error, mobile);
         }
         Logger.info("queryName"+queryName);
-        if(!StringUtils.isNotEmpty(queryName)){
-            if(StringUtils.isNotEmpty(openId)){//bindweixin
-            ErrorInfo error2=new ErrorInfo();
-            user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
+        if(!StringUtils.isNotEmpty(queryName)) {
+            if (StringUtils.isNotEmpty(openId)) {//bindweixin
+                ErrorInfo error2 = new ErrorInfo();
+                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
                 Logger.info("doRegister  openId放到cookie 中");
-                play.mvc.Http.Cookie cookie= new play.mvc.Http.Cookie();
-                cookie.value=openId;
+                play.mvc.Http.Cookie cookie = new play.mvc.Http.Cookie();
+                cookie.value = openId;
                 Http.Request.current().cookies.put("openId", cookie);
+            }
         }
         renderJSON(json);
     }
