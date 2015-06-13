@@ -109,7 +109,7 @@ public class WeChatAction extends BaseController {
 
         ErrorInfo error = new ErrorInfo();
         User user = new User();
-        String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
+        String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, null, error);
         Logger.info("查询结果：name" + name);
 
         if(status.equals(Constants.WEIXINSTATUS.LOGIN)){

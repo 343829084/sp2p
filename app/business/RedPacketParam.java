@@ -21,6 +21,8 @@ import org.apache.http.util.EntityUtils;
 import play.Logger;
 import utils.MD5Util;
 
+import java.io.InputStream;
+import java.security.KeyStore;
 import javax.net.ssl.*;
 import java.net.InetAddress;
 import java.net.URL;
@@ -30,8 +32,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.io.*;
-import utils.MyX509TrustManager;
 
 /**
  * Created by libaozhong on 2015/6/11.

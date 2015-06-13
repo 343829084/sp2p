@@ -60,7 +60,7 @@ public class LoginAction extends BaseController {
         Logger.info("进入");
         String status =  map.get("status");
         String mobile =map.get("mobile");
-        Logger.info("WeChatAction.weChatGate.status:"+status+"mobile:"+mobile);
+        Logger.info("WeChatAction.weChatGate.status:" + status + "mobile:" + mobile);
         String url = WebChartUtil.buildWeChatGateUrl(status, mobile);
         Logger.info("url：" + url);
         redirect(url);
@@ -77,7 +77,7 @@ public class LoginAction extends BaseController {
         flash.put("name", name);
         flash.put("password", password);
         flash.put("openId", openId);
-        Logger.info("name"+name+"openId"+openId);
+        Logger.info("name" + name + "openId" + openId);
         boolean validate = true;
         
         if (StringUtils.isBlank(name)) {
@@ -91,20 +91,6 @@ public class LoginAction extends BaseController {
             error.msg = "请输入密码";
             flash.error(error.msg);
             validate = false;
-//        	if (flash.get("pwdErrorCount") != null) {
-//            	int pwdErrorCount = Integer.parseInt(flash.get("pwdErrorCount"));
-//            	flash.put("pwdErrorCount", ++pwdErrorCount);
-//            	if (pwdErrorCount == Constants.LOGIN_ERROR_COUNT) {
-//            		flash.remove("pwdErrorCount");
-//            		error.code = -1;
-//                    error.msg = "输错密码超过5次，";
-//                    flash.error(error.msg);
-//                    validate = false;
-//            	}
-//            }else{
-//            	int pwdErrorCount = 0;
-//            	flash.put("pwdErrorCount", ++pwdErrorCount);
-//            }
         }
 
         User user = new User();
@@ -123,12 +109,6 @@ public class LoginAction extends BaseController {
         }
 
         if (validate) {
-//            if(StringUtils.isNotEmpty(openId)){//bindweixin
-//                Logger.info("绑定开始:name"+name+"openId"+openId);
-//                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
-//                Logger.info("绑定结束:name" + name + "openId" + openId);
-//            }
-
             String url = flash.get("url");
             if (StringUtils.isNotBlank(url)) {
                 redirect(url);
@@ -170,7 +150,7 @@ public class LoginAction extends BaseController {
 
         String authentication_id = User.registerToFp(error, mobile, password);
 
-        if (error.code < 0 && error.code!=-2) {
+        if (error.code < 0 && error.code != -2) {
             json.put("error", error);
             renderJSON(json);
         }
@@ -183,29 +163,34 @@ public class LoginAction extends BaseController {
         user.isMobileVerified = true;
         user.authentication_id = authentication_id;
         user.recommendUserName = recommendUserName;
-        if(error.code!=-2) {
+        if (error.code != -2) {
             user.register(error);
 
             if (error.code < 0) {
                 json.put("error", error);
                 renderJSON(json);
             }
-            registerGiveJinDou(error, mobile);
+            user.registerGiveJinDou(error, mobile);
         }
-        Logger.info("queryName"+queryName);
-        if(!StringUtils.isNotEmpty(queryName)) {
+        Logger.info("queryName" + queryName);
+        if (!StringUtils.isNotEmpty(queryName)) {
             if (StringUtils.isNotEmpty(openId)) {//bindweixin
-                ErrorInfo error2 = new ErrorInfo();
-                user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error2);
-                Logger.info("doRegister  openId放到cookie 中");
-                play.mvc.Http.Cookie cookie = new play.mvc.Http.Cookie();
-                cookie.value = openId;
-                Http.Request.current().cookies.put("openId", cookie);
+                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, mobile, error);
+                if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
+                    user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
+                    if (error.code < 0) {
+                        json.put("error", error);
+                        renderJSON(json);
+                    }
+                    Logger.info("doRegister  openId放到cookie 中");
+                    play.mvc.Http.Cookie cookie = new play.mvc.Http.Cookie();
+                    cookie.value = openId;
+                    Http.Request.current().cookies.put("openId", cookie);
+                }
             }
+            renderJSON(json);
         }
-        renderJSON(json);
     }
-
 
     private static void registerValidation(ErrorInfo error, String mobile, String password, String verifyCode) {
         if (StringUtils.isBlank(mobile)) {
@@ -270,46 +255,45 @@ public class LoginAction extends BaseController {
     }
 
     /**
-     * 注册送金豆
+     * 理财师注册
      */
-    private static void registerGiveJinDou(ErrorInfo error,String name){
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("mobilePhoneNo", name);
+    public static void cfpRegister() {
+        JSONObject json = new JSONObject();
+        ErrorInfo error = new ErrorInfo();
+        String mobile = params.get("name");//the user name is mobile
+        String password = params.get("password");
+        String verifyCode = params.get("verifyCode");
+        String recommendUserName = params.get("recommended");
+        registerValidation(error, mobile, password, verifyCode);
 
-        try {
-            WS.HttpResponse httpResponse = WS.url(Constants.FP_REGISTER_GIVE_JINDOU).setParameters(params).post();
-            parseFpResponse(httpResponse, error);
-        }catch (Exception e){
-            e.printStackTrace();
-            Logger.error(e.getMessage());
-            error.code = -1;
-            error.msg = "注册失败";
+        if (error.code < 0) {
+            json.put("error", error);
+            renderJSON(json);
+        }
+        String authentication_id = User.registerToFp(error, mobile, password);
+        if (error.code < 0) {
+            json.put("error", error);
+            renderJSON(json);
+        }
+        User user = new User();
+        user.time = new Date();
+        user.name = mobile;
+        user.password = password;
+        user.mobile = mobile;
+        user.isMobileVerified = true;
+        user.authentication_id = authentication_id;
+        user.recommendUserName = recommendUserName;
+        user.cfpflag=true;//是理财师注册
+        user.register(error);
+
+        if (error.code < 0) {
+            json.put("error", error);
+            renderJSON(json);
         }
 
+        user.registerGiveJinDou(error, mobile);
+        json.put("error", error);
+        renderJSON(json);
     }
-
-    private static Object parseFpResponse(WS.HttpResponse httpResponse, ErrorInfo error) {
-        Object value = null;
-        Logger.info("fp response statusCode:" + httpResponse.getStatus());
-        if (httpResponse.getStatus() == HttpStatus.SC_OK) {
-            JsonObject jsonResult = httpResponse.getJson().getAsJsonObject();
-            Logger.info("fp response result:" + jsonResult);
-
-            Object message = jsonResult.get("message");
-            if(message!= null && message instanceof JSONObject){
-                String severity = ((JSONObject)message).getString("severity");
-                if(!severity.equals("0")){
-                    error.code = -1;
-                    error.msg = ((JSONObject)message).getString("summary");
-                }
-            }
-            value = jsonResult.get("value");
-
-        }
-        return value;
-    }
-
-
-
 
 }
