@@ -175,7 +175,7 @@ public class LoginAction extends BaseController {
         Logger.info("queryName" + queryName);
         if (!StringUtils.isNotEmpty(queryName)) {
             if (StringUtils.isNotEmpty(openId)) {//bindweixin
-                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, mobile, error);
+                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
                 if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
                     user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
                     if (error.code < 0) {
@@ -283,17 +283,28 @@ public class LoginAction extends BaseController {
         user.isMobileVerified = true;
         user.authentication_id = authentication_id;
         user.recommendUserName = recommendUserName;
-        user.cfpflag=true;//是理财师注册
+        user.cfpflag = true;//是理财师注册
         user.register(error);
+    }
 
-        if (error.code < 0) {
-            json.put("error", error);
-            renderJSON(json);
+    private static Object parseFpResponse(WS.HttpResponse httpResponse, ErrorInfo error) {
+        Object value = null;
+        Logger.info("fp response statusCode:" + httpResponse.getStatus());
+        if (httpResponse.getStatus() == HttpStatus.SC_OK) {
+            JsonObject jsonResult = httpResponse.getJson().getAsJsonObject();
+            Logger.info("fp response result:" + jsonResult);
+
+            Object message = jsonResult.get("message");
+            if (message != null && message instanceof JSONObject) {
+                String severity = ((JSONObject) message).getString("severity");
+                if (!severity.equals("0")) {
+                    error.code = -1;
+                    error.msg = ((JSONObject) message).getString("summary");
+                }
+            }
+            value = jsonResult.get("value");
         }
-
-        user.registerGiveJinDou(error, mobile);
-        json.put("error", error);
-        renderJSON(json);
+        return value;
     }
 
 }

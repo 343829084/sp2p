@@ -86,7 +86,7 @@ public class QuickRegister extends BaseController {
 
         if (validate) {
             if (StringUtils.isNotEmpty(openId)) {//bindweixin
-                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, name, error);
+                String bindingName = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
                 if (StringUtils.isEmpty(bindingName)) {//未绑定过才去绑定
                     user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
                     if (error.code < 0) {
