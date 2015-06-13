@@ -139,6 +139,7 @@ public class WeChatAction extends BaseController {
     }
 
          private static void sendPacketPost(String openId,String redPacketId) throws Exception {
+             Logger.info("进入红包方法："+openId);
              RedPacket redPacket=new RedPacket();
              redPacket.setId(Long.parseLong(redPacketId));
              redPacket.queryRedPacket();
@@ -149,10 +150,12 @@ public class WeChatAction extends BaseController {
              RedPacketBill redPacketBill =new RedPacketBill();
              RedPacketBill result = redPacketBill.getBillByOpenId(openId, redPacketId);//红包是否已经发过
               if(result==null||(redPacket.getCouple()!=null &&redPacket.getCouple().intValue()==2) ){
+                  Logger.info("红包未发放可以发："+openId);
                   RedPacketBill redPacketBillResult = RedPacketParam.getAmount(openId, billNum, redPacket);
                   SortedMap<String, String> map = RedPacketParam.createMap(billNum, redPacket, openId, redPacketBillResult.getAmount());
                   RedPacketParam.sign(map);
                   String requestXML = RedPacketParam.getRequestXml(map);
+                  Logger.info("开始发红包："+requestXML);
                   String redPackert = RedPacketParam.post(requestXML);
 
               }
