@@ -2085,6 +2085,8 @@ GET   /mobile/quickLogin                                                       m
 POST   /mobile/quickLogin                                                       mobile.QuickRegister.doQuickLogin
 GET   /mobile/qrredirect                                                       mobile.QuickRegister.qrredirect
 
+GET   /mobile/privacy                                                       mobile.QuickRegister.privacy
+
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
 
 

@@ -6,9 +6,11 @@ import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.lang3.StringUtils;
+import org.omg.CORBA.portable.InputStream;
 import play.Logger;
+import play.vfs.VirtualFile;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URLEncoder;
 
 
@@ -18,7 +20,7 @@ import java.net.URLEncoder;
 public  class WebChartUtil {
     private static LRUMap cache=new LRUMap();
     public static final String WECHAT = "FP.SOCIAL.TYPE.1";
-
+   public static File root = new File(System.getProperty("application.path"));
     public static String getOpenIdByToken(String access_token) throws IOException {
         WeChatConstants.REFRESHTOKEN = WeChatConstants.REFRESHTOKEN.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
         WeChatConstants.REFRESHTOKEN = WeChatConstants.REFRESHTOKEN.replace("REFRESH_TOKEN", urlEnodeUTF8(access_token));
@@ -58,6 +60,18 @@ public  class WebChartUtil {
         Logger.info("链接为:"+url);
         return url;
     }
+    public static String getCertInstream() throws IOException {
+       if(root.isDirectory()){
+           root.listFiles();
+       }
+        VirtualFile appRoot = VirtualFile.open(root);
+        VirtualFile routes = appRoot.child("conf/apiclient_cert.p12");
+        String fileNem = routes.getName();
+      //  InputStream inputStream = routes.inputstream();
+           FileInputStream is= new FileInputStream(root);
+        FileDescriptor fileDescipt = is.getFD();
+                return null;
+            };
 
     public  static String buildRequestOpenIdUrl(String code){
         String url = WeChatConstants.CODEEXCHANGEOPENID;

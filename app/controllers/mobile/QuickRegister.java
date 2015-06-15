@@ -128,10 +128,11 @@ public class QuickRegister extends BaseController {
     }
 
     public static void registerSuccess(String ...openid){
-
         Http.Request reuqets = Http.Request.current();
         String fpHots= Constants.FP_HOST;
         render(fpHots);
-
+    }
+    public static void privacy(){
+    render();
     }
 }
