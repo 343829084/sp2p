@@ -179,6 +179,8 @@ var PRODUCT_STATUS = {
 };
 
 var Business = (function ($) {
+	var worker = null;
+	var countdownArr = [];
 	var tmpls = {
 		presellTmpl : $("#presellStatusTmpl"),
 		sellingTmpl : $("#sellingStatusTmpl"),
@@ -192,18 +194,20 @@ var Business = (function ($) {
 			index :pageIdx,
 			pageSize : pageSize
 		};
+
 		Service.getProductList(params, function (result) {
-			if (result.list.length) {
+			if (result.list && result.list.length) {
 				var productArray = result.list;
 				for (var i = 0; i < productArray.length; i ++ ) {
 					var prod =productArray [i];
 					switch  (prod.prodStatus){
 						case PRODUCT_STATUS.PRESELL:
 							tmpls.presellTmpl.tmpl(prod).appendTo("#list");
+							countdownArr.push(prod);
 							break;
 						case PRODUCT_STATUS.SELL_ING:
-							console.log(prod.prodId);
 							tmpls.sellingTmpl.tmpl(prod).appendTo("#list");
+							countdownArr.push(prod);
 							break;
 						case PRODUCT_STATUS.REPAY_ING:
 							tmpls.repayingTmpl.tmpl(prod).appendTo("#list");
@@ -211,6 +215,18 @@ var Business = (function ($) {
 						case PRODUCT_STATUS.FINISH_REPAY:
 							tmpls.finisRepayTmpl.tmpl(prod).appendTo("#list");
 							break;
+					}
+				}
+
+				if (!worker) {
+					worker = new Worker("/public/javascripts/mobile/countdown.js");
+					worker.postMessage(countdownArr);
+					worker.onmessage = function(event) {
+						if (event) {
+							for (var i = 0; i < event.data.length; i++) {
+
+							}
+						}
 					}
 				}
 			}
