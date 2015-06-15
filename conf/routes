@@ -2001,7 +2001,6 @@ GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommi
 #登录 注册
 GET      /mobile/login                                                           mobile.LoginAction.login
 POST     /mobile/login                                                           mobile.LoginAction.doLogin
-POST     /mobile/bindingSocial                                                   mobile.LoginAction.bindingSocial
 
 GET      /mobile/register                                                        mobile.LoginAction.register
 POST     /mobile/register                                                        mobile.LoginAction.doRegister
