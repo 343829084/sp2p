@@ -63,7 +63,7 @@ public class ProductAction extends BaseController {
         }
 
         boolean bidCanBuyFlag = false;//是否可以购买
-        if (bid.status == 2) {//筹款中
+        if (bid.status == 1 || bid.status == 2) {//提前借款  筹款中
             Long balanceTime = (bid.investExpireTime.getTime() - new Date().getTime()) / 1000;
             jsonMap.put("balanceTime", balanceTime);//倒计时时间
 
