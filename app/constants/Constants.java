@@ -30,6 +30,9 @@ public class Constants {
     public static final String FP_AUTHENTICATION = FP_HOST_URI + Play.configuration.getProperty("fp.authentication.url"); //fp认证信息
     public static final String FP_FIND_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.find.social.url"); //fp认证信息
     public static final String FP_BINDING_SOCIAL_URL = FP_HOST_URI + Play.configuration.getProperty("fp.binding.social.url"); //fp认证信息
+	public static final String MCH_ID = Play.configuration.getProperty("mch_id"); //fp认证信息
+	public static final String REDPACKET_APPLY_NAME = Play.configuration.getProperty("redpacket_apply_name"); //fp认证信息
+	public static final String SEND_NAME = Play.configuration.getProperty("send_name"); //fp认证信息
 
     //************************************weChat******************************************************
     public static final String WECHAT_APPID = Play.configuration.getProperty("wechat_appId");
@@ -83,8 +86,9 @@ public class Constants {
 		public static final  String QUICKREGISTERSUCCESS = "3";		//快速注册成功绑定
 		public static final  String QUICKLOGIN = "4";	//快速登录
 		public static final  String INTERCEPTORREDIRECT = "5";	//拦截器跳转
+		public static final  String SENDPACKET = "7";	//发红包
 	}
-	
+
 	/**
 	 * 不同支付平台差异性融合
 	 */

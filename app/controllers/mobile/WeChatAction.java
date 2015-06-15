@@ -1,16 +1,32 @@
 package controllers.mobile;
 
+import business.RedPacket;
+import business.RedPacketBill;
+import business.RedPacketParam;
 import business.User;
 import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
+import play.Play;
+import play.cache.Cache;
+import play.mvc.Controller;
 import play.mvc.Http;
+import play.mvc.Scope;
+import sun.beans.editors.LongEditor;
 import utils.ErrorInfo;
+import utils.ParseClientUtil;
 import utils.WebChartUtil;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.UnknownHostException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * Created by libaozhong on 2015/6/4.
@@ -35,6 +51,15 @@ public class WeChatAction extends BaseController {
             os.close();
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void sendPacket(){
+        String redPacketId=params.get("redPacketId");
+        if (ParseClientUtil.isWeiXin()) {
+            String url = WebChartUtil.buildWeChatGateUrl("7",redPacketId);
+            Logger.info("url：" + url);
+            redirect(url);
         }
     }
     public static void getOpenId() throws IOException {
@@ -62,7 +87,7 @@ public class WeChatAction extends BaseController {
      * 微信回调
      * @throws IOException
      */
-    public static void weChatCB() throws IOException {
+    public static void weChatCB() throws Exception {
         Http.Response.current().setContentTypeIfNotSet("text/html; charset=utf-8");
         Logger.info("用户进入：");
         String code= params.get("code");
@@ -84,7 +109,7 @@ public class WeChatAction extends BaseController {
 
         ErrorInfo error = new ErrorInfo();
         User user = new User();
-        String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, null, error);
+        String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
         Logger.info("查询结果：name" + name);
 
         if(status.equals(Constants.WEIXINSTATUS.LOGIN)){
@@ -102,27 +127,55 @@ public class WeChatAction extends BaseController {
         }else if(status.equals("6")){
             Logger.info("showOpenId openid:" + openId + "status:" + status);
             showOpenId(openId);
-        }else{
+        }else if(status.equals(Constants.WEIXINSTATUS.SENDPACKET)) {
+            Logger.info("showOpenId openid:" + openId + "status:" + status);
+           sendPacketPost(openId,mobile);
+
+        } else{
             //TODO
             weChatLogin(user, name, openId, error);
 
         }
     }
 
+         private static void sendPacketPost(String openId,String redPacketId) throws Exception {
+             Logger.info("进入红包方法："+openId);
+             RedPacket redPacket=new RedPacket();
+             redPacket.setId(Long.parseLong(redPacketId));
+             redPacket.queryRedPacket();
+             if(redPacket.getOver()!=null && redPacket.getOver().intValue()==2){
+                 return;//红包作废
+             }
+             String billNum = RedPacketParam.createBillNo(openId.substring(0, 6));
+             RedPacketBill redPacketBill =new RedPacketBill();
+             RedPacketBill result = redPacketBill.getBillByOpenId(openId, redPacketId);//红包是否已经发过
+              if(result==null||(redPacket.getCouple()!=null &&redPacket.getCouple().intValue()==2) ){
+                  Logger.info("红包未发放可以发："+openId);
+                  RedPacketBill redPacketBillResult = RedPacketParam.getAmount(openId, billNum, redPacket);
+                  SortedMap<String, String> map = RedPacketParam.createMap(billNum, redPacket, openId, redPacketBillResult.getAmount());
+                  RedPacketParam.sign(map);
+                  String requestXML = RedPacketParam.getRequestXml(map);
+                  Logger.info("开始发红包："+requestXML);
+                  String redPackert = RedPacketParam.post(requestXML);
+
+              }
+         }
+
+
     private static void webChartQuickLogin(User user, String name,String openId, ErrorInfo error) {
-        Logger.info("weChatLogin:openid"+openId);
+        Logger.info("weChatLogin:openid" + openId);
         if (name == null) {
             Logger.info("weChatLogin:name为空");
             renderTemplate("mobile/QuickRegister/quickLogin.html", openId);
         }
         user.name = name;
-        Logger.info("userId"+user.id);
+        Logger.info("userId" + user.id);
         if (user.id < 0) {
             error.code = -1;
             error.msg = "该用户名不存在";
             renderTemplate("mobile/QuickRegister/quickLogin.html", openId);
         }
-        Logger.info("userId"+user.id+"登录");
+        Logger.info("userId" + user.id + "登录");
         user.loginCommon(error);
         if (error.code < 0) {
             Logger.info("userId"+user.id+"登录错误");
