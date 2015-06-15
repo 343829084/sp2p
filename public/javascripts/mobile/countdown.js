@@ -25,8 +25,10 @@ function countdown (prodArray) {
         var minute=Math.floor((leftSec-day1*24*60*60-hour*3600)/60);
         var second=Math.floor(leftSec-day1*24*60*60-hour*3600-minute*60);
         var displayTime = day1 + "天" + hour + "小时" + minute + "分" + second + "秒";
-        var prod = {prod:item.prodId, countDown:displayTime };
+        var prod = {prodId:item.prodId, countDown:displayTime };
+        tempArray.push(prod);
     }
+    console.log(tempArray.length);
     postMessage(tempArray);
 }
 

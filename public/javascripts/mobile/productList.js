@@ -89,14 +89,6 @@ var productListTouchMove = function (){
 			//console.log(Y);
 		}
 
-		//console.log(event.targetTouches[0].screenY + "  screenY");
-		//console.log(TOUCH_POINT.START_Y + "  START_Y");
-		//console.log(event.targetTouches[0].clientY + "  clientY");
-		//console.log(event.targetTouches[0].pageY + "  pageY");
-		//console.log("/n");
-
-		//console.log(parseInt($("#product-list").css("top")) + " top");
-		console.log(document.documentElement.clientHeight);
 		if (event.targetTouches.length == 1
 			&& (parseInt(event.targetTouches[0].screenY) > parseInt(TOUCH_POINT.START_Y))) {
 
@@ -108,8 +100,7 @@ var productListTouchMove = function (){
 	document.getElementById("main").addEventListener('touchend', function(event) {
 		console.log(parseInt($("#main").css("top")) + " top");
 		if (parseInt($("#main").css("top")) > 0) {
-			//console.log(parseInt($("#product-list").css("top")) + "   top");
-			//console.log("top");
+			Business.getProductList();
 			$("#main").css({
 				"top": "0",
 				"transition": "top 2s"
@@ -194,7 +185,7 @@ var Business = (function ($) {
 			index :pageIdx,
 			pageSize : pageSize
 		};
-
+		pageIdx++;
 		Service.getProductList(params, function (result) {
 			if (result.list && result.list.length) {
 				var productArray = result.list;
@@ -202,37 +193,45 @@ var Business = (function ($) {
 					var prod =productArray [i];
 					switch  (prod.prodStatus){
 						case PRODUCT_STATUS.PRESELL:
-							tmpls.presellTmpl.tmpl(prod).appendTo("#list");
+							tmpls.presellTmpl.tmpl(prod).prependTo("#list");
 							countdownArr.push(prod);
 							break;
 						case PRODUCT_STATUS.SELL_ING:
-							tmpls.sellingTmpl.tmpl(prod).appendTo("#list");
+							tmpls.sellingTmpl.tmpl(prod).prependTo("#list");
 							countdownArr.push(prod);
 							break;
 						case PRODUCT_STATUS.REPAY_ING:
-							tmpls.repayingTmpl.tmpl(prod).appendTo("#list");
+							tmpls.repayingTmpl.tmpl(prod).prependTo("#list");
 							break;
 						case PRODUCT_STATUS.FINISH_REPAY:
-							tmpls.finisRepayTmpl.tmpl(prod).appendTo("#list");
+							tmpls.finisRepayTmpl.tmpl(prod).prependTo("#list");
 							break;
 					}
 				}
-
 				if (!worker) {
-					worker = new Worker("/public/javascripts/mobile/countdown.js");
-					worker.postMessage(countdownArr);
-					worker.onmessage = function(event) {
-						if (event) {
-							for (var i = 0; i < event.data.length; i++) {
-
-							}
-						}
-					}
+					worker = createWorkerForCountDown();
+				}
+				else{
+					worker.terminate();
+					worker = createWorkerForCountDown();
 				}
 			}
 		});
 	};
 
+	var createWorkerForCountDown = function () {
+		var worker = new Worker("/public/javascripts/mobile/countdown.js");
+		worker.postMessage(countdownArr);
+		worker.onmessage = function(event) {
+			if (event && event.data) {
+				for (var i = 0; i < event.data.length; i++) {
+					var prod = $("#prod"+event.data[i].prodId);
+					prod.find(".countdown").html(event.data[i].countDown);
+				}
+			}
+		}
+		return worker;
+	};
 	var init = function () {
 		getProductList();
 	};
