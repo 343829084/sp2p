@@ -55,43 +55,62 @@ var initAdvBanner = function() {
 };
 
 var TOUCH_POINT = {
-	START:0,
-	END:0
+	START_X: 0,
+	START_Y :0
 };
 
 var isUp = false;
 
 var productListTouchMove = function (){
-	document.getElementById("product-list").addEventListener('touchstart', function (event){
-		$("#product-list").css({
+	document.getElementById("main").addEventListener('touchstart', function (event){
+		$("#main").css({
 			"transition": ""
 		}) ;
 		if (event.targetTouches.length == 1) {
-			TOUCH_POINT.START = event.targetTouches[0].screenY;
+			//TOUCH_POINT.START_X = event.targetTouches[0].pageX;
+			//TOUCH_POINT.START_Y = event.targetTouches[0].pageY;
+			TOUCH_POINT.START_Y = event.targetTouches[0].screenY;
 		}
 	});
 
-	document.getElementById("product-list").addEventListener('touchmove', function(event) {
+	document.getElementById("main").addEventListener('touchmove', function(event) {
+		//event.preventDefault();
+		mouseEndX = event.targetTouches[0].pageX;
+		mouseEndY = event.targetTouches[0].pageY;
+
+		X = mouseEndX - TOUCH_POINT.START_X;
+		Y = mouseEndY - TOUCH_POINT.START_Y;
+
+		//  top 2 bottom
+		if (Y > 0) {
+		}
+		// bottom 2 top
+		else {
+			//console.log(Y);
+		}
+
 		//console.log(event.targetTouches[0].screenY + "  screenY");
+		//console.log(TOUCH_POINT.START_Y + "  START_Y");
 		//console.log(event.targetTouches[0].clientY + "  clientY");
 		//console.log(event.targetTouches[0].pageY + "  pageY");
 		//console.log("/n");
-		console.log(event.targetTouches[0].screenY  + " screenY");
-		console.log(TOUCH_POINT.START + " TOUCH_POINT.START");
-		console.log($("#product-list").css("top") + "  top");
-		console.log(event.targetTouches[0].screenY - TOUCH_POINT.START);
-		if (event.targetTouches.length == 1 && parseInt($("#product-list").css("top")) == 0
-			&& (event.targetTouches[0].screenY > TOUCH_POINT.START)) {
-			$("#product-list").css("top", event.targetTouches[0].screenY-TOUCH_POINT.START) ;
+
+		//console.log(parseInt($("#product-list").css("top")) + " top");
+		console.log(document.documentElement.clientHeight);
+		if (event.targetTouches.length == 1
+			&& (parseInt(event.targetTouches[0].screenY) > parseInt(TOUCH_POINT.START_Y))) {
+
+			$("#main").css("top", (event.targetTouches[0].screenY - parseInt(TOUCH_POINT.START_Y )) +"px") ;
+			console.log(parseInt($("#product-list").css("top")) + " top move");
 		}
-		//else {
-		//	$("#product-list").css("top", event.targetTouches[0].screenY-TOUCH_POINT.START) ;
-		//}
 	});
 
-	document.getElementById("product-list").addEventListener('touchend', function(event) {
-		if (parseInt($("#product-list").css("top")) >= 0) {
-			$("#product-list").css({
+	document.getElementById("main").addEventListener('touchend', function(event) {
+		console.log(parseInt($("#main").css("top")) + " top");
+		if (parseInt($("#main").css("top")) > 0) {
+			//console.log(parseInt($("#product-list").css("top")) + "   top");
+			//console.log("top");
+			$("#main").css({
 				"top": "0",
 				"transition": "top 2s"
 			}) ;
@@ -99,9 +118,117 @@ var productListTouchMove = function (){
 	});
 }
 
+var initCountdown = function () {
+	var arr = [
+		{prodId: 1,sellTime :"Jun 14, 2015 8:00:00 PM "},
+		{prodId: 2,sellTime :"Jun 14, 2015 10:00:00 PM "}
+	];
+	var worker = new Worker("/public/javascripts/mobile/countdown.js");
+	worker.postMessage(arr);
+	worker.onmessage = function(event) {
+		if (event) {
+			for (var i = 0; i < event.data.length; i++) {
+				console.log(event.data[i]);
+			}
+		}
+	}
+};
+
+var URL = {
+	productListUrl: "/mobile/products"
+};
+
+var Utils = (function ($) {
+	var sendRequest = function (type, param, url, callbackFunc) {
+		return $.ajax({
+			type: type,
+			data : param,
+			url: url,
+			async: false,
+			success: function (result) {
+				if (result && result != "") {
+					callbackFunc(result);
+				}
+				else {
+					alert("后台出错");
+				}
+			},
+			error : function (result) {
+			}
+		});
+	};
+	return {
+		sendRequest : sendRequest
+	};
+})(jQuery);
+
+var Service = (function () {
+	var getProductList= function (params, callbackFunc) {
+		Utils.sendRequest("POST", params, URL.productListUrl, callbackFunc) ;
+	};
+	return {
+		getProductList :getProductList
+	};
+})();
+
+var PRODUCT_STATUS = {
+	PRESELL: 1,
+	SELL_ING: 2,
+	REPAY_ING: 3,
+	FINISH_REPAY:4
+};
+
+var Business = (function ($) {
+	var tmpls = {
+		presellTmpl : $("#presellStatusTmpl"),
+		sellingTmpl : $("#sellingStatusTmpl"),
+		repayingTmpl : $("#repayingStatusTmpl"),
+		finisRepayTmpl : $("#finishRepayStatusTmpl")
+	};
+	var pageIdx = 0;
+	var pageSize = 12;
+	var getProductList = function () {
+		var params = {
+			index :pageIdx,
+			pageSize : pageSize
+		};
+		Service.getProductList(params, function (result) {
+			if (result.list.length) {
+				var productArray = result.list;
+				for (var i = 0; i < productArray.length; i ++ ) {
+					var prod =productArray [i];
+					switch  (prod.prodStatus){
+						case PRODUCT_STATUS.PRESELL:
+							tmpls.presellTmpl.tmpl(prod).appendTo("#list");
+							break;
+						case PRODUCT_STATUS.SELL_ING:
+							tmpls.sellingTmpl.tmpl(prod).appendTo("#list");
+							break;
+						case PRODUCT_STATUS.REPAY_ING:
+							tmpls.repayingTmpl.tmpl(prod).appendTo("#list");
+							break;
+						case PRODUCT_STATUS.FINISH_REPAY:
+							tmpls.finisRepayTmpl.tmpl(prod).appendTo("#list");
+							break;
+					}
+				}
+			}
+		});
+	};
+
+	var init = function () {
+		getProductList();
+	};
+
+	return {
+		init:init,
+		getProductList : getProductList
+	};
+})(jQuery);
 
 $(function () {
 	initAdvBanner();
-	//floatWidget();
 	productListTouchMove();
+	//initCountdown();
+	Business.init();
 });

@@ -379,7 +379,7 @@ public class RequestDataExtend {
         }
 
         if (user.id < 0) {
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL), "该用户不存在");
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL, "该用户不存在"));
             return ;
         }
 
@@ -390,7 +390,7 @@ public class RequestDataExtend {
             }catch (Exception e){
                 e.printStackTrace();
                 Logger.error("调用fp获取实名认证信息异常", e.getMessage());
-                MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL), "未获取到实名认证信息");
+                MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL, "未获取到实名认证信息"));
                 return ;
             }
         }
@@ -410,7 +410,7 @@ public class RequestDataExtend {
         newUser.appEditUser(user,error);
 
         if(error.code != 0){
-            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL),  error.msg);
+            MessageUtil.getInstance().setMessage(new Message(Severity.ERROR, MsgCode.SAVE_USER_INFO_FAIL, error.msg));
             return ;
         }
 

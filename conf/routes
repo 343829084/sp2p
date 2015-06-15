@@ -2001,7 +2001,6 @@ GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommi
 #登录 注册
 GET      /mobile/login                                                           mobile.LoginAction.login
 POST     /mobile/login                                                           mobile.LoginAction.doLogin
-POST     /mobile/bindingSocial                                                   mobile.LoginAction.bindingSocial
 
 GET      /mobile/register                                                        mobile.LoginAction.register
 POST     /mobile/register                                                        mobile.LoginAction.doRegister
@@ -2036,6 +2035,8 @@ GET     /mobile/product/returnMode                                              
 GET		/mobile/product/bidAgreement											mobile.ProductAction.bidAgreement
 GET 	/mobile/product/getAgreementContent										mobile.ProductAction.getAgreementContent
 GET		/mobile/product/productList												mobile.ProductAction.productList
+
+POST    /mobile/products                                                        mobile.ProductAction.findProductsBy
 
 #我
 GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord
