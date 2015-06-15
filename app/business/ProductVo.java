@@ -1,11 +1,14 @@
 package business;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * Created by Yuan on 2015/6/12.
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class ProductVo {
 
     private Long prodId;                                //产品id
@@ -18,7 +21,7 @@ public class ProductVo {
     private BigDecimal availableMoney;                  //可投金额
     private Date sellTime;                              //开售时间
     private String duringTime;                          //理财期限 （理财冻结时间）
-    private String predictDeadline;                     //预计到期时间
+    private Date predictDeadline;                     //预计到期时间
     private BigDecimal totalBidMoney;                   //累计可投金额
     private String prodStatus;                          //产品状态
 
@@ -102,11 +105,11 @@ public class ProductVo {
         this.duringTime = duringTime;
     }
 
-    public String getPredictDeadline() {
+    public Date getPredictDeadline() {
         return predictDeadline;
     }
 
-    public void setPredictDeadline(String predictDeadline) {
+    public void setPredictDeadline(Date predictDeadline) {
         this.predictDeadline = predictDeadline;
     }
 
