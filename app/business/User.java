@@ -17,72 +17,8 @@ import java.util.Map;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import models.t_bids;
-import models.t_bill_invests;
-import models.t_bills;
-import models.t_credit_levels;
-import models.t_dict_ad_citys;
-import models.t_dict_ad_provinces;
-import models.t_dict_cars;
-import models.t_dict_educations;
-import models.t_dict_houses;
-import models.t_dict_maritals;
-import models.t_dict_payment_gateways;
-import models.t_invests;
-import models.t_statistic_cps;
-import models.t_system_recharge_completed_sequences;
-import models.t_user_attention_users;
-import models.t_user_audit_items;
-import models.t_user_blacklist;
-import models.t_user_cps_income;
-import models.t_user_details;
-import models.t_user_events;
-import models.t_user_recharge_details;
-import models.t_user_report_users;
-import models.t_user_withdrawals;
-import models.t_users;
-import models.v_bid_assigned;
-import models.v_bill_invest_statistics;
-import models.v_user_account_info;
-import models.v_user_account_statistics;
-import models.v_user_attention_info;
-import models.v_user_blacklist;
-import models.v_user_blacklist_info;
-import models.v_user_complex_info;
-import models.v_user_cps_detail;
-import models.v_user_cps_info;
-import models.v_user_cps_user_count;
-import models.v_user_cps_user_info;
-import models.v_user_cps_users;
-import models.v_user_detail_credit_score_audit_items;
-import models.v_user_detail_credit_score_invest;
-import models.v_user_detail_credit_score_loan;
-import models.v_user_detail_credit_score_normal_repayment;
-import models.v_user_detail_credit_score_overdue;
-import models.v_user_detail_score;
-import models.v_user_details;
-import models.v_user_for_details;
-import models.v_user_for_message;
-import models.v_user_for_personal;
-import models.v_user_info;
-import models.v_user_invest_amount;
-import models.v_user_invest_info;
-import models.v_user_loan_info;
-import models.v_user_loan_info_bad;
-import models.v_user_loan_info_bad_d;
-import models.v_user_loan_info_bill;
-import models.v_user_loan_info_bill_d;
-import models.v_user_loan_user_unassigned;
-import models.v_user_locked_info;
-import models.v_user_report_list;
-import models.v_user_reported_info;
-import models.v_user_scores;
-import models.v_user_unverified_info;
-import models.v_user_users;
-import models.v_user_vip_info;
-import models.v_user_withdrawal_info;
-import models.v_user_withdrawals;
-import models.v_users;
+
+import models.*;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -681,7 +617,11 @@ public class User extends UserBase implements Serializable{
 	
 	public long recommendUserId;
 	public String recommendUserName;
-	
+    public String recommend_user_code; //个人推荐码
+    public String recommend_referee_code;//推荐人推荐码
+    public long t_cfp_id;//理财师id
+    public Boolean cfpflag;//理财师标志(判断是否是理财师)
+
 	public String spreadLink;
 	
 	public String getSpreadLink() {
@@ -1065,9 +1005,10 @@ public class User extends UserBase implements Serializable{
                 user.recommend_user_id = this.recommendUserId;
                 user.recommend_reward_type = backstageSet.cpsRewardType;
                 user.recommend_time = new Date();
+                user.recommend_referee_code=this.recommendUserName;//推荐人推荐码
             }
         }
-        
+        user.recommend_user_code=this.mobile;//个人推荐码 现在默认是用户手机号
         user.name = this._name;
         user.mobile = this.mobile;
         user.authentication_id = this.authentication_id;
@@ -1095,6 +1036,7 @@ public class User extends UserBase implements Serializable{
             detail = "对不起，由于平台出现故障，此次注册失败！";
         }
         
+
         user.qr_code = uuid;
         
         try {
@@ -1200,9 +1142,11 @@ public class User extends UserBase implements Serializable{
 				user.recommend_user_id = this.recommendUserId;
 				user.recommend_reward_type = backstageSet.cpsRewardType;
 				user.recommend_time = new Date();
+                user.recommend_referee_code=this.recommendUserName;//推荐人推荐码
+
 			}
 		}
-		
+        user.recommend_user_code=this.mobile;//个人推荐码 现在默认是用户手机号
 		user.name = this._name;
         user.mobile = this.mobile;
         user.authentication_id = authentication_id;
@@ -1245,6 +1189,46 @@ public class User extends UserBase implements Serializable{
 		}
 		
 		this.id = user.id;
+        if(StringUtils.isNotBlank(this.recommendUserName)) {
+            if(this.recommendUserId > 0) {
+                Long id = null;
+                try {
+                    id = t_cfp.find("SELECT id FROM t_cfp WHERE T_USERS_ID=? ", this.recommendUserId).first();
+                    if (null != id) {
+
+                        t_users_cfp usercfp = new t_users_cfp();
+                        usercfp.createtime = new Date();
+                        usercfp.t_users_id = user.id;
+                        usercfp.t_cfp_id = id;
+                        usercfp.flag = true;
+                        usercfp.save();
+                    }
+                } catch (Exception e) {
+                    Logger.error("根据T_USERS_ID查询信息：", e.getMessage());
+                }
+            }
+        }
+        if(null!=this.cfpflag && true==this.cfpflag){//是否是理财师注册
+           try {
+               t_cfp cfp = new t_cfp();
+               cfp.t_users_id = user.id;
+               cfp.save();
+//               Long cfp_id = cfp.id;
+//               t_users_cfp usercfp = new t_users_cfp();
+//               usercfp.createtime = new Date();
+//               usercfp.t_users_id = user.id;
+//               usercfp.t_cfp_id = cfp_id;
+//               usercfp.flag=true;
+//               usercfp.save();
+           }catch (Exception e){
+               e.printStackTrace();
+               Logger.info("注册时，保存理财师注册信息时："+e.getMessage());
+               error.code = -5;
+               error.msg = "对不起，由于平台出现故障，此次注册失败！";
+
+               return error.code;
+           }
+        }
 		
 		String sign1 = Encrypt.MD5(""+this._id + 0.00 + 0.00 + Constants.ENCRYPTION_KEY);
 		
@@ -1371,13 +1355,19 @@ public class User extends UserBase implements Serializable{
         Map<String, String> params = new HashMap<String, String>();
         params.put("socialNo", socialNo);
         params.put("socialType", socialType);
+        params.put("mobilePhoneNo", mobile);
 
         try {
             WS.HttpResponse httpResponse = WS.url(Constants.FP_FIND_SOCIAL_URL).setParameters(params).post();
             String result = parseFpResponse(httpResponse, error);
-            if (error.code == 0) {
+            if (error.code == 0 && result != null) {
                 JSONObject value = JSONObject.fromObject(result);
-                name = value.getString("mobilePhoneNo");
+				if(value!=null && value.size()>0){
+					name = value.getString("mobilePhoneNo");
+				}else{
+					name=null;
+				}
+
             }
         }catch (Exception e){
             e.printStackTrace();

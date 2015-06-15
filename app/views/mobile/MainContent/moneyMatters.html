@@ -1,5 +1,6 @@
 #{extends 'mobile/common/frmMain.html'/}
 #{set title:'理财' /}
+
 <div class="mm_all_bg">
     <div class="mm_hd_bd">
         <ul class="mm_title_cn">
@@ -53,10 +54,29 @@
             </div>
         </div>
         #{/list}
-
+    <div class="oa_er_bk">
+        <div class="oa_error">
+            <h3>提示</h3>
+            <p class="error_content" id="error_content"></p>
+            <button data-role="button" id="close" class="os_cf" onclick="closeErrorTips();">确定</button>
+        </div>
+    </div>
+</div>
 </div>
 
 <script type="text/javascript">
+
+    var bind='${openid}'
+    if(bind=="2"){
+$(".oa_er_bk").css("display","block");
+       $("#error_content").html("恭喜您绑定成功!");
+    }
+    /*
+     错误弹窗关闭
+     */
+    function closeErrorTips(){
+        $(".oa_er_bk").css("display","none");
+    }
 
     #{list items:pageBean.page, as:'bid'}
         var hasInvestAmount = '${bid?.has_invested_amount}';

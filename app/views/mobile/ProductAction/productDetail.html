@@ -131,7 +131,7 @@
     if ('${bid?.status}' == '4') {
         //还款中4
     　  $("#refund").tmpl('${bid}').appendTo('#product_status_div');
-    }else if('${bid?.status}' == '2'){
+    }else if('${bid?.status}' == '2' || '${bid?.status}' == '1'){
         //筹款中2  两种 预售及售中
 
         $("#fundraising").tmpl('${bid}').appendTo('#product_status_div');

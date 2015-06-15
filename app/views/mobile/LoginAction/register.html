@@ -47,7 +47,8 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
 <div data-role="page" id="index">
 
     <div data-role="content " class="ui-content">
-        <input  type="hidden" name="openId" value="${paramsJson?.openId}">
+        <input  type="hidden"id="openId" name="openId" value="${jsonOne?.openId}">
+        <input  type="hidden" id="queryname" name="queryname" value="${jsonOne?.name}">
         <div class="ui-field-contain">
             <input type="tel" class="mobile_login_shurk" id="name" name="name" value="${flash?.name}" maxlength="11"
                    placeholder="请输入您的手机号">
@@ -187,7 +188,8 @@ String AGREEMENT_URL = constants.Constants.FP_AGREEMENT_URL;
                     password: $("#password").val(),
                     verifyCode: $("#verifyCode").val(),
                     recommended: $("#recommended").val(),
-                    openId: $("#OpenId").val()
+                    openId: $("#openId").val(),
+                    queryName:$("#queryname").val()
                 },
                 success: function (data) {
                     if (0 == data.error.code) {

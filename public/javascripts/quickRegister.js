@@ -7,8 +7,12 @@ var success = "/share/registerSuccess.html";
 
     var recommendPhone = $.getQueryString("mobile");
     var rp="";
-
+var recomMobile=recomMobile|{};
 var result=isPhone(recommendPhone);
+    if(!result.is && recomMobile){
+        result.mobile=recomMobile;
+        result.is=true;
+    }
     rp=result.mobile;
     if(result.is){
         shareUrl= sourceBaseUrl+"/share/share.html?mobile="+rp;
@@ -85,16 +89,21 @@ var result=isPhone(recommendPhone);
                 return;
             };
             success = "/share/registerSuccess.html?mobile="+mobilePhoneNo;
-            registry(mobilePhoneNo, verifyCode, pwd, recommendPhone);
+
+                var openId=$("#openId").val();
+                 var name=$("#name").val();
+            registry(mobilePhoneNo, verifyCode, pwd, recommendPhone,openId,name);
         }
     );
     //注册方法
-    function registry(custmobile, verifyCode, passWord, recommendPhone) {
+    function registry(custmobile, verifyCode, passWord, recommendPhone,openId,name) {
         console.debug(custmobile + "," + passWord + "," + verifyCode);
         var formParams = "mobilePhoneNo=" + custmobile +
             "&passWord=" + passWord +
             "&verifyCode=" + verifyCode +
-            "&recommendPhone=" + recommendPhone;
+            "&recommendPhone=" + recommendPhone
+            +"openId"+openId
+            ;
         $("label").each(function () {
             var lab = $(this);
             if (lab.data('error') == 'error') {
@@ -109,16 +118,16 @@ var result=isPhone(recommendPhone);
                     name: custmobile,
                     password: passWord,
                     verifyCode:verifyCode,
-                    recommended: recommendPhone
+                    recommended: recommendPhone,
+                    openId:openId,
+                    queryName:name
                 },
                 success: function (data) {
                     if (0 == data.error.code) {
-                        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2FopenId&response_type=code&scope=snsapi_base&state=3#wechat_redirect";
+                        window.location.href = "/mobile/registerSuccess?errorcode=0@mobile="+custmobile;
 
                     }if(-2 == data.error.code){
-                        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2FopenId&response_type=code&scope=snsapi_base&state=4#wechat_redirect";
-                    //  window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx320badb1a6f6b806&redirect_uri=http%3A%2F%2Fp2pv2.sunlights.me%2Fmobile%2Fweixin%2Fgetcode&response_type=code&scope=snsapi_base&state=4#wechat_redirect";
-                    //getcode
+                        window.location.href = "/mobile/registerSuccess?errorcode=-2@mobile="+custmobile;
                     }else
                     {
                         $("#phoneNumerrorinfo").html("<span>" + data.error.msg + "</span>");

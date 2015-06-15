@@ -133,6 +133,10 @@ public class t_users extends Model {
 	public long recommend_user_id;
 	
 	public int recommend_reward_type;
+
+    public String recommend_user_code; //个人推荐码
+    public String recommend_referee_code;//推荐人推荐码
+    public long t_cfp_id;//理财师id
 	
 	public int master_identity;
 	

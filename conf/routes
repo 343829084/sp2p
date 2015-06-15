@@ -2005,6 +2005,7 @@ POST     /mobile/bindingSocial                                                  
 
 GET      /mobile/register                                                        mobile.LoginAction.register
 POST     /mobile/register                                                        mobile.LoginAction.doRegister
+POST     /cfp/Register                                                           mobile.LoginAction.cfpRegister
 
 #验证码
 GET      /mobile/searchVerifyCode                                                mobile.CheckAction.searchVerifyCode
@@ -2035,6 +2036,8 @@ GET     /mobile/product/returnMode                                              
 GET		/mobile/product/bidAgreement											mobile.ProductAction.bidAgreement
 GET 	/mobile/product/getAgreementContent										mobile.ProductAction.getAgreementContent
 GET		/mobile/product/productList												mobile.ProductAction.productList
+
+POST    /mobile/products                                                        mobile.ProductAction.findProductsBy
 
 #我
 GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord
@@ -2074,12 +2077,18 @@ POST    /mobile/account/enchashCB                                               
 GET    /mobile/weixin/weChatGate                                                mobile.WeChatAction.weChatGate
 GET    /mobile/weixin/weChatCB                                                  mobile.WeChatAction.weChatCB
 GET    /mobile/weixin/authentication                                            mobile.WeChatAction.authentication
-
+GET    /mobile/weixin/sendRedpact                                               mobile.WeChatAction.sendPacket
+GET    /mobile/weixin/landding                                                   mobile.WeChatAction.landding
+GET    /mobile/weixin/getOpenId                                                   mobile.LoginAction.getOpenId
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
+GET   /mobile/quickLogin                                                       mobile.QuickRegister.quickLogin
 
+POST   /mobile/quickLogin                                                       mobile.QuickRegister.doQuickLogin
 GET   /mobile/qrredirect                                                       mobile.QuickRegister.qrredirect
 
 GET   /mobile/registerSuccess                                                      mobile.QuickRegister.registerSuccess
+
+
 
 
 

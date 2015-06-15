@@ -2,3 +2,4 @@
 
 require:
     - play
+    - com.fasterxml.jackson.dataformat -> jackson-dataformat-xml 2.5.1

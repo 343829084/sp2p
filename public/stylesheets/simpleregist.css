@@ -169,13 +169,13 @@
      min-height:80px;
  }
  .bk-img{
-     background-image: url(../images/h5icon/point_1.png);
+     background-image: url(/public/images/h5icon/point_1.png)!important;
      background-repeat: no-repeat;
      background-position:right bottom ;
      background-size: 50px 50px;
  }
  .bk-img-two{
-     background-image: url(../images/h5icon/point_2.png);
+     background-image: url(/public/images/h5icon/point_2.png)!important;
      background-repeat: no-repeat;
      background-position:right bottom ;
      background-size: 50px 50px;
