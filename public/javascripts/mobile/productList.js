@@ -172,10 +172,10 @@ var Service = (function () {
 })();
 
 var PRODUCT_STATUS = {
-	PRESELL: 1,
-	SELL_ING: 2,
-	REPAY_ING: 3,
-	FINISH_REPAY:4
+	PRESELL: "1",
+	SELL_ING: "2",
+	REPAY_ING: "3",
+	FINISH_REPAY:"4"
 };
 
 var Business = (function ($) {
@@ -202,6 +202,7 @@ var Business = (function ($) {
 							tmpls.presellTmpl.tmpl(prod).appendTo("#list");
 							break;
 						case PRODUCT_STATUS.SELL_ING:
+							console.log(prod.prodId);
 							tmpls.sellingTmpl.tmpl(prod).appendTo("#list");
 							break;
 						case PRODUCT_STATUS.REPAY_ING:

@@ -10,7 +10,6 @@
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.tmpl.min.js'}"></script>
-    <script type="text/javascript" src="@{'/public/javascripts/mobile/productList.js'}"></script>
 </head>
 <body>
     <div class="loading-container">
@@ -167,20 +166,20 @@
     </div>
 
     <script id="presellStatusTmpl" type="text/x-jquery-tmpl">
-        <li id="prod${id}" class="item">
+        <li id="prod ${'$'}{prodId}" class="item">
             <div class="clearfix">
                 <h4 class="prodName">
-                    ${prodName}
+                     ${'$'}{prodName}
                 </h4>
                 <div class="prod-details-container" >
                     <div class="section1">
-                        <span >${interestRate}</span>%
+                        <span > ${'$'}{interestRate}</span>%
                     </div>
                     <div class="section2">
-                        限${deadline}
+                        限 ${'$'}{deadline}
                     </div>
                     <div  class="section3">
-                        ${bidMoney}元起投
+                         ${'$'}{bidMoney}元起投
                     </div>
                     <div  class="section4">
                         <i class="product-status-presell"></i>
@@ -207,20 +206,20 @@
         </li>
     </script>
     <script id="sellingStatusTmpl" type="text/x-jquery-tmpl">
-        <li id="prod${id}" class="item">
+        <li id="prod ${'$'}{prodId}" class="item">
             <div class="clearfix">
                 <h4 class="prodName">
-                    ${prodName}
+                    ${'$'}{prodName}
                 </h4>
                 <div class="prod-details-container" >
                     <div class="section1">
-                        <span >${interestRate}</span>%
+                        <span > ${'$'}{interestRate}</span>%
                     </div>
                     <div class="section2">
-                        限${deadline}
+                        限 ${'$'}{deadline}
                     </div>
                     <div  class="section3">
-                        ${bidMoney}元起投
+                         ${'$'}{bidMoney}元起投
                     </div>
                     <div  class="section4">
                         <i class="product-status-bid"></i>
@@ -233,7 +232,7 @@
                         距离结束
                     </span>
                     <span class="countdown-for-end-time">
-                        12小时48分23秒
+                        ${'$'}{sellStartTime}
                     </span>
                 </section>
                 <section class="space"></section>
@@ -244,20 +243,20 @@
         </li>
     </script>
     <script id="repayingStatusTmpl" type="text/x-jquery-tmpl">
-        <li id="prod${id}" class="item">
+        <li id="prod ${'$'}{prodId}" class="item">
             <div class="clearfix">
                 <h4 class="prodName">
-                    ${prodName}
+                     ${'$'}{prodName}
                 </h4>
                 <div class="prod-details-container" >
                     <div class="section1">
-                        <span >${interestRate}</span>%
+                        <span > ${'$'}{interestRate}</span>%
                     </div>
                     <div class="section2">
-                        限${deadline}
+                        限 ${'$'}{deadline}
                     </div>
                     <div  class="section3">
-                        ${bidMoney}元起投
+                        ${'$'}{bidMoney}元起投
                     </div>
                     <div  class="section4">
                         <i class="product-status-repay-ing"></i>
@@ -281,20 +280,20 @@
         </li>
     </script>
     <script id="finishRepayStatusTmpl" type="text/x-jquery-tmpl">
-        <li id="prod${id}" class="item">
+        <li id="prod${'$'}{prodId}" class="item">
             <div class="clearfix">
                 <h4 class="prodName">
-                    ${prodName}
+                    ${'$'}{prodName}
                 </h4>
                 <div class="prod-details-container" >
                     <div class="section1">
-                        <span >${interestRate}</span>%
+                        <span >${'$'}{interestRate}</span>%
                     </div>
                     <div class="section2">
-                        限${deadline}
+                        限${'$'}{deadline}
                     </div>
                     <div  class="section3">
-                        ${bidMoney}元起投
+                        ${'$'}{bidMoney}元起投
                     </div>
                     <div  class="section4">
                         <i class="product-status-finish-repay"></i>
@@ -317,5 +316,6 @@
             </article>
         </li>
     </script>
+    <script type="text/javascript" src="@{'/public/javascripts/mobile/productList.js'}"></script>
 </body>
 </html>

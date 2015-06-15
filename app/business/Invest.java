@@ -3768,7 +3768,7 @@ public class Invest implements Serializable {
         jpql.append(" p.amount as \"totalBidMoney\",");
         jpql.append(" p.status as \"prodStatus\"");
         jpql.append(" from");
-        jpql.append(" v_bids_info_0612 p");
+        jpql.append(" v_bids_info p");
         jpql.append(" where 1=1");
 
         String querySql = "select count(1) from (" + jpql.toString() + ") as rs";
