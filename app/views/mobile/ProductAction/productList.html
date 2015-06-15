@@ -9,461 +9,313 @@
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/product-list.css'}" />
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/jquery.mobile-1.4.3.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.tmpl.min.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/mobile/productList.js'}"></script>
 </head>
 <body>
     <div class="loading-container">
         loading...
     </div>
-    <div id="product-list" class="product-list">
-        <div class="adv_banner" id="banner">
-        <!--首页图片轮换添加div层(其它内容是原来的)-->
-        <div class="scroll-box">
-            <!--banner start-->
-            <ul class="banul" id="banul">
-                <li>
-                    <a style="cursor: default;">
-                        <img src="@{'/public/images/front_ad_1.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                    </a>
-                </li>
-                <li>
-                    <a style="cursor: default;">
-                        <img src="@{'/public/images/front_ad_2.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                    </a>
-                </li>
+    <div id="main" class="product-list">
+        <div class="adv_banner clearfix" id="banner">
+            <!--首页图片轮换添加div层(其它内容是原来的)-->
+            <div class="scroll-box">
+                <!--banner start-->
+                <ul class="banul" id="banul">
+                    <li>
+                        <a style="cursor: default;">
+                            <img src="@{'/public/images/front_ad_1.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a style="cursor: default;">
+                            <img src="@{'/public/images/front_ad_2.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
+                        </a>
+                    </li>
 
-                <li>
-                    <a style="cursor: default;">
-                        <img src="@{'/public/images/front_ad_3.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                    </a>
-                </li>
+                    <li>
+                        <a style="cursor: default;">
+                            <img src="@{'/public/images/front_ad_3.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
+                        </a>
+                    </li>
 
-                <li>
-                    <a style="cursor: default;">
-                        <img src="@{'/public/images/front_ad_4.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                    </a>
-                </li>
+                    <li>
+                        <a style="cursor: default;">
+                            <img src="@{'/public/images/front_ad_4.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
+                        </a>
+                    </li>
 
-                <li>
-                    <a style="cursor: default;" >
-                        <img src="@{'/public/images/front_ad_5.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
-                    </a>
-                </li>
-            </ul>
-            <!--banner end-->
+                    <li>
+                        <a style="cursor: default;" >
+                            <img src="@{'/public/images/front_ad_5.png'}" alt="广告" onerror="this.src='/public/images/default.png'"/>
+                        </a>
+                    </li>
+                </ul>
+                <!--banner end-->
+            </div>
         </div>
-    </div>
-        <div id="productList">
-            <ul>
+        <div id="productListContainer">
+            <ul id="list">
                 <li class="item">
                     <div class="clearfix">
-                        <p>
+                        <h4 class="prodName">
                             新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
+                        </h4>
+                        <div class="prod-details-container" >
+                            <div class="section1">
+                                <span >9.60</span>%
+                            </div>
+                            <div class="section2">
+                                限30天
+                            </div>
+                            <div  class="section3">
+                                1000元起投
+                            </div>
+                            <div  class="section4">
+                                <i class="product-status-presell"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
+                    <article class="item-bottom clearfix">
+                        <section class="time">
+                            <span>
+                                距离开售
+                            </span>
+                            <span class="countdown-for-start-time">
+                                12小时48分23秒
+                            </span>
+                        </section>
+                        <section class="space"></section>
+                        <section class="display-bid-money">
+                            <span style="text-align: right">可投金额：<span>100</span>万元</span>
+                        </section>
+                    </article>
+                    <i class="product-new-bid-icon"></i>
                 </li>
                 <li class="item">
                     <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
+                        <h4 class="prodName">
+                            海通证券理财项目
+                        </h4>
+                        <div class="prod-details-container" >
+                            <div class="section1">
+                                <span >9.60</span>%
+                            </div>
+                            <div class="section2">
+                                限30天
+                            </div>
+                            <div  class="section3">
+                                1000元起投
+                            </div>
+                            <div  class="section4">
+                                <i class="product-status-bid"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
+                    <article class="item-bottom clearfix">
+                        <section class="time">
+                            <span>
+                                距离结束
+                            </span>
+                            <span class="countdown-for-end-time">
+                                12小时48分23秒
+                            </span>
+                        </section>
+                        <section class="space"></section>
+                        <section class="display-bid-money">
+                            <span >剩余金额：<span>100</span>万元</span>
+                        </section>
+                    </article>
                 </li>
                 <li class="item">
                     <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
+                        <h4 class="prodName">
+                            海通证券理财项目
+                        </h4>
+                        <div class="prod-details-container" >
+                            <div class="section1">
+                                <span >浮动</span>
+                            </div>
+                            <div class="section2">
+                                非固定期限
+                            </div>
+                            <div  class="section3">
+                                1万元起投
+                            </div>
+                            <div  class="section4">
+                                <i class="product-status-bid"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
-                </li>
-                <li class="item">
-                    <div class="clearfix">
-                        <p>
-                            新手产品001
-                        </p>
-                        <ul>
-                            <li>
-                                <p>
-                                    年化收益率
-                                </p>
-                                <p>
-                                    <span>8.5</span>%
-                                </p>
-                            </li>
-                            <li>
-                                <p>
-                                    期限7天
-                                </p>
-                                <p>
-                                    1000元起头
-                                </p>
-                            </li>
-                            <li>
-                                <a>投资</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div>
-                        <span>
-                            距离购买结束时间
-                        </span>
-                        <span>
-                            2天12小时48分23秒
-                        </span>
-
-                    </div>
+                    <article class="item-bottom clearfix">
+                        <section class="time">
+                            <span>
+                                距离结束
+                            </span>
+                            <span class="countdown-for-end-time">
+                                12小时48分23秒
+                            </span>
+                        </section>
+                        <section class="space"></section>
+                        <section class="display-bid-money">
+                            <span >剩余金额：<span>1000</span>万元</span>
+                        </section>
+                    </article>
                 </li>
             </ul>
         </div>
     </div>
+
+    <script id="presellStatusTmpl" type="text/x-jquery-tmpl">
+        <li id="prod${id}" class="item">
+            <div class="clearfix">
+                <h4 class="prodName">
+                    ${prodName}
+                </h4>
+                <div class="prod-details-container" >
+                    <div class="section1">
+                        <span >${interestRate}</span>%
+                    </div>
+                    <div class="section2">
+                        限${deadline}
+                    </div>
+                    <div  class="section3">
+                        ${bidMoney}元起投
+                    </div>
+                    <div  class="section4">
+                        <i class="product-status-presell"></i>
+                    </div>
+                </div>
+            </div>
+            <article class="item-bottom clearfix">
+                <section class="time">
+                    <span>
+                        距离开售
+                    </span>
+                    <span class="countdown-for-start-time">
+                        12小时48分23秒
+                    </span>
+                </section>
+                <section class="space"></section>
+                <section class="display-bid-money">
+                    <span style="text-align: right">可投金额：<span>100</span>万元</span>
+                </section>
+            </article>
+            {{if isNewUser}}
+                <i class="product-new-bid-icon"></i>
+            {{/if}}
+        </li>
+    </script>
+    <script id="sellingStatusTmpl" type="text/x-jquery-tmpl">
+        <li id="prod${id}" class="item">
+            <div class="clearfix">
+                <h4 class="prodName">
+                    ${prodName}
+                </h4>
+                <div class="prod-details-container" >
+                    <div class="section1">
+                        <span >${interestRate}</span>%
+                    </div>
+                    <div class="section2">
+                        限${deadline}
+                    </div>
+                    <div  class="section3">
+                        ${bidMoney}元起投
+                    </div>
+                    <div  class="section4">
+                        <i class="product-status-bid"></i>
+                    </div>
+                </div>
+            </div>
+            <article class="item-bottom clearfix">
+                <section class="time">
+                    <span>
+                        距离结束
+                    </span>
+                    <span class="countdown-for-end-time">
+                        12小时48分23秒
+                    </span>
+                </section>
+                <section class="space"></section>
+                <section class="display-bid-money">
+                    <span >剩余金额：<span>100</span>万元</span>
+                </section>
+            </article>
+        </li>
+    </script>
+    <script id="repayingStatusTmpl" type="text/x-jquery-tmpl">
+        <li id="prod${id}" class="item">
+            <div class="clearfix">
+                <h4 class="prodName">
+                    ${prodName}
+                </h4>
+                <div class="prod-details-container" >
+                    <div class="section1">
+                        <span >${interestRate}</span>%
+                    </div>
+                    <div class="section2">
+                        限${deadline}
+                    </div>
+                    <div  class="section3">
+                        ${bidMoney}元起投
+                    </div>
+                    <div  class="section4">
+                        <i class="product-status-repay-ing"></i>
+                    </div>
+                </div>
+            </div>
+            <article class="item-bottom clearfix">
+                <section class="time">
+                    <span>
+                        预计到期时间
+                    </span>
+                    <span>
+                        12小时48分23秒
+                    </span>
+                </section>
+                <section class="space"></section>
+                <section class="display-bid-money">
+                    <span >累计投资金额：<span>100</span>万元</span>
+                </section>
+            </article>
+        </li>
+    </script>
+    <script id="finishRepayStatusTmpl" type="text/x-jquery-tmpl">
+        <li id="prod${id}" class="item">
+            <div class="clearfix">
+                <h4 class="prodName">
+                    ${prodName}
+                </h4>
+                <div class="prod-details-container" >
+                    <div class="section1">
+                        <span >${interestRate}</span>%
+                    </div>
+                    <div class="section2">
+                        限${deadline}
+                    </div>
+                    <div  class="section3">
+                        ${bidMoney}元起投
+                    </div>
+                    <div  class="section4">
+                        <i class="product-status-finish-repay"></i>
+                    </div>
+                </div>
+            </div>
+            <article class="item-bottom clearfix">
+                <section class="time">
+                    <span>
+                        到期时间
+                    </span>
+                    <span>
+                        12小时48分23秒
+                    </span>
+                </section>
+                <section class="space"></section>
+                <section class="display-bid-money">
+                    <span >累计投资金额：<span>100</span>万元</span>
+                </section>
+            </article>
+        </li>
+    </script>
 </body>
 </html>
