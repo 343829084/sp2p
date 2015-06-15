@@ -1,18 +1,14 @@
 package controllers.mobile;
 
 import business.User;
-import com.google.gson.JsonObject;
 import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
 import play.Logger;
 import play.cache.Cache;
-import play.libs.WS;
 import play.mvc.Http;
 import utils.ErrorInfo;
-import utils.ParseClientUtil;
 import utils.RegexUtils;
 import utils.WebChartUtil;
 
@@ -230,29 +226,6 @@ public class LoginAction extends BaseController {
         User.isNameExist(mobile, error);
     }
 
-    private static String registerToFp(ErrorInfo error, String mobile, String password) {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("mobilePhoneNo", mobile);
-        params.put("passWord", password);
-        params.put("channel", "1");
-
-        String authentication_id = null;
-
-        try {
-            WS.HttpResponse httpResponse = WS.url(Constants.FP_REGISTER_URL).setParameters(params).post();
-            Object value = parseFpResponse(httpResponse, error);
-            if(value!= null && value instanceof JSONObject){
-                authentication_id = ((JSONObject)value).getString("authenticationId");
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            Logger.error(e.getMessage());
-            error.code = -1;
-            error.msg = "注册成功,送金豆失败,请联系客服！";
-        }
-
-        return authentication_id;
-    }
 
     /**
      * 理财师注册
@@ -287,24 +260,5 @@ public class LoginAction extends BaseController {
         user.register(error);
     }
 
-    private static Object parseFpResponse(WS.HttpResponse httpResponse, ErrorInfo error) {
-        Object value = null;
-        Logger.info("fp response statusCode:" + httpResponse.getStatus());
-        if (httpResponse.getStatus() == HttpStatus.SC_OK) {
-            JsonObject jsonResult = httpResponse.getJson().getAsJsonObject();
-            Logger.info("fp response result:" + jsonResult);
-
-            Object message = jsonResult.get("message");
-            if (message != null && message instanceof JSONObject) {
-                String severity = ((JSONObject) message).getString("severity");
-                if (!severity.equals("0")) {
-                    error.code = -1;
-                    error.msg = ((JSONObject) message).getString("summary");
-                }
-            }
-            value = jsonResult.get("value");
-        }
-        return value;
-    }
 
 }
