@@ -3,3 +3,4 @@
 require:
     - play
     - com.fasterxml.jackson.dataformat -> jackson-dataformat-xml 2.5.1
+    - org.apache.httpcomponents -> httpclient 4.5
