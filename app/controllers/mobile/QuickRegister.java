@@ -45,6 +45,7 @@ public class QuickRegister extends BaseController {
     }
 
     public static void doQuickLogin() {
+        Logger.info("doQuickLogin");
         ErrorInfo error = new ErrorInfo();
 
         String name = params.get("name");

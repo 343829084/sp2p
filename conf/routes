@@ -2086,7 +2086,7 @@ GET    /mobile/weixin/getOpenId                                                 
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 GET   /mobile/quickLogin                                                       mobile.QuickRegister.quickLogin
 
-POST   /mobile/weixin/quickLogin                                                       mobile.QuickRegister.doQuickLogin
+POST   /mobile/weixin/quickLogin                                                 mobile.QuickRegister.doQuickLogin
 GET   /mobile/qrredirect                                                       mobile.QuickRegister.qrredirect
 
 GET   /mobile/privacy                                                       mobile.QuickRegister.privacy
