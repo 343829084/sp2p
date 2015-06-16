@@ -1,36 +1,38 @@
 package business;
 
+import com.sun.net.ssl.*;
 import constants.Constants;
-import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.TrustStrategy;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 import play.Logger;
+import sun.net.www.protocol.https.HttpsURLConnectionImpl;
 import utils.MD5Util;
+import utils.MyX509TrustManager;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.net.URLConnection;
 import java.security.KeyStore;
 import javax.net.ssl.*;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.KeyManager;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.text.SimpleDateFormat;
@@ -39,7 +41,8 @@ import java.util.*;
 /**
  * Created by libaozhong on 2015/6/11.
  */
-public class RedPacketParam {
+@SuppressWarnings("deprecation")
+public class RedPacketParam   {
     public static final String MCH_ID = Constants.MCH_ID;      //商户号
     public static final String WXAPPID =Constants.WECHAT_APPID;     //公众账号appid
     public static final String NICK_NAME = Constants.REDPACKET_APPLY_NAME;   //提供方名称
@@ -47,6 +50,7 @@ public class RedPacketParam {
     public static final int MIN_VALUE = 100;       //红包最小金额 单位:分
     public static final int MAX_VALUE = 200;       //红包最大金额 单位:分
     public static final int TOTAL_NUM = 1;         //红包发放人数
+    public static final String SUB_MCH_ID  = "123123";         //zishang
     public static  String CLIENT_IP;   //调用接口的机器IP
     public static final String ACT_NAME = "XX";    //活动名称
     public static final String REMARK = "XX";      //备注
@@ -66,13 +70,15 @@ public class RedPacketParam {
         StringBuffer result = new StringBuffer();
         while (it.hasNext()) {
             Map.Entry<String, String> entry = it.next();
-            result.append(entry.getKey())
-                    .append("=")
-                    .append(entry.getValue())
-                    .append("&");
+            if (StringUtils.isNotBlank(entry.getValue())) {
+                result.append(entry.getKey())
+                        .append("=")
+                        .append(entry.getValue())
+                        .append("&");
+            }
         }
         result.append("key=").append(KEY);
-        params.put("sign", MD5Util.getMD5String(result.toString()));
+        params.put("sign", MD5Util.getMD5String(result.toString()).toUpperCase());
     }
     public static synchronized  RedPacketBill getAmount(String openid,String billNo,RedPacket redPacket){
         //该用户获取的随机红包金额
@@ -106,11 +112,29 @@ public class RedPacketParam {
             Map.Entry entry = (Map.Entry) it.next();
             String k = (String) entry.getKey();
             String v = (String) entry.getValue();
-            if ("nick_name".equalsIgnoreCase(k) || "send_name".equalsIgnoreCase(k) || "wishing".equalsIgnoreCase(k) || "act_name".equalsIgnoreCase(k) || "remark".equalsIgnoreCase(k) || "sign".equalsIgnoreCase(k)) {
-                sb.append("<" + k + ">" + "<![CDATA[" + v + "]]></" + k + ">");
-            } else {
-                sb.append("<" + k + ">" + v + "</" + k + ">");
-            }
+     if (
+             "max_value".equalsIgnoreCase(k)||
+                    "min_value ".equalsIgnoreCase(k)||
+                    "total_amount".equalsIgnoreCase(k)||
+                    "mch_id".equalsIgnoreCase(k)||
+                    "total_num".equalsIgnoreCase(k)
+//                    "re_openid".equalsIgnoreCase(k)||
+//                    "client_ip".equalsIgnoreCase(k)||
+//                    "logo_imgurl".equalsIgnoreCase(k)||
+//                    "share_content".equalsIgnoreCase(k)||
+//                    "share_url".equalsIgnoreCase(k)||
+//                    "share_imgurl".equalsIgnoreCase(k)||
+//                    "nick_name".equalsIgnoreCase(k) || "
+//         send_name".equalsIgnoreCase(k) || "wishing".equalsIgnoreCase(k)
+//            || "act_name".equalsIgnoreCase(k) ||
+//             "remark".equalsIgnoreCase(k)
+//                   || "sign".equalsIgnoreCase(k)
+) {
+              sb.append("<" + k + ">" + v + "</" + k + ">");
+          } else {
+            sb.append("<" + k + ">" + "<![CDATA[" + v + "]]></" + k + ">");
+
+         }
         }
         sb.append("</xml>");
         return sb.toString();
@@ -142,10 +166,10 @@ public class RedPacketParam {
         params.put("client_ip", CLIENT_IP);
         params.put("act_name", redPacket.getActName());
         params.put("remark", redPacket.getRemark());
-        params.put("logo_imgurl", redPacket.getLogo_imgurl());
-        params.put("share_content ", redPacket.getContent());
-        params.put("share_url", redPacket.getShare_url());
-        params.put("share_imgurl", redPacket.getShare_imgurl());
+//        params.put("logo_imgurl", redPacket.getLogo_imgurl());
+//        params.put("share_content ", redPacket.getContent());
+//        params.put("share_url", redPacket.getShare_url());
+//        params.put("share_imgurl", redPacket.getShare_imgurl());
         Logger.info("发送红包参数"+params.toString());
         return params;
     }
@@ -196,65 +220,94 @@ public class RedPacketParam {
         }
         return val;
     }
+    private static void trustAllHttpsCertificates() throws Exception {
+        javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
+        javax.net.ssl.TrustManager tm = new miTM();
+        trustAllCerts[0] = tm;
+        javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext
+                .getInstance("SSL");
+        sc.init(null, trustAllCerts, null);
+        javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc
+                .getSocketFactory());
+    }
 
+    static class miTM implements javax.net.ssl.TrustManager,
+            javax.net.ssl.X509TrustManager {
+        public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+            return null;
+        }
+
+        public boolean isServerTrusted(
+                java.security.cert.X509Certificate[] certs) {
+            return true;
+        }
+
+        public boolean isClientTrusted(
+                java.security.cert.X509Certificate[] certs) {
+            return true;
+        }
+
+        public void checkServerTrusted(
+                java.security.cert.X509Certificate[] certs, String authType)
+                throws java.security.cert.CertificateException {
+            return;
+        }
+
+        public void checkClientTrusted(
+                java.security.cert.X509Certificate[] certs, String authType)
+                throws java.security.cert.CertificateException {
+            return;
+        }
+    }
     /**
      * post提交到微信服务器
      *
      * @param requestXML
      * @returnMCH_ID
      */
-    public static String post(String requestXML) throws Exception {
+    public static void post(String requestXML,FileInputStream inputStream) throws Exception {
         Logger.info("执行发送红包开始");
-        KeyStore keyStore  = KeyStore.getInstance("PKCS12");
-        FileInputStream inputStream = new FileInputStream("F:/404/apiclient_cert.p12");
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
         try {
             keyStore.load(inputStream, MCH_ID.toCharArray());
-        }finally {
-            inputStream.close();
-            }
-            // Trust own CA and all self-signed certs
-        SSLContext sslcontext = SSLContexts.custom()
-                .loadKeyMaterial(keyStore, MCH_ID.toCharArray())
-                .build();
-        // Allow TLSv1 protocol only
-        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
-                sslcontext,
-                new String[] { "TLSv1" },
-                null,
-                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
-        CloseableHttpClient httpClient = HttpClients.custom()
-                .setSSLSocketFactory(sslsf)
-                .build();
-        String result = "";
-       try {
-           HttpPost postMethod = new HttpPost("https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack");
-           StringEntity reqEntity = new StringEntity(requestXML, "utf-8"); //如果此处编码不对，可能导致客户端签名跟微信的签名不一致
-           reqEntity.setContentType("application/x-www-form-urlencoded");
-           postMethod.setEntity(reqEntity);
-
-           CloseableHttpResponse response = httpClient.execute(postMethod);
-           Logger.info("执行发送红包完成");
-           try {
-               HttpEntity entity = response.getEntity();
-               if (entity != null) {
-                   BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent(),"UTF-8"));
-                   String text;
-                   while ((text = bufferedReader.readLine()) != null) {
-                       result +=text;
-                   }
-               }
-               EntityUtils.consume(entity);
-           } finally {
-               response.close();
-           }
-
-
-       }catch(Exception e){
-
         } finally {
-           httpClient.close();
-
+            inputStream.close();
         }
 
-        return null;}
+        String result = null;
+
+        KeyManager[] managers;
+        SSLContext context = SSLContext.getInstance("TLS");
+        KeyManagerFactory keyManagerFactory =
+                KeyManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        keyManagerFactory.init(keyStore,MCH_ID.toCharArray());
+        managers = keyManagerFactory.getKeyManagers();
+        context.init(managers, null, null);
+        URL url = new URL("https://api.mch.weixin.qq.com/mmpaymkttransfers/sendredpack");
+        HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
+        SSLSocketFactory socketFactory = context.getSocketFactory();
+        con.setSSLSocketFactory(socketFactory);
+        con.setRequestMethod("POST");
+        con.setDoOutput(true);
+        DataOutputStream out = new DataOutputStream(con.getOutputStream());
+         out.write(requestXML.getBytes());
+        out.flush();
+        out.close();
+        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+      int code = con.getResponseCode();
+      if (HttpsURLConnection.HTTP_OK == code){
+      String temp = in.readLine();
+       /*连接成一个字符串*/
+     while (temp != null) {
+        if (result != null)
+         result += temp;
+          else
+       result = temp;
+    temp = in.readLine();
+
+  }
+          Logger.info(result);
+     }
+
+    }
 }

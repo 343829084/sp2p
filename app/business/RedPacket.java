@@ -26,7 +26,6 @@ public class RedPacket {
     private String share_imgurl  ; //分享链接
     private String wishing  ; //祝福语1
     private Integer over  ; //红包是否结束
-
     private Integer couple  ; //红包可以重复领取1.可以 2不可以
     public Integer getCouple() {
         return couple;
@@ -190,21 +189,21 @@ public class RedPacket {
     public void queryRedPacket() {
         if(this.getId()!=null){
             this.activityId=123;
-            this.actName="抢红包";
-            this.balance=10000;
-            this.content="参加注册送好礼";
-            this.logo_imgurl= "https://api-2.sunlights.me/resources/img/banner/banner_register.png";
-            this.maxValue=100;
-            this.minValue=10;
-            this.remark="分享快乐,分享财富";
+            this.actName="qianghngbao";
+            this.balance=1000;
+//            this.content="registertogit";
+//            this.logo_imgurl= "https://api-2.sunlights.me/resources/img/banner/banner_register.png";
+            this.maxValue=1000;
+            this.minValue=1000;
+            this.remark="remark";
             this.send=20000;
             this.sendNum=100;
-            this.share_url="https://api-2.sunlights.me/activity/register.html";
-            this.share_imgurl= "https://api-2.sunlights.me/resources/img/banner/banner_register.png";
+//            this.share_url="https://api-2.sunlights.me/activity/register.html";
+//            this.share_imgurl= "https://api-2.sunlights.me/resources/img/banner/banner_register.png";
             this.time=new Date();
-            this.total=200000;
-            this.totalNum=200;
-            this.wishing="祝你赚取人生,获得财富";
+            this.total=1000;
+            this.totalNum=1;
+            this.wishing="wishto";
         }
     }
 }

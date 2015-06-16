@@ -20,9 +20,7 @@ import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.WebChartUtil;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
@@ -36,7 +34,7 @@ public class WeChatAction extends BaseController {
 
     public static void authentication() throws IOException {
         play.mvc.Http.Response.current().setHeader("contentType", "text/html; charset=utf-8");
-        WebChartUtil.getCertInstream();
+        final java.io.InputStream certInstream = WebChartUtil.getCertInstream();
         String result = "";
         /** 判断是否是微信接入激活验证，只有首次接入验证时才会收到echostr参数，此时需要把它直接返回 */
         Http.Request reuqets = Http.Request.current();
@@ -94,10 +92,11 @@ public class WeChatAction extends BaseController {
         String code= params.get("code");
         String status= params.get("state");
         String mobile= params.get("mobile");
+        String redpacketId= params.get("redpacketId");
         Logger.info("code为：" + code + "status:" + status);
-        String openId= null;
+       String openId= "21323123123eqweqweq";
 
-        openId= getOpenIdAndSessionToken(code);
+       // openId= getOpenIdAndSessionToken(code);
 
         if (openId == null) {//请求过期失效
             renderTemplate("mobile/WeChatAction/weChatFailTip.html");
@@ -130,7 +129,7 @@ public class WeChatAction extends BaseController {
             showOpenId(openId);
         }else if(status.equals(Constants.WEIXINSTATUS.SENDPACKET)) {
             Logger.info("showOpenId openid:" + openId + "status:" + status);
-           sendPacketPost(openId,mobile);
+           sendPacketPost(openId,redpacketId);
 
         } else{
             //TODO
@@ -140,6 +139,7 @@ public class WeChatAction extends BaseController {
     }
 
          private static void sendPacketPost(String openId,String redPacketId) throws Exception {
+             final java.io.FileInputStream certInstream = WebChartUtil.getCertInstream();
              Logger.info("进入红包方法：" + openId);
              RedPacket redPacket=new RedPacket();
              redPacket.setId(Long.parseLong(redPacketId));
@@ -157,7 +157,7 @@ public class WeChatAction extends BaseController {
                   RedPacketParam.sign(map);
                   String requestXML = RedPacketParam.getRequestXml(map);
                   Logger.info("开始发红包："+requestXML);
-                  String redPackert = RedPacketParam.post(requestXML);
+                  RedPacketParam.post(requestXML, certInstream);
 
               }
          }
@@ -215,24 +215,24 @@ public class WeChatAction extends BaseController {
         JSONObject jsonOne = new JSONObject();
         jsonOne.put("mobile",mobile);
         jsonOne.put("openId",openId);
-        jsonOne.put("name",name);
-        renderTemplate("mobile/QuickRegister/quickRegister.html", jsonOne,fpHots);
+        jsonOne.put("name", name);
+        renderTemplate("mobile/QuickRegister/quickRegister.html", jsonOne, fpHots);
     }
 
     private static void weChatLogin(User user, String name,String openId, ErrorInfo error){
-               Logger.info("weChatLogin:openid"+openId);
+               Logger.info("weChatLogin:openid" + openId);
         if (name == null) {
             Logger.info("weChatLogin:name为空");
             renderTemplate("mobile/LoginAction/login.html", openId);
         }
         user.name = name;
-        Logger.info("userId"+user.id);
+        Logger.info("userId" + user.id);
         if (user.id < 0) {
             error.code = -1;
             error.msg = "该用户名不存在";
             renderTemplate("mobile/LoginAction/register.html", openId);
         }
-        Logger.info("userId"+user.id+"登录");
+        Logger.info("userId" + user.id + "登录");
         user.loginCommon(error);
         if (error.code < 0) {
             Logger.info("userId"+user.id+"登录错误");
