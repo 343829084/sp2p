@@ -18,7 +18,7 @@
 #{extends 'mobile/common/frmMain.html'/}
 #{set title:'产品列表' /}
     <div class="loading-container">
-        loading...
+        <i class="loading-icon"></i>
     </div>
     <div id="main" class="product-list">
         <div class="adv_banner clearfix" id="banner">
@@ -181,6 +181,7 @@
 
     <script id="presellStatusTmpl" type="text/x-jquery-tmpl">
         <li id="prod${'$'}{prodId}" class="item">
+            <a>
             <div class="clearfix">
                 <h4 class="prodName">
                      ${'$'}{prodName}
@@ -216,10 +217,11 @@
             {{if isNewUser}}
                 <i class="product-new-bid-icon"></i>
             {{/if}}
+            <a>
         </li>
     </script>
     <script id="sellingStatusTmpl" type="text/x-jquery-tmpl">
-        <li id="prod${'$'}{prodId}" class="item">
+        <li id="prod${'$'}{prodId}" class="item" data-myid="${'$'}{prodId}" onclick="Business.productClickHandler(event, this)">
             <div class="clearfix">
                 <h4 class="prodName">
                     ${'$'}{prodName}
