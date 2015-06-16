@@ -47,8 +47,7 @@ public class WeChatAction extends BaseController {
         Logger.info("POST 方法接收");
         StringBuffer sb = new StringBuffer();
         Logger.info("建立字符串");
-        Logger.info(Http.Request.current().params.toString());
-        Logger.info(Http.Request.current().params.toString());
+        Logger.info(Http.Request.current().params.get("body"));
         Logger.info(Http.Request.current().headers.toString());
         java.io.InputStream is =  Http.Request.current().body;
         Logger.info("解析Body");
