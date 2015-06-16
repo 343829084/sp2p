@@ -37,7 +37,7 @@ public class QuickRegister extends BaseController {
     public static void quickLogin(){
         String repeat= params.get("repeat");
         String mobile= params.get("mobile");
-        if(repeat!=null && !repeat.equals("yes")) {
+        if(repeat==null) {
             if (ParseClientUtil.isWeiXin()) {
                 String url = WebChartUtil.buildWeChatGateUrl("4", mobile);
                 Logger.info("url：" + url);

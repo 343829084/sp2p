@@ -79,7 +79,7 @@ public class WeChatAction extends BaseController {
             os.flush();
             os.close();
         }catch (Exception e){
-
+     Logger.info(e.getMessage());
         }
 
     }
