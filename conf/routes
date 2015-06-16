@@ -916,6 +916,9 @@ GET   /supervisor/toBlank                        						        supervisor.login.
 GET   /supervisor/activity/red/packets                                          supervisor.activity.RedPacketController.index
 GET   /supervisor/activity/red/packet/detail                                    supervisor.activity.RedPacketController.detail
 POST  /supervisor/activity/red/packet                                           supervisor.activity.RedPacketController.save
+GET   /supervisor/activity/red/packet                                           supervisor.activity.RedPacketController.findRedPacket
+GET   /supervisor/activity/red/packet/bills                                     supervisor.activity.RedPacketBillController.index
+GET   /supervisor/activity/red/packet/bill                                      supervisor.activity.RedPacketBillController.saveRedPacketBill
 
 # ***********************************************用户中心*****************************************************
 GET    /supervisor/account/home                            						supervisor.account.AccountAction.home

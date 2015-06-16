@@ -11,7 +11,7 @@ CREATE TABLE
         add_time TIMESTAMP COMMENT '红包领取时间',
         return_code INT COMMENT '红包领取结果1.失败2.成功',
         return_message VARCHAR(100) COMMENT '返回信息',
-        remark VARCHAR(500) COMMENT '备注'
+        remark VARCHAR(500) COMMENT '备注',
         PRIMARY KEY (id)
     )
     ENGINE=InnoDB DEFAULT CHARSET=utf8

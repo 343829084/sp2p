@@ -2,9 +2,7 @@ package models;
 
 import play.db.jpa.Model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -21,6 +19,7 @@ public class RedPacketBillModel extends Model {
     private String openId; //领取红包的openid
     @Column(name = "amount")
     private BigDecimal amount; //领取红包的金额
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "add_time")
     private Date addTime; //红包领取时间
     @Column(name = "return_code")
@@ -28,7 +27,7 @@ public class RedPacketBillModel extends Model {
     @Column(name = "remark")
     private String remark; //备注用于记录微信返回json
     @Column(name = "red_packet_id")
-    private Integer redPacketId; //红包id
+    private Long redPacketId; //红包id
     @Column(name = "return_message")
     private Integer returnMessage;
 
@@ -80,11 +79,11 @@ public class RedPacketBillModel extends Model {
         this.remark = remark;
     }
 
-    public Integer getRedPacketId() {
+    public Long getRedPacketId() {
         return redPacketId;
     }
 
-    public void setRedPacketId(Integer redPacketId) {
+    public void setRedPacketId(Long redPacketId) {
         this.redPacketId = redPacketId;
     }
 

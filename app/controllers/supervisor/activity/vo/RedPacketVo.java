@@ -27,6 +27,7 @@ public class RedPacketVo {
     private String wishing;  //祝福语
     private String status; //红包是否已结1.未结束2.结束
     private Integer couple; //领取次数
+    private Integer userCouple; //用户已领取次数
 
     public RedPacketVo() {
     }
@@ -222,5 +223,13 @@ public class RedPacketVo {
 
     public void setCouple(Integer couple) {
         this.couple = couple;
+    }
+
+    public Integer getUserCouple() {
+        return userCouple;
+    }
+
+    public void setUserCouple(Integer userCouple) {
+        this.userCouple = userCouple;
     }
 }
