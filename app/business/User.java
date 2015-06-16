@@ -268,6 +268,7 @@ public class User extends UserBase implements Serializable{
 		
 		this.recommendUserId = user.recommend_user_id;
 		this.recommendRewardType = user.recommend_reward_type;
+        this.recommend_user_code=user.mobile;//设置缓存有用 目前默认是手机
 		
 		this.masterIdentity = user.master_identity;
 		this.vipStatus = user.vip_status;
@@ -1189,12 +1190,12 @@ public class User extends UserBase implements Serializable{
 		}
 		
 		this.id = user.id;
-        if(StringUtils.isNotBlank(this.recommendUserName)) {
+        if(StringUtils.isNotBlank(this.recommendUserName)) {//如果是理财是推荐的则存入关联表
             if(this.recommendUserId > 0) {
                 Long id = null;
                 try {
                     id = t_cfp.find("SELECT id FROM t_cfp WHERE T_USERS_ID=? ", this.recommendUserId).first();
-                    if (null != id) {
+                    if (null != id) {//如果是理财是推荐的则存入关联表
 
                         t_users_cfp usercfp = new t_users_cfp();
                         usercfp.createtime = new Date();
