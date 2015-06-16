@@ -17,15 +17,21 @@ public class WechatProcess {
         Logger.info(xmlEntity.getMsgType());
         if("text".endsWith(xmlEntity.getMsgType())){
             Logger.info(xmlEntity.getContent());
-            if(xmlEntity.getContent().equalsIgnoreCase("我要红包"));
             Logger.info("xmlEntity.getContent()");
+            if(xmlEntity.getContent().equalsIgnoreCase("我要红包")){
+                result = new FormatXmlProcess().formatLinkXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(),
+                        "加薪猫送红包","点击领取红包","http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1",new Long("1234567890123456").toString());
+            };
+
+
         //    result = new TulingApiProcess().getTulingResult(xmlEntity.getContent());
+        }else{
+            result = new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), result);
         }
 
         /** 此时，如果用户输入的是“你好”，在经过上面的过程之后，result为“你也好”类似的内容
          *  因为最终回复给微信的也是xml格式的数据，所有需要将其封装为文本类型返回消息
          * */
-        result = new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), result);
 
         return result;
     }
