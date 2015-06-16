@@ -1,6 +1,13 @@
 #{extends 'common/supervisor.html' /}
 #{set title:'微信送红包详情页面' /}
 <div>
+#{ifErrors}
+    <ul>
+        #{errors}
+            <li>${error.message()}</li>
+        #{/errors}
+    </ul>
+#{/ifErrors}
 #{form @supervisor.activity.RedPacketController.save(), id:'redPacketForm'}
     <table>
         <input type="hidden" name="id" value="${redPacketVo?.getId()}"/>

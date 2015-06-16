@@ -6,6 +6,7 @@ import controllers.BaseController;
 import controllers.supervisor.activity.service.RedPacketService;
 import controllers.supervisor.activity.vo.RedPacketVo;
 import play.Logger;
+import play.data.validation.Validation;
 
 import java.util.List;
 import java.util.Map;
@@ -36,11 +37,35 @@ public class RedPacketController extends BaseController {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             RedPacketVo redPacketVo = objectMapper.convertValue(map, RedPacketVo.class);
+            validation.required("actName", redPacketVo.getActName());
+            validation.required("content", redPacketVo.getContent());
+            validation.required("total", redPacketVo.getTotal());
+            validation.required("minValue", redPacketVo.getMinValue());
+            validation.required("maxValue", redPacketVo.getMaxValue());
+            validation.min("total", redPacketVo.getTotal(), 0.00);
+            validation.min("minValue", redPacketVo.getMinValue(), 0.00);
+            validation.min("maxValue", redPacketVo.getMaxValue(), 0.00);
+            validation.max("maxValue", redPacketVo.getMaxValue(), 200.00);
+            if (redPacketVo.getMinValue() != null) {
+                validation.min("maxValue", redPacketVo.getMaxValue(), redPacketVo.getMinValue().doubleValue());
+            }
+            if (redPacketVo.getTotal() != null) {
+                validation.max("maxValue", redPacketVo.getMaxValue(), redPacketVo.getTotal().doubleValue());
+            }
+            validation.min("totalNum", redPacketVo.getTotalNum(), 0);
+            validation.min("couple", redPacketVo.getCouple(), 0);
+            if (validation.hasErrors()) {
+                params.flash();
+                validation.keep();
+                detail(id);
+            }
             redPacketService.save(redPacketVo);
             index();
         } catch (Exception e) {
             e.printStackTrace();
             Logger.error(e.getMessage(), e);
+            Validation.addError("failure", "%s:请重新操作");
+            validation.keep();
             detail(id);
         }
 
