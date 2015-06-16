@@ -109,7 +109,7 @@ public class WeChatAction extends BaseController {
         String code= params.get("code");
         String status= params.get("state");
         String mobile= params.get("mobile");
-        Logger.info("code为：" + code + "status:" + status);
+        Logger.info("code为：" + code + "status:" + status+"mobile"+mobile);
         String openId=null;
 
        openId= getOpenIdAndSessionToken(code);
