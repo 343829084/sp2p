@@ -1,13 +1,18 @@
 package business;
 
 import constants.Constants;
+import controllers.supervisor.activity.RedPacketController;
+import controllers.supervisor.activity.service.RedPacketService;
+import controllers.supervisor.activity.vo.RedPacketVo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
  * Created by libaozhong on 2015/6/11.
  */
 public class RedPacket {
+    private static RedPacketService redPacketService = new RedPacketService();
     private Long id;
     private Integer total;     //   红包总金额  单位分
     private Integer balance;   //   红包余额 单位分
@@ -186,23 +191,25 @@ public class RedPacket {
         this.time = time;
     }
 
-    public void queryRedPacket() {
-        if(this.getId()!=null){
-            this.activityId=123;
-            this.actName="抢红包";
-            this.balance=1000;
+    public RedPacket queryRedPacket(Long redPacketId,String opend) {
+        RedPacketVo redPacketVo = redPacketService.findRedPacketVoBy(redPacketId,opend);
+        if(redPacketVo!=null){
+            this.activityId=redPacketVo.getId().intValue() ;
+            this.actName=redPacketVo.getActName();
+            this.balance=redPacketVo.getBalance().multiply(new BigDecimal(100)).intValue();
 //            this.content="registertogit";
 //            this.logo_imgurl= "https://api-2.sunlights.me/resources/img/banner/banner_register.png";
-            this.maxValue=200;
-            this.minValue=100;
-            this.remark="remark";
-            this.send=20000;
-            this.sendNum=100;
+            this.maxValue=redPacketVo.getMaxValue().multiply(new BigDecimal(100)).intValue();
+            this.minValue=redPacketVo.getMinValue().multiply(new BigDecimal(100)).intValue();
+            this.remark=redPacketVo.getRemark();
+            this.send=redPacketVo.getSend().multiply(new BigDecimal(100)).intValue();
+            this.sendNum=redPacketVo.getSendNum();
 //            this.share_url="https://api-2.sunlights.me/activity/register.html";
 //            this.share_imgurl= "https://api-2.sunlights.me/resources/img/banner/banner_register.png";
             this.time=new Date();
-            this.total=1000;
-            this.totalNum=1;
+            this.total=redPacketVo.getTotal().multiply(new BigDecimal(100)).intValue();
+            this.totalNum=redPacketVo.getTotalNum();
         }
+        return this;
     }
 }

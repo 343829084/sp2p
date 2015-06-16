@@ -1,11 +1,14 @@
 package business;
 
+import controllers.supervisor.activity.service.RedPacketBillService;
+
 import java.util.Date;
 
 /**
  * Created by libaozhong on 2015/6/11.
  */
 public class RedPacketBill {
+    private RedPacketBillService redPacketBillService = new RedPacketBillService();
     private Long id;    //
     private String billNo;     // 红包订单号
     private String openid;     // 领取红包的openID
@@ -80,8 +83,8 @@ public class RedPacketBill {
     }
 
 
-    public RedPacketBill getBillByOpenId(String openId,String redpacketId) {
-   return null;
+    public void saveRedPacketBill(RedPacketBill redPacketBill) {
+        redPacketBillService.save(redPacketBill);
     }
 
     public String getReturnMsg() {

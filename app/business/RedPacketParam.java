@@ -3,6 +3,7 @@ package business;
 
 import com.google.gson.JsonObject;
 import constants.Constants;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -281,8 +282,8 @@ public class RedPacketParam   {
      * @param requestXML
      * @returnMCH_ID
      */
-    public static JsonObject post(String requestXML, FileInputStream inputStream, String openId, String redpacketId) throws Exception {
-        JsonObject json=new JsonObject();
+    public static JSONObject post(String requestXML, FileInputStream inputStream, String openId, String redpacketId) throws Exception {
+        JSONObject json=new JSONObject();
         Long redPack=Long.parseLong(redpacketId);
         Logger.info("执行发送红包开始");
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
@@ -327,11 +328,14 @@ public class RedPacketParam   {
               Logger.info(result);
               RedPacketBill resultBill= parseXml(result,openId,redPack);
           if(resultBill!=null) {
-              json.addProperty("code", resultBill.getResult());
-              json.addProperty("msg", resultBill.getReturnMsg());
+              json.put("code", resultBill.getResult());
+              json.put("msg", resultBill.getReturnMsg());
+              if(resultBill.getResult()==1){
+                  resultBill.saveRedPacketBill(resultBill);
+              }
           }else{
-              json.addProperty("code", 0);
-              json.addProperty("msg", "发送失败");
+              json.put("code", 0);
+              json.put("msg", "发送失败");
           }
      }
         return json;

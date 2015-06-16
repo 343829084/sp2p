@@ -18,6 +18,7 @@ import sun.beans.editors.LongEditor;
 import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.WebChartUtil;
+import utils.WechatProcess;
 
 import java.io.*;
 import java.net.UnknownHostException;
@@ -154,28 +155,35 @@ public class WeChatAction extends BaseController {
         }
     }
 
-         private static void sendPacketPost(String openId,String redPacketId) throws Exception {
+         private static JSONObject sendPacketPost(String openId,String redPacketId) throws Exception {
+             JSONObject josn= new JSONObject();
              Logger.info("进入红包方法：" + openId);
              RedPacket redPacket=new RedPacket();
              redPacket.setId(Long.parseLong(redPacketId));
-             redPacket.queryRedPacket();
-             if(redPacket.getOver()!=null && redPacket.getOver().intValue()==2){
-                 return;//红包作废
-             }
+             RedPacket redEntity = redPacket.queryRedPacket(redPacket.getId(), openId);
+            if(redEntity.getBalance()==null ||redEntity.getBalance().intValue() > 100){
+                josn.put("code", 0);
+                josn.put("msg", "余额不足");
+                return josn;
+            }
              String billNum = RedPacketParam.createBillNo(openId.substring(0, 6));
              RedPacketBill redPacketBill =new RedPacketBill();
-             RedPacketBill result = redPacketBill.getBillByOpenId(openId, redPacketId);//红包是否已经发过
-              if(result==null||(redPacket.getCouple()!=null &&redPacket.getCouple().intValue()==2) ){
-                  Logger.info("红包未发放可以发：" + openId);
-                  RedPacketBill redPacketBillResult = RedPacketParam.getAmount(openId, billNum, redPacket);
-                  SortedMap<String, String> map = RedPacketParam.createMap(billNum, redPacket, openId, redPacketBillResult.getAmount());
-                  RedPacketParam.sign(map);
-                  FileInputStream certInstream = WebChartUtil.getCertInstream();
-                  String requestXML = RedPacketParam.getRequestXml(map);
-                  Logger.info("开始发红包："+requestXML);
-                  RedPacketParam.post(requestXML, certInstream,openId,redPacketId);
-
-              }
+             try {
+                 Logger.info("红包未发放可以发：" + openId);
+                 RedPacketBill redPacketBillResult = RedPacketParam.getAmount(openId, billNum, redPacket);
+                 SortedMap<String, String> map = RedPacketParam.createMap(billNum, redPacket, openId, redPacketBillResult.getAmount());
+                 RedPacketParam.sign(map);
+                 FileInputStream certInstream = WebChartUtil.getCertInstream();
+                 String requestXML = RedPacketParam.getRequestXml(map);
+                 Logger.info("开始发红包：" + requestXML);
+                 josn = RedPacketParam.post(requestXML, certInstream, openId, redPacketId);
+                 return josn;
+             }catch(Exception e){
+                Logger.error(e.getMessage());
+                 josn.put("code", 0);
+                 josn.put("msg", e.getMessage());
+                 return josn;
+             }
          }
 
 
@@ -229,8 +237,8 @@ public class WeChatAction extends BaseController {
     private static void  webChartQuickRegister(User user, String name, String openId,String mobile){
         String fpHots= Constants.FP_HOST;
         JSONObject jsonOne = new JSONObject();
-        jsonOne.put("mobile",mobile);
-        jsonOne.put("openId",openId);
+        jsonOne.put("mobile", mobile);
+        jsonOne.put("openId", openId);
         jsonOne.put("name", name);
         renderTemplate("mobile/QuickRegister/quickRegister.html", jsonOne, fpHots);
     }
