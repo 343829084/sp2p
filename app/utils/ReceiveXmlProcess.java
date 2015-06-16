@@ -3,6 +3,7 @@ package utils;
 import business.ReceiveXmlEntity;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import play.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -18,6 +19,7 @@ public class ReceiveXmlProcess {
      * @return
      */
     public ReceiveXmlEntity getMsgEntity(String strXml){
+        Logger.info(strXml);
         ReceiveXmlEntity msg = null;
         try {
             if (strXml.length() <= 0 || strXml == null)

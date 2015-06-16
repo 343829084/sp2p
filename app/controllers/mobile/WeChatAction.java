@@ -68,7 +68,7 @@ public class WeChatAction extends BaseController {
                 sb.append(s);
             }
             String xml = sb.toString(); //次即为接收到微信端发送过来的xml数据
-            Logger.info(sb.toString());
+            Logger.info("接收到字符串:"+sb.toString());
             String result = new WechatProcess().processWechatMag(xml);
             OutputStream os = Http.Response.current().out;
             os.write(result.getBytes("UTF-8"));
@@ -119,9 +119,9 @@ public class WeChatAction extends BaseController {
         String status= params.get("state");
         String mobile= params.get("mobile");
         Logger.info("code为：" + code + "status:" + status);
-        String openId= "ooLV5uDwMOeGHY0xqQrkUTr-lxTA";
+        String openId=null;
 
-       // openId= getOpenIdAndSessionToken(code);
+       openId= getOpenIdAndSessionToken(code);
 
         if (openId == null) {//请求过期失效
             renderTemplate("mobile/WeChatAction/weChatFailTip.html");

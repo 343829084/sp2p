@@ -8,6 +8,7 @@ import play.Logger;
  */
 public class WechatProcess {
     public String processWechatMag(String xml){
+        Logger.info("WechatProcess.processWechatMag");
         /** 解析xml数据 */
         ReceiveXmlEntity xmlEntity = new ReceiveXmlProcess().getMsgEntity(xml);
 
