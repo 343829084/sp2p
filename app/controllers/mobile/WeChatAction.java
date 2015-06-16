@@ -20,7 +20,7 @@ import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.WebChartUtil;
 
-import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.UnknownHostException;
@@ -129,7 +129,7 @@ public class WeChatAction extends BaseController {
             showOpenId(openId);
         }else if(status.equals(Constants.WEIXINSTATUS.SENDPACKET)) {
             Logger.info("showOpenId openid:" + openId + "status:" + status);
-           sendPacketPost(openId,redpacketId);
+           sendPacketPost(openId,mobile);
 
         } else{
             //TODO
@@ -150,10 +150,11 @@ public class WeChatAction extends BaseController {
              RedPacketBill redPacketBill =new RedPacketBill();
              RedPacketBill result = redPacketBill.getBillByOpenId(openId, redPacketId);//红包是否已经发过
               if(result==null||(redPacket.getCouple()!=null &&redPacket.getCouple().intValue()==2) ){
-                  Logger.info("红包未发放可以发："+openId);
+                  Logger.info("红包未发放可以发：" + openId);
                   RedPacketBill redPacketBillResult = RedPacketParam.getAmount(openId, billNum, redPacket);
                   SortedMap<String, String> map = RedPacketParam.createMap(billNum, redPacket, openId, redPacketBillResult.getAmount());
                   RedPacketParam.sign(map);
+                  FileInputStream certInstream = WebChartUtil.getCertInstream();
                   String requestXML = RedPacketParam.getRequestXml(map);
                   Logger.info("开始发红包："+requestXML);
                   RedPacketParam.post(requestXML, certInstream);

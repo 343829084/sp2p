@@ -61,13 +61,13 @@ public  class WebChartUtil {
         return url;
     }
     public static FileInputStream getCertInstream() throws IOException {
-        if (root.isDirectory()) {
-            root.listFiles();
-        }
-        VirtualFile appRoot = VirtualFile.open(root);
-        VirtualFile routes = appRoot.child("conf/apiclient_cert.p12");
-        String fileNem = routes.getName();
-        File fileResult = routes.getRealFile();
+//        if (root.isDirectory()) {
+//            root.listFiles();
+//        }
+//        VirtualFile appRoot = VirtualFile.open(root);
+//        VirtualFile routes = appRoot.child("conf/apiclient_cert.p12");
+//        String fileNem = routes.getName();
+//        File fileResult = routes.getRealFile();
         FileInputStream fio=new FileInputStream("F:/cert/cert/apiclient_cert.p12");
         return fio;
     }
