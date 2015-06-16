@@ -129,7 +129,7 @@ public class WeChatAction extends BaseController {
             showOpenId(openId);
         }else if(status.equals(Constants.WEIXINSTATUS.SENDPACKET)) {
             Logger.info("showOpenId openid:" + openId + "status:" + status);
-           sendPacketPost(openId,mobile);
+           sendPacketPost(openId,redpacketId);
 
         } else{
             //TODO
@@ -156,7 +156,7 @@ public class WeChatAction extends BaseController {
                   RedPacketParam.sign(map);
                   String requestXML = RedPacketParam.getRequestXml(map);
                   Logger.info("开始发红包："+requestXML);
-                  String redPackert = RedPacketParam.post(requestXML);
+                  RedPacketParam.post(requestXML, certInstream);
 
               }
          }
@@ -214,24 +214,24 @@ public class WeChatAction extends BaseController {
         JSONObject jsonOne = new JSONObject();
         jsonOne.put("mobile",mobile);
         jsonOne.put("openId",openId);
-        jsonOne.put("name",name);
-        renderTemplate("mobile/QuickRegister/quickRegister.html", jsonOne,fpHots);
+        jsonOne.put("name", name);
+        renderTemplate("mobile/QuickRegister/quickRegister.html", jsonOne, fpHots);
     }
 
     private static void weChatLogin(User user, String name,String openId, ErrorInfo error){
-               Logger.info("weChatLogin:openid"+openId);
+               Logger.info("weChatLogin:openid" + openId);
         if (name == null) {
             Logger.info("weChatLogin:name为空");
             renderTemplate("mobile/LoginAction/login.html", openId);
         }
         user.name = name;
-        Logger.info("userId"+user.id);
+        Logger.info("userId" + user.id);
         if (user.id < 0) {
             error.code = -1;
             error.msg = "该用户名不存在";
             renderTemplate("mobile/LoginAction/register.html", openId);
         }
-        Logger.info("userId"+user.id+"登录");
+        Logger.info("userId" + user.id + "登录");
         user.loginCommon(error);
         if (error.code < 0) {
             Logger.info("userId"+user.id+"登录错误");

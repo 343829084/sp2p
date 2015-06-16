@@ -60,18 +60,17 @@ public  class WebChartUtil {
         Logger.info("链接为:"+url);
         return url;
     }
-    public static String getCertInstream() throws IOException {
-       if(root.isDirectory()){
-           root.listFiles();
-       }
+    public static FileInputStream getCertInstream() throws IOException {
+        if (root.isDirectory()) {
+            root.listFiles();
+        }
         VirtualFile appRoot = VirtualFile.open(root);
         VirtualFile routes = appRoot.child("conf/apiclient_cert.p12");
         String fileNem = routes.getName();
-      //  InputStream inputStream = routes.inputstream();
-           FileInputStream is= new FileInputStream(root);
-        FileDescriptor fileDescipt = is.getFD();
-                return null;
-            };
+        File fileResult = routes.getRealFile();
+        FileInputStream fio=new FileInputStream("F:/cert/cert/apiclient_cert.p12");
+        return fio;
+    }
 
     public  static String buildRequestOpenIdUrl(String code){
         String url = WeChatConstants.CODEEXCHANGEOPENID;

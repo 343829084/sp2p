@@ -80,6 +80,6 @@ public class RedPacketBill {
 
 
     public RedPacketBill getBillByOpenId(String openId,String redpacketId) {
-return null;
+   return null;
     }
 }
