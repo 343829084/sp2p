@@ -72,6 +72,7 @@ public class WeChatAction extends BaseController {
     }
     public static void sendPacket(){
         String redPacketId=params.get("redPacketId");
+
         if (ParseClientUtil.isWeiXin()) {
             String url = WebChartUtil.buildWeChatGateUrl("7",redPacketId);
             Logger.info("url：" + url);
