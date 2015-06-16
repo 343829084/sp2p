@@ -2,7 +2,7 @@ package controllers.supervisor.activity;
 
 import business.PageVo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import controllers.BaseController;
+import controllers.supervisor.SupervisorController;
 import controllers.supervisor.activity.service.RedPacketService;
 import controllers.supervisor.activity.vo.RedPacketVo;
 import play.Logger;
@@ -13,7 +13,7 @@ import java.util.Map;
 /**
  * Created by Yuan on 2015/6/16.
  */
-public class RedPacketController extends BaseController {
+public class RedPacketController extends SupervisorController {
 
     private static RedPacketService redPacketService = new RedPacketService();
 
