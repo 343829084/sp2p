@@ -142,8 +142,6 @@ public class LoginAction extends BaseController {
             json.put("error", error);
             renderJSON(json);
         }
-
-
         String authentication_id = User.registerToFp(error, mobile, password);
 
         if (error.code < 0 && error.code != -2) {

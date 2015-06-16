@@ -1,5 +1,4 @@
 package controllers.mobile;
-
 import business.RedPacket;
 import business.RedPacketBill;
 import business.RedPacketParam;
@@ -7,29 +6,15 @@ import business.User;
 import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
-import org.apache.commons.httpclient.Cookie;
-import org.apache.commons.lang3.StringUtils;
-import org.omg.CORBA.portable.InputStream;
 import play.Logger;
-import play.Play;
-import play.cache.Cache;
-import play.mvc.Controller;
 import play.mvc.Http;
-import play.mvc.Scope;
-import sun.beans.editors.LongEditor;
 import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.WebChartUtil;
 import utils.WechatProcess;
-
-import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.net.UnknownHostException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
 import java.util.SortedMap;
 
 /**
@@ -42,12 +27,13 @@ public class WeChatAction extends BaseController {
         String result = "";
         /** 判断是否是微信接入激活验证，只有首次接入验证时才会收到echostr参数，此时需要把它直接返回 */
         Http.Request reuqets = Http.Request.current();
+
         String echostr =reuqets.params.get("echostr");
         if (echostr != null && echostr.length() > 1) {
             result = echostr;
         }
-
         try {
+            reuqets.body.close();
             OutputStream os = Http.Response.current().out;
             os.write(result.getBytes("UTF-8"));
             os.flush();
@@ -57,23 +43,17 @@ public class WeChatAction extends BaseController {
         }
     }
     public static void  processAction(){
+        play.mvc.Http.Response.current().setHeader("contentType", "text/html; charset=utf-8");
         Logger.info("POST 方法接收");
         StringBuffer sb = new StringBuffer();
         Logger.info("建立字符串");
         java.io.InputStream is =  Http.Request.current().body;
         Logger.info("解析Body");
         try {
-            byte[] b = new byte[1024];
+            byte[] b = new byte[4069];
             for (int n; (n = is.read(b)) != -1;) {
                 sb.append(new String(b, 0, n, "UTF-8"));
             }
-//            java.io.InputStreamReader isr = new java.io.InputStreamReader(is, "UTF-8");
-//            BufferedReader br = new BufferedReader(isr);
-//            String s = "";
-//            Logger.info("开始读取");
-//            while ((s = br.readLine()) != null) {
-//                sb.append(s);
-//            }
             is.close();
             Logger.info("读取结束");
             String xml = sb.toString(); //次即为接收到微信端发送过来的xml数据
