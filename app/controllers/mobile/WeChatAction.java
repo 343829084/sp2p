@@ -59,14 +59,18 @@ public class WeChatAction extends BaseController {
     public static void  processAction(){
         Logger.info("POST 方法接收");
         StringBuffer sb = new StringBuffer();
+        Logger.info("建立字符串");
         java.io.InputStream is =  Http.Request.current().body;
+        Logger.info("解析Body");
         try {
             java.io.InputStreamReader isr = new java.io.InputStreamReader(is, "UTF-8");
             BufferedReader br = new BufferedReader(isr);
             String s = "";
+            Logger.info("开始读取");
             while ((s = br.readLine()) != null) {
                 sb.append(s);
             }
+            Logger.info("读取结束");
             String xml = sb.toString(); //次即为接收到微信端发送过来的xml数据
             Logger.info("接收到字符串:"+sb.toString());
             String result = new WechatProcess().processWechatMag(xml);

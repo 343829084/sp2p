@@ -35,11 +35,14 @@ public class QuickRegister extends BaseController {
 
     }
     public static void quickLogin(){
+        String repeat= params.get("repeat");
         String mobile= params.get("mobile");
-        if (ParseClientUtil.isWeiXin()) {
-            String url = WebChartUtil.buildWeChatGateUrl("4", mobile);
-            Logger.info("url：" + url);
-            redirect(url);
+        if(repeat!=null && !repeat.equals("yes")) {
+            if (ParseClientUtil.isWeiXin()) {
+                String url = WebChartUtil.buildWeChatGateUrl("4", mobile);
+                Logger.info("url：" + url);
+                redirect(url);
+            }
         }
         render();
     }
@@ -92,6 +95,7 @@ public class QuickRegister extends BaseController {
                     user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
                     if (error.code < 0) {
                         flash.error(error.msg);
+                        params.put("repeat","yes");
                         quickLogin();
                     }else{
                         Logger.info("doRegister  openId放到cookie 中");
@@ -112,6 +116,7 @@ public class QuickRegister extends BaseController {
             flash.keep("url");
 
         }
+        params.put("repeat","yes");
         quickLogin();
 
     }
