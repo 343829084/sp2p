@@ -92,7 +92,6 @@ public class WeChatAction extends BaseController {
         String code= params.get("code");
         String status= params.get("state");
         String mobile= params.get("mobile");
-        String redpacketId= params.get("redpacketId");
         Logger.info("code为：" + code + "status:" + status);
        String openId= "21323123123eqweqweq";
 
@@ -129,7 +128,8 @@ public class WeChatAction extends BaseController {
             showOpenId(openId);
         }else if(status.equals(Constants.WEIXINSTATUS.SENDPACKET)) {
             Logger.info("showOpenId openid:" + openId + "status:" + status);
-           sendPacketPost(openId,redpacketId);
+            //如果发红包此处mobile指的是活动id
+           sendPacketPost(openId,mobile);
 
         } else{
             //TODO
@@ -137,7 +137,9 @@ public class WeChatAction extends BaseController {
 
         }
     }
-
+    public static void test() throws Exception {
+        WebChartUtil.getCertInstream();
+    }
          private static void sendPacketPost(String openId,String redPacketId) throws Exception {
              final java.io.FileInputStream certInstream = WebChartUtil.getCertInstream();
              Logger.info("进入红包方法：" + openId);
@@ -151,7 +153,7 @@ public class WeChatAction extends BaseController {
              RedPacketBill redPacketBill =new RedPacketBill();
              RedPacketBill result = redPacketBill.getBillByOpenId(openId, redPacketId);//红包是否已经发过
               if(result==null||(redPacket.getCouple()!=null &&redPacket.getCouple().intValue()==2) ){
-                  Logger.info("红包未发放可以发："+openId);
+                  Logger.info("红包未发放可以发：" + openId);
                   RedPacketBill redPacketBillResult = RedPacketParam.getAmount(openId, billNum, redPacket);
                   SortedMap<String, String> map = RedPacketParam.createMap(billNum, redPacket, openId, redPacketBillResult.getAmount());
                   RedPacketParam.sign(map);
