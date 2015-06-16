@@ -3,32 +3,26 @@
 <div>
     <table>
         <tr>
-            <td>活动名称</td>
-            <td>活动内容</td>
-            <td>红包总金额</td>
-            <td>红包最小金额</td>
-            <td>红包最大金额</td>
-            <td>发送总人数</td>
-            <td>状态</td>
-            <td>备注</td>
-            <td>创建时间</td>
+            <td>红包订单号</td>
+            <td>openid</td>
+            <td>领取金额</td>
+            <td>领取时间</td>
+            <td>领取结果</td>
+            <td>返回信息</td>
         </tr>
-        #{if redPacketVos?.isEmpty()}
+        #{if billVos?.isEmpty()}
             <tr>
                 <td>没有数据</td>
             </tr>
         #{/if}
         #{else }
-            #{list items:redPacketVos, as:'redPacketVo'}
-                <td>${redPacketVo.actName}</td>
-                <td>${redPacketVo.content}</td>
-                <td>${redPacketVo.total}</td>
-                <td>${redPacketVo.minValue}</td>
-                <td>${redPacketVo.maxValue}</td>
-                <td>${redPacketVo.totalNum}</td>
-                <td>${redPacketVo.status}</td>
-                <td>${redPacketVo.remark}</td>
-                <td>${redPacketVo.createTime}</td>
+            #{list items:billVos, as:'billVo'}
+                <td>${billVo.billNo}</td>
+                <td>${billVo.openId}</td>
+                <td>${billVo.amount}</td>
+                <td>${billVo.addTime}</td>
+                <td>${billVo.returnCode}</td>
+                <td>${billVo.returnMessage}</td>
             #{/list}
         #{/else}
     </table>

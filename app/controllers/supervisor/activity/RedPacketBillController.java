@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.BaseController;
 import controllers.supervisor.activity.service.RedPacketBillService;
 import controllers.supervisor.activity.service.RedPacketService;
+import controllers.supervisor.activity.vo.RedPacketBillVo;
 import controllers.supervisor.activity.vo.RedPacketVo;
 import models.RedPacketBillModel;
 import play.Logger;
@@ -23,7 +24,8 @@ public class RedPacketBillController extends BaseController {
 
     public static void index() {
         PageVo pageVo = new PageVo();
-        render();
+        List<RedPacketBillVo> billVos = redPacketBillService.findRedPacketBillVosBy(pageVo);
+        render(billVos);
     }
 
 
