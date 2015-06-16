@@ -162,4 +162,8 @@ public class ProductAction extends BaseController {
         pageVo.setList(productVos);
         renderJSON(pageVo);
     }
+    
+    public static void productDetail_v1() {
+    	render();
+    }
 }

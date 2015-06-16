@@ -109,8 +109,8 @@ public class LoginAction extends BaseController {
             if (StringUtils.isNotBlank(url)) {
                 redirect(url);
             }else {
-//                MainContent.moneyMatters();
-            	ProductAction.productList();
+                MainContent.moneyMatters();
+//            	ProductAction.productList();
             }
         } else {
             flash.keep("url");
