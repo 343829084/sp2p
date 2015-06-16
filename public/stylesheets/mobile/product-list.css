@@ -66,9 +66,14 @@
 .loading-container {
     position: absolute;
     z-index:  0;
+    text-align: center;
+
 }
 
-
+.loading-icon {
+    content: url("../../images/mobile/loading_icon.gif");
+    margin: 0 auto;
+}
 
 /*      product list       */
 #productListContainer {

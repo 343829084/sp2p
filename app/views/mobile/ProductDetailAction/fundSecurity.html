@@ -47,13 +47,13 @@
     #{list items:jsonMap?.userAuditList , as: 'records'}
       <li>
 		<h3  style="color:#000000">${records?.name}</h3>
-		    <a href="#${records?.name}" data-rel="popup" data-position-to="window" data-transition="fade" >
-			    <img src="${records?.image_file_name}" class="pophoto" style="width:30%;" />
+		    <a href="#" data-rel="popup" data-position-to="window" data-transition="fade" >
+			    <img src="${records?.image_file_name}" class="pophoto" style="width:50%;" />
 		    </a>
-          <div data-role="popup" id="${records?.name}">
-              <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>
-                  <img src="${records?.image_file_name}" class="pophoto"  style="width:100%;" />
-          </div>
+          *{<div data-role="popup" id="${records?.name}">}*
+              *{<a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">close</a>}*
+                  *{<img src="${records?.image_file_name}" class="pophoto"  style="width:100%;" />}*
+          *{</div>}*
       </li>
     #{/list}
     </ul>

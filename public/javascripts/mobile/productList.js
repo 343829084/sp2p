@@ -107,22 +107,6 @@ var productListTouchMove = function (){
 			}) ;
 		}
 	});
-}
-
-var initCountdown = function () {
-	var arr = [
-		{prodId: 1,sellTime :"Jun 14, 2015 8:00:00 PM "},
-		{prodId: 2,sellTime :"Jun 14, 2015 10:00:00 PM "}
-	];
-	var worker = new Worker("/public/javascripts/mobile/countdown.js");
-	worker.postMessage(arr);
-	worker.onmessage = function(event) {
-		if (event) {
-			for (var i = 0; i < event.data.length; i++) {
-				console.log(event.data[i]);
-			}
-		}
-	}
 };
 
 var URL = {
@@ -155,7 +139,7 @@ var Utils = (function ($) {
 
 var Service = (function () {
 	var getProductList= function (params, callbackFunc) {
-		Utils.sendRequest("POST", params, URL.productListUrl, callbackFunc) ;
+		Utils.sendRequest("GET", params, URL.productListUrl, callbackFunc) ;
 	};
 	return {
 		getProductList :getProductList
@@ -189,25 +173,27 @@ var Business = (function ($) {
 		Service.getProductList(params, function (result) {
 			if (result.list && result.list.length) {
 				var productArray = result.list;
+				var arr = [];
 				for (var i = 0; i < productArray.length; i ++ ) {
 					var prod =productArray [i];
 					switch  (prod.prodStatus){
 						case PRODUCT_STATUS.PRESELL:
-							tmpls.presellTmpl.tmpl(prod).prependTo("#list");
+							arr = arr.concat(tmpls.presellTmpl.tmpl(prod));
 							countdownArr.push(prod);
 							break;
 						case PRODUCT_STATUS.SELL_ING:
-							tmpls.sellingTmpl.tmpl(prod).prependTo("#list");
+							arr = arr.concat(tmpls.sellingTmpl.tmpl(prod));
 							countdownArr.push(prod);
 							break;
 						case PRODUCT_STATUS.REPAY_ING:
-							tmpls.repayingTmpl.tmpl(prod).prependTo("#list");
+							arr = arr.concat(tmpls.repayingTmpl.tmpl(prod));
 							break;
 						case PRODUCT_STATUS.FINISH_REPAY:
-							tmpls.finisRepayTmpl.tmpl(prod).prependTo("#list");
+							arr = arr.concat(tmpls.finisRepayTmpl.tmpl(prod));
 							break;
 					}
 				}
+				$(arr).prependTo("#list");
 				if (!worker) {
 					worker = createWorkerForCountDown();
 				}
@@ -217,6 +203,11 @@ var Business = (function ($) {
 				}
 			}
 		});
+	};
+
+	var productClickHandler = function (event, dom) {
+		var id = $(dom).data("myid");
+		window.location.href="/mobile/product/detail_v1?bidId="+id;
 	};
 
 	var createWorkerForCountDown = function () {
@@ -238,7 +229,8 @@ var Business = (function ($) {
 
 	return {
 		init:init,
-		getProductList : getProductList
+		getProductList : getProductList,
+		productClickHandler: productClickHandler
 	};
 })(jQuery);
 

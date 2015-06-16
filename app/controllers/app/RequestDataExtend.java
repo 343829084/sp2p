@@ -1,9 +1,6 @@
 package controllers.app;
 
-import business.Bid;
-import business.DealDetail;
-import business.Payment;
-import business.User;
+import business.*;
 import com.google.gson.JsonObject;
 import constants.Constants;
 import constants.SQLTempletes;
@@ -13,6 +10,7 @@ import controllers.app.common.MessageUtil;
 import controllers.app.common.MsgCode;
 import controllers.app.common.Severity;
 import models.t_users;
+import models.v_front_all_bids;
 import models.y_front_show_bids;
 import models.y_subject_url;
 import net.sf.json.JSONObject;
@@ -25,8 +23,10 @@ import play.mvc.Scope;
 import utils.CacheManager;
 import utils.CaptchaUtil;
 import utils.ErrorInfo;
+import utils.PageBean;
 
 import javax.persistence.Query;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -35,7 +35,7 @@ import java.util.*;
  * Created by loki on 3/24/15.
  */
 public class RequestDataExtend {
-
+    protected static MessageUtil messageUtil = MessageUtil.getInstance();
     static String infoMessage(Map<String, Object> jsonMap, MsgCode msgCode) {
         RequestData.messageUtil.setMessage(new Message(Severity.INFO, msgCode), jsonMap == null ? null : JSONObject.fromObject(jsonMap).toString());
         return RequestData.messageUtil.toStr();
@@ -496,5 +496,59 @@ public class RequestDataExtend {
 
         MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.SEARCH_INVEST_SUCC), obj);
         return MessageUtil.getInstance().toStr();
+    }
+
+    /**
+     * 查询借款标列表
+     * @param parameters
+     * @return
+     * @throws java.io.IOException
+     */
+    public static String queryAllbids(Map<String, String> parameters) throws IOException {
+
+        int currPage = 1;
+
+        if (parameters.get("currPage") != null) {
+            currPage = Integer.parseInt(parameters.get("currPage"));
+        }
+        int pageSize = Constants.APP_PAGESIZE;
+        ErrorInfo error = new ErrorInfo();
+        Map<String, Object>  jsonMap = new HashMap<String, Object>();
+
+        String apr = (String)parameters.get("apr");
+        String amount = (String)parameters.get("amount");
+        String loanSchedule = (String)parameters.get("loanSchedule");
+        String startDate = (String)parameters.get("startDate");
+        String endDate = (String)parameters.get("endDate");
+        String loanType = (String)parameters.get("loanType");
+        String minLevelStr = (String)parameters.get("minLevelStr");
+        String maxLevelStr = (String)parameters.get("maxLevelStr");
+        String orderType = (String)parameters.get("orderType");
+        String keywords = (String)parameters.get("keywords");
+
+        String period = (String)parameters.get("period");
+        String status = (String)parameters.get("status");
+
+        PageBean<v_front_all_bids> bids = Invest.queryAllBids(Constants.SHOW_TYPE_2, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevelStr, maxLevelStr, orderType, keywords, period, status, error);
+
+
+
+        if(error.code < 0){
+            jsonMap.put("error", "-4");
+            jsonMap.put("msg",error.msg);
+
+            messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.LOAN_BID_QUERY_FAIL), JSONObject.fromObject(jsonMap).toString());
+            return messageUtil.toStr();
+        }
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("error", -1);
+        map.put("msg", "查询成功");
+        map.put("totalNum", bids.totalCount);
+        map.put("list",bids.page);
+
+        messageUtil.setMessage(new Message(Severity.INFO, MsgCode.LOAN_BID_QUERY_SUCC), JSONObject.fromObject(map).toString());
+
+        return messageUtil.toStr();
     }
 }
