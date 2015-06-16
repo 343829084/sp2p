@@ -42,11 +42,14 @@ public class WeChatAction extends BaseController {
             e.printStackTrace();
         }
     }
-    public static void  processAction(){
+    public static void  processAction() {
         play.mvc.Http.Response.current().setHeader("contentType", "text/html; charset=utf-8");
         Logger.info("POST 方法接收");
         StringBuffer sb = new StringBuffer();
         Logger.info("建立字符串");
+        Logger.info(Http.Request.current().params.toString());
+        Logger.info(Http.Request.current().params.toString());
+        Logger.info(Http.Request.current().headers.toString());
         java.io.InputStream is =  Http.Request.current().body;
         Logger.info("解析Body");
         try {
