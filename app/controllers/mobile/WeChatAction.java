@@ -36,7 +36,6 @@ public class WeChatAction extends BaseController {
 
     public static void authentication() throws IOException {
         play.mvc.Http.Response.current().setHeader("contentType", "text/html; charset=utf-8");
-        WebChartUtil.getCertInstream();
         String result = "";
         /** 判断是否是微信接入激活验证，只有首次接入验证时才会收到echostr参数，此时需要把它直接返回 */
         Http.Request reuqets = Http.Request.current();
