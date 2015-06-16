@@ -68,11 +68,11 @@
                 }
             }
         },
-        getVerifyCode: function(phoneNum) {
+        getVerifyCode: function(phoneNum,type) {
             $.ajax({
                 type: "GET",
                 url:  "/mobile/verifyCode",
-                data: {"mobile": phoneNum},
+                data: {"mobile": phoneNum,"type":type},
                 success: function (data) {
                     if (0 != data.error.code) {
                         $('#ipvcerrorinfo').html("<span style='color: red'>验证码获取失败，请重试！</span>");
@@ -145,7 +145,7 @@
             if (r != null) return unescape(r[2]);
             return null;
         },
-        time: function time(o, wait, mobilePhoneNo) { //o为按钮的对象，p为可选，这里是60秒过后，提示文字的改变,wait 为时间
+        time: function time(o, wait, mobilePhoneNo,type) { //o为按钮的对象，p为可选，这里是60秒过后，提示文字的改变,wait 为时间
             console.info(wait);
 
             var w = wait;
@@ -169,7 +169,7 @@
                     $("#getveriycode").removeClass("gray-color").addClass("verify-color");
                     $("#getveriycode").unbind("click");
                     $.time($("#getveriycode"), 60, mobilePhoneNo);
-                    $.getVerifyCode(mobilePhoneNo);
+                    $.getVerifyCode(mobilePhoneNo,type);
                 });
             } else {
                 o.html("等待"+w + "秒"); //改变按钮中value的值

@@ -31,8 +31,8 @@ var result=isPhone(recommendPhone);
             var verifyCodeElement = $("#getveriycode");
             verifyCodeElement.removeClass("verify-color").addClass("gray-color");
             verifyCodeElement.unbind("click");
-            $.getVerifyCode(mobilePhoneNo);
-            $.time(verifyCodeElement, 60, mobilePhoneNo);
+            $.getVerifyCode(mobilePhoneNo,"0");
+            $.time(verifyCodeElement, 60, mobilePhoneNo,"0");
         }
     );
 

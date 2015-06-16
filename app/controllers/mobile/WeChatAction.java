@@ -63,13 +63,18 @@ public class WeChatAction extends BaseController {
         java.io.InputStream is =  Http.Request.current().body;
         Logger.info("解析Body");
         try {
-            java.io.InputStreamReader isr = new java.io.InputStreamReader(is, "UTF-8");
-            BufferedReader br = new BufferedReader(isr);
-            String s = "";
-            Logger.info("开始读取");
-            while ((s = br.readLine()) != null) {
-                sb.append(s);
+            byte[] b = new byte[1024];
+            for (int n; (n = is.read(b)) != -1;) {
+                sb.append(new String(b, 0, n, "UTF-8"));
             }
+//            java.io.InputStreamReader isr = new java.io.InputStreamReader(is, "UTF-8");
+//            BufferedReader br = new BufferedReader(isr);
+//            String s = "";
+//            Logger.info("开始读取");
+//            while ((s = br.readLine()) != null) {
+//                sb.append(s);
+//            }
+            is.close();
             Logger.info("读取结束");
             String xml = sb.toString(); //次即为接收到微信端发送过来的xml数据
             Logger.info("接收到字符串:"+sb.toString());
@@ -79,7 +84,7 @@ public class WeChatAction extends BaseController {
             os.flush();
             os.close();
         }catch (Exception e){
-     Logger.info(e.getMessage());
+         Logger.info(e.getMessage());
         }
 
     }
