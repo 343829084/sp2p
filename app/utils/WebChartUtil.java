@@ -20,7 +20,6 @@ import java.net.URLEncoder;
 public  class WebChartUtil {
     private static LRUMap cache=new LRUMap();
     public static final String WECHAT = "FP.SOCIAL.TYPE.1";
-   public static File root = new File(System.getProperty("application.path"));
     public static String getOpenIdByToken(String access_token) throws IOException {
         WeChatConstants.REFRESHTOKEN = WeChatConstants.REFRESHTOKEN.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
         WeChatConstants.REFRESHTOKEN = WeChatConstants.REFRESHTOKEN.replace("REFRESH_TOKEN", urlEnodeUTF8(access_token));
