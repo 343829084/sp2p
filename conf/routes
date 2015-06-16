@@ -913,6 +913,10 @@ GET   /supervisor/checkUkeyInIt                          						supervisor.login.
 GET   /supervisor/UkeyCheck                        						        supervisor.login.LoginAction.checkUkeySign
 GET   /supervisor/toBlank                        						        supervisor.login.LoginAction.toBlank
 
+GET   /supervisor/activity/red/packets                                          supervisor.activity.RedPacketController.index
+GET   /supervisor/activity/red/packet/detail                                    supervisor.activity.RedPacketController.detail
+POST  /supervisor/activity/red/packet                                           supervisor.activity.RedPacketController.save
+
 # ***********************************************用户中心*****************************************************
 GET    /supervisor/account/home                            						supervisor.account.AccountAction.home
 POST   /supervisor/editSupervisor                          						supervisor.account.AccountAction.editSupervisor
