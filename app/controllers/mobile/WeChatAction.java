@@ -57,6 +57,7 @@ public class WeChatAction extends BaseController {
         }
     }
     public static void  processAction(){
+        Logger.info("POST 方法接收");
         StringBuffer sb = new StringBuffer();
         java.io.InputStream is =  Http.Request.current().body;
         try {
@@ -67,6 +68,7 @@ public class WeChatAction extends BaseController {
                 sb.append(s);
             }
             String xml = sb.toString(); //次即为接收到微信端发送过来的xml数据
+            Logger.info(sb.toString());
             String result = new WechatProcess().processWechatMag(xml);
             OutputStream os = Http.Response.current().out;
             os.write(result.getBytes("UTF-8"));
