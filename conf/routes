@@ -913,6 +913,13 @@ GET   /supervisor/checkUkeyInIt                          						supervisor.login.
 GET   /supervisor/UkeyCheck                        						        supervisor.login.LoginAction.checkUkeySign
 GET   /supervisor/toBlank                        						        supervisor.login.LoginAction.toBlank
 
+GET   /supervisor/activity/red/packets                                          supervisor.activity.RedPacketController.index
+GET   /supervisor/activity/red/packet/detail                                    supervisor.activity.RedPacketController.detail
+POST  /supervisor/activity/red/packet                                           supervisor.activity.RedPacketController.save
+GET   /supervisor/activity/red/packet                                           supervisor.activity.RedPacketController.findRedPacket
+GET   /supervisor/activity/red/packet/bills                                     supervisor.activity.RedPacketBillController.index
+GET   /supervisor/activity/red/packet/bill                                      supervisor.activity.RedPacketBillController.saveRedPacketBill
+
 # ***********************************************用户中心*****************************************************
 GET    /supervisor/account/home                            						supervisor.account.AccountAction.home
 POST   /supervisor/editSupervisor                          						supervisor.account.AccountAction.editSupervisor
@@ -2027,6 +2034,7 @@ GET  /mobile/content/tradeHistory                                     mobile.Tra
 
 #产品
 GET     /mobile/product/detail                                                  mobile.ProductAction.productDetail
+GET     /mobile/product/detail_v1                                                  mobile.ProductAction.productDetail_v1
 GET     /mobile/product/productBid												mobile.ProductAction.productBid
 GET     /mobile/product/bidRecords                                              mobile.ProductDetailAction.bidRecords
 GET     /mobile/product/detailtwo                                               mobile.ProductDetailAction.projectDetail
@@ -2036,7 +2044,7 @@ GET		/mobile/product/bidAgreement											mobile.ProductAction.bidAgreement
 GET 	/mobile/product/getAgreementContent										mobile.ProductAction.getAgreementContent
 GET		/mobile/product/productList												mobile.ProductAction.productList
 
-POST    /mobile/products                                                        mobile.ProductAction.findProductsBy
+GET     /mobile/products                                                        mobile.ProductAction.findProductsBy
 
 #我
 GET     /mobile/me/changepwd                                                    mobile.MeAction.changePassWord

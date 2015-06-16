@@ -12,16 +12,18 @@
     <meta http-equiv="Cache" content="no-cache">
     <meta name="apple-mobile-web-app-status-bar-style" content="red" />
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/reset.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/mobile.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile.theme-1.4.3.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/jquery.mobile-1.4.3.css'}"/>
     <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/product.css'}"/>
+    <link rel="stylesheet" type="text/css" href="@{'/public/stylesheets/mobile/product-list.css'}" />
     <script>
         baseUrl = '${fpHots}';
     </script>
 
     <script type="text/javascript" src="@{'/public/javascripts/jquery-2.0.js'}"></script>
+    <script type="text/javascript" src="@{'/public/javascripts/jquery.tmpl.min.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/share/jweixin-1.0.0.min.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/button.js'}"></script>
     <script type="text/javascript" src="@{'/public/javascripts/share/sha.js'}"></script>
@@ -41,26 +43,28 @@
 #{doLayout /}
 
 <div class="ui-grid-d center foot_pos">
+    <!--
     <div class="ui-block-a">
         <a id="menu_One" href="#" data-role="button" data-bind="nav_bar"
                                class="ui-shadow  fm_mgpd ui-btn-inline fm_border" data-icon="home-unselected"
                                data-iconpos="top">金品</a>
     </div>
-    <div class="ui-block-b ">
-        <a id="menu_Two" href="#" data-role="button" data-bind="nav_bar"
+    -->
+    <div class="ui-block-a ">
+        <a id="menu_One" href="#" data-role="button" data-bind="nav_bar"
                                 class="ui-shadow  fm_mgpd ui-btn-inline fm_border " data-icon="list-unselected"
-                                data-iconpos="top">理财</a>
+                                data-iconpos="top">产品列表</a>
     </div>
-    <div class="ui-block-c ">
-        <a id="menu_Three" href="#" data-bind="nav_bar" data-role="button"
+    <div class="ui-block-b ">
+        <a id="menu_Two" href="#" data-bind="nav_bar" data-role="button"
                                 class="ui-shadow  fm_mgpd ui-btn-inline fm_border" data-icon="gold-unselected"
-                                data-iconpos="top">财富</a>
+                                data-iconpos="top">我的资产</a>
     </div>
 
-    <div class="ui-block-d ">
-        <a id="menu_Four" href="#" data-bind="nav_bar" data-role="button"
+    <div class="ui-block-c ">
+        <a id="menu_Three" href="#" data-bind="nav_bar" data-role="button"
                                 data-icon="more-unselected" data-iconpos="top"
-                                class=" ui-shadow  fm_mgpd ui-btn-inline fm_border">我</a>
+                                class=" ui-shadow  fm_mgpd ui-btn-inline fm_border">设置</a>
 
     </div>
 
