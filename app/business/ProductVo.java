@@ -19,9 +19,10 @@ public class ProductVo {
     private boolean isNewUser;                          //是否新手标
     private BigDecimal remainingAvailableMoney;         //剩余可投金额
     private BigDecimal availableMoney;                  //可投金额
-    private Date sellTime;                              //开售时间
+    private Date sellStartTime;                         //开售时间
+    private Date sellEndTime;                           //开售结束时间
     private String duringTime;                          //理财期限 （理财冻结时间）
-    private Date predictDeadline;                     //预计到期时间
+    private Date predictDeadline;                       //预计到期时间
     private BigDecimal totalBidMoney;                   //累计可投金额
     private String prodStatus;                          //产品状态
 
@@ -50,6 +51,14 @@ public class ProductVo {
     }
 
     public String getDeadline() {
+        if (deadline != null) {
+            if (Integer.valueOf(deadline) < 100) {
+                deadline = deadline + "天";
+            } else {
+                deadline = (Integer.valueOf(deadline) / 30) + "个月";
+            }
+        }
+        System.out.println("[deadline]" + deadline);
         return deadline;
     }
 
@@ -57,12 +66,12 @@ public class ProductVo {
         this.deadline = deadline;
     }
 
-    public Date getSellTime() {
-        return sellTime;
+    public Date getSellStartTime() {
+        return sellStartTime;
     }
 
-    public void setSellTime(Date sellTime) {
-        this.sellTime = sellTime;
+    public void setSellStartTime(Date sellStartTime) {
+        this.sellStartTime = sellStartTime;
     }
 
     public BigDecimal getBidMoney() {
@@ -127,5 +136,13 @@ public class ProductVo {
 
     public void setProdStatus(String prodStatus) {
         this.prodStatus = prodStatus;
+    }
+
+    public Date getSellEndTime() {
+        return sellEndTime;
+    }
+
+    public void setSellEndTime(Date sellEndTime) {
+        this.sellEndTime = sellEndTime;
     }
 }

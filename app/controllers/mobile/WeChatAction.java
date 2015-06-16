@@ -6,15 +6,24 @@ import business.User;
 import constants.Constants;
 import controllers.BaseController;
 import net.sf.json.JSONObject;
+import org.apache.commons.httpclient.Cookie;
+import org.apache.commons.lang3.StringUtils;
 import play.Logger;
+import play.Play;
+import play.cache.Cache;
+import play.mvc.Controller;
 import play.mvc.Http;
+import play.mvc.Scope;
+import sun.beans.editors.LongEditor;
 import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.WebChartUtil;
-import utils.WechatProcess;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+
+import java.io.*;
+import java.net.UnknownHostException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
 import java.util.SortedMap;
 
 /**
@@ -27,13 +36,12 @@ public class WeChatAction extends BaseController {
         String result = "";
         /** 判断是否是微信接入激活验证，只有首次接入验证时才会收到echostr参数，此时需要把它直接返回 */
         Http.Request reuqets = Http.Request.current();
-
         String echostr =reuqets.params.get("echostr");
         if (echostr != null && echostr.length() > 1) {
             result = echostr;
         }
+
         try {
-            reuqets.body.close();
             OutputStream os = Http.Response.current().out;
             os.write(result.getBytes("UTF-8"));
             os.flush();
@@ -137,6 +145,7 @@ public class WeChatAction extends BaseController {
         }else if(status.equals(Constants.WEIXINSTATUS.SENDPACKET)) {
             Logger.info("showOpenId openid:" + openId + "status:" + status);
            sendPacketPost(openId,mobile);
+            //如果发红包此处mobile指的是活动id
 
         } else{
             //TODO
@@ -251,7 +260,5 @@ public class WeChatAction extends BaseController {
     public static void landding(){
         render();
     }
-    public static void test() throws IOException {
-        WebChartUtil.getCertInstream();
-    }
+
 }

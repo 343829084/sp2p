@@ -110,6 +110,7 @@ public class LoginAction extends BaseController {
                 redirect(url);
             }else {
                 MainContent.moneyMatters();
+//            	ProductAction.productList();
             }
         } else {
             flash.keep("url");

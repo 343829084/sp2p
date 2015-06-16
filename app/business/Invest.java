@@ -3757,18 +3757,18 @@ public class Invest implements Serializable {
         jpql.append(" p.id as prodId,");
         jpql.append(" p.title as \"prodName\",");
         jpql.append(" p.apr as \"interestRate\",");
-        jpql.append(" p.period as \"deadline\",");
+        jpql.append(" CASE WHEN p.period < 100 THEN CONCAT(p.period,'天') ELSE CONCAT(floor(p.period /30),'个月') END as \"deadline\",");
         jpql.append(" p.min_invest_amount as \"bidMoney\",");
         jpql.append(" p.is_new as \"isNewUser\",");
         jpql.append(" p.amount-p.has_invested_amount as \"remainingAvailableMoney\",");
         jpql.append(" p.amount as \"availableMoney\",");
-        jpql.append(" p.time as \"sellTime\",");
-//        jpql.append(" p.time + p.period as \"duringTime\",");
+        jpql.append(" p.time as \"sellStartTime\",");
+        jpql.append(" p.invest_expire_time as \"sellEndTime\",");
         jpql.append(" DATE_ADD(p.time,INTERVAL p.period DAY) as \"predictDeadline\",");
         jpql.append(" p.amount as \"totalBidMoney\",");
         jpql.append(" p.status as \"prodStatus\"");
         jpql.append(" from");
-        jpql.append(" v_bids_info_0612 p");
+        jpql.append(" v_bids_info p");
         jpql.append(" where 1=1");
 
         String querySql = "select count(1) from (" + jpql.toString() + ") as rs";
