@@ -72,7 +72,7 @@ public class WeChatAction extends BaseController {
     }
     public static void sendPacket(){
         String redPacketId=params.get("redPacketId");
-
+        Http.Response.current().setCookie("redPacketId",redPacketId);
         if (ParseClientUtil.isWeiXin()) {
             String url = WebChartUtil.buildWeChatGateUrl("7",redPacketId);
             Logger.info("url：" + url);
@@ -122,7 +122,7 @@ public class WeChatAction extends BaseController {
         JSONObject paramsJson = new JSONObject();
         paramsJson.put("openId", openId);
         paramsJson.put("status", status);
-        Logger.info(">>  weChatCB  openid:" + openId + "status:" + status);
+        Logger.info(">>  weChatCB  openid:" + openId + "status:" + status+"mobile"+mobile);
 
         ErrorInfo error = new ErrorInfo();
         User user = new User();
@@ -145,7 +145,11 @@ public class WeChatAction extends BaseController {
             Logger.info("showOpenId openid:" + openId + "status:" + status);
             showOpenId(openId);
         }else if(status.equals(Constants.WEIXINSTATUS.SENDPACKET)) {
-            Logger.info("showOpenId openid:" + openId + "status:" + status);
+            if(mobile==null){
+                mobile=  Http.Request.current().cookies.get("redPacketId").value;
+                Logger.info("redpacketId:"+Http.Request.current().cookies.get("redPacketId").value);
+            }
+            Logger.info("showOpenId openid:" + openId + "status:" + status+"mobile"+mobile);
            sendPacketPost(openId,mobile);
             //如果发红包此处mobile指的是活动id
 
