@@ -14,6 +14,7 @@ public class RedPacketBill {
     private Integer result;    // 领取红包结果 0失败 1成功 2锁定
     private String remark;     // 备注  用于保存微信返回的json
     private Long redPackId;    //红包 id
+    private String returnMsg;  //返回消息
     public Long getId() {
         return id;
     }
@@ -81,5 +82,13 @@ public class RedPacketBill {
 
     public RedPacketBill getBillByOpenId(String openId,String redpacketId) {
    return null;
+    }
+
+    public String getReturnMsg() {
+        return returnMsg;
+    }
+
+    public void setReturnMsg(String returnMsg) {
+        this.returnMsg = returnMsg;
     }
 }

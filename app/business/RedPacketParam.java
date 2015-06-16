@@ -1,11 +1,19 @@
 package business;
 
 
+import com.google.gson.JsonObject;
 import constants.Constants;
 import org.apache.commons.lang3.StringUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
 import play.Logger;
 import utils.MD5Util;
 import java.io.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.security.KeyStore;
 import javax.net.ssl.*;
 import javax.net.ssl.HttpsURLConnection;
@@ -35,7 +43,7 @@ public class RedPacketParam   {
     public static  String CLIENT_IP;   //调用接口的机器IP
     public static final String ACT_NAME = "XX";    //活动名称
     public static final String REMARK = "XX";      //备注
-    public static final String KEY = "XX";         //秘钥
+    public static final String KEY =Constants.WECHAT_KEY;         //秘钥
     public static final int FAIL = 0;              //领取失败
     public static final int SUCCESS = 1;           //领取成功
     public static final int LOCK = 2;              //已在余额表中锁定该用户的余额,防止领取的红包金额大于预算
@@ -58,6 +66,7 @@ public class RedPacketParam   {
                         .append("&");
             }
         }
+        Logger.info("key:"+KEY);
         result.append("key=").append(KEY);
         params.put("sign", MD5Util.getMD5String(result.toString()).toUpperCase());
     }
@@ -143,7 +152,7 @@ public class RedPacketParam   {
         params.put("min_value",amount + "");
         params.put("max_value",  amount + "");
         params.put("total_num", 1 + "");
-        params.put("wishing", redPacket.getWishing());
+        params.put("wishing", Constants.WISHING);
         params.put("client_ip", CLIENT_IP);
         params.put("act_name", redPacket.getActName());
         params.put("remark", redPacket.getRemark());
@@ -240,13 +249,41 @@ public class RedPacketParam   {
             return;
         }
     }
+       private static RedPacketBill parseXml(String xmlStr, String openId, Long redpacketId) throws DocumentException, ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchFieldException, NoSuchMethodException, InvocationTargetException {
+           RedPacketBill rpb = null;
+           if (xmlStr.length() <= 0 || xmlStr == null){
+               return null;
+             }
+     Document document = DocumentHelper.parseText(xmlStr);
+    // 获得文档的根节点
+    Element root = document.getRootElement();
+           rpb = new RedPacketBill();
+    // 遍历根节点下所有子节点
+           rpb.setAddTime(new Date());
+           String status=root.element("return_code").getText();
+           rpb.setReturnMsg(root.element("return_msg").getText());
+           rpb.setOpenid(openId);
+           rpb.setRedPackId(redpacketId);
+           rpb.setResult(0);
+           rpb.setRemark(xmlStr);
+           if(!status.equals("FAIL")){
+               rpb.setBillNo(root.element("mch_billno").getText());
+               rpb.setResult(1);
+               rpb.setAmount(Integer.parseInt(root.element("total_amount").getText()));
+               rpb.setReturnMsg("发放成功");
+           };
+
+          return rpb;
+       }
     /**
      * post提交到微信服务器
      *
      * @param requestXML
      * @returnMCH_ID
      */
-    public static void post(String requestXML,FileInputStream inputStream) throws Exception {
+    public static JsonObject post(String requestXML, FileInputStream inputStream, String openId, String redpacketId) throws Exception {
+        JsonObject json=new JsonObject();
+        Long redPack=Long.parseLong(redpacketId);
         Logger.info("执行发送红包开始");
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
         try {
@@ -287,8 +324,17 @@ public class RedPacketParam   {
     temp = in.readLine();
 
   }
-          Logger.info(result);
+              Logger.info(result);
+              RedPacketBill resultBill= parseXml(result,openId,redPack);
+          if(resultBill!=null) {
+              json.addProperty("code", resultBill.getResult());
+              json.addProperty("msg", resultBill.getReturnMsg());
+          }else{
+              json.addProperty("code", 0);
+              json.addProperty("msg", "发送失败");
+          }
      }
+        return json;
 
     }
 }

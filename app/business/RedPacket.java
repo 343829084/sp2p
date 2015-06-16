@@ -189,12 +189,12 @@ public class RedPacket {
     public void queryRedPacket() {
         if(this.getId()!=null){
             this.activityId=123;
-            this.actName="qianghngbao";
+            this.actName="抢红包";
             this.balance=1000;
 //            this.content="registertogit";
 //            this.logo_imgurl= "https://api-2.sunlights.me/resources/img/banner/banner_register.png";
-            this.maxValue=1000;
-            this.minValue=1000;
+            this.maxValue=200;
+            this.minValue=100;
             this.remark="remark";
             this.send=20000;
             this.sendNum=100;
@@ -203,7 +203,6 @@ public class RedPacket {
             this.time=new Date();
             this.total=1000;
             this.totalNum=1;
-            this.wishing="wishto";
         }
     }
 }

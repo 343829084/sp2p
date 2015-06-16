@@ -9,6 +9,7 @@ import controllers.BaseController;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.Cookie;
 import org.apache.commons.lang3.StringUtils;
+import org.omg.CORBA.portable.InputStream;
 import play.Logger;
 import play.Play;
 import play.cache.Cache;
@@ -19,7 +20,9 @@ import sun.beans.editors.LongEditor;
 import utils.ErrorInfo;
 import utils.ParseClientUtil;
 import utils.WebChartUtil;
+import utils.WechatProcess;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -53,7 +56,27 @@ public class WeChatAction extends BaseController {
             e.printStackTrace();
         }
     }
+    public static void  processAction(){
+        StringBuffer sb = new StringBuffer();
+        java.io.InputStream is =  Http.Request.current().body;
+        try {
+            java.io.InputStreamReader isr = new java.io.InputStreamReader(is, "UTF-8");
+            BufferedReader br = new BufferedReader(isr);
+            String s = "";
+            while ((s = br.readLine()) != null) {
+                sb.append(s);
+            }
+            String xml = sb.toString(); //次即为接收到微信端发送过来的xml数据
+            String result = new WechatProcess().processWechatMag(xml);
+            OutputStream os = Http.Response.current().out;
+            os.write(result.getBytes("UTF-8"));
+            os.flush();
+            os.close();
+        }catch (Exception e){
 
+        }
+
+    }
     public static void sendPacket(){
         String redPacketId=params.get("redPacketId");
         if (ParseClientUtil.isWeiXin()) {
@@ -94,9 +117,9 @@ public class WeChatAction extends BaseController {
         String status= params.get("state");
         String mobile= params.get("mobile");
         Logger.info("code为：" + code + "status:" + status);
-        String openId= null;
+        String openId= "ooLV5uDwMOeGHY0xqQrkUTr-lxTA";
 
-        openId= getOpenIdAndSessionToken(code);
+       // openId= getOpenIdAndSessionToken(code);
 
         if (openId == null) {//请求过期失效
             renderTemplate("mobile/WeChatAction/weChatFailTip.html");
@@ -157,7 +180,7 @@ public class WeChatAction extends BaseController {
                   FileInputStream certInstream = WebChartUtil.getCertInstream();
                   String requestXML = RedPacketParam.getRequestXml(map);
                   Logger.info("开始发红包："+requestXML);
-                  RedPacketParam.post(requestXML, certInstream);
+                  RedPacketParam.post(requestXML, certInstream,openId,redPacketId);
 
               }
          }
@@ -244,5 +267,7 @@ public class WeChatAction extends BaseController {
     public static void landding(){
         render();
     }
-
+    public static void test() throws IOException {
+        WebChartUtil.getCertInstream();
+    }
 }

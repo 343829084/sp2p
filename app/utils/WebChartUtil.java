@@ -8,6 +8,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.lang3.StringUtils;
 import org.omg.CORBA.portable.InputStream;
 import play.Logger;
+import play.Play;
 import play.vfs.VirtualFile;
 
 import java.io.*;
@@ -60,8 +61,9 @@ public  class WebChartUtil {
         return url;
     }
     public static FileInputStream getCertInstream() throws IOException {
-
-        FileInputStream fio=new FileInputStream("/conf/apiclient_cert.p12");
+         Logger.info(Play.applicationPath.getCanonicalPath());
+        Logger.info(Play.applicationPath.getAbsolutePath());
+        FileInputStream fio=new FileInputStream(Play.applicationPath.getCanonicalPath()+"/conf/apiclient_cert.p12");
         return fio;
     }
 

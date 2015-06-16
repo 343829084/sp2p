@@ -2076,13 +2076,15 @@ POST    /mobile/account/enchashCB                                               
 GET    /mobile/weixin/weChatGate                                                mobile.WeChatAction.weChatGate
 GET    /mobile/weixin/weChatCB                                                  mobile.WeChatAction.weChatCB
 GET    /mobile/weixin/authentication                                            mobile.WeChatAction.authentication
+POST    /mobile/weixin/authentication                                            mobile.WeChatAction.processAction
 GET    /mobile/weixin/sendRedpact                                               mobile.WeChatAction.sendPacket
 GET    /mobile/weixin/landding                                                   mobile.WeChatAction.landding
+GET    /mobile/weixin/test                                                   mobile.WeChatAction.test
 GET    /mobile/weixin/getOpenId                                                   mobile.LoginAction.getOpenId
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
 GET   /mobile/quickLogin                                                       mobile.QuickRegister.quickLogin
 
-POST   /mobile/quickLogin                                                       mobile.QuickRegister.doQuickLogin
+POST   /mobile/weixin/quickLogin                                                       mobile.QuickRegister.doQuickLogin
 GET   /mobile/qrredirect                                                       mobile.QuickRegister.qrredirect
 
 GET   /mobile/privacy                                                       mobile.QuickRegister.privacy
