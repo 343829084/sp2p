@@ -13,7 +13,7 @@ public class WechatProcess {
         ReceiveXmlEntity xmlEntity = new ReceiveXmlProcess().getMsgEntity(xml);
 
         /** 以文本消息为例，调用图灵机器人api接口，获取回复内容 */
-        String result = "点击<a href=\"http:p2p.sunlights.me/mobile/weixin/getOpenId\">领取红包</a>!";
+        String result = "点击:<a href=\"http:p2p.sunlights.me/mobile/weixin/getOpenId\">领取红包</a>!";
         Logger.info(xmlEntity.getMsgType());
         if("text".endsWith(xmlEntity.getMsgType())){
             Logger.info(xmlEntity.getContent());

@@ -166,11 +166,13 @@ public class WeChatAction extends BaseController {
              RedPacket redPacket=new RedPacket();
              redPacket.setId(Long.parseLong(redPacketId));
              RedPacket redEntity = redPacket.queryRedPacket(redPacket.getId(), openId);
-            if(redEntity.getBalance()==null ||redEntity.getBalance().intValue() > 100){
+            if(redEntity.getBalance()==null ||redEntity.getBalance().intValue() < 100){
+                Logger.info("红余额不足：" + openId);
                 josn.put("code", 0);
                 josn.put("msg", "余额不足");
                 return josn;
             }
+             Logger.info("创建billNo：" + openId);
              String billNum = RedPacketParam.createBillNo(openId.substring(0, 6));
              RedPacketBill redPacketBill =new RedPacketBill();
              try {
