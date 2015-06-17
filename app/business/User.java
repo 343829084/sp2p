@@ -1,20 +1,13 @@
 package business;
 
-import com.google.gson.JsonObject;
-import interfaces.UserBase;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -29,20 +22,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.lang.StringUtils;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import business.Optimization.AuditItemOZ;
-import com.google.zxing.BarcodeFormat;
-import com.shove.Convert;
-import com.shove.code.Qrcode;
-import com.shove.security.Encrypt;
-import constants.Constants;
-import constants.Constants.PayType;
-import constants.Constants.RechargeType;
-import constants.DealType;
-import constants.SQLTempletes;
-import constants.SupervisorEvent;
-import constants.Templets;
-import constants.UserEvent;
-import constants.IPSConstants.IpsCheckStatus;
+
 import play.Logger;
 import play.cache.Cache;
 import play.db.helper.JpaHelper;
@@ -51,9 +31,22 @@ import play.db.jpa.JPA;
 import play.db.jpa.Model;
 import play.libs.WS;
 import play.mvc.Http.Request;
-import play.mvc.Scope;
 import play.mvc.Scope.Session;
 import utils.*;
+import vo.BidInvestInfoVo;
+import vo.UserInvestInfoVo;
+import business.Optimization.AuditItemOZ;
+
+import com.google.zxing.BarcodeFormat;
+import com.shove.Convert;
+import com.shove.code.Qrcode;
+import com.shove.security.Encrypt;
+
+import constants.*;
+import constants.Constants.PayType;
+import constants.Constants.RechargeType;
+import constants.IPSConstants.IpsCheckStatus;
+import interfaces.UserBase;
 
 
 /**
@@ -1424,6 +1417,13 @@ public class User extends UserBase implements Serializable{
     public int loginCommon(ErrorInfo error){
         error.clear();
         int rows = 0;
+
+        if (this == null) {
+            error.code = -1;
+            error.msg = "此用户未注册";
+
+            return error.code;
+        }
 
         if(this.isAllowLogin){
             error.code = -1;
@@ -12452,5 +12452,38 @@ public class User extends UserBase implements Serializable{
 			Logger.error("[完善基本信息失败：]", e);
 		}
 	}
-}
 
+    public static UserInvestInfoVo queryUserInvestInfo(long userId, ErrorInfo error){
+        error.clear();
+
+        StringBuffer sql = new StringBuffer("");
+        sql.append(SQLTempletes.SELECT);
+        sql.append("all_amounts,stable_amounts,float_amounts,current_income_amounts,history_income_amounts");
+        sql.append(" from v_user_invest_info ");
+        sql.append(" where 1 = 1");
+        sql.append(" and user_id = ?");
+
+        Logger.info(">> queryUserInvestInfo sql :" + sql.toString());
+
+        try {
+            EntityManager em = JPA.em();
+            Query query = em.createNativeQuery(sql.toString());
+            query.setParameter(1, userId);
+            List<Object[]> list = query.getResultList();
+            String keys = "allAmounts,stableAmounts,floatAmounts,currentIncomeAmounts,historyIncomeAmounts";
+            List<UserInvestInfoVo> userInvestInfoVoList = ConverterUtil.convert(keys, list, UserInvestInfoVo.class);
+            return userInvestInfoVoList.isEmpty() ? null : userInvestInfoVoList.get(0);
+        }catch (Exception e) {
+            e.printStackTrace();
+            Logger.info("查询用户资产信息时："+e.getMessage());
+            error.code = -1;
+            error.msg = "由于数据库异常，查询用户资产信息失败";
+        }
+
+        return null;
+    }
+
+
+
+
+}

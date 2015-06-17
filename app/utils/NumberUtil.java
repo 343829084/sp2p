@@ -1,12 +1,13 @@
 package utils;
 
+import business.User;
+import org.apache.commons.lang.StringUtils;
+
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import java.util.regex.Pattern;
-import org.apache.commons.lang.StringUtils;
-import business.User;
 
 public class NumberUtil {
 
@@ -116,4 +117,12 @@ public class NumberUtil {
 		
 		return myformat.format(amount);
 	}
+
+    public static String amountFormatStr(String amount) {
+        if (StringUtils.isEmpty(amount)) {
+            return "0.00";
+        }
+        String format =  amountFormat(Double.valueOf(amount));
+        return format.length() == 3 ? "0"+format : format;
+    }
 }

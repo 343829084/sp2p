@@ -159,15 +159,14 @@ public class LoginAction extends BaseController {
         user.isMobileVerified = true;
         user.authentication_id = authentication_id;
         user.recommendUserName = recommendUserName;
-        if (error.code != -2) {
-            user.register(error);
+        user.register(error);
 
-            if (error.code < 0) {
-                json.put("error", error);
-                renderJSON(json);
-            }
-            user.registerGiveJinDou(error, mobile);
+        if (error.code < 0) {
+            json.put("error", error);
+            renderJSON(json);
         }
+        user.registerGiveJinDou(error, mobile);
+
         Logger.info("queryName" + queryName);
         if (!StringUtils.isNotEmpty(queryName)) {
             if (StringUtils.isNotEmpty(openId)) {//bindweixin
