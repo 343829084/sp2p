@@ -20,6 +20,7 @@ public class WechatProcess {
         String result = "";
         Logger.info(xmlEntity.getMsgType());
         Logger.info(String.valueOf("text".equals(xmlEntity.getMsgType())));
+        String openId= xmlEntity.getFromUserName();
         if("text".equals(xmlEntity.getMsgType())) {
             Logger.info(xmlEntity.getContent());
             Logger.info("xmlEntity.getContent()");
@@ -44,7 +45,7 @@ public class WechatProcess {
                 Logger.info(result);
                 result = new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), result);
             }else if(xmlEntity.getContent().equals("我要红包")){
-                result="<a href=\"http://p2pv2.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1\">领取红包</a>";
+                result="<a href=\"http://p2pv2.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1&openid=openId\">领取红包</a>";
                 result = new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), result);
             }else if(xmlEntity.getContent().equals("我要爱情")){
 //                Articles articles =new Articles();
