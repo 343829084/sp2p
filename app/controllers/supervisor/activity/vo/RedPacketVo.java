@@ -1,6 +1,7 @@
 package controllers.supervisor.activity.vo;
 
 import models.RedPacketModel;
+import play.db.jpa.JPABase;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -59,8 +60,12 @@ public class RedPacketVo {
     }
 
     public RedPacketModel convertToRedPacket() {
-        RedPacketModel redPacketModel = new RedPacketModel();
-        redPacketModel.id = this.getId();
+        RedPacketModel redPacketModel = null;
+        if (this.getId() == null) {
+            redPacketModel = new RedPacketModel();
+        } else {
+            redPacketModel = RedPacketModel.findById(this.getId());
+        }
         redPacketModel.setBalance(this.getBalance());
         redPacketModel.setTotal(this.getTotal());
         redPacketModel.setSend(this.getSend());
