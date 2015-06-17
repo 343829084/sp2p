@@ -22,14 +22,16 @@ public class WechatProcess {
             Logger.info(xmlEntity.getContent());
             Logger.info("xmlEntity.getContent()");
             if(xmlEntity.getContent().equals("我要红包")){
-                Logger.info("发红包");
+                Logger.info("link生成");
                 LinkMessage link=new LinkMessage();
                 link.setContent("点击领取红包");
                 link.setTitle("加薪猫送红包");
                 link.setLink("http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1");
                 link.setMsgId(new Random(5234567890123456l).toString());
+                Logger.info(link.toString());
                 result = new FormatXmlProcess().formatLinkXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(),
                         link.getTitle(),link.getContent(),link.getLink(),link.getMsgId());
+                Logger.info(result.toString());
             };
 
 
