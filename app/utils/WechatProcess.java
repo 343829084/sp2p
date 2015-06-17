@@ -34,7 +34,7 @@ public class WechatProcess {
 //                result = new FormatXmlProcess().formatLinkXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(),
 //                        link.getTitle(),link.getContent(),link.getLink(),link.getMsgId());
 //                Logger.info(result.toString());
-                String[] zhufu=new String[]{"你真帅啊！","你的妆化的真好!","不请人家吃饭生气啦","一缕春风，两滴夏雨，三片秋叶，四朵冬雪，做成五颜六色的礼盒；打着七彩八飘的丝带，用九分真诚，十分热情，装进无数祝福送给你，愿端午节好运"
+                String[] zhufu=new String[]{"你真帅啊！","你的妆化的真好!","不请人家吃饭生气啦","一缕春风，两滴夏雨，三片秋叶，四朵冬雪，做成五颜六色的礼盒；打着七彩八飘的丝带，用九分真诚，十分热情，装进无数祝福送给你，愿端午节好运",
                 "even though we are apart, you are in my heart this season.千山万水，隔不断我在佳节对你的思念。","嗨，兄弟，又升职了？！恭喜恭喜，请客请客！"};
                 int dt = new Random().nextInt(6);
                  result= zhufu[dt];
