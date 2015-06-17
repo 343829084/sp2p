@@ -84,11 +84,13 @@ public class QuickRegister extends BaseController {
             error.msg = "该用户名不存在";
             flash.error(error.msg);
             params.put("repeat","yes");
+            Logger.info(error.msg);
             validate = false;
         }
 
         if (user.loginFromH5(password, error) < 0) {
             flash.error(error.msg);
+            Logger.info(error.msg);
             params.put("repeat","yes");
             validate = false;
         }
@@ -110,7 +112,7 @@ public class QuickRegister extends BaseController {
                     }
                 }
             }
-
+            Logger.info(error.msg);
             String url = flash.get("url");
             if (StringUtils.isNotBlank(url)) {
                 redirect(url);
@@ -119,9 +121,10 @@ public class QuickRegister extends BaseController {
             }
         } else {
             flash.keep("url");
-
+            Logger.info(error.msg);
         }
         params.put("repeat","yes");
+        Logger.info(error.msg);
         quickLogin();
 
     }
