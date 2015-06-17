@@ -1251,6 +1251,24 @@ public class AppController extends BaseController implements GeneralRestGatewayI
                     Logger.error("获取标的sign：%s：", e.getMessage());
                 }
                 break;
+            case AppConstants.APP_INVESTBILLS:
+                try{
+                    result = RequestDataExtend.investBills(parameters);
+                    Logger.debug("获取投资记录返回：" + result);
+                } catch(Exception e) {
+                    Logger.error("获取投资记录：%s：", e.getMessage());
+                }
+                break;
+            case AppConstants.queryUserInvestInfo:
+                try{
+                    result = RequestDataExtend.queryUserInvestInfo();
+                    Logger.debug("获取个人财富返回：" + result);
+                } catch(Exception e) {
+                    Logger.error("获取个人财富：%s：", e.getMessage());
+                }
+                break;
+
+
         }
 
 		return result;

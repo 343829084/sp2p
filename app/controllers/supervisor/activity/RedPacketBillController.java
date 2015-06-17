@@ -4,8 +4,10 @@ import business.PageVo;
 import business.RedPacketBill;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import controllers.BaseController;
+import controllers.supervisor.SupervisorController;
 import controllers.supervisor.activity.service.RedPacketBillService;
 import controllers.supervisor.activity.service.RedPacketService;
+import controllers.supervisor.activity.vo.RedPacketBillVo;
 import controllers.supervisor.activity.vo.RedPacketVo;
 import models.RedPacketBillModel;
 import play.Logger;
@@ -17,13 +19,14 @@ import java.util.Map;
 /**
  * Created by Yuan on 2015/6/16.
  */
-public class RedPacketBillController extends BaseController {
+public class RedPacketBillController extends SupervisorController {
 
     private static RedPacketBillService redPacketBillService = new RedPacketBillService();
 
     public static void index() {
         PageVo pageVo = new PageVo();
-        render();
+        List<RedPacketBillVo> billVos = redPacketBillService.findRedPacketBillVosBy(pageVo);
+        render(billVos);
     }
 
 

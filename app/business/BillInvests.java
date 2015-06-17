@@ -1,24 +1,26 @@
 package business;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import org.apache.commons.lang.StringUtils;
-import constants.Constants;
-import constants.SQLTempletes;
-import play.Logger;
-import play.db.jpa.JPA;
-import utils.ErrorInfo;
-import utils.PageBean;
-import utils.QueryUtil;
+
 import models.t_bill_invests;
 import models.v_bill_invest;
 import models.v_bill_invest_detail;
+
+import org.apache.commons.lang.StringUtils;
+
+import play.Logger;
+import play.db.jpa.JPA;
+import utils.ConverterUtil;
+import utils.ErrorInfo;
+import utils.PageBean;
+import utils.QueryUtil;
+import vo.BidInvestInfoVo;
+import constants.Constants;
+import constants.SQLTempletes;
 
 public class BillInvests implements Serializable{
 
@@ -102,13 +104,17 @@ public class BillInvests implements Serializable{
 		return bills;
 	}
 	
-	/**
- 	 * 查询我的理财账单
- 	 * @param userId
- 	 * @param info
- 	 * @param currPage
- 	 * @return
- 	 */
+    /**
+     * 查询我的理财账单
+     * @param payType 1未收款  2已收款    0 不作查询条件
+     * @param isOverType 1未逾期  2已逾期  0 不作查询条件
+     * @param keyType 0 不作查询条件
+     * @param keyStr
+     * @param currPageStr
+     * @param userId
+     * @param error
+     * @return
+     */
  	public static PageBean<v_bill_invest> queryMyInvestBills(int payType, int isOverType,
 			int keyType, String keyStr, int currPageStr, long userId, ErrorInfo error){
         error.clear();
@@ -116,7 +122,7 @@ public class BillInvests implements Serializable{
  		int count = 0;
  		int currPage = Constants.ONE;
  		int pageSize = Constants.TEN;
- 		
+
         Map<String,Object> conditionMap = new HashMap<String, Object>();
  		List<v_bill_invest> bills = new ArrayList<v_bill_invest>();
  		StringBuffer sql = new StringBuffer("");
@@ -140,7 +146,7 @@ public class BillInvests implements Serializable{
  		if(currPageStr != 0){
  			currPage = currPageStr;
  		}
- 		
+
  		if(StringUtils.isNotBlank(keyStr)) {
 			sql.append(SQLTempletes.LOAN_INVESTBILL_ALL[keyType]);
 			params.add("%"+keyStr.trim()+"%");
@@ -188,6 +194,69 @@ public class BillInvests implements Serializable{
 		
 		return page;
  	}
+
+
+    public static PageBean<BidInvestInfoVo> queryInvestBids(int payType, int currPageStr, int pageSizeStr, long userId, ErrorInfo error){
+        error.clear();
+        int currPage = Constants.ONE;
+        int pageSize = Constants.TEN;
+
+        if(currPageStr != 0){
+            currPage = currPageStr;
+        }
+        if (pageSizeStr != 0) {
+            pageSize = pageSizeStr;
+        }
+
+        StringBuffer sql = new StringBuffer("");
+        sql.append(SQLTempletes.SELECT);
+        sql.append("id,bid_id,title,main_type_id,invest_amounts,income_amounts,status,repayment_time,quotient,netvalue");
+        sql.append(" from v_bid_invest_info ");
+        sql.append(" where 1 = 1");
+        if (payType == 1) {
+            sql.append(" and status in (-1, -2,-5,-6) ");
+        }else if (payType == 2){
+            sql.append(" and status in (-3 ,-4, 0) ");
+        }
+        sql.append(" and user_id = ?");
+        sql.append(" order by id desc");
+
+        Logger.info(">> queryInvestBids sql :" + sql.toString());
+
+        PageBean<BidInvestInfoVo> page = new PageBean<BidInvestInfoVo>();
+        page.pageSize = pageSize;
+        page.currPage = currPage;
+        try {
+
+            EntityManager em = JPA.em();
+            Query query = em.createNativeQuery(sql.toString());
+
+            List<Object> params = new ArrayList<Object>();
+            params.add(userId);
+            for(int n = 1; n <= params.size(); n++){
+                query.setParameter(n, params.get(n-1));
+            }
+            query.setFirstResult((currPage - 1) * pageSize);
+            query.setMaxResults(pageSize);
+            List<Object[]> list = query.getResultList();
+
+            String keys = "id,bidId,title,mainTypeId,investAmounts,incomeAmounts,status,repaymentTime,quotient,netvalue";
+            List<BidInvestInfoVo> bidInvestInfoVoList = ConverterUtil.convert(keys, list, BidInvestInfoVo.class);
+            int count = QueryUtil.getQueryCountByCondition(em, sql.toString(), params);
+
+            page.page = bidInvestInfoVoList;
+            page.totalCount = count;
+        }catch (Exception e) {
+            e.printStackTrace();
+            Logger.info("查询我的理财账单时："+e.getMessage());
+            error.code = -1;
+            error.msg = "由于数据库异常，查询我的理财账单失败";
+
+            return page;
+        }
+
+        return page;
+    }
  	
  	/**
  	 * 我的账单详情
