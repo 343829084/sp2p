@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import models.*;
 import org.apache.commons.lang.StringUtils;
 import com.shove.Convert;
 import com.shove.security.Encrypt;
@@ -42,28 +43,6 @@ import utils.QueryUtil;
 import utils.PushMessage;
 import utils.Security;
 import utils.ServiceFee;
-import models.t_bids;
-import models.t_bill_invests;
-import models.t_bills;
-import models.t_invest_transfers;
-import models.t_product_audit_items;
-import models.t_invests;
-import models.t_system_options;
-import models.t_user_attention_bids;
-import models.t_user_audit_items;
-import models.t_user_automatic_bid;
-import models.t_user_automatic_invest_options;
-import models.t_users;
-import models.v_bill_board;
-import models.v_confirm_autoinvest_bids;
-import models.v_debt_auction_records;
-import models.v_front_all_bids;
-import models.v_front_user_attention_bids;
-import models.v_invest_records;
-import models.v_receiving_invest_bids;
-import models.v_user_for_details;
-import models.v_user_success_invest_bids;
-import models.v_user_waiting_full_invest_bids;
 
 /**
  * 投资业务实体类
@@ -229,159 +208,160 @@ public class Invest implements Serializable {
      */
     public static PageBean<v_front_all_bids> queryAllBids(int showType, int currPage, int pageSize, String _apr, String _amount, String _loanSchedule, String _startDate, String _endDate, String _loanType, String minLevelStr, String maxLevelStr, String _orderType, String _keywords, String _period, String _status, ErrorInfo error) {
 
-        int apr = 0;
-        int amount = 0;
-        int loan_schedule = 0;
-        int orderType = 0;
-        int product_id = 0;
-        int minLevel = 0;
-        int maxLevel = 0;
-
-        int period = 0;
-        int status = 0;
+//        int apr = 0;
+//        int amount = 0;
+//        int loan_schedule = 0;
+//        int orderType = 0;
+//        int product_id = 0;
+//        int minLevel = 0;
+//        int maxLevel = 0;
+//
+//        int period = 0;
+//        int status = 0;
 
         List<v_front_all_bids> bidList = new ArrayList<v_front_all_bids>();
         PageBean<v_front_all_bids> page = new PageBean<v_front_all_bids>();
 
         EntityManager em = JPA.em();
-        String obj = OptionKeys.getvalue(OptionKeys.LOAN_NUMBER, new ErrorInfo());
-        obj = obj == null ? "" : obj;
+//        String obj = OptionKeys.getvalue(OptionKeys.LOAN_NUMBER, new ErrorInfo());
+//        obj = obj == null ? "" : obj;
 
-        Map<String, Object> conditionMap = new HashMap<String, Object>();
-        conditionMap.put("keywords", _keywords);
+//        Map<String, Object> conditionMap = new HashMap<String, Object>();
+//        conditionMap.put("keywords", _keywords);
 
         page.pageSize = pageSize;
         page.currPage = currPage;
 
         StringBuffer sql = new StringBuffer("");
-        sql.append(SQLTempletes.SELECT);
-        sql.append(SQLTempletes.V_FRONT_ALL_BIDS_CREDIT);
+        sql.append("select * from v_bids_info");
+//        sql.append(SQLTempletes.SELECT);
+//        sql.append(SQLTempletes.V_FRONT_ALL_BIDS_CREDIT);
 
         List<Object> params = new ArrayList<Object>();
 
-        if (NumberUtil.isNumericInt(_apr)) {
-            apr = Integer.parseInt(_apr);
-        }
-
-        if (apr < 0 || apr > 4) {
-            sql.append(SQLTempletes.BID_APR_CONDITION[0]);// 全部范围
-        } else {
-            sql.append(SQLTempletes.BID_APR_CONDITION[apr]);
-        }
-
-        if (NumberUtil.isNumericInt(_amount)) {
-            amount = Integer.parseInt(_amount);
-        }
-
-        if (!StringUtils.isBlank(_keywords)) {
-            sql.append(" and t_bids.title like ? or t_bids.id like ? ");
-            params.add("%" + _keywords + "%");
-            _keywords = _keywords.replace(obj + "", "");
-            params.add("%" + _keywords + "%");
-        }
-
-        if (amount < 0 || amount > 5) {
-            sql.append(SQLTempletes.BID_MIN_INVEST_AMOUNT_CONDITION[0]);// 全部范围
-        } else {
-            sql.append(SQLTempletes.BID_MIN_INVEST_AMOUNT_CONDITION[amount]);
-        }
-
-        if (NumberUtil.isNumericInt(_loanSchedule)) {
-            loan_schedule = Integer.parseInt(_loanSchedule);
-        }
-
-        if (loan_schedule < 0 || loan_schedule > 4) {
-            sql.append(SQLTempletes.BID_LOAN_SCHEDULE_CONDITION[0]);//全部范围
-        } else {
-            sql.append(SQLTempletes.BID_LOAN_SCHEDULE_CONDITION[loan_schedule]);
-        }
-
-        if (NumberUtil.isNumericInt(_loanType)) {
-            product_id = Integer.parseInt(_loanType);
-            if (product_id > 0) {
-                sql.append(" and t_products.id = ? ");
-                params.add(product_id);
-            }
-
-        }
-
-        if (NumberUtil.isNumericInt(minLevelStr)) {
-            minLevel = Integer.parseInt(minLevelStr);
-            if (minLevel > 0) {
-                sql.append(" AND t_users.credit_level_id = ?");
-                params.add(minLevel);
-            }
-
-        }
-
-
-        if (NumberUtil.isNumericInt(maxLevelStr)) {
-            maxLevel = Integer.parseInt(maxLevelStr);
-            if (maxLevel > 0) {
-                sql.append(" and ? <= `f_credit_levels`(`t_bids`.`user_id`)");
-                params.add(maxLevel);
-            }
-
-        }
-
-        if (!StringUtils.isBlank(_startDate) && !StringUtils.isBlank(_endDate)) {
-            sql.append(" and t_bids.repayment_time >= ? and  t_bids.repayment_time <= ? ");
-            params.add(DateUtil.strDateToStartDate(_startDate));
-            params.add(DateUtil.strDateToEndDate(_endDate));
-        }
-
-        if (showType == Constants.SHOW_TYPE_1) {
-            sql.append(" and t_bids.show_type in (1,3) ");
-        } else {
-            sql.append(" and t_bids.show_type in (2,3) ");
-        }
-        if (Constants.IS_BIDS_NEED_FILTER) {
-            sql.append(" and t_bids.time > '" + Constants.BIDS_CREATETIME + "' and t_users.name = '" + Constants.BIDS_MOBILE + "' ");
-        }
-
-
-        if (NumberUtil.isNumericInt(_period)) {
-            period = Integer.parseInt(_period);
-            if (period > 0 && period < 6) {
-                sql.append("and ((CASE WHEN (t_bids.period_unit = 1) THEN t_bids.period WHEN (t_bids.period_unit = 0) THEN t_bids.period * 30 WHEN (t_bids.period_unit = -1) THEN t_bids.period * 365 ELSE 0 END) " + SQLTempletes.BID_PERIOD_CONDITION[period] + ")");
-            } else {
-                sql.append(SQLTempletes.BID_PERIOD_CONDITION[0]);
-            }
-
-        }
-
-        if (NumberUtil.isNumericInt(_status)) {
-            status = Integer.parseInt(_status);
-            if (status > 0 && period < 6) {
-                sql.append(SQLTempletes.BID_STATUS_CONDITION[status]);
-            } else {
-                sql.append(SQLTempletes.BID_STATUS_CONDITION[0]);
-            }
-
-        }
-
-        if (NumberUtil.isNumericInt(_orderType)) {
-            orderType = Integer.parseInt(_orderType);
-        }
-
-        if (orderType < 0 || orderType > 5) {
-            sql.append(Constants.BID_ORDER_CONDITION[0]);
-        } else {
-            sql.append(Constants.BID_ORDER_CONDITION[orderType]);
-        }
-
-        conditionMap.put("apr", apr);
-        conditionMap.put("amount", amount);
-        conditionMap.put("loanSchedule", loan_schedule);
-        conditionMap.put("startDate", _startDate);
-        conditionMap.put("endDate", _endDate);
-        conditionMap.put("minLevel", minLevel);
-        conditionMap.put("maxLevel", maxLevel);
-        conditionMap.put("orderType", orderType);
-        conditionMap.put("loanType", product_id);
-
-        conditionMap.put("period", period);
-        conditionMap.put("status", status);
+//        if (NumberUtil.isNumericInt(_apr)) {
+//            apr = Integer.parseInt(_apr);
+//        }
+//
+//        if (apr < 0 || apr > 4) {
+//            sql.append(SQLTempletes.BID_APR_CONDITION[0]);// 全部范围
+//        } else {
+//            sql.append(SQLTempletes.BID_APR_CONDITION[apr]);
+//        }
+//
+//        if (NumberUtil.isNumericInt(_amount)) {
+//            amount = Integer.parseInt(_amount);
+//        }
+//
+//        if (!StringUtils.isBlank(_keywords)) {
+//            sql.append(" and t_bids.title like ? or t_bids.id like ? ");
+//            params.add("%" + _keywords + "%");
+//            _keywords = _keywords.replace(obj + "", "");
+//            params.add("%" + _keywords + "%");
+//        }
+//
+//        if (amount < 0 || amount > 5) {
+//            sql.append(SQLTempletes.BID_MIN_INVEST_AMOUNT_CONDITION[0]);// 全部范围
+//        } else {
+//            sql.append(SQLTempletes.BID_MIN_INVEST_AMOUNT_CONDITION[amount]);
+//        }
+//
+//        if (NumberUtil.isNumericInt(_loanSchedule)) {
+//            loan_schedule = Integer.parseInt(_loanSchedule);
+//        }
+//
+//        if (loan_schedule < 0 || loan_schedule > 4) {
+//            sql.append(SQLTempletes.BID_LOAN_SCHEDULE_CONDITION[0]);//全部范围
+//        } else {
+//            sql.append(SQLTempletes.BID_LOAN_SCHEDULE_CONDITION[loan_schedule]);
+//        }
+//
+//        if (NumberUtil.isNumericInt(_loanType)) {
+//            product_id = Integer.parseInt(_loanType);
+//            if (product_id > 0) {
+//                sql.append(" and t_products.id = ? ");
+//                params.add(product_id);
+//            }
+//
+//        }
+//
+//        if (NumberUtil.isNumericInt(minLevelStr)) {
+//            minLevel = Integer.parseInt(minLevelStr);
+//            if (minLevel > 0) {
+//                sql.append(" AND t_users.credit_level_id = ?");
+//                params.add(minLevel);
+//            }
+//
+//        }
+//
+//
+//        if (NumberUtil.isNumericInt(maxLevelStr)) {
+//            maxLevel = Integer.parseInt(maxLevelStr);
+//            if (maxLevel > 0) {
+//                sql.append(" and ? <= `f_credit_levels`(`t_bids`.`user_id`)");
+//                params.add(maxLevel);
+//            }
+//
+//        }
+//
+//        if (!StringUtils.isBlank(_startDate) && !StringUtils.isBlank(_endDate)) {
+//            sql.append(" and t_bids.repayment_time >= ? and  t_bids.repayment_time <= ? ");
+//            params.add(DateUtil.strDateToStartDate(_startDate));
+//            params.add(DateUtil.strDateToEndDate(_endDate));
+//        }
+//
+//        if (showType == Constants.SHOW_TYPE_1) {
+//            sql.append(" and t_bids.show_type in (1,3) ");
+//        } else {
+//            sql.append(" and t_bids.show_type in (2,3) ");
+//        }
+//        if (Constants.IS_BIDS_NEED_FILTER) {
+//            sql.append(" and t_bids.time > '" + Constants.BIDS_CREATETIME + "' and t_users.name = '" + Constants.BIDS_MOBILE + "' ");
+//        }
+//
+//
+//        if (NumberUtil.isNumericInt(_period)) {
+//            period = Integer.parseInt(_period);
+//            if (period > 0 && period < 6) {
+//                sql.append("and ((CASE WHEN (t_bids.period_unit = 1) THEN t_bids.period WHEN (t_bids.period_unit = 0) THEN t_bids.period * 30 WHEN (t_bids.period_unit = -1) THEN t_bids.period * 365 ELSE 0 END) " + SQLTempletes.BID_PERIOD_CONDITION[period] + ")");
+//            } else {
+//                sql.append(SQLTempletes.BID_PERIOD_CONDITION[0]);
+//            }
+//
+//        }
+//
+//        if (NumberUtil.isNumericInt(_status)) {
+//            status = Integer.parseInt(_status);
+//            if (status > 0 && period < 6) {
+//                sql.append(SQLTempletes.BID_STATUS_CONDITION[status]);
+//            } else {
+//                sql.append(SQLTempletes.BID_STATUS_CONDITION[0]);
+//            }
+//
+//        }
+//
+//        if (NumberUtil.isNumericInt(_orderType)) {
+//            orderType = Integer.parseInt(_orderType);
+//        }
+//
+//        if (orderType < 0 || orderType > 5) {
+//            sql.append(Constants.BID_ORDER_CONDITION[0]);
+//        } else {
+//            sql.append(Constants.BID_ORDER_CONDITION[orderType]);
+//        }
+//
+//        conditionMap.put("apr", apr);
+//        conditionMap.put("amount", amount);
+//        conditionMap.put("loanSchedule", loan_schedule);
+//        conditionMap.put("startDate", _startDate);
+//        conditionMap.put("endDate", _endDate);
+//        conditionMap.put("minLevel", minLevel);
+//        conditionMap.put("maxLevel", maxLevel);
+//        conditionMap.put("orderType", orderType);
+//        conditionMap.put("loanType", product_id);
+//
+//        conditionMap.put("period", period);
+//        conditionMap.put("status", status);
 
         try {
             Query query = em.createNativeQuery(sql.toString(), v_front_all_bids.class);
@@ -403,7 +383,44 @@ public class Invest implements Serializable {
         error.code = 1;
         error.msg = "查询成功";
         page.page = bidList;
-        page.conditions = conditionMap;
+       // page.conditions = conditionMap;
+
+        return page;
+    }
+
+    public static PageBean<v_bids_info> queryAllBids1(int showType, int currPage, int pageSize, String _apr, String _amount, String _loanSchedule, String _startDate, String _endDate, String _loanType, String minLevelStr, String maxLevelStr, String _orderType, String _keywords, String _period, String _status, ErrorInfo error) {
+        List<v_bids_info> bidList = new ArrayList<v_bids_info>();
+        PageBean<v_bids_info> page = new PageBean<v_bids_info>();
+        EntityManager em = JPA.em();
+
+        page.pageSize = pageSize;
+        page.currPage = currPage;
+
+        StringBuffer sql = new StringBuffer("");
+        sql.append("select * from v_bids_info");
+
+        List<Object> params = new ArrayList<Object>();
+        try {
+            Query query = em.createNativeQuery(sql.toString(), v_bids_info.class);
+            for (int n = 1; n <= params.size(); n++) {
+                query.setParameter(n, params.get(n - 1));
+            }
+            query.setFirstResult((currPage - 1) * pageSize);
+            query.setMaxResults(pageSize);
+            bidList = query.getResultList();
+
+            page.totalCount = QueryUtil.getQueryCountByCondition(em, sql.toString(), params);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            error.msg = "系统异常，给您带来的不便敬请谅解！";
+            error.code = -2;
+        }
+
+        error.code = 1;
+        error.msg = "查询成功";
+        page.page = bidList;
+        // page.conditions = conditionMap;
 
         return page;
     }

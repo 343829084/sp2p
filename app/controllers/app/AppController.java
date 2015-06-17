@@ -1269,6 +1269,14 @@ public class AppController extends BaseController implements GeneralRestGatewayI
                 break;
 
 
+            case AppConstants.APP_LIST_BIDS:
+                try{
+                    result = RequestDataExtend.queryAllbids(parameters);
+                    Logger.debug("查询标的列表：" + result);
+                } catch(Exception e) {
+                    Logger.error("查询标的列表", e.getMessage());
+                }
+                break;
         }
 
 		return result;

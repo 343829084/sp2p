@@ -182,4 +182,5 @@ public class AppConstants {
     public static final int APP_SIGN_INVEST = 170;//获取标的sign
     public static final int APP_INVESTBILLS = 171;//个人投资记录
     public static final int queryUserInvestInfo = 172;//个人财富记录
+    public static final int APP_LIST_BIDS=173;  //最新版本的标的列表
 }
