@@ -29,6 +29,9 @@ import java.util.Map;
 
 public class LoginAction extends BaseController {
 
+	public static void landingpage() {
+		render();
+	}
 
     /*
      * 跳转到登录页面

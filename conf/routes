@@ -157,7 +157,7 @@ GET    /front/bidAction/detail                         							front.bid.bidActio
 #立即申请
 *    /front/bidAction/applyNow                       							front.bid.bidAction.applyNow
 #立即新增母产品
-*    /front/bidAction/createMProductNow                        					front.bid.bidAction.createMProductNow 
+*    /front/bidAction/createMProductNow                        					front.bid.bidAction.createMProductNow
 #发布母产品
 POST   /front/bidAction/createMProduct  				    					front.bid.bidAction.createMProduct
 
@@ -2013,6 +2013,7 @@ GET     /front/paymentAction/ips												front.account.PaymentAction.ipsCommi
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^mobile^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 #登录 注册
+GET		 /mobile/landingpage													 mobile.LoginAction.landingpage
 GET      /mobile/login                                                           mobile.LoginAction.login
 POST     /mobile/login                                                           mobile.LoginAction.doLogin
 
