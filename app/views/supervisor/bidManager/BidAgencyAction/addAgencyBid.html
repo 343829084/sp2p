@@ -40,6 +40,13 @@
                           #{/td}
                         #{/tr}
                         #{tr}
+                        #{td align:"right"}借款标题：#{/td}
+                          #{td}
+                            <input type="text" class="xfht_zr_input xfht_zr_input_three" id="title" name="bid.title" maxlength="24" value="${flash?.title}" />
+		                    <br/>不超过<span class="xfht_lv">24</span>个汉字，重视标题描述，能加快借款标满标。
+                          #{/td}
+                        #{/tr}
+                        #{tr}
                           #{td align:"right"}直接借款人：#{/td}
                           #{td}
                             <input type="hidden" id="sign" name="sign"> 
@@ -59,13 +66,73 @@
 							</select>
                           #{/td}
                         #{/tr}
+                        
                         #{tr}
-                          #{td align:"right"}借款标题：#{/td}
+                          #{td align:"right"}母产品类型：#{/td}
                           #{td}
-                            <input type="text" class="xfht_zr_input xfht_zr_input_three" id="title" name="bid.title" maxlength="24" value="${flash?.title}" />
-		                    <br/>不超过<span class="xfht_lv">24</span>个汉字，重视标题描述，能加快借款标满标。
+                            <select class="xf_ht_jr_dfk_i" name="bid.mProductId" id="mProductId" value="${flash?.mProduct} style="padding-bottom: 5px;padding-left: -50px;">
+                                <option value="0">请选择</option>
+								#{list mProducts}
+									<option value=${_?.id}>
+										${_?.name}
+									</option>
+								#{/list}
+							</select>
                           #{/td}
                         #{/tr}
+                        
+                        #{tr}
+                          #{td align:"right"}产品主类型：#{/td}
+                          #{td}
+                            <select class="xf_ht_jr_dfk_i" name="bid.mainTypeId" id="main_typeId" style="padding-bottom: 5px;padding-left: -50px;">
+							</select>
+                          #{/td}
+                        #{/tr}
+                        
+                        
+                        #{tr}
+                          #{td align:"right"}产品子类型：#{/td}
+                          #{td}
+                            <select class="xf_ht_jr_dfk_i" name="bid.subTypeId" id="sub_typeId" style="padding-bottom: 5px;padding-left: -50px;">
+							</select>
+                          #{/td}
+                        #{/tr}
+                        
+                        #{tr}
+                          #{td align:"right"}产品简称：#{/td}
+                          #{td}
+                            <input type="text" class="xfht_zr_input xfht_zr_input_three" id="name" name="bid.name" maxlength="24" value="${flash?.name}" />
+                          #{/td}
+                        #{/tr}
+                        
+                        #{tr}
+                          #{td align:"right"}项目名称：#{/td}
+                          #{td}
+                            <input type="text" class="xfht_zr_input xfht_zr_input_three" id="project_name" name="bid.project_name" maxlength="24" value="${flash?.project_name}" />
+                          #{/td}
+                        #{/tr}
+                        
+                        #{tr}
+                          #{td align:"right"}项目编码：#{/td}
+                          #{td}
+                            <input type="text" class="xfht_zr_input xfht_zr_input_three" id="project_code" name="bid.project_code" maxlength="24" value="${flash?.project_code}" />
+                          #{/td}
+                        #{/tr}
+                        
+                        #{tr}
+                          #{td align:"right"}项目融资方：#{/td}
+                          #{td}
+                            <input type="text" class="xfht_zr_input xfht_zr_input_three" id="loaner_name" name="bid.loaner_name" maxlength="24" value="${flash?.loaner_name}" />
+                          #{/td}
+                        #{/tr}
+                        
+                        #{tr}
+                          #{td align:"right"}监管银行：#{/td}
+                          #{td}
+                            <input type="text" class="xfht_zr_input xfht_zr_input_three" id="supervise_bank" name="bid.supervise_bank" maxlength="24" value="${flash?.supervise_bank}" />
+                          #{/td}
+                        #{/tr}
+                        
                         #{tr}
                           #{td align:"right"}借款金额：#{/td}
                           #{td}
@@ -322,6 +389,27 @@
                     <h3 class="xf_htgl_jgtitle">风控措施</h3>
                     <textarea class="xf_ht_fbhzjg_textarea" name="bid.risk_control" id="risk_control">${flash?.risk_control}</textarea> 
                   </div>
+                  
+                  
+                  <div class="xf_htgl_jgone">
+                    <h3 class="xf_htgl_jgtitle">项目详情</h3>
+                    <textarea class="xf_ht_fbhzjg_textarea" name="bid.project_detail" id="project_detail">${flash?.project_detail}</textarea> 
+                  </div>
+                  
+                  <div class="xf_htgl_jgone">
+                    <h3 class="xf_htgl_jgtitle">项目资金用途</h3>
+                    <textarea class="xf_ht_fbhzjg_textarea" name="bid.capital_usage" id="capital_usage">${flash?.capital_usage}</textarea> 
+                  </div>
+                  
+                  <div class="xf_htgl_jgone">
+                    <h3 class="xf_htgl_jgtitle">安全保障</h3>
+                    <textarea class="xf_ht_fbhzjg_textarea" name="bid.security_guarantee" id="security_guarantee">${flash?.security_guarantee}</textarea> 
+                  </div>
+                  
+                  <div class="xf_htgl_jgone">
+                    <h3 class="xf_htgl_jgtitle">收益保障</h3>
+                    <textarea class="xf_ht_fbhzjg_textarea" name="bid.profit_guarantee" id="profit_guarantee">${flash?.profit_guarantee}</textarea> 
+                  </div>
  
                   <div class="xf_htgl_jgone" #{if constants.Constants.IPS_ENABLE}style="display: none;"#{/if}>
                     <h3 class="xf_htgl_jgtitle">投标奖励</h3>
@@ -451,6 +539,63 @@
 		showHighLight(2, 2, 9);
 		
 		$("#period").attr('disabled','disabled');
+		
+		$("#mProductId").change(function(){
+			var mProductId = $(this).val();
+			
+			$.ajax({
+				url : "/supervisor/BidAgencyAction/getMProductById",
+				type : "POST",
+				data : {
+					"id" : mProductId
+				},
+				success : function(data) {
+					var main_typeId = $('#main_typeId');
+					var sub_typeId = $('#sub_typeId');
+					main_typeId.removeAttr('disabled').empty();
+					sub_typeId.removeAttr('disabled').empty();
+					var arr=eval(data);
+					if(arr.error.code < 0){
+						alert(arr.error.msg);
+						return;
+					}
+					var mProdutE = arr.mProdutE;
+					var main_type_id = mProdutE.main_type_id;
+					var sub_type_id = mProdutE.sub_type_id;
+
+					#{list mainTypes}
+						if(main_type_id == ${_?.id})
+							main_typeId.append('<option value=${_?.id}> ${_?.name} </option>');
+					#{/list}
+					
+					
+					#{list subTypes}
+						if (sub_type_id == ${_?.id})
+							sub_typeId.append('<option value=${_?.id}> ${_?.name} </option>');
+					#{/list}
+					
+					$('#risk_control').html(mProdutE.risk_control);
+					$('#repayment_res').html(mProdutE.repayment_res);
+					$('#project_introduction').html(mProdutE.project_introduction);
+					
+					$('#name').val(mProdutE.name);
+					$('#project_name').val(mProdutE.project_name);
+					$('#project_code').val(mProdutE.project_code);
+					
+					$('#loaner_name').val(mProdutE.loaner_name);
+					$('#project_detail').html(mProdutE.project_detail);
+					$('#capital_usage').html(mProdutE.capital_usage);
+					
+					$('#security_guarantee').html(mProdutE.security_guarantee);
+					$('#profit_guarantee').html(mProdutE.profit_guarantee);
+					$('#supervise_bank').html(mProdutE.supervise_bank);
+				},
+				error : function() {
+					alert("对不起，出现错误!");
+				}
+			});
+			
+		});
 
 		/* 借款期限动态下拉 */
 		$("#periodUnit").change(function(){

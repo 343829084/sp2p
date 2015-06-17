@@ -1,6 +1,7 @@
 package controllers.front.bid;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import models.t_dict_cars;
 import models.t_dict_educations;
 import models.t_dict_houses;
 import models.t_dict_maritals;
+import models.t_m_products;
 import net.sf.json.JSONObject;
 import constants.Constants;
 import constants.IPSConstants;
@@ -26,12 +28,17 @@ import controllers.front.account.PaymentAction;
 import business.Ads;
 import business.BackstageSet;
 import business.Bid;
+import business.MProduct;
+import business.MProduct.MainType;
+import business.MProduct.SubType;
 import business.News;
 import business.Payment;
 import business.Product;
 import business.User;
 import business.Bid.Purpose;
+import play.Logger;
 import play.cache.Cache;
+import play.db.jpa.JPA;
 import play.mvc.Before;
 import utils.CaptchaUtil;
 import utils.ErrorInfo;
@@ -146,7 +153,20 @@ public class BidAction extends BaseController {
 	    
 	    render();
 	}
-	
+
+	/**
+	 * 新增母产品
+	 */
+	public static void createMProductNow (int code) {
+        ErrorInfo error = new ErrorInfo();
+		
+		/* 产品主类型  */
+		List<MainType> mainTypes = MainType.queryMainType(error, true);
+		/* 产品子类型  */
+		List<SubType> subTypes = SubType.querySubType(error, true);
+		render(mainTypes, subTypes, code);
+	}
+
 	/**
 	 * 立即申请
 	 */
@@ -167,7 +187,13 @@ public class BidAction extends BaseController {
 		
 		/* 借款用途  */
 		List<Purpose> purpose = Purpose.queryLoanPurpose(error, true);
-		
+		/* 母产品  */
+		List<MProduct> mProducts = MProduct.queryMProduct(error);
+
+		/* 产品主类型  */
+		List<MainType> mainTypes = MainType.queryMainType(error, true);
+		/* 产品子类型  */
+		List<SubType> subTypes = SubType.querySubType(error, true);
 		if(null == purpose) {
 			flash.error("借款用途有误!");
 			
@@ -191,9 +217,57 @@ public class BidAction extends BaseController {
 		Cache.delete(key); // 删除缓存中的bid对象
 		String uuid = CaptchaUtil.getUUID(); // 防重复提交UUID
 		
-		render(purpose, product, code, uuid, loanBid, status);
+		render(purpose, product, mProducts, mainTypes, subTypes, code, uuid, loanBid, status);
 	}
-	
+	/**
+	 * 发布母产品
+	 */
+	public static void createMProduct(MProduct mproduct) {
+		checkAuthenticity(); 
+		if(User.currUser().simulateLogin != null){
+        	if(User.currUser().simulateLogin.equalsIgnoreCase(User.currUser().encrypt())){
+            	flash.error("模拟登录不能进行该操作");
+            	String url = request.headers.get("referer").value();
+            	redirect(url);
+            }else{
+            	flash.error("模拟登录超时，请重新操作");
+            	String url = request.headers.get("referer").value();
+            	redirect(url);
+            }
+        }
+
+		ErrorInfo error = new ErrorInfo();
+		t_m_products tproduct = new t_m_products();
+		tproduct.capital_usage = mproduct.capital_usage;
+		tproduct.time = new Date();
+		tproduct.name = mproduct.name;
+		tproduct.main_type_id = mproduct.main_type.id + "";
+		tproduct.sub_type_id = mproduct.sub_type.id + "";
+		tproduct.project_name = mproduct.project_name;
+		tproduct.project_code = mproduct.project_code;
+		tproduct.total_amount = mproduct.total_amount;
+		tproduct.loaner_name = mproduct.loaner_name;
+		tproduct.project_introduction = mproduct.project_introduction;
+		tproduct.project_detail = mproduct.project_detail;
+		tproduct.repayment_res = mproduct.repayment_res;
+		tproduct.risk_control = mproduct.risk_control;
+		tproduct.security_guarantee = mproduct.security_guarantee;
+		
+		try {
+			/* 新增 */
+			tproduct.save();
+		} catch (Exception e) {
+			Logger.error("新增母产品:" + e.getMessage());
+			error.code = -19;
+			error.msg = "新增母产品失败!";
+			JPA.setRollbackOnly();
+
+			return ;
+		}
+		error.code = 1;
+		error.msg = "新增母产品成功！";
+		createMProductNow( error.code);
+	}
 	/**
 	 * 发布借款
 	 */

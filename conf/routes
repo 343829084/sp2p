@@ -156,6 +156,11 @@ GET    /front/bidAction/fullBid 			     	    						front.bid.bidAction.fullBid
 GET    /front/bidAction/detail                         							front.bid.bidAction.detail
 #立即申请
 *    /front/bidAction/applyNow                       							front.bid.bidAction.applyNow
+#立即新增母产品
+*    /front/bidAction/createMProductNow                        					front.bid.bidAction.createMProductNow 
+#发布母产品
+POST   /front/bidAction/createMProduct  				    					front.bid.bidAction.createMProduct
+
 #发布借款
 POST   /front/bidAction/createBid					    						front.bid.bidAction.createBid
 # 判断当前用户登录的状态
@@ -1239,6 +1244,8 @@ GET     /supervisor/BidPlatformAction/print                          			supervis
 *       /supervisor/BidAgencyAction/agencyBidList                      			supervisor.bidManager.BidAgencyAction.agencyBidList
 # 详情
 GET     /supervisor/BidAgencyAction/detail										supervisor.bidManager.BidAgencyAction.detail
+# 获得母产品对象
+POST    /supervisor/BidAgencyAction/getMProductById                     		supervisor.bidManager.BidAgencyAction.getMProductById
 # 发布机构合作标 页面跳转
 GET     /supervisor/BidAgencyAction/addAgencyBid                     			supervisor.bidManager.BidAgencyAction.addAgencyBid
 # 选择用户

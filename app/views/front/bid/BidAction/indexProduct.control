@@ -47,7 +47,21 @@
 
 </div>
 #{/list}
-
+<!-- 新增母产品 -->
+<div class="xf_c_wyjk_2_jkcpItems2">
+	<div class="xf_c_wyjk_2_jkxzWrap">
+		<div class="xf_c_wyjk_2_jkxzColName">
+			新增母产品 
+		</div>
+		
+		<div class="xf_c_wyjk_2_jkcpLjsq">
+			<div>
+				<a href="@{createMProductNow()}" target="_blank">立即新增</a>
+			</div>
+		</div>
+	</div>
+	
+</div>
 <!-- 借款须知 -->
 <div class="xf_c_wyjk_2_jkcpItems2">
 	<div class="xf_c_wyjk_2_jkxzWrap">
@@ -80,4 +94,5 @@
 		#{/if}
 	</div>
 </div>
+
 

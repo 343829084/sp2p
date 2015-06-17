@@ -2,6 +2,9 @@ package controllers.supervisor.bidManager;
 
 import java.util.List;
 import java.util.Map;
+
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang.StringUtils;
 import constants.Constants;
 import constants.IPSConstants;
@@ -13,11 +16,14 @@ import models.v_user_info;
 import bean.AgencyBid;
 import business.Agency;
 import business.Bid;
+import business.MProduct;
 import business.Optimization;
 import business.Payment;
 import business.Product;
 import business.User;
 import business.Bid.Purpose;
+import business.MProduct.MainType;
+import business.MProduct.SubType;
 import play.cache.Cache;
 import utils.CaptchaUtil;
 import utils.ErrorInfo;
@@ -56,7 +62,13 @@ public class BidAgencyAction extends SupervisorController{
 		
 		/* 机构标产品 */
 		Product product = Product.queryAgencyProduct(error);
-		
+		/* 母产品  */
+		List<MProduct> mProducts = MProduct.queryMProduct(error);
+
+		/* 产品主类型  */
+		List<MainType> mainTypes = MainType.queryMainType(error, true);
+		/* 产品子类型  */
+		List<SubType> subTypes = SubType.querySubType(error, true);
 		if(null == product){
 			flash.error(error.msg);
 			
@@ -72,7 +84,7 @@ public class BidAgencyAction extends SupervisorController{
 		String uuid = CaptchaUtil.getUUID(); // 防重复提交UUID
 		int once_repayment = Constants.ONCE_REPAYMENT;  //一次性还款方式
 
-		render(purpose, product, agencys, uuid, loanBid, once_repayment);
+		render(purpose, product, mProducts, mainTypes, subTypes, agencys, uuid, loanBid, once_repayment);
 	}
 	
 	/**
@@ -254,7 +266,19 @@ public class BidAgencyAction extends SupervisorController{
 		
 		render(pageBean);
 	}
-	
+	/**
+	 * 选择母产品
+	 */
+	public static void getMProductById(String id) {
+		ErrorInfo error = new ErrorInfo();
+		MProduct mProdutE = MProduct.getMProductById(Long.valueOf(id), error);
+		JSONObject json = new JSONObject();
+		
+		json.put("error", error);
+		json.put("mProdutE", mProdutE);
+		
+		renderJSON(json);
+	}
 	/**
 	 * 合作结构列表
 	 */

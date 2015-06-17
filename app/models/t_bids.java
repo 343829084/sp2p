@@ -16,8 +16,11 @@ import utils.Security;
  */
 @Entity
 public class t_bids extends Model {
-	public long user_id;                     // 用户ID
-	public Date time;                      //申请时间
+	public long user_id;
+	public long m_product_id;//母产品id
+	public long main_type_id;// 产品主类型,字典类型
+	public long sub_type_id; // 产品子类型,字典类型
+	public Date time;
 	public String bid_no;
 	public String mer_bill_no;
 	public String ips_bill_no;
@@ -33,6 +36,7 @@ public class t_bids extends Model {
 	public Date invest_expire_time;        // 满标日期
 	public Date real_invest_expire_time;    // 实际满标日期
 	public double apr;                     //年利率
+	public double aprPlus;//加送年利率，只作为界面显示用
 	public long bank_account_id;            // 绑定银行卡(默认为0)
 	public int bonus_type;                  // 奖励方式:1 固定金额奖励 2按比例奖励
 	public double bonus;                    // 固定奖金
@@ -81,6 +85,16 @@ public class t_bids extends Model {
 	public double invest_rate; // 理财管理费，利息费率
 	public double overdue_rate; // 逾期费率
 	public boolean is_register_guarantor; // 是否已登记担保方
+	
+	public String name; // 产品简称
+	public String project_name; // 项目名称
+	public String project_code; // 项目编码
+	public String loaner_name; // 项目融资方
+	public String project_detail; // 项目详情
+	public String capital_usage; // 项目资金用途
+	public String security_guarantee; // 安全保障
+	public String profit_guarantee; // 收益保障
+	public String supervise_bank; // 监管银行
 	
 	public t_bids() {
 

@@ -55,6 +55,8 @@ import utils.QueryUtil;
 import utils.Security;
 import utils.ServiceFee;
 import bean.FundraiseingBid;
+import business.MProduct.MainType;
+import business.MProduct.SubType;
 
 import com.google.zxing.BarcodeFormat;
 import com.shove.code.Qrcode;
@@ -102,6 +104,7 @@ public class Bid implements Serializable{
 	public Date repayDateAbout ;//预计还款日期
 	public int period; // 借款期限
 	public double apr; // 年利率
+	public double aprPlus;//加送年利率，只作为界面显示用
 	//public double totalInterest; // 总利息
 	public long bankAccountId; // 借款标绑定的银行卡
 	public String imageFilename; // 借款图片
@@ -161,6 +164,14 @@ public class Bid implements Serializable{
 	
 	public long productId; // 产品ID
 	public Product product; // 产品对象
+	public MProduct mProduct; //母产品对象
+	public long mProductId; //母产品对象id
+
+	public MainType main_type;// 产品主类型
+	public SubType sub_type; // 产品子类型
+
+	public long mainTypeId;// 产品主类型id
+	public long subTypeId; // 产品子类型id
 	public String smallImageFilename; // 产品小图片路径
 	
 	public long userId; // 用户ID
@@ -189,6 +200,15 @@ public class Bid implements Serializable{
 	public String guarantee_bid;
 	public boolean isRegisterGuarantor; // 是否已登记担保方
 	
+	public String name; // 产品简称
+	public String project_name; // 项目名称
+	public String project_code; // 项目编码
+	public String loaner_name; // 项目融资方
+	public String project_detail; // 项目详情
+	public String capital_usage; // 项目资金用途
+	public String security_guarantee; // 安全保障
+	public String profit_guarantee; // 收益保障
+	public String supervise_bank; // 监管银行
 	/**
 	 * 获取_id
 	 */
@@ -349,6 +369,40 @@ public class Bid implements Serializable{
 	}
 
 	/**
+	 * 填充自己的母产品对象
+	 */
+	public void setMProductId(long mProductId) {
+		this.mProductId = mProductId;
+		
+		if(null == this.mProduct){
+			this.mProduct = new MProduct();
+			this.mProduct.id = mProductId; 
+		}
+	}
+
+	/**
+	 * 填充自己的产品主类型对象
+	 */
+	public void setMainTypeId(long main_typeId) {
+		this.mainTypeId = main_typeId;
+		
+		if(null == this.main_type){
+			this.main_type = new MainType();
+			this.main_type.id = main_typeId; 
+		}
+	}
+	/**
+	 * 填充自己的产品子类型对象
+	 */
+	public void setSubTypeId(long sub_typeId) {
+		this.subTypeId = sub_typeId;
+		
+		if(null == this.sub_type){
+			this.sub_type = new SubType();
+			this.sub_type.id = sub_typeId; 
+		}
+	}
+	/**
 	 * 填充自己的合作机构对象
 	 */
 	public void setAgencyId(int agencyId) {
@@ -385,6 +439,22 @@ public class Bid implements Serializable{
 		this.merBillNo = tbid.mer_bill_no;
 		this.isRegisterGuarantor = tbid.is_register_guarantor;
 		this.ipsBillNo = tbid.ips_bill_no;
+		this.aprPlus = tbid.aprPlus;
+		
+		this.name = tbid.name;
+		this.project_name = tbid.project_name;
+		this.project_code = tbid.project_code;
+		this.loaner_name = tbid.loaner_name;
+		this.project_detail = tbid.project_detail;
+		this.capital_usage = tbid.capital_usage;
+		this.security_guarantee = tbid.security_guarantee;
+		this.profit_guarantee = tbid.profit_guarantee;
+		this.supervise_bank = tbid.supervise_bank;
+		
+		this.mainTypeId = tbid.main_type_id;
+		this.subTypeId = tbid.sub_type_id;
+		this.mProductId = tbid.m_product_id;
+		
 		
 		if (this.ips) {
 			this.purpose = new Purpose();

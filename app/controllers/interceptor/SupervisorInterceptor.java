@@ -71,7 +71,8 @@ public class SupervisorInterceptor extends BaseController{
 	@Before(unless = {
 				"supervisor.account.AccountAction.home", 
 				"supervisor.account.AccountAction.editSupervisor",
-				"supervisor.financeManager.PlatformAccountManager.ipsOffSingleDeal"
+				"supervisor.financeManager.PlatformAccountManager.ipsOffSingleDeal",
+				"supervisor.bidManager.BidAgencyAction.getMProductById"
 			})
 	public static void checkRight() {
 		String action = request.action;
