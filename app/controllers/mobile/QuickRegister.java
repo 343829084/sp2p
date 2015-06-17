@@ -36,6 +36,7 @@ public class QuickRegister extends BaseController {
     }
     public static void quickLogin(){
         String repeat= params.get("repeat");
+        Logger.info("repeat"+repeat);
         String mobile= params.get("mobile");
         if(repeat==null) {
             if (ParseClientUtil.isWeiXin()) {
@@ -65,12 +66,14 @@ public class QuickRegister extends BaseController {
             error.msg = "请输入用户名";
             flash.error(error.msg);
             validate = false;
+            params.put("repeat","yes");
         }
         if (StringUtils.isBlank(password)) {
             error.code = -1;
             error.msg = "请输入密码";
             flash.error(error.msg);
             validate = false;
+            params.put("repeat","yes");
         }
 
         User user = new User();
@@ -80,11 +83,13 @@ public class QuickRegister extends BaseController {
             error.code = -1;
             error.msg = "该用户名不存在";
             flash.error(error.msg);
+            params.put("repeat","yes");
             validate = false;
         }
 
         if (user.loginFromH5(password, error) < 0) {
             flash.error(error.msg);
+            params.put("repeat","yes");
             validate = false;
         }
 

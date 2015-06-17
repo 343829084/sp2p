@@ -48,9 +48,9 @@ public class FormatXmlProcess {
         sb.append(Description);
         sb.append("]]</Description><Url><![CDATA[");
         sb.append(url);
-        sb.append("]]</Url><MsgId><![CDATA[");
+        sb.append("]]</Url><MsgId>");
         sb.append(msgid);
-        sb.append("]]></MsgId><FuncFlag>0</FuncFlag></xml>");
+        sb.append("</MsgId>");
         return sb.toString();
     }
 }
