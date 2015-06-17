@@ -164,8 +164,10 @@ public class WeChatAction extends BaseController {
     }
 
     private static void processSendResult(JSONObject josn) {
-        Logger.info("发送完毕跳转"+josn.toString());
-       renderTemplate("mobile/WeChatAction/sendSuccess.html", josn);
+        Logger.info("发送完毕跳转" + josn.toString());
+        String code=josn.get("code").toString();
+        Logger.info(code);
+       renderTemplate("mobile/WeChatAction/sendSuccess.html",code);
     }
 
     private static JSONObject sendPacketPost(String openId,String redPacketId) throws Exception {
