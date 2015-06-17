@@ -71,7 +71,9 @@ public  class WebChartUtil {
         String url = WeChatConstants.CODEEXCHANGEOPENID;
         url=url.replace("APPID", urlEnodeUTF8(Constants.WECHAT_APPID));
         url= url.replace("SECRET", urlEnodeUTF8(Constants.WECHAT_APPSECRET));
-        url =url.replace("CODE", urlEnodeUTF8(code));
+        if(StringUtils.isNotBlank(code)){
+            url =url.replace("CODE", urlEnodeUTF8(code));
+        }
         Logger.info( url);
         return url;
     }
