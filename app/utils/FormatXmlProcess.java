@@ -50,7 +50,7 @@ public class FormatXmlProcess {
         sb.append(url);
         sb.append("]]</Url><MsgId>");
         sb.append(msgid);
-        sb.append("</MsgId>");
+        sb.append("</MsgId></xml>");
         return sb.toString();
     }
 }

@@ -35,18 +35,15 @@ public class QuickRegister extends BaseController {
 
     }
     public static void quickLogin(){
-        String repeat= params.get("repeat");
-        Logger.info("repeat"+repeat);
         String mobile= params.get("mobile");
-        if(repeat==null) {
             if (ParseClientUtil.isWeiXin()) {
                 String url = WebChartUtil.buildWeChatGateUrl("4", mobile);
                 Logger.info("url：" + url);
                 redirect(url);
             }
-        }
         render();
-    }
+        }
+
 
     public static void doQuickLogin() {
         Logger.info("doQuickLogin");
@@ -66,14 +63,12 @@ public class QuickRegister extends BaseController {
             error.msg = "请输入用户名";
             flash.error(error.msg);
             validate = false;
-            params.put("repeat","yes");
         }
         if (StringUtils.isBlank(password)) {
             error.code = -1;
             error.msg = "请输入密码";
             flash.error(error.msg);
             validate = false;
-            params.put("repeat","yes");
         }
 
         User user = new User();
@@ -83,7 +78,6 @@ public class QuickRegister extends BaseController {
             error.code = -1;
             error.msg = "该用户名不存在";
             flash.error(error.msg);
-            params.put("repeat","yes");
             Logger.info(error.msg);
             validate = false;
         }
@@ -91,7 +85,6 @@ public class QuickRegister extends BaseController {
         if (user.loginFromH5(password, error) < 0) {
             flash.error(error.msg);
             Logger.info(error.msg);
-            params.put("repeat","yes");
             validate = false;
         }
 
@@ -102,7 +95,6 @@ public class QuickRegister extends BaseController {
                     user.bindingSocialToFp(WebChartUtil.WECHAT, openId, error);
                     if (error.code < 0) {
                         flash.error(error.msg);
-                        params.put("repeat","yes");
                         quickLogin();
                     }else{
                         Logger.info("doRegister  openId放到cookie 中");
@@ -111,22 +103,12 @@ public class QuickRegister extends BaseController {
                         Http.Request.current().cookies.put("openId", cookie);
                     }
                 }
-            }
-            Logger.info(error.msg);
-            String url = flash.get("url");
-            if (StringUtils.isNotBlank(url)) {
-                redirect(url);
-            }else {
-                MainContent.moneyMatters();
-            }
-        } else {
-            flash.keep("url");
-            Logger.info(error.msg);
-        }
-        params.put("repeat","yes");
-        Logger.info(error.msg);
-        quickLogin();
 
+            }
+            MainContent.moneyMatters();
+        }
+        Logger.info(error.msg);
+       renderTemplate("mobile/QuickRegister/quickLogin.html",flash);
     }
 
     public static void webChartBind(String mobile,String openId, ErrorInfo error){
