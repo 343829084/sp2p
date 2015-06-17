@@ -126,6 +126,7 @@ public class WeChatAction extends BaseController {
 
         ErrorInfo error = new ErrorInfo();
         User user = new User();
+        user.mobile = mobile;
         String name = user.findBySocialToFp(WebChartUtil.WECHAT, openId, error);
         Logger.info("查询结果：name" + name);
 
