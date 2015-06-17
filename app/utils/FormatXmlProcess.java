@@ -65,11 +65,9 @@ public class FormatXmlProcess {
         sb.append(from);
         sb.append("]]></FromUserName><CreateTime>");
         sb.append(date.getTime());
-        sb.append("</CreateTime><MsgType><![CDATA[news]]></MsgType><Content><![CDATA[");
-        sb.append(result.getContent());
-        sb.append("]]></Content><ArticleCount>");
+        sb.append("</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount><![CDATA[");
         sb.append(result.getArticleCount());
-        sb.append("</ArticleCount><Articles><item><Title><![CDATA[");
+        sb.append("]]></ArticleCount><Articles><item><Title><![CDATA[");
         sb.append(result.getTitle());
         sb.append("]]</Title><Description>");
         sb.append(result.getDescription());
@@ -77,7 +75,7 @@ public class FormatXmlProcess {
         sb.append(result.getPicUrl());
         sb.append("]]</PicUrl><Url><![CDATA[");
         sb.append(result.getUrl());
-        sb.append("]]</Url></item></Articles><FuncFlag>1</FuncFlag></xml>");
+        sb.append("]]</Url></item></Articles></xml>");
         return sb.toString();
     }
 }

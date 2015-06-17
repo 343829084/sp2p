@@ -53,7 +53,16 @@ public class WechatProcess {
 //                new FormatXmlProcess().formatArticlesXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), articles);
                 result="你确定你要的是爱情?还是情爱？";
                 result = new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), result);
-            };
+            }else if(xmlEntity.getContent().equals("test")){
+                Articles articles =new Articles();
+                articles.setArticleCount(1);
+                articles.setContent("");
+                articles.setDescription("爱情这种虚幻的东西,只有佛祖你保佑你！");
+                articles.setPicUrl("");
+                articles.setTitle("");
+                articles.setUrl("http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1");
+                result =  new FormatXmlProcess().formatArticlesXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), articles);;
+            };;
 
 
         //    result = new TulingApiProcess().getTulingResult(xmlEntity.getContent());
