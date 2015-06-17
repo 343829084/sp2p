@@ -16,12 +16,13 @@ public class WechatProcess {
         ReceiveXmlEntity xmlEntity = new ReceiveXmlProcess().getMsgEntity(xml);
 
         /** 以文本消息为例，调用图灵机器人api接口，获取回复内容 */
-        String result = "点击:<a href=\"http:p2p.sunlights.me/mobile/weixin/getOpenId\">领取红包</a>!";
+        String result = "";
         Logger.info(xmlEntity.getMsgType());
         if("text".endsWith(xmlEntity.getMsgType())){
             Logger.info(xmlEntity.getContent());
             Logger.info("xmlEntity.getContent()");
-            if(xmlEntity.getContent().equalsIgnoreCase("我要红包")){
+            if(xmlEntity.getContent().equals("我要红包")){
+                Logger.info("发红包");
                 LinkMessage link=new LinkMessage();
                 link.setContent("点击领取红包");
                 link.setTitle("加薪猫送红包");
