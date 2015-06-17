@@ -1,7 +1,10 @@
 package utils;
 
+import business.LinkMessage;
 import business.ReceiveXmlEntity;
 import play.Logger;
+
+import java.util.Random;
 
 /**
  * Created by libaozhong on 2015/6/16.
@@ -19,8 +22,13 @@ public class WechatProcess {
             Logger.info(xmlEntity.getContent());
             Logger.info("xmlEntity.getContent()");
             if(xmlEntity.getContent().equalsIgnoreCase("我要红包")){
+                LinkMessage link=new LinkMessage();
+                link.setContent("点击领取红包");
+                link.setTitle("加薪猫送红包");
+                link.setLink("http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1");
+                link.setMsgId(new Random(5234567890123456l).toString());
                 result = new FormatXmlProcess().formatLinkXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(),
-                        "加薪猫送红包","点击领取红包","http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1",new Long("1234567890123456").toString());
+                        link.getTitle(),link.getContent(),link.getLink(),link.getMsgId());
             };
 
 
