@@ -180,4 +180,6 @@ public class AppConstants {
     public static final int APP_EDIT_USER_INFO = 168;//保存用户信息
     public static final int APP_QUERY_ACC_BALANCE = 169;//用户余额查询
     public static final int APP_SIGN_INVEST = 170;//获取标的sign
+    public static final int APP_INVESTBILLS = 171;//个人投资记录
+    public static final int queryUserInvestInfo = 172;//个人财富记录
 }

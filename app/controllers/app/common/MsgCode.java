@@ -40,10 +40,13 @@ public enum MsgCode {
     ENCHASH_SUCC("0515", "取现成功"),
     SOCIAL_LOGIN_SUCC("0516", "社交登录成功"),
     SOCIAL_BINDING_SUCC("0517", "社交绑定成功"),
+    BID_SHOW_QUERY_SUCC("0518","投资记录查询成功"),
+    USER_INVEST_QUERY_SUCC("0519","个人财富查询成功"),
 
 
 
     ACCESS_FAIL("2001", "访问失败", "传入参数不能为空"),
+    PARAMETER_ERROR("2001", "传入参数有误"),
     CURRENT_USER_FAIL("2500","未获取到当前用户", "请登录后再试"),
 
     LOAN_BID_QUERY_FAIL("2501","查询借款标列表失败"),
@@ -60,6 +63,11 @@ public enum MsgCode {
     ENCHASH_ERROR("2512", "取现失败"),
     SOCIAL_LOGIN_FAIL("2513", "社交登录失败"),
     SOCIAL_BINDING_FAIL("2514", "社交绑定失败"),
+    BID_SHOW_QUERY_FALL("2515","投资记录查询失败"),
+    USER_INVEST_QUERY_FALL("2516","个人财富查询失败"),
+
+
+
 
 
     ;

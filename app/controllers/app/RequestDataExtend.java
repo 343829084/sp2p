@@ -1,6 +1,9 @@
 package controllers.app;
 
-import business.*;
+import business.Bid;
+import business.DealDetail;
+import business.Payment;
+import business.User;
 import com.google.gson.JsonObject;
 import constants.Constants;
 import constants.SQLTempletes;
@@ -24,6 +27,9 @@ import utils.CacheManager;
 import utils.CaptchaUtil;
 import utils.ErrorInfo;
 import utils.PageBean;
+import utils.*;
+import vo.BidInvestInfoVo;
+import vo.UserInvestInfoVo;
 
 import javax.persistence.Query;
 import java.io.IOException;
@@ -551,4 +557,102 @@ public class RequestDataExtend {
 
         return messageUtil.toStr();
     }
+
+    /**
+     * 理财子账户--理财账单
+     * payType 1未收款  2已收款    0 全查
+     * currPage 分页
+     * @return
+     */
+    public static String investBills(Map<String, String> parameters){
+        int currPage = 1;
+        int pageSize = Constants.TEN;
+        Map<String,Object> jsonMap = new HashMap<String, Object>();
+        ErrorInfo error = new ErrorInfo();
+
+        User user = User.currUser();
+        if(user == null){
+            RequestData.messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.CURRENT_USER_FAIL));
+            return RequestData.messageUtil.toStr();
+        }
+
+        String payTypeStr = parameters.get("payType");
+        Long userId = user.id;
+
+        if(!(NumberUtil.isNumericInt(payTypeStr))){
+            RequestData.messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.PARAMETER_ERROR));
+            return RequestData.messageUtil.toStr();
+        }
+
+        if(NumberUtil.isNumericInt(parameters.get("index"))) {
+            currPage = Integer.parseInt(parameters.get("index"));
+        }
+        if(NumberUtil.isNumericInt(parameters.get("pageSize"))) {
+            pageSize = Integer.parseInt(parameters.get("pageSize"));
+        }
+
+        int payType = Integer.parseInt(payTypeStr);
+
+        PageBean<BidInvestInfoVo> page = BillInvests.queryInvestBids(payType, currPage, pageSize, userId, error);
+        if (error.code < 0) {
+            return errorMessage(jsonMap, MsgCode.BID_SHOW_QUERY_FALL);
+        }
+
+        for (BidInvestInfoVo bidInvestVo : page.page) {
+            bidInvestVo.investAmounts = NumberUtil.amountFormatStr(bidInvestVo.investAmounts);//投资金额
+            bidInvestVo.incomeAmounts = NumberUtil.amountFormatStr(bidInvestVo.incomeAmounts);//收益
+            if (bidInvestVo.repaymentTime != null) {
+                bidInvestVo.repaymentTime = DateUtil.dateToString1(DateUtil.strToYYMMDDDate(bidInvestVo.repaymentTime));//到期日
+            }
+            int status = bidInvestVo.status;
+            Long mainTypeId = bidInvestVo.mainTypeId;
+            if (status == -1 || status == -2 || status == -5 || status == -6) {
+                if (mainTypeId == 1) {
+                    bidInvestVo.incomeDesc = Double.valueOf(bidInvestVo.incomeAmounts) > 0 ? "累计收益" : "累计亏损";
+                }else{
+                    bidInvestVo.incomeDesc = "预计收益";
+                }
+            }else {
+                if (mainTypeId == 1) {
+                    bidInvestVo.incomeDesc = Double.valueOf(bidInvestVo.incomeAmounts) > 0 ? "浮动收益" : "亏损";
+                }else{
+                    bidInvestVo.incomeDesc = "固定收益";
+                }
+            }
+            bidInvestVo.investUnit = "元";
+        }
+
+        jsonMap.put("list", page.page);
+        jsonMap.put("pageNum", page.totalCount);
+
+        return infoMessage(jsonMap, MsgCode.BID_SHOW_QUERY_SUCC);
+    }
+
+    public static String queryUserInvestInfo(){
+        ErrorInfo error = new ErrorInfo();
+        Map<String,Object> jsonMap = new HashMap<String, Object>();
+
+        User user = User.currUser();
+        if(user == null){
+            RequestData.messageUtil.setMessage(new Message(Severity.ERROR, MsgCode.CURRENT_USER_FAIL));
+            return RequestData.messageUtil.toStr();
+        }
+
+        UserInvestInfoVo userInvestInfoVo = User.queryUserInvestInfo(user.id, error);
+
+        if (error.code < 0) {
+            return errorMessage(jsonMap, MsgCode.USER_INVEST_QUERY_FALL);
+        }
+
+        userInvestInfoVo.allAmounts = NumberUtil.amountFormatStr(userInvestInfoVo.allAmounts);//投资金额
+        userInvestInfoVo.currentIncomeAmounts = NumberUtil.amountFormatStr(userInvestInfoVo.currentIncomeAmounts);
+        userInvestInfoVo.floatAmounts = NumberUtil.amountFormatStr(userInvestInfoVo.floatAmounts);
+        userInvestInfoVo.historyIncomeAmounts = NumberUtil.amountFormatStr(userInvestInfoVo.historyIncomeAmounts);
+        userInvestInfoVo.stableAmounts = NumberUtil.amountFormatStr(userInvestInfoVo.stableAmounts);
+
+        MessageUtil.getInstance().setMessage(new Message(Severity.INFO, MsgCode.USER_INVEST_QUERY_SUCC), userInvestInfoVo);
+        return MessageUtil.getInstance().toStr();
+    }
+
+
 }
