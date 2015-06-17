@@ -70,13 +70,19 @@ public class WeChatAction extends BaseController {
         }
 
     }
-    public static void sendPacket(){
+    public static void sendPacket() throws Exception {
         String redPacketId=params.get("redPacketId");
-        Http.Response.current().setCookie("redPacketId", redPacketId);
-        if (ParseClientUtil.isWeiXin()) {
-            String url = WebChartUtil.buildWeChatGateUrl("7",redPacketId);
-            Logger.info("url：" + url);
-            redirect(url);
+        String openid=params.get("openid");
+        if(StringUtils.isEmpty(openid)){
+            JSONObject josn = sendPacketPost(openid, redPacketId);
+            processSendResult(josn);
+        }else {
+            Http.Response.current().setCookie("redPacketId", redPacketId);
+            if (ParseClientUtil.isWeiXin()) {
+                String url = WebChartUtil.buildWeChatGateUrl("7", redPacketId);
+                Logger.info("url：" + url);
+                redirect(url);
+            }
         }
     }
     public static void getOpenId() throws IOException {
@@ -167,6 +173,9 @@ public class WeChatAction extends BaseController {
         Logger.info("发送完毕跳转" + josn.toString());
         String code=josn.get("code").toString();
         Logger.info(code);
+        if(code.equals("1")){
+            return;
+        }
        renderTemplate("mobile/WeChatAction/sendSuccess.html",code);
     }
 

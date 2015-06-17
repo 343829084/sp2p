@@ -75,7 +75,7 @@
                 data: {"mobile": phoneNum,"type":type},
                 success: function (data) {
                     if (0 != data.error.code) {
-                        $('#ipvcerrorinfo').html("<span style='color: red'>验证码获取失败，请重试！</span>");
+                        $('#ipvcerrorinfo').html("<span style='color: red'>data.error.msg</span>");
                     }
                 },
                 error : function(XMLHttpRequest) {
