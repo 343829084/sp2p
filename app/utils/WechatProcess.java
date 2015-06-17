@@ -35,7 +35,7 @@ public class WechatProcess {
                         link.getTitle(),link.getContent(),link.getLink(),link.getMsgId());
                 Logger.info(result.toString());
             }else if(xmlEntity.getContent().equals("我要祝福")){
-                result="http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1";
+                result="\n\n<a href=\"http://p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1\">我要红包</a>";
                 result = new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), result);
             }else if(xmlEntity.getContent().equals("我要爱情")){
                 Articles articles =new Articles();

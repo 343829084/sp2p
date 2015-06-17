@@ -168,7 +168,7 @@
                     }
                     $("#getveriycode").removeClass("gray-color").addClass("verify-color");
                     $("#getveriycode").unbind("click");
-                    $.time($("#getveriycode"), 60, mobilePhoneNo);
+                    $.time($("#getveriycode"), 60, mobilePhoneNo,type);
                     $.getVerifyCode(mobilePhoneNo,type);
                 });
             } else {

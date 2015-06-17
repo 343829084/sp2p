@@ -77,7 +77,7 @@ public class FormatXmlProcess {
         sb.append(result.getPicUrl());
         sb.append("]]</PicUrl><Url><![CDATA[");
         sb.append(result.getUrl());
-        sb.append("]]</Url></item></Articles><FuncFlag>0</FuncFlag></xml>");
+        sb.append("]]</Url></item></Articles><FuncFlag>1</FuncFlag></xml>");
         return sb.toString();
     }
 }
