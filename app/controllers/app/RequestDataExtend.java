@@ -9,10 +9,7 @@ import controllers.app.common.Message;
 import controllers.app.common.MessageUtil;
 import controllers.app.common.MsgCode;
 import controllers.app.common.Severity;
-import models.t_users;
-import models.v_front_all_bids;
-import models.y_front_show_bids;
-import models.y_subject_url;
+import models.*;
 import net.sf.json.JSONObject;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.lang.StringUtils;
@@ -498,13 +495,13 @@ public class RequestDataExtend {
     }
 
     /**
-     * 查询借款标列表
+     * 查询借款标列表最新版本
      * @param parameters
      * @return
      * @throws java.io.IOException
      */
     public static String queryAllbids(Map<String, String> parameters) throws IOException {
-
+        DateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         int currPage = 1;
 
         if (parameters.get("currPage") != null) {
@@ -528,9 +525,51 @@ public class RequestDataExtend {
         String period = (String)parameters.get("period");
         String status = (String)parameters.get("status");
 
-        PageBean<v_front_all_bids> bids = Invest.queryAllBids(Constants.SHOW_TYPE_2, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevelStr, maxLevelStr, orderType, keywords, period, status, error);
+        PageBean<v_bids_info> bids = Invest.queryAllBids1(Constants.SHOW_TYPE_2, currPage, pageSize, apr, amount, loanSchedule, startDate, endDate, loanType, minLevelStr, maxLevelStr, orderType, keywords, period, status, error);
+        List bidlist=new LinkedList();
+        if(null!=bids.page) {
+            Map<String, Object> bidmap =null;
+            for (v_bids_info bid : bids.page) {
+                bidmap = new HashMap<String, Object>();
+                bidmap.put("id",bid.id);
+                bidmap.put("agency_name",bid.agency_name);
+                bidmap.put("amount",bid.amount);
+                bidmap.put("apr",bid.apr);
+                bidmap.put("award_scale",bid.award_scale);
+                bidmap.put("period",bid.period);
+                bidmap.put("period_unit",bid.period_unit);//借款期限-1: 年;0:月;1:日;
+                bidmap.put("title",bid.title);
+                bidmap.put("has_invested_amount",bid.has_invested_amount);
+                bidmap.put("min_invest_amount",bid.min_invest_amount);
+                bidmap.put("feeType",bid.feeType);
+                bidmap.put("is_hot",bid.is_hot);
+                bidmap.put("borrowStatus",bid.status);
+                bidmap.put("sell_time",bid.time+"");
+                bidmap.put("remainTime", bid.invest_expire_time+"");//预计满标时间
+                bidmap.put("user_id",bid.user_id);
+                bidmap.put("product_id",bid.product_id);
+                bidmap.put("no",bid.no);
+
+                Calendar date = Calendar.getInstance();
+                date.setTime(bid.invest_expire_time);
+                if(-1==bid.period_unit){
+                    date.add(date.YEAR,bid.period);
+                    bidmap.put("dueTime", dft.format(date.getTime()));
+                }else if(0==bid.period_unit){
+                    date.add(date.MONTH,bid.period);
+                    bidmap.put("dueTime", dft.format(date.getTime()));
+                }else if(1==bid.period_unit){
+                    date.add(date.DAY_OF_YEAR,bid.period);
+                    bidmap.put("dueTime", dft.format(date.getTime()));
+                }else{
+                    date.add(date.DAY_OF_YEAR,bid.period);
+                    bidmap.put("dueTime", dft.format(date.getTime()));
+                }
 
 
+                bidlist.add(bidmap);
+            }
+        }
 
         if(error.code < 0){
             jsonMap.put("error", "-4");
@@ -544,7 +583,7 @@ public class RequestDataExtend {
         map.put("error", -1);
         map.put("msg", "查询成功");
         map.put("totalNum", bids.totalCount);
-        map.put("list",bids.page);
+        map.put("list",bidlist);
 
         messageUtil.setMessage(new Message(Severity.INFO, MsgCode.LOAN_BID_QUERY_SUCC), JSONObject.fromObject(map).toString());
 
