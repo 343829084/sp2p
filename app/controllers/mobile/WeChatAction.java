@@ -151,6 +151,7 @@ public class WeChatAction extends BaseController {
             }
             Logger.info("showOpenId openid:" + openId + "status:" + status+"mobile"+mobile);
             JSONObject josn = sendPacketPost(openId, mobile);
+            Logger.info("发送完毕"+josn.toString());
             processSendResult(josn);
             //如果发红包此处mobile指的是活动id
 
@@ -162,7 +163,8 @@ public class WeChatAction extends BaseController {
     }
 
     private static void processSendResult(JSONObject josn) {
-       renderTemplate("mobile/WebChatAction/sendSuccess.html",josn);
+        Logger.info("发送完毕跳转"+josn.toString());
+       renderTemplate("mobile/WebChatAction/sendSuccess.html", josn);
     }
 
     private static JSONObject sendPacketPost(String openId,String redPacketId) throws Exception {
