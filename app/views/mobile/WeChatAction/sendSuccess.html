@@ -23,8 +23,11 @@
 <label id="msg"></label>
 </div>
 <script>
+    alert(${josn?.code});
 var code ='${josn?.code}';
+alert(code);
 var msg='${josn?.msg}';
+    alert(code=="1");
     if(code=="1"){
         window.close();
     }else{
