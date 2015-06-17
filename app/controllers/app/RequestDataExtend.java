@@ -1,9 +1,6 @@
 package controllers.app;
 
-import business.Bid;
-import business.DealDetail;
-import business.Payment;
-import business.User;
+import business.*;
 import com.google.gson.JsonObject;
 import constants.Constants;
 import constants.SQLTempletes;
@@ -23,10 +20,6 @@ import play.Logger;
 import play.db.jpa.JPA;
 import play.libs.WS;
 import play.mvc.Scope;
-import utils.CacheManager;
-import utils.CaptchaUtil;
-import utils.ErrorInfo;
-import utils.PageBean;
 import utils.*;
 import vo.BidInvestInfoVo;
 import vo.UserInvestInfoVo;
