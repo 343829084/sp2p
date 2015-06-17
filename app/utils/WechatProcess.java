@@ -28,7 +28,7 @@ public class WechatProcess {
                 link.setContent("点击领取红包");
                 link.setTitle("加薪猫送红包");
                 link.setLink("http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1");
-                link.setMsgId(new Random(5234567890123456l).toString());
+                link.setMsgId(String.valueOf(new Random(5234567890123456l).nextLong()));
                 Logger.info(link.toString());
                 result = new FormatXmlProcess().formatLinkXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(),
                         link.getTitle(),link.getContent(),link.getLink(),link.getMsgId());
