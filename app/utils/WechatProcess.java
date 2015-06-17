@@ -23,7 +23,7 @@ public class WechatProcess {
         if("text".equals(xmlEntity.getMsgType())) {
             Logger.info(xmlEntity.getContent());
             Logger.info("xmlEntity.getContent()");
-            if(xmlEntity.getContent().equals("我要祝福!")){
+            if(xmlEntity.getContent().equals("我要祝福")){
 //                Logger.info("link生成");
 //                LinkMessage link=new LinkMessage();
 //                link.setContent("点击领取红包");
