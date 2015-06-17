@@ -5,6 +5,9 @@ package business;
  */
 public class LinkMessage {
     private String title;
+    private String content;
+    private String link;
+    private String msgId;
 
     public String getTitle() {
         return title;
@@ -38,7 +41,5 @@ public class LinkMessage {
         this.msgId = msgId;
     }
 
-    private String content;
-    private String link;
-    private String msgId;
+
 }

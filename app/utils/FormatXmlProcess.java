@@ -1,5 +1,7 @@
 package utils;
 
+import business.Articles;
+
 import java.util.Date;
 
 /**
@@ -51,6 +53,31 @@ public class FormatXmlProcess {
         sb.append("]]</Url><MsgId>");
         sb.append(msgid);
         sb.append("</MsgId></xml>");
+        return sb.toString();
+    }
+
+    public String formatArticlesXmlAnswer(String to, String from, Articles result) {
+        StringBuffer sb = new StringBuffer();
+        Date date = new Date();
+        sb.append("<xml><ToUserName><![CDATA[");
+        sb.append(to);
+        sb.append("]]></ToUserName><FromUserName><![CDATA[");
+        sb.append(from);
+        sb.append("]]></FromUserName><CreateTime>");
+        sb.append(date.getTime());
+        sb.append("</CreateTime><MsgType><![CDATA[news]]></MsgType><Content><![CDATA[");
+        sb.append(result.getContent());
+        sb.append("]]></Content><ArticleCount>");
+        sb.append(result.getArticleCount());
+        sb.append("</ArticleCount><Articles><item><Title><![CDATA[");
+        sb.append(result.getTitle());
+        sb.append("]]</Title><Description>");
+        sb.append(result.getDescription());
+        sb.append("</Description><PicUrl><![CDATA[");
+        sb.append(result.getPicUrl());
+        sb.append("]]</PicUrl><Url><![CDATA[");
+        sb.append(result.getUrl());
+        sb.append("]]</Url></item></Articles><FuncFlag>0</FuncFlag></xml>");
         return sb.toString();
     }
 }

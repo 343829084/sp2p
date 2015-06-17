@@ -1,5 +1,6 @@
 package utils;
 
+import business.Articles;
 import business.LinkMessage;
 import business.ReceiveXmlEntity;
 import play.Logger;
@@ -33,6 +34,18 @@ public class WechatProcess {
                 result = new FormatXmlProcess().formatLinkXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(),
                         link.getTitle(),link.getContent(),link.getLink(),link.getMsgId());
                 Logger.info(result.toString());
+            }else if(xmlEntity.getContent().equals("我要祝福")){
+                result="http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1";
+                result = new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), result);
+            }else if(xmlEntity.getContent().equals("我要爱情")){
+                Articles articles =new Articles();
+                articles.setArticleCount(1);
+                articles.setContent("");
+                articles.setDescription("爱情这种虚幻的东西,只有佛祖你保佑你！");
+                articles.setPicUrl("");
+                articles.setTitle("");
+                articles.setUrl("http:p2p.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1");
+                new FormatXmlProcess().formatArticlesXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), articles);
             };
 
 
