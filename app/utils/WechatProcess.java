@@ -36,8 +36,10 @@ public class WechatProcess {
 //                Logger.info(result.toString());
                 String[] zhufu=new String[]{"你真帅啊！","你的妆化的真好!","不请人家吃饭生气啦","一缕春风，两滴夏雨，三片秋叶，四朵冬雪，做成五颜六色的礼盒；打着七彩八飘的丝带，用九分真诚，十分热情，装进无数祝福送给你，愿端午节好运",
                 "even though we are apart, you are in my heart this season.千山万水，隔不断我在佳节对你的思念。","嗨，兄弟，又升职了？！恭喜恭喜，请客请客！"};
-                int dt = new Random().nextInt(6);
+                int dt = new Random().nextInt(5);
+                Logger.info(String.valueOf(dt));
                  result= zhufu[dt];
+                Logger.info(result);
                 result = new FormatXmlProcess().formatXmlAnswer(xmlEntity.getFromUserName(), xmlEntity.getToUserName(), result);
             }else if(xmlEntity.getContent().equals("我要红包")){
                 result="<a href=\"http://p2pv2.sunlights.me/mobile/weixin/sendRedpact?redPacketId=1\">领取红包</a>";

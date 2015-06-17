@@ -72,7 +72,7 @@ public class WeChatAction extends BaseController {
     }
     public static void sendPacket(){
         String redPacketId=params.get("redPacketId");
-        Http.Response.current().setCookie("redPacketId",redPacketId);
+        Http.Response.current().setCookie("redPacketId", redPacketId);
         if (ParseClientUtil.isWeiXin()) {
             String url = WebChartUtil.buildWeChatGateUrl("7",redPacketId);
             Logger.info("url：" + url);
@@ -150,7 +150,8 @@ public class WeChatAction extends BaseController {
                 Logger.info("redpacketId:"+Http.Request.current().cookies.get("redPacketId").value);
             }
             Logger.info("showOpenId openid:" + openId + "status:" + status+"mobile"+mobile);
-           sendPacketPost(openId,mobile);
+            JSONObject josn = sendPacketPost(openId, mobile);
+            processSendResult(josn);
             //如果发红包此处mobile指的是活动id
 
         } else{
@@ -160,7 +161,11 @@ public class WeChatAction extends BaseController {
         }
     }
 
-         private static JSONObject sendPacketPost(String openId,String redPacketId) throws Exception {
+    private static void processSendResult(JSONObject josn) {
+       renderTemplate("mobile/WebChatAction/sendSuccess.html",josn);
+    }
+
+    private static JSONObject sendPacketPost(String openId,String redPacketId) throws Exception {
              JSONObject josn= new JSONObject();
              Logger.info("进入红包方法：" + openId);
              RedPacket redPacket=new RedPacket();

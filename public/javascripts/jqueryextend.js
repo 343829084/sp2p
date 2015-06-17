@@ -168,8 +168,8 @@
                     }
                     $("#getveriycode").removeClass("gray-color").addClass("verify-color");
                     $("#getveriycode").unbind("click");
-                    $.time($("#getveriycode"), 60, mobilePhoneNo,type);
-                    $.getVerifyCode(mobilePhoneNo,type);
+                    $.time($("#getveriycode"), 60, mobilePhoneNo,0);
+                    $.getVerifyCode(mobilePhoneNo,0);
                 });
             } else {
                 o.html("等待"+w + "秒"); //改变按钮中value的值

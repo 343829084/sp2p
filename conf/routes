@@ -2087,6 +2087,7 @@ GET    /mobile/weixin/authentication                                            
 POST    /mobile/weixin/authentication                                            mobile.WeChatAction.processAction
 
 GET    /mobile/weixin/sendRedpact                                               mobile.WeChatAction.sendPacket
+
 GET    /mobile/weixin/landding                                                   mobile.WeChatAction.landding
 GET    /mobile/weixin/getOpenId                                                   mobile.LoginAction.getOpenId
 GET   /mobile/quickRegister                                                       mobile.QuickRegister.quickRegister
